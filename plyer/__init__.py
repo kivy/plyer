@@ -1,11 +1,21 @@
-from plyer.utils import plateform
+'''
+Plyer
+=====
 
+'''
 
-if plateform() == 'android':
-    from android import *
+from plyer import facades
+from plyer.utils import Proxy
 
-elif plateform() == 'ios':
-    from ios import *
+#: accelerometer proxy
+accelerometer = Proxy(
+    'accelerometer', facades.Accelerometer)
 
-else:
-    from desktop import *
+#: camera proxy
+camera = Proxy(
+    'camera', facades.Camera)
+
+#: notification proxy
+notification = Proxy(
+    'notification', facades.Notification)
+

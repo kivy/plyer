@@ -1,18 +1,18 @@
+'''
+Utils
+=====
+
+'''
+
+__all__ = ('platform', )
+
 from os import environ
 from sys import platform as _sys_platform
 
 _platform_ios = None
 _platform_android = None
 
-
-def platform():
-    '''Return the version of the current platform.
-    This will return one of: win, linux, android, macosx, ios, unknown
-
-    .. versionadded:: 1.0.8
-
-    .. warning:: ios is not currently reported.
-    '''
+def _determine_platform():
     global _platform_ios, _platform_android
 
     if _platform_android is None:
@@ -36,3 +36,64 @@ def platform():
     elif _sys_platform in ('linux2', 'linux3'):
         return 'linux'
     return 'unknown'
+
+#: Return the version of the current platform, one of win, linux, android,
+#: macosx, ios, unknown
+platform = _determine_platform()
+
+
+class Proxy(object):
+    # taken from http://code.activestate.com/recipes/496741-object-proxying/
+
+    __slots__ = ['_obj', '_name', '_facade']
+
+    def __init__(self, name, facade):
+        object.__init__(self)
+        object.__setattr__(self, '_obj', None)
+        object.__setattr__(self, '_name', name)
+        object.__setattr__(self, '_facade', facade)
+
+    def _ensure_obj(self):
+        obj = object.__getattribute__(self, '_obj')
+        if obj:
+            return obj
+        # do the import
+        try:
+            name = object.__getattribute__(self, '_name')
+            module = 'plyer.platforms.{}.{}'.format(
+                platform, name)
+            mod = __import__(module, fromlist='.')
+            obj = mod.instance()
+        except:
+            import traceback; traceback.print_exc()
+            facade = object.__getattribute__(self, '_facade')
+            obj = facade()
+
+        object.__setattr__(self, '_obj', obj)
+        return obj
+
+    def __getattribute__(self, name):
+        object.__getattribute__(self, '_ensure_obj')()
+        return getattr(object.__getattribute__(self, '_obj'), name)
+
+    def __delattr__(self, name):
+        object.__getattribute__(self, '_ensure_obj')()
+        delattr(object.__getattribute__(self, '_obj'), name)
+
+    def __setattr__(self, name, value):
+        object.__getattribute__(self, '_ensure_obj')()
+        setattr(object.__getattribute__(self, '_obj'), name, value)
+
+    def __bool__(self):
+        object.__getattribute__(self, '_ensure_obj')()
+        return bool(object.__getattribute__(self, '_obj'))
+
+    def __str__(self):
+        object.__getattribute__(self, '_ensure_obj')()
+        return str(object.__getattribute__(self, '_obj'))
+
+    def __repr__(self):
+        object.__getattribute__(self, '_ensure_obj')()
+        return repr(object.__getattribute__(self, '_obj'))
+
+
