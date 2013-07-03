@@ -10,13 +10,13 @@ Hardware = autoclass('org.renpy.android.Hardware')
 
 class AndroidAccelerometer(Accelerometer):
 
-    def enable(self):
+    def _enable(self):
         Hardware.accelerometerEnable(True)
 
-    def disable(self):
+    def _disable(self):
         Hardware.accelerometerEnable(False)
 
-    def get_acceleration(self):
+    def _get_acceleration(self):
         return Hardware.accelerometerReading()
 
 def instance():

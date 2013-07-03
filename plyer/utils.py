@@ -73,6 +73,8 @@ class Proxy(object):
         return obj
 
     def __getattribute__(self, name):
+        if name == '__doc__':
+            return
         object.__getattribute__(self, '_ensure_obj')()
         return getattr(object.__getattribute__(self, '_obj'), name)
 

@@ -14,7 +14,7 @@ class AndroidNotification(Notification):
                     PythonActivity.NOTIFICATION_SERVICE)
         return self._ns
 
-    def notify(self, **kwargs):
+    def _notify(self, **kwargs):
         #icon = Drawable.icon
         noti = NotificationBuilder(activity)
         #noti.setDefaults(Notification.DEFAULT_ALL)

@@ -13,7 +13,7 @@ Uri = autoclass('android.net.Uri')
 
 class AndroidCamera(Camera):
 
-    def take_picture(self, on_complete, filename=None):
+    def _take_picture(self, on_complete, filename=None):
         assert(on_complete is not None)
         self.on_complete = on_complete
         self.filename = filename

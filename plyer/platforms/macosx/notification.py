@@ -4,7 +4,7 @@ import objc
 import AppKit
 
 class OSXNotification(Notification):
-    def notify(self, **kwargs):
+    def _notify(self, **kwargs):
         NSUserNotification = objc.lookUpClass('NSUserNotification')
         NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
         notification = NSUserNotification.alloc().init()
