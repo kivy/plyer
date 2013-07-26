@@ -22,4 +22,4 @@ def instance():
         return NativeSayTextToSpeech()
     elif whereis_exe('espeak'):
         return EspeakTextToSpeech()
-    return TTS
+    return TTS()

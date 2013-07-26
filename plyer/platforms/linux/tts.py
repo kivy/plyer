@@ -22,4 +22,4 @@ def instance():
         return EspeakTextToSpeech()
     elif whereis_exe('flite'):
         return FlitetextToSpeech()
-    return TTS
+    return TTS()
