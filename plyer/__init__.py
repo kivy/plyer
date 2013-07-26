@@ -23,4 +23,4 @@ notification = Proxy(
 
 #: TTS proxy to :class:`plyer.facades.TTS`
 tts = Proxy(
-    'tts', facades.TextToSpeech)
+    'tts', facades.TTS)
