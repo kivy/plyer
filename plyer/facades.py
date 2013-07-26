@@ -6,7 +6,7 @@ Interface of all the features availables.
 
 '''
 
-__all__ = ('Accelerometer', 'Camera', 'Notification', 'TextToSpeech')
+__all__ = ('Accelerometer', 'Camera', 'Notification', 'TTS')
 
 class Accelerometer(object):
     '''Accelerometer facade.
@@ -89,7 +89,7 @@ class Notification(object):
         raise NotImplemented()
 
 
-class TextToSpeech(object):
+class TTS(object):
     '''TextToSpeech facade.
     '''
 

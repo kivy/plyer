@@ -4,7 +4,7 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'camera', 'notification', 'text_to_speech')
+__all__ = ('accelerometer', 'camera', 'notification', 'tts')
 
 from plyer import facades
 from plyer.utils import Proxy
@@ -21,6 +21,6 @@ camera = Proxy(
 notification = Proxy(
     'notification', facades.Notification)
 
-#: TextToSpeech proxy to :class:`plyer.facades.TextToSpeech`
-text_to_speech = Proxy(
-    'text_to_speech', facades.TextToSpeech)
+#: TTS proxy to :class:`plyer.facades.TTS`
+tts = Proxy(
+    'tts', facades.TextToSpeech)
