@@ -6,7 +6,8 @@ Interface of all the features availables.
 
 '''
 
-__all__ = ('Accelerometer', 'Camera', 'Notification')
+__all__ = ('Accelerometer', 'Camera', 'Notification', 'TTS')
+
 
 class Accelerometer(object):
     '''Accelerometer facade.
@@ -35,13 +36,13 @@ class Accelerometer(object):
     # private
 
     def _enable(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def _disable(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def _get_acceleration(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
 
 class Camera(object):
@@ -66,7 +67,7 @@ class Camera(object):
     # private
 
     def _take_picture(self, **kwargs):
-        raise NotImplemented()
+        raise NotImplementedError()
 
 
 class Notification(object):
@@ -86,5 +87,23 @@ class Notification(object):
     # private
 
     def _notify(self, **kwargs):
-        raise NotImplemented()
+        raise NotImplementedError()
+
+
+class TTS(object):
+    '''TextToSpeech facade.
+    '''
+
+    def speak(self, message=''):
+        ''' Use text to speech capabilities to speak the message.
+
+        : param message: What to speak
+        :type message: str
+        '''
+        self._speak(message=message)
+
+    # private
+
+    def _speak(self, **kwargs):
+        raise NotImplementedError()
 
