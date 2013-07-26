@@ -7,6 +7,7 @@ Utils
 __all__ = ('platform', )
 
 from os import environ
+from os import path
 from sys import platform as _sys_platform
 
 _platform_ios = None
@@ -99,3 +100,12 @@ class Proxy(object):
         return repr(object.__getattribute__(self, '_obj'))
 
 
+def whereis_exe(program):
+    ''' Tries to find the program on the system path.
+        Returns the path if it is found or None if it's not found.
+    '''
+    for p in environ.get('PATH', '').split(':'):
+        if path.exists(path.join(p, program)) and \
+            not path.isdir(path.join(p, program)):
+            return path.join(p, program)
+    return None
