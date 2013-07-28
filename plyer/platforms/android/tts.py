@@ -19,4 +19,4 @@ class AndroidTextToSpeech(TTS):
             retries += 1
 
 def instance():
-    return AndroidNotification()
+    return AndroidTextToSpeech()
