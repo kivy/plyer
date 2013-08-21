@@ -1,10 +1,10 @@
 from plyer.facades import Notification
-from libs import balloontip
+from libs.balloontip import balloon_tip
 
 
 class WindowsNotification(Notification):
     def _notify(self, **kwargs):
-        ballontip.balloon_tip(kwargs.get('title'), kwargs.get('message'))
+        balloon_tip(kwargs.get('title'), kwargs.get('message'))
 
 
 def instance():
