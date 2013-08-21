@@ -5,7 +5,7 @@ platforms, notably mobile ones, in python.
 
 ## How
 
-Plyer tries not te reinvent the wheel, and will call for external libraries to
+Plyer tries not to reinvent the wheel, and will call for external libraries to
 implement the api in the easiest way, depending on the current platform.
 
 - on python-for-android, pyjnius is used
