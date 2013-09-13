@@ -4,4 +4,4 @@
 docs/build/
 
 *.komodoproject
-
+.komodotools
