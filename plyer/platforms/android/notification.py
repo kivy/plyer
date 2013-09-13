@@ -3,16 +3,15 @@ from plyer.facades import Notification
 from plyer.platforms.android import activity
 
 AndroidString = autoclass('java.lang.String')
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
+Context = autoclass('android.content.Context')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
-Drawable = autoclass(PythonActivity.getPackageName()+'.R$drawable')
+Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
 
 
 class AndroidNotification(Notification):
     def _get_notification_service(self):
         if not hasattr(self, '_ns'):
-            self._ns = activity.getSystemService(
-                    PythonActivity.NOTIFICATION_SERVICE)
+            self._ns = activity.getSystemService(Context.NOTIFICATION_SERVICE)
         return self._ns
 
     def _notify(self, **kwargs):
