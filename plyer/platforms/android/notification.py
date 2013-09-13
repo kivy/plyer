@@ -5,12 +5,7 @@ from plyer.platforms.android import activity
 AndroidString = autoclass('java.lang.String')
 PythonActivity = autoclass('org.renpy.android.PythonActivity')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
-
-# Find the Drawables for this app
-application_info = PythonActivity.getApplicationInfo().toString()
-# Something like: 'ApplicationInfo{421aa0e8 net.clusterbleep.kivyremoteshell}'
-package_name = application_info.split(' ')[1][:-1]
-Drawable = autoclass(package_name+'.R$drawable')
+Drawable = autoclass(PythonActivity.getPackageName()+'.R$drawable')
 
 
 class AndroidNotification(Notification):
