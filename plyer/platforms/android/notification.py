@@ -15,7 +15,7 @@ class AndroidNotification(Notification):
         return self._ns
 
     def _notify(self, **kwargs):
-        icon = Drawable.icon
+        icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
         noti = NotificationBuilder(activity)
         #noti.setDefaults(Notification.DEFAULT_ALL)
         noti.setContentTitle(AndroidString(
