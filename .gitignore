@@ -1,7 +1,11 @@
 *.pyc
 *.pyo
 .*.swp
+.*.swo
+build
 docs/build/
+dist
+*.egg-info
 
 *.komodoproject
 .komodotools
