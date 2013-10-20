@@ -4,7 +4,8 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'camera', 'notification', 'tts')
+__all__ = ('accelerometer', 'camera', 'gps', 'notification', 'tts')
+__version__ = '1.1'
 
 from plyer import facades
 from plyer.utils import Proxy
@@ -16,6 +17,10 @@ accelerometer = Proxy(
 #: Camera proxy to :class:`plyer.facades.Camera`
 camera = Proxy(
     'camera', facades.Camera)
+
+#: GPS proxy to :class:`plyer.facades.GPS`
+gps = Proxy(
+    'gps', facades.GPS)
 
 #: Notification proxy to :class:`plyer.facades.Notification`
 notification = Proxy(

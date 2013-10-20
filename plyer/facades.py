@@ -6,7 +6,7 @@ Interface of all the features availables.
 
 '''
 
-__all__ = ('Accelerometer', 'Camera', 'Notification', 'TTS')
+__all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification', 'TTS')
 
 
 class Accelerometer(object):
@@ -95,9 +95,9 @@ class TTS(object):
     '''
 
     def speak(self, message=''):
-        ''' Use text to speech capabilities to speak the message.
+        '''Use text to speech capabilities to speak the message.
 
-        : param message: What to speak
+        :param message: What to speak
         :type message: str
         '''
         self._speak(message=message)
@@ -106,4 +106,49 @@ class TTS(object):
 
     def _speak(self, **kwargs):
         raise NotImplementedError()
+
+
+class GPS(object):
+    '''GPS facade.
+    '''
+
+    def configure(self, on_location, on_status=None):
+        '''Configure the GPS object. This method should be called before
+        :meth:`start`.
+
+        :param on_location: Function to call when receiving a new location
+        :param on_status: Function to call when a status message is received
+        :type on_location: callable, args are (lon, lat)
+        :type on_status: callable, args are (str)
+
+        .. warning::
+
+            The `on_location` and `on_status` callables might be called from
+            another thread than the thread used for creating the GPS object.
+        '''
+        self.on_location = on_location
+        self.on_status = on_status
+        self._configure()
+
+    def start(self):
+        '''Start the GPS locations updates
+        '''
+        self._start()
+
+    def stop(self):
+        '''Stop the GPS locations updates
+        '''
+        self._stop()
+
+    # private
+
+    def _configure(self):
+        raise NotImplementedError()
+
+    def _start(self):
+        raise NotImplementedError()
+
+    def _stop(self):
+        raise NotImplementedError()
+
 
