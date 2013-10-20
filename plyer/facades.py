@@ -110,6 +110,29 @@ class TTS(object):
 
 class GPS(object):
     '''GPS facade.
+
+    You need to set a `on_location` callback with the :meth:`configure` method.
+    This callback will receive a couple of keywords / value, that might be
+    different depending of their availability on the targetted platform.
+    Lat and lon are always available.
+
+    - lat: latitude of the last location, in degrees
+    - lon: longitude of the last location, in degrees
+    - speed: speed of the user, in meters/seconds over ground
+    - bearing: bearing in degrees
+    - altitude: altitude in meters above the sea level
+
+    Here is an example of the usage of gps::
+
+        from plyer import gps
+
+        def print_locations(**kwargs):
+            print 'lat: {lat}, lon: {lon}'.format(**kwargs)
+
+        gps.configure(on_location=print_locations)
+        gps.start()
+        # later
+        gps.stop()
     '''
 
     def configure(self, on_location, on_status=None):
@@ -118,8 +141,8 @@ class GPS(object):
 
         :param on_location: Function to call when receiving a new location
         :param on_status: Function to call when a status message is received
-        :type on_location: callable, args are (lon, lat)
-        :type on_status: callable, args are (str)
+        :type on_location: callable, multiples keys/value will be passed.
+        :type on_status: callable, args are "message-type", "status"
 
         .. warning::
 
