@@ -111,6 +111,8 @@ class TTS(object):
 class GPS(object):
     '''GPS facade.
 
+    .. versionadded:: 1.1
+
     You need to set a `on_location` callback with the :meth:`configure` method.
     This callback will receive a couple of keywords / value, that might be
     different depending of their availability on the targetted platform.
