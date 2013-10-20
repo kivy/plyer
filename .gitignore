@@ -2,3 +2,6 @@
 *.pyo
 .*.swp
 docs/build/
+
+*.komodoproject
+.komodotools

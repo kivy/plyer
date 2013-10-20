@@ -5,7 +5,7 @@ platforms, notably mobile ones, in python.
 
 ## How
 
-Plyer tries not te reinvent the wheel, and will call for external libraries to
+Plyer tries not to reinvent the wheel, and will call for external libraries to
 implement the api in the easiest way, depending on the current platform.
 
 - on python-for-android, pyjnius is used
@@ -15,3 +15,29 @@ implement the api in the easiest way, depending on the current platform.
 ## todo
 
 - everything! :)
+
+## support
+
+<table>
+<tr>
+<th></th><th>Notifications</th><th>Aptic feedback</th>
+</tr>
+<tr>
+<td>Android > 4.0</td><td></td><td></td>
+</tr>
+<tr>
+<td>Android < 4.0</td><td></td><td></td>
+</tr>
+<tr>
+<td>iOS</td><td></td><td></td>
+</tr>
+<tr>
+<td>Windows</td><td></td><td></td>
+</tr>
+<tr>
+<td>Mac OSX</td><td></td><td></td>
+</tr>
+<tr>
+<td>Linux</td><td></td><td></td>
+</tr>
+</table>
