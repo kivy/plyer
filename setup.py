@@ -15,7 +15,8 @@ packages = [
     'plyer.platforms',
     'plyer.platforms.linux',
     'plyer.platforms.android',
-    'plyer.platforms.mswindows',
+    'plyer.platforms.win',
+    'plyer.platforms.win.libs',
     'plyer.platforms.ios',
     'plyer.platforms.macosx',
 ]
