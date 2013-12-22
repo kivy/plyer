@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from os.path import dirname, join
 import plyer
 
 try:
@@ -7,6 +8,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
+curdir = dirname(__file__)
 packages = [
     'plyer',
     'plyer.platforms',
@@ -18,11 +20,12 @@ packages = [
     'plyer.platforms.macosx',
 ]
 
+
 setup(
     name='plyer',
     version=plyer.__version__,
     description='Platform-independant wrapper for platform-dependant APIs',
-    long_description=open('README.rst').read(),
+    long_description=open(join(curdir, 'README.rst')).read(),
     author='Kivy team',
     author_email='mat@kivy.org',
     url='https://plyer.readthedocs.org/en/latest/',
@@ -30,7 +33,7 @@ setup(
     package_data={'': ['LICENSE', 'README.rst']},
     package_dir={'plyer': 'plyer'},
     include_package_data=True,
-    license=open('LICENSE').read(),
+    license=open(join(curdir, 'LICENSE')).read(),
     zip_safe=False,
     classifiers=(
         'Development Status :: 4 - Beta',
