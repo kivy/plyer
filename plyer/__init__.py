@@ -5,7 +5,7 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'camera', 'gps', 'notification', 'tts')
-__version__ = '1.1'
+__version__ = '1.1.1'
 
 from plyer import facades
 from plyer.utils import Proxy
