@@ -12,6 +12,7 @@ from pyobjus import autoclass
 class IosAccelerometer(Accelerometer):
 
     def __init__(self):
+        super(IosAccelerometer, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
         self.bridge.motionManager.setAccelerometerUpdateInterval_(0.1)
 
