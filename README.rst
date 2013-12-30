@@ -20,7 +20,7 @@ Support
 ================================== ============= ============= === ======= === =====
 Platform                           Android < 4.0 Android > 4.0 iOS Windows OSX Linux
 ================================== ============= ============= === ======= === =====
-Accelerometer                      X             X
+Accelerometer                      X             X             X
 Camera (taking picture)            X             X
 GPS                                X             X
 Notifications                      X             X                 X       X   X
