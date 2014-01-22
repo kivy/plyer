@@ -177,3 +177,95 @@ class GPS(object):
         raise NotImplementedError()
 
 
+class Systray(object):
+    '''Systray facade.
+
+    Systray is a module to display a little icon near the clock / system bar,
+    and a menu attached to it. This module doesn't cover all the cases you
+    might want for a systray, it is just done for simple usages.
+    '''
+
+    def __init__(self):
+        super(Systray, self).__init__()
+        self._icon = None
+        self._hover_text = ''
+        self._on_click = lambda *x: None
+        self._menu_options = None
+        self._class_name = 'PlyerSystray'
+
+    def configure(self, **kwargs):
+        '''Configure the callback associated to the main icon menu. This method
+        can be called multiple time to update the status of the systray.
+
+        :param icon: Icon filename. Use None to take the application icon
+        :param menu: Menu definition
+        :param hover_text: Text to display when the cursor hover the icon
+        :param on_click: Method to call when the icon is clicked
+        :param class_name: Name for the Window/Popup created
+        :type icon: filename, type depends of the platform (ico for win32)
+        :type menu: tuple or list, defaults to empty list
+        :type hover_text: str, defaults to ''
+        :param on_click: callable, no argument, defaults to None
+        :param str: str, defaults to 'PlyerSystray'
+
+        A menu is a tree build on list/tuple. An entry is defined by a list of
+        3 item: (`Entry name`, `icon_fn`, `callback`). For example::
+
+            systray.configure(menu=[
+                ('Hello', None, lambda: None),
+                ('World', None, lambda: None)])
+
+        You can create submenu by replacing the callback with a list of menu
+        entries::
+
+            systray.configure(menu=[
+                ('Settings', None, [
+                    ('Show color', None, lambda: None),
+                    ('Show size', None, lambda: None)]),
+                ('Quit', None, systray.quit)])
+
+        '''
+        if 'icon' in kwargs:
+            self._icon = kwargs['icon']
+        if 'hover_text' in kwargs:
+            self._hover_text = kwargs['hover_text']
+        if 'menu' in kwargs:
+            self._menu_options = kwargs['menu']
+        if 'on_click' in kwargs:
+            self._on_click = kwargs['on_click']
+        if 'class_name' in kwargs:
+            self._class_name = kwargs['class_name']
+        self._configure()
+
+    def quit(self):
+        '''Quit the :meth:`run` loop. :meth:`configure()` must have been called
+        at least once, otherwise you might see few traceback here.
+
+        .. note::
+
+            Once the systray is leaved, you cannot create one with configure.
+        '''
+        self._quit()
+
+    def run(self, *args):
+        '''Run the systray. You need to call this method in order to display
+        and process the message for the systray.
+        '''
+        self._run()
+
+    @property
+    def menu(self):
+        '''Menu definitions as set in the :meth:`configure` method.
+        '''
+        return self._menu_options
+
+    # private
+
+    def _configure(self):
+        pass
+
+    def _quit(self):
+        pass
+
+    def _run(self):
+        pass

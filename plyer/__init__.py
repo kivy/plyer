@@ -29,3 +29,7 @@ notification = Proxy(
 #: TTS proxy to :class:`plyer.facades.TTS`
 tts = Proxy(
     'tts', facades.TTS)
+
+#: Systray proxy to :class:`plyer.facades.Systray`
+systray = Proxy(
+    'systray', facades.Systray)
