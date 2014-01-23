@@ -5,6 +5,7 @@ def my_callback(name):
     print 'Option called:', name
 
 def on_show_settings():
+    print 'Add settings submenu'
     # add a submenu
     global menu
     systray.menu.insert(1, ('Settings', None, (
@@ -22,17 +23,17 @@ def run_systray(*args):
         ('Show settings', None, on_show_settings),
         ('Quit', None, systray.quit)]
 
-    systray.configure(menu=menu, hover_text='Hello cursor!')
+    systray.configure(menu=menu, hover_text='Hello cursor!', icon='systray-icon.png')
     systray.run()
 
 
 # without threads
-#run_systray()
+run_systray()
 
 # with threads
-import threading
-thread = threading.Thread(target=run_systray)
-thread.daemon = True
-thread.start()
-thread.join()
+#import threading
+#thread = threading.Thread(target=run_systray)
+#thread.daemon = True
+#thread.start()
+#thread.join()
 
