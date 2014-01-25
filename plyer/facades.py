@@ -6,7 +6,7 @@ Interface of all the features availables.
 
 '''
 
-__all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification', 'TTS')
+__all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification', 'TTS', 'Email')
 
 
 class Accelerometer(object):
@@ -89,6 +89,24 @@ class Notification(object):
     def _notify(self, **kwargs):
         raise NotImplementedError()
 
+
+class Email(object):
+    '''Email facade.'''
+
+    def send(self, recipient=None, subject=None, text=None,
+             attachment=None):
+        '''Open an email client message send window, prepopulated with the
+        given arguments.'''
+        print 'EMAIL FACADE USED'
+        self._send(recipient=recipient, subject=subject, text=text,
+                   attachment=None)
+
+    # private
+
+    def _send(self, **kwargs):
+        raise NotImplementedError()
+
+    
 
 class TTS(object):
     '''TextToSpeech facade.
