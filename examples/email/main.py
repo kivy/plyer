@@ -7,8 +7,6 @@ from kivy.properties import StringProperty, BooleanProperty
 
 from plyer import email
 
-from jnius import autoclass, cast
-
 Builder.load_string('''
 <EmailInterface>:
     orientation: 'vertical'
