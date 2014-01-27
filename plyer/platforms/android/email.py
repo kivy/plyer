@@ -5,6 +5,7 @@ from plyer.platforms.android import activity
 Intent = autoclass('android.content.Intent')
 AndroidString = autoclass('java.lang.String')
 
+
 class AndroidEmail(Email):
     def _send(self, **kwargs):
         intent = Intent(Intent.ACTION_SEND)

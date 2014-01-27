@@ -31,7 +31,7 @@ Builder.load_string('''
         Label:
             text: 'create chooser?'
         CheckBox:
-            id: create_chooser 
+            id: create_chooser
     IntentButton:
         email_recipient: recipient.text
         email_subject: subject.text
@@ -46,7 +46,7 @@ Builder.load_string('''
 
 class EmailInterface(BoxLayout):
     pass
-    
+
 
 class IntentButton(Button):
     email_recipient = StringProperty()
@@ -64,8 +64,9 @@ class IntentButton(Button):
 class EmailApp(App):
     def build(self):
         return EmailInterface()
+
     def on_pause(self):
         return True
-        
+
 if __name__ == "__main__":
     EmailApp().run()

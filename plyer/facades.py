@@ -114,7 +114,6 @@ class Email(object):
     def _send(self, **kwargs):
         raise NotImplementedError()
 
-    
 
 class TTS(object):
     '''TextToSpeech facade.
@@ -201,5 +200,3 @@ class GPS(object):
 
     def _stop(self):
         raise NotImplementedError()
-
-
