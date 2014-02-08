@@ -34,6 +34,6 @@ tts = Proxy(
 email = Proxy(
     'email', facades.Email)
 
-#: Vibrate proxy to :class:`plyer.facades.Vibrate`
+#: Vibrate proxy to :class:`plyer.facades.Vibrator`
 vibrator = Proxy(
     'vibrator', facades.Vibrator)
