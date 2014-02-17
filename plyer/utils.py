@@ -104,7 +104,8 @@ def whereis_exe(program):
     ''' Tries to find the program on the system path.
         Returns the path if it is found or None if it's not found.
     '''
-    for p in environ.get('PATH', '').split(':'):
+    path_split = ';' if _determine_platform() == 'win' else ':'
+    for p in environ.get('PATH', '').split(path_split):
         if path.exists(path.join(p, program)) and \
             not path.isdir(path.join(p, program)):
             return path.join(p, program)

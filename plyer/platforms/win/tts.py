@@ -11,6 +11,6 @@ class EspeakTextToSpeech(TTS):
 
 
 def instance():
-    if whereis_exe('espeak'):
-        return WindowsTextToSpeech()
+    if whereis_exe('espeak.exe'):
+        return EspeakTextToSpeech()
     return TTS()
