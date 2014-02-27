@@ -74,20 +74,25 @@ class Notification(object):
     '''Notification facade.
     '''
 
-    def notify(self, title='', message=''):
+    def notify(self, title='', message='', app_name='', app_icon=''):
         '''Send a notification.
 
         :param title: Title of the notification
         :param message: Message of the notification
+        :param app_name: Name of the app launching this notification
+        :param app_icon: Icon to be displayed along with the message
         :type title: str
         :type message: str
+        :type app_name: str
+        :type app_icon: str
         '''
-        self._notify(title=title, message=message)
+        self._notify(title=title, message=message, app_icon=app_icon,
+                     app_name=app_name)
 
     # private
 
     def _notify(self, **kwargs):
-        raise NotImplementedError()
+        raise NotImplementedError("No usable implementation found!")
 
 
 class TTS(object):
