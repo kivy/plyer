@@ -6,6 +6,7 @@ build
 docs/build/
 dist
 *.egg-info
+venv
 
 *.komodoproject
 .komodotools

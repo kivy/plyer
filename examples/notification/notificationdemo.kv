@@ -1,0 +1,23 @@
+#:kivy 1.8.0
+<NotificationDemo>:
+    orientation: 'vertical'
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, None
+        TextInput:
+            id: notification_title
+            text: 'Put title here'
+            size_hint: 1, None
+        TextInput:
+            id: notification_text
+            text: 'Put message here'
+            size_hint: 1, None
+    Button:
+        text: 'Simple Notification'
+        size_hint: 1, None
+        on_press: root.do_notify(mode='normal')
+    Button:
+        text: 'Fancy Notification'
+        size_hint: 1, None
+        on_press:
+            root.do_notify(mode='fancy')
