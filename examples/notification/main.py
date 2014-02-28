@@ -10,8 +10,15 @@ from plyer import notification
 
 class NotificationDemo(BoxLayout):
 
-    def do_notify(self, title, message, **kwargs):
-        notification.notify(title, message, kwargs)
+    def do_notify(self, mode='normal'):
+        import os
+        kwargs = {'title': self.ids.notification_title.text,
+                  'message': self.ids.notification_text.text}
+        if mode == 'fancy':
+            kwargs['app_name'] = "Plyer Notification Example"
+            kwargs['app_icon'] = os.path.dirname(os.path.realpath(__file__))\
+                + '/plyer-icon.png'
+        notification.notify(**kwargs)
 
 
 class NotificationDemoApp(App):
