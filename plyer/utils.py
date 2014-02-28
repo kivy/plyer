@@ -17,9 +17,8 @@ def _determine_platform():
     global _platform_ios, _platform_android
 
     if _platform_android is None:
-        # ANDROID_ARGUMENT and ANDROID_PRIVATE are 2 environment variables from
-        # python-for-android project
-        _platform_android = 'ANDROID_ARGUMENT' in environ
+        # EXTERNAL_STORAGE is an environment variable unique to Android
+        _platform_android = "EXTERNAL_STORAGE" in environ
 
     if _platform_ios is None:
         _platform_ios = (environ.get('KIVY_BUILD', '') == 'ios')
