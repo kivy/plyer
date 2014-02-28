@@ -222,7 +222,7 @@ class Vibrator(object):
     def _vibrate(self, **kwargs):
         raise NotImplementedError()
 
-    def vibrate_pattern(self, pattern=[0, 1], repeat=-1):
+    def pattern(self, pattern=[0, 1], repeat=-1):
         '''Ask the vibrator to vibrate with the given pattern, with an
         optional repeat.
 
@@ -235,9 +235,9 @@ class Vibrator(object):
         vibration pattern reaches this index, it will start again from
         the beginning. Defaults to ``-1``, which means no repeat.
         '''
-        self._vibrate_pattern(pattern=pattern, repeat=repeat)
+        self._pattern(pattern=pattern, repeat=repeat)
 
-    def _vibrate_pattern(self, **kwargs):
+    def _pattern(self, **kwargs):
         raise NotImplementedError()
 
     def exists(self):

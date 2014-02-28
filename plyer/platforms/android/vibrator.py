@@ -14,7 +14,7 @@ class AndroidVibrator(Vibrator):
         if vibrator:
             vibrator.vibrate(int(1000*time))
 
-    def _vibrate_pattern(self, **kwargs):
+    def _pattern(self, **kwargs):
         pattern = kwargs.get('pattern')
         repeat = kwargs.get('repeat')
 

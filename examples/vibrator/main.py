@@ -33,7 +33,7 @@ Builder.load_string('''
     Button:
         text: 'vibrate pattern'
         on_release:
-            vibrator.vibrate_pattern([float(n) for n in ti.text.split(',')])
+            vibrator.pattern([float(n) for n in ti.text.split(',')])
 
 ''')
 
