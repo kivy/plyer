@@ -1,5 +1,6 @@
 
 import android
+import android.activity
 from os import unlink
 from jnius import autoclass, cast
 from plyer.facades import Camera
