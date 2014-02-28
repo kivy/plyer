@@ -13,7 +13,7 @@ from win32api import GetModuleHandle
 
 class WindowsBalloonTip:
 
-    def __init__(self, title, msg):
+    def __init__(self, title, msg, app_name, app_icon):
         message_map = {win32con.WM_DESTROY: self.OnDestroy, }
         # Register the Window class.
         wc = win32gui.WNDCLASS()
@@ -28,8 +28,12 @@ class WindowsBalloonTip:
                                           win32con.CW_USEDEFAULT, 0, 0,
                                           hinst, None)
         win32gui.UpdateWindow(self.hwnd)
-        icon_path_name = os.path.abspath(os.path.join(sys.path[0],
+        if app_icon:
+            icon_path_name = app_icon
+        else:
+            icon_path_name = os.path.abspath(os.path.join(sys.path[0],
                                                       "balloontip.ico"))
+        print("icon_path_name: {}".format(icon_path_name))
         icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
         try:
             hicon = win32gui.LoadImage(hinst, icon_path_name,
@@ -54,5 +58,5 @@ class WindowsBalloonTip:
         win32gui.PostQuitMessage(0)  # Terminate the app.
 
 
-def balloon_tip(title, msg):
-    w = WindowsBalloonTip(title, msg)
+def balloon_tip(title, msg, app_name, app_icon):
+    w = WindowsBalloonTip(title, msg, app_name, app_icon)
