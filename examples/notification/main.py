@@ -23,6 +23,7 @@ class NotificationDemo(BoxLayout):
             if platform == "win":
                 kwargs['app_icon'] = join(dirname(realpath(__file__)),
                                           'plyer-icon.ico')
+                kwargs['timeout'] = 4
             else:
                 kwargs['app_icon'] = join(dirname(realpath(__file__)),
                                           'plyer-icon.png')

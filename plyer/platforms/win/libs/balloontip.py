@@ -6,15 +6,27 @@ import os
 import sys
 import time
 
-import win32con
 import win32gui
 from win32api import GetModuleHandle
 
+WS_OVERLAPPED = 0x00000000
+WS_SYSMENU = 0x00080000
+WM_DESTROY = 2
+CW_USEDEFAULT = 8
+
+LR_LOADFROMFILE = 16
+LR_DEFAULTSIZE = 0x0040
+
+IMAGE_ICON = 1
+
+IDI_APPLICATION = 32512
+
+WM_USER = 1024
 
 class WindowsBalloonTip:
 
-    def __init__(self, title, msg, app_name, app_icon):
-        message_map = {win32con.WM_DESTROY: self.OnDestroy, }
+    def __init__(self, title, message, app_name, app_icon, timeout=10):
+        message_map = {WM_DESTROY: self.OnDestroy, }
         # Register the Window class.
         wc = win32gui.WNDCLASS()
         hinst = wc.hInstance = GetModuleHandle(None)
@@ -22,10 +34,10 @@ class WindowsBalloonTip:
         wc.lpfnWndProc = message_map    # could also specify a wndproc.
         class_atom = win32gui.RegisterClass(wc)
         # Create the Window.
-        style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
+        style = WS_OVERLAPPED |  WS_SYSMENU
         self.hwnd = win32gui.CreateWindow(class_atom, "Taskbar", style,
-                                          0, 0, win32con.CW_USEDEFAULT,
-                                          win32con.CW_USEDEFAULT, 0, 0,
+                                          0, 0, CW_USEDEFAULT,
+                                          CW_USEDEFAULT, 0, 0,
                                           hinst, None)
         win32gui.UpdateWindow(self.hwnd)
         if app_icon:
@@ -33,22 +45,21 @@ class WindowsBalloonTip:
         else:
             icon_path_name = os.path.abspath(os.path.join(sys.path[0],
                                                       "balloontip.ico"))
-        print("icon_path_name: {}".format(icon_path_name))
-        icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+        icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE
         try:
             hicon = win32gui.LoadImage(hinst, icon_path_name,
-                                       win32con.IMAGE_ICON, 0, 0, icon_flags)
+                                       IMAGE_ICON, 0, 0, icon_flags)
         except:
-            hicon = win32gui.LoadIcon(0, win32con.IDI_APPLICATION)
+            hicon = win32gui.LoadIcon(0, IDI_APPLICATION)
         flags = win32gui.NIF_ICON | win32gui.NIF_MESSAGE | win32gui.NIF_TIP
-        nid = (self.hwnd, 0, flags, win32con.WM_USER+20, hicon, "tooltip")
+        nid = (self.hwnd, 0, flags, WM_USER+20, hicon, "tooltip")
         win32gui.Shell_NotifyIcon(win32gui.NIM_ADD, nid)
         win32gui.Shell_NotifyIcon(win32gui.NIM_MODIFY,
                                   (self.hwnd, 0, win32gui.NIF_INFO,
-                                   win32con.WM_USER+20, hicon,
-                                   "Balloon  tooltip", msg, 200, title))
+                                   WM_USER+20, hicon,
+                                   "Balloon  tooltip", message, 200, title))
         # self.show_balloon(title, msg)
-        time.sleep(10)
+        time.sleep(timeout)
         win32gui.DestroyWindow(self.hwnd)
         win32gui.UnregisterClass(class_atom, hinst)
 
@@ -58,5 +69,10 @@ class WindowsBalloonTip:
         win32gui.PostQuitMessage(0)  # Terminate the app.
 
 
-def balloon_tip(title, msg, app_name, app_icon):
-    w = WindowsBalloonTip(title, msg, app_name, app_icon)
+def balloon_tip(**kwargs):
+    title = kwargs.get('title', '')
+    message = kwargs.get('message', '')
+    app_name = kwargs.get('app_name', '')
+    app_icon = kwargs.get('app_icon', '')
+    timeout = kwargs.get('timeout', 10)
+    w = WindowsBalloonTip(**kwargs)
