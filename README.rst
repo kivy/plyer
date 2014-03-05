@@ -1,8 +1,8 @@
 Plyer
 ====
 
-Plyer is a platform-independant api to use features commonly found on various
-platforms, notably mobile ones, in python.
+Plyer is a platform-independent api to use features commonly found on various
+platforms, notably mobile ones, in Python.
 
 How
 ---
