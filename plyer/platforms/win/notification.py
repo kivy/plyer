@@ -1,13 +1,12 @@
-import thread
+from threading import Thread as thread
 
 from plyer.facades import Notification
-from libs.balloontip import balloon_tip
+from plyer.platforms.win.libs.balloontip import balloon_tip
 
 
 class WindowsNotification(Notification):
     def _notify(self, **kwargs):
-        thread.start_new_thread(balloon_tip,
-                                (kwargs.get('title'), kwargs.get('message')))
+        thread(target=balloon_tip, kwargs=kwargs).start()
 
 
 def instance():
