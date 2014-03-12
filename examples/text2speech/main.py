@@ -4,16 +4,24 @@ kivy.require('1.8.0')
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
 
 from plyer import tts
 
 class Text2SpeechDemo(BoxLayout):
     def do_read(self):
-        tts.speak(self.ids.notification_text.text)
+        try:
+            tts.speak(self.ids.notification_text.text)
+        except NotImplementedError:
+            popup = ErrorPopup()
+            popup.open()
 
 class Text2SpeechDemoApp(App):
     def build(self):
         return Text2SpeechDemo()
+
+class ErrorPopup(Popup):
+    pass
 
 if __name__ == '__main__':
     Text2SpeechDemoApp().run()

@@ -12,3 +12,20 @@
             text: 'Read'
             size_hint_y: 0.2
             on_press: root.do_read()
+
+<ErrorPopup>:
+    size_hint: .7, .4
+    title: "Error"
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 20
+
+        Label:
+            size_hint_y: 0.4
+            text: "This feature has not yet been implemented in Plyer."
+        Button:
+            text: 'Dismiss'
+            size_hint_y: 0.4
+            on_press: root.dismiss()
