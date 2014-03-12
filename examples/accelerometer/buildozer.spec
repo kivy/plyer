@@ -52,7 +52,7 @@ fullscreen = 0
 #
 
 # (list) Permissions
-android.permissions = android.hardware.sensor.accelerometer
+# android.permissions = android.hardware.sensor.accelerometer
 
 # (int) Android API to use
 #android.api = 14
