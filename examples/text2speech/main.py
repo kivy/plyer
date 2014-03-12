@@ -11,7 +11,6 @@ class Text2SpeechDemo(BoxLayout):
     def do_read(self):
         tts.speak(self.ids.notification_text.text)
 
-
 class Text2SpeechDemoApp(App):
     def build(self):
         return Text2SpeechDemo()
