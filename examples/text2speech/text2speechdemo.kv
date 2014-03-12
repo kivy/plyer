@@ -1,0 +1,14 @@
+#:kivy 1.8.0
+<Text2SpeechDemo>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+
+        TextInput:
+            id: notification_text
+            text: 'Put message here'
+        
+        Button:
+            text: 'Read'
+            size_hint_y: 0.2
+            on_press: root.do_read()
