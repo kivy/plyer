@@ -1,0 +1,30 @@
+#:kivy 1.8.0
+<AccelerometerTest>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            id: x_label
+            text: 'X: '
+
+        Label:
+            id: y_label
+            text: 'Y: '
+
+        Label:
+            id: z_label
+            text: 'Z: '
+
+        Label:
+            id: accel_status
+            text: ''
+
+        BoxLayout:
+            size_hint_y: None
+            height: '48dp'
+            padding: '4dp'
+
+            ToggleButton:
+                id: toggle_button
+                text: 'Start accelerometer'
+                on_press: root.do_toggle()

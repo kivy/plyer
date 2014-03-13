@@ -1,0 +1,17 @@
+Basic acccelerometer example.
+
+
+Python-for-android compilation:
+
+	./distribute.sh -m 'kivy plyer'
+	cd dist/default
+	./build.py --org.test.accelsimpleexample --name "Kivy Basic Accelerometer" \
+		--dir /path/to/plyer/examples/accelerometer/basic --version 1.0 \
+		debug installd 
+
+
+Buildozer:
+
+	cd /path/to/plyer/examples/accelerometer/basic
+	# edit the buildozer.spec if required, then
+	buildozer android debug deploy run
