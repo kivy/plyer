@@ -25,9 +25,7 @@ class CameraDemo(FloatLayout):
         self.ids.path_label.text = self.cwd
 
     def do_capture(self):
-
-        filename = self.ids.filename_text.text
-        filepath = self.cwd + filename
+        filepath = self.cwd + self.ids.filename_text.text
         ext = splitext(filepath)[-1].lower()
 
         if(exists(filepath)):
