@@ -44,6 +44,9 @@ class CameraDemo(FloatLayout):
         if(exists(filepath)):
             popup = MsgPopup(msg="Picture saved!")
             popup.open()
+        else:
+            popup = MsgPopup(msg="Could not save your picture!")
+            popup.open()
 
 class CameraDemoApp(App):
     def __init__(self):
