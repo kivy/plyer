@@ -45,17 +45,17 @@ class AccelerometerDemo(BoxLayout):
     def do_toggle(self):
         try:
             if not self.sensorEnabled:            
-                self.sensorEnabled = True
                 accelerometer.enable()
                 Clock.schedule_interval(self.get_acceleration, 1 / 20.)
 
+                self.sensorEnabled = True
                 self.ids.toggle_button.text = "Stop Accelerometer"
             else:
                 accelerometer.disable()
                 self.reset_plots()
                 Clock.unschedule(self.get_acceleration)
+                
                 self.sensorEnabled = False
-
                 self.ids.toggle_button.text = "Start Accelerometer"
         except NotImplementedError:
                 popup = ErrorPopup()
