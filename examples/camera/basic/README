@@ -8,7 +8,6 @@ Python-for-android compilation:
 	cd dist/default
 	./build.py --org.test.cameraexample --name "Kivy Camera Example" \
 		--dir /path/to/plyer/examples/camera/basic --version 1.0 \
-		--permission WRITE_EXTERNAL_STORAGE \
 		debug installd 
 
 

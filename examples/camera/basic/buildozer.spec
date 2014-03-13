@@ -52,7 +52,7 @@ fullscreen = 0
 #
 
 # (list) Permissions
-android.permissions = WRITE_EXTERNAL_STORAGE
+# android.permissions = WRITE_EXTERNAL_STORAGE
 
 # (int) Android API to use
 #android.api = 14
