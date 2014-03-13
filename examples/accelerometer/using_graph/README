@@ -10,8 +10,7 @@ Python-for-android compilation:
 Buildozer:
 
 	cd /path/to/plyer/examples/accelerometer/using_graph
-	buildozer init
-	# edit the buildozer.spec, then
+	# edit the buildozer.spec if required, then
 	buildozer android debug deploy run
 
 
