@@ -1,0 +1,15 @@
+Python-for-android compilation:
+
+	./distribute.sh -m 'kivy plyer'
+	cd dist/default
+	./build.py --org.test.accelexample --name "Kivy Accelerometer" \
+		--dir /path/to/plyer/examples/accelerometer --version 1.0 \
+		debug installd 
+
+
+Buildozer:
+
+	cd /path/to/plyer/examples/accelerometer
+	buildozer init
+	# edit the buildozer.spec, then
+	buildozer android debug deploy run
