@@ -16,7 +16,6 @@ The package is installed in the directory: ./libs/garden/garden.graph
 To read more about kivy garden, visit: http://kivy-garden.github.io/.
 '''
 from kivy.garden.graph import Graph, MeshLinePlot
-# from collections import deque
 
 class AccelerometerDemo(BoxLayout):
     def __init__(self):
@@ -84,6 +83,7 @@ class AccelerometerDemoApp(App):
 
 class ErrorPopup(Popup):
     pass
+
 if __name__ == '__main__':
     AccelerometerDemoApp().run()
     
