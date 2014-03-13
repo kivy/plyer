@@ -3,18 +3,18 @@ Python-for-android compilation:
 	./distribute.sh -m 'kivy plyer'
 	cd dist/default
 	./build.py --org.test.accelexample --name "Kivy Accelerometer" \
-		--dir /path/to/plyer/examples/accelerometer --version 1.0 \
+		--dir /path/to/plyer/examples/accelerometer/using_graph --version 1.0 \
 		debug installd 
 
 
 Buildozer:
 
-	cd /path/to/plyer/examples/accelerometer
+	cd /path/to/plyer/examples/accelerometer/using_graph
 	buildozer init
 	# edit the buildozer.spec, then
 	buildozer android debug deploy run
 
 
 This example uses Garden Graph widget by matham. Available at https://github.com/kivy-garden/garden.graph. The required files are present it ./libs/garden/garden.graph. If you need to update these files, use:
-	cd /path/to/plyer/examples/accelerometer
+	cd /path/to/plyer/examples/accelerometer/using_graph
 	/path/to/kivy_instalation/kivy/tools/garden install --app graph
