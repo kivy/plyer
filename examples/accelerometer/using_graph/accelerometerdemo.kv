@@ -1,0 +1,42 @@
+#:kivy 1.8.0
+<AccelerometerDemo>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+
+        Graph:
+            size_hint_y: 0.8
+            id: graph_plot
+            xlabel:'Time'
+            ylabel:'Value'
+            y_grid_label: True
+            x_grid_label: True
+            padding: 5
+            xmin:0
+            xmax:100
+            ymin:-15
+            ymax:20
+        
+        Button:
+            id: toggle_button
+            text: 'Start Accelerometer'
+            size_hint_y: 0.2
+            on_press: root.do_toggle()
+
+<ErrorPopup>:
+    size_hint: .7, .4
+    title: "Error"
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 20
+
+        Label:
+            size_hint_y: 0.4
+            text: "This feature has not yet been implemented on this platform."
+        Button:
+            text: 'Dismiss'
+            size_hint_y: 0.4
+            on_press: root.dismiss()
+            
