@@ -1,10 +1,11 @@
 # -- coding: utf-8 --
 
+__all__ = ('WindowsBalloonTip', 'balloon_tip')
+
 
 import time
-import win_api_defs
 import ctypes
-from ctypes import byref
+import win_api_defs
 
 
 WS_OVERLAPPED = 0x00000000
@@ -14,7 +15,7 @@ CW_USEDEFAULT = 8
 
 LR_LOADFROMFILE = 16
 LR_DEFAULTSIZE = 0x0040
-
+IDI_APPLICATION = 32512
 IMAGE_ICON = 1
 
 NOTIFYICON_VERSION_4 = 4
@@ -36,11 +37,11 @@ class WindowsBalloonTip(object):
     _wnd_class_ex = None
     _hwnd = None
     _hicon = None
+    _balloon_icon = None
     _notify_data = None
 
     def __init__(self, title, message, app_name, app_icon='', timeout=10):
         ''' app_icon if given is a icon file.
-        Timeout is deprecated in windows since its system managed.
         '''
 
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
@@ -52,7 +53,7 @@ class WindowsBalloonTip(object):
         wnd_class_ex.hInstance = win_api_defs.GetModuleHandleW(None)
         if wnd_class_ex.hInstance == None:
             raise Exception('Could not get windows module instance.')
-        class_atom = win_api_defs.RegisterClassExW(byref(wnd_class_ex))
+        class_atom = win_api_defs.RegisterClassExW(wnd_class_ex)
         if class_atom == 0:
             raise Exception('Could not register the PlyerTaskbar class.')
         self._class_atom = class_atom
@@ -74,14 +75,16 @@ class WindowsBalloonTip(object):
             if hicon is None:
                 raise Exception('Could not load icon {}'.
                                 format(icon_path_name).decode('utf8'))
-            self._hicon = hicon
+            self._balloon_icon = self._hicon = hicon
+        else:
+            self._hicon = win_api_defs.LoadIconW(None,
+                ctypes.cast(IDI_APPLICATION, win_api_defs.LPCWSTR))
         self.notify(title, message, app_name)
         if timeout:
             time.sleep(timeout)
 
     def __del__(self):
-        if self._notify_data is not None:
-            win_api_defs.Shell_NotifyIconW(NIM_DELETE, self._notify_data)
+        self.remove_notify()
         if self._hicon is not None:
             win_api_defs.DestroyIcon(self._hicon)
         if self._wnd_class_ex is not None:
@@ -92,28 +95,37 @@ class WindowsBalloonTip(object):
 
     def notify(self, title, message, app_name):
         ''' Displays a balloon in the systray. Can be called multiple times
-        as long as :meth:`remove_notify` is called afterwards.
+        with different parameter values.
         '''
-        if self._notify_data is not None:
-            win_api_defs.Shell_NotifyIconW(NIM_DELETE, self._notify_data)
+        self.remove_notify()
         # add icon and messages to window
         hicon = self._hicon
         flags = NIF_TIP | NIF_INFO
         icon_flag = 0
         if hicon is not None:
             flags |= NIF_ICON
-            icon_flag = NIIF_USER | NIIF_LARGE_ICON
+            # if icon is default app's one, don't display it in message
+            if self._balloon_icon is not None:
+                icon_flag = NIIF_USER | NIIF_LARGE_ICON
         notify_data = win_api_defs.get_NOTIFYICONDATAW(0, self._hwnd,
-            id(self), flags, 0, None, app_name.decode('utf8')[:127], 0, 0,
+            id(self), flags, 0, hicon, app_name.decode('utf8')[:127], 0, 0,
             message.decode('utf8')[:255], NOTIFYICON_VERSION_4,
-            title.decode('utf8')[:63], icon_flag, win_api_defs.GUID(), hicon)
+            title.decode('utf8')[:63], icon_flag, win_api_defs.GUID(),
+            self._balloon_icon)
 
         self._notify_data = notify_data
         if not win_api_defs.Shell_NotifyIconW(NIM_ADD, notify_data):
             raise Exception('Shell_NotifyIconW failed.')
         if not win_api_defs.Shell_NotifyIconW(NIM_SETVERSION,
-                                              byref(notify_data)):
+                                              notify_data):
             raise Exception('Shell_NotifyIconW failed.')
+
+    def remove_notify(self):
+        '''Removes the notify balloon, if displayed.
+        '''
+        if self._notify_data is not None:
+            win_api_defs.Shell_NotifyIconW(NIM_DELETE, self._notify_data)
+            self._notify_data = None
 
 
 def balloon_tip(**kwargs):

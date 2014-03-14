@@ -6,7 +6,7 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
            'DefWindowProcW', 'get_WNDCLASSEXW', 'GetModuleHandleW',
            'RegisterClassExW', 'UpdateWindow', 'LoadImageW',
            'Shell_NotifyIconW', 'DestroyIcon', 'UnregisterClassW',
-           'DestroyWindow')
+           'DestroyWindow', 'LoadIconW')
 
 import ctypes
 from ctypes import Structure, windll, sizeof, byref, POINTER, memset,\
@@ -172,3 +172,7 @@ UnregisterClassW.restype = BOOL
 DestroyWindow = windll.User32.DestroyWindow
 DestroyWindow.argtypes = [HWND]
 DestroyWindow.restype = BOOL
+
+LoadIconW = windll.User32.LoadIconW
+LoadIconW.argtypes = [HINSTANCE, LPCWSTR]
+LoadIconW.restype = HICON
