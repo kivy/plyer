@@ -6,6 +6,7 @@ __all__ = ('WindowsBalloonTip', 'balloon_tip')
 import time
 import ctypes
 import win_api_defs
+from threading import RLock
 
 
 WS_OVERLAPPED = 0x00000000
@@ -40,6 +41,15 @@ class WindowsBalloonTip(object):
     _balloon_icon = None
     _notify_data = None
     _count = 0
+    _lock = RLock()
+
+    @staticmethod
+    def _get_unique_id():
+        WindowsBalloonTip._lock.acquire()
+        val = WindowsBalloonTip._count
+        WindowsBalloonTip._count += 1
+        WindowsBalloonTip._lock.release()
+        return val
 
     def __init__(self, title, message, app_name, app_icon='', timeout=10):
         ''' app_icon if given is a icon file.
@@ -47,8 +57,7 @@ class WindowsBalloonTip(object):
 
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
         wnd_class_ex.lpszClassName = ('PlyerTaskbar' +
-                                      str(self._count)).decode('utf8')
-        WindowsBalloonTip._count += 1
+            str(WindowsBalloonTip._get_unique_id())).decode('utf8')
         # keep ref to it as long as window is alive
         wnd_class_ex.lpfnWndProc =\
         win_api_defs.WindowProc(win_api_defs.DefWindowProcW)
