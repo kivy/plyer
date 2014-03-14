@@ -39,6 +39,7 @@ class WindowsBalloonTip(object):
     _hicon = None
     _balloon_icon = None
     _notify_data = None
+    _count = 0
 
     def __init__(self, title, message, app_name, app_icon='', timeout=10):
         ''' app_icon if given is a icon file.
@@ -46,7 +47,8 @@ class WindowsBalloonTip(object):
 
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
         wnd_class_ex.lpszClassName = ('PlyerTaskbar' +
-                                      str(id(self))).decode('utf8')
+                                      str(self._count)).decode('utf8')
+        WindowsBalloonTip._count += 1
         # keep ref to it as long as window is alive
         wnd_class_ex.lpfnWndProc =\
         win_api_defs.WindowProc(win_api_defs.DefWindowProcW)
