@@ -7,7 +7,7 @@ Interface of all the features availables.
 '''
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
-           'TTS', 'Email', 'Vibrator')
+           'TTS', 'Email', 'Vibrator', 'Orientation')
 
 
 class Accelerometer(object):
@@ -261,3 +261,82 @@ class Vibrator(object):
 
     def _cancel(self, **kwargs):
         raise NotImplementedError()
+
+
+class Orientation(object):
+    '''Orientation facade.
+
+    .. note::
+        These settings are generally guidelines, the operating
+        system may choose to ignore them, or they may be overridden by
+        other system components.
+    '''
+
+    def set_landscape(self, reverse=False, sensor=False, user=True):
+        '''Rotate the app to a landscape orientation, optionally
+        allowing either landscape possibility following information
+        from the device sensor, and optionally obeying the user's
+        system settings.
+
+        :param reverse: If True, uses the reverse of the natural
+                        landscape direction. Defaults to False.
+        :param sensor: If True, ignores the reverse parameter and uses
+                       information from the sensor to pick a landscape
+                       direction. Defaults to False.
+        :param user: If True, obeys the user's orientation settings.
+                     Only affects sensor orientation choices, and
+                     defaults to True.
+        '''
+        self._set_landscape(reverse=reverse, sensor=sensor, user=user)
+        # landscape, reverseLandscape, sensorLandscape, userLandscape
+
+    def _set_landscape(self, **kwargs):
+        raise NotImplementedError()
+
+    def set_portrait(self, reverse=False, sensor=False, user=True):
+        '''Rotate the app to a portrait orientation, optionally
+        allowing either portrait possibility following information
+        from the device sensor, and optionally obeying the user's
+        system settings.
+
+        :param reverse: If True, uses the reverse of the natural
+                        portrait direction. Defaults to False.
+        :param sensor: If True, ignores the reverse parameter and uses
+                       information from the sensor to pick a portrait
+                       direction. Defaults to False.
+        :param user: If True, obeys the user's orientation settings.
+                     Only affects sensor orientation choices, and
+                     defaults to True.
+        '''
+        self._set_portrait(reverse=reverse, sensor=sensor, user=user)
+        # portrait, reversePortrait, sensorPortrait, userPortrait
+
+    def _set_portrait(self, **kwargs):
+        raise NotImplementedError()
+
+    def set_free(self, user=True, full=True):
+        '''Rotate freely following sensor information from the device.
+
+        :param user: If True, obeys the user's orientation lock setting.
+                     Defaults to True.
+        :param full: If True, allows free rotation regardless of the
+                     normal behavior of the device (some devices try
+                     to prevent some directions). Defaults to True.
+        '''
+        self._set_free(user=user, full=full)
+        # fullUser, user, sensor, fullSensor
+
+    def _set_free(self, **kwargs):
+        raise NotImplementedError()
+
+    def lock(self):
+        '''Locks the current orientation, until another orientation function
+        is called.
+        '''
+        self._lock()
+
+    def _lock(self, **kwargs):
+        raise NotImplementedError()
+        
+
+    
