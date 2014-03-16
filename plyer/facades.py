@@ -270,16 +270,20 @@ class Orientation(object):
         These settings are generally guidelines, the operating
         system may choose to ignore them, or they may be overridden by
         other system components.
+
+    .. warning::
+        Some of these functions depend on specific versions of the Android
+        API. The default parameters should work with any reasonably recent
+        version, but check the documentation if choosing other settings.
     '''
 
     def set_landscape(self, reverse=False, sensor=False, user=False):
-        '''Rotate the app to a landscape orientation, optionally
-        allowing either landscape possibility following information
-        from the device sensor, and optionally obeying the user's
-        system settings.
+        '''Rotate the app to a landscape orientation in either direction,
+        either manually or following the sensor orientation.
 
         :param reverse: If True, uses the reverse of the natural
-                        landscape direction. Defaults to False.
+                        landscape direction, which depends on the
+                        hardware. Defaults to False.
         :param sensor: If True, ignores the reverse parameter and uses
                        information from the sensor to pick a landscape
                        direction. Defaults to False.
@@ -290,6 +294,7 @@ class Orientation(object):
         .. warning:: The user argument depends on Android's API level 18,
                      and will raise an exception if set to True with
                      older versions.
+
         '''
         self._set_landscape(reverse=reverse, sensor=sensor, user=user)
         # landscape, reverseLandscape, sensorLandscape, userLandscape
@@ -298,13 +303,12 @@ class Orientation(object):
         raise NotImplementedError()
 
     def set_portrait(self, reverse=False, sensor=False, user=False):
-        '''Rotate the app to a portrait orientation, optionally
-        allowing either portrait possibility following information
-        from the device sensor, and optionally obeying the user's
-        system settings.
+        '''Rotate the app to a portrait orientation in either direction,
+        either manually or following the sensor orientation.
 
         :param reverse: If True, uses the reverse of the natural
-                        portrait direction. Defaults to False.
+                        portrait direction, which depends on the hardware.
+                        Defaults to False.
         :param sensor: If True, ignores the reverse parameter and uses
                        information from the sensor to pick a portrait
                        direction. Defaults to False.
@@ -330,6 +334,10 @@ class Orientation(object):
         :param full: If True, allows free rotation regardless of the
                      normal behavior of the device (some devices try
                      to prevent some directions). Defaults to True.
+
+        .. warning:: Setting both user and full to True depends on Android's
+                     API level 18, and will riase an exception if set to True
+                     with older versions.
         '''
         self._set_free(user=user, full=full)
         # fullUser, user, sensor, fullSensor
@@ -340,11 +348,13 @@ class Orientation(object):
     def lock(self):
         '''Locks the current orientation, until another orientation function
         is called.
+
+        .. warning:: This function depends on Android's API level 18,
+                     and will raise an exception if run with older
+                     versions.
         '''
         self._lock()
 
     def _lock(self, **kwargs):
         raise NotImplementedError()
         
-
-    
