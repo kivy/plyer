@@ -3,6 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.image import Image
 from os import unlink
+from plyer.facades import Camera
 
 Builder.load_string('''
 <GUI>:
@@ -52,14 +53,12 @@ class CaptureCamera(App):
         self.gui.ids.capturebtn.bind(on_release=self._save_picture)
         return self.gui
 
-class LinuxCamera():
-    capture = None
+class LinuxCamera(Camera):
     def _take_picture(self, on_complete, filename=None):
         assert(on_complete is not None)
         assert(filename is not None)
 
-        self.capture = CaptureCamera(on_complete, filename) 
-        self.capture.run()
+        CaptureCamera(on_complete, filename).run()
 
 def instance():
     return LinuxCamera()
