@@ -63,3 +63,4 @@ class LinuxCamera():
 
 def instance():
     return LinuxCamera()
+    

@@ -63,3 +63,4 @@ class OSXCamera():
 
 def instance():
     return OSXCamera()
+    

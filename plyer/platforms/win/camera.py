@@ -63,3 +63,4 @@ class WinCamera():
 
 def instance():
     return WinCamera()
+    
