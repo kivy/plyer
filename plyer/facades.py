@@ -272,7 +272,7 @@ class Orientation(object):
         other system components.
     '''
 
-    def set_landscape(self, reverse=False, sensor=False, user=True):
+    def set_landscape(self, reverse=False, sensor=False, user=False):
         '''Rotate the app to a landscape orientation, optionally
         allowing either landscape possibility following information
         from the device sensor, and optionally obeying the user's
@@ -286,6 +286,10 @@ class Orientation(object):
         :param user: If True, obeys the user's orientation settings.
                      Only affects sensor orientation choices, and
                      defaults to True.
+
+        .. warning:: The user argument depends on Android's API level 18,
+                     and will raise an exception if set to True with
+                     older versions.
         '''
         self._set_landscape(reverse=reverse, sensor=sensor, user=user)
         # landscape, reverseLandscape, sensorLandscape, userLandscape
@@ -293,7 +297,7 @@ class Orientation(object):
     def _set_landscape(self, **kwargs):
         raise NotImplementedError()
 
-    def set_portrait(self, reverse=False, sensor=False, user=True):
+    def set_portrait(self, reverse=False, sensor=False, user=False):
         '''Rotate the app to a portrait orientation, optionally
         allowing either portrait possibility following information
         from the device sensor, and optionally obeying the user's
@@ -304,9 +308,13 @@ class Orientation(object):
         :param sensor: If True, ignores the reverse parameter and uses
                        information from the sensor to pick a portrait
                        direction. Defaults to False.
-        :param user: If True, obeys the user's orientation settings.
+        :param user: If True, tries to obey the user's orientation settings.
                      Only affects sensor orientation choices, and
-                     defaults to True.
+                     defaults to False.
+
+        .. warning:: The user argument depends on Android's API level 18,
+                     and will raise an exception if set to True with
+                     older versions.
         '''
         self._set_portrait(reverse=reverse, sensor=sensor, user=user)
         # portrait, reversePortrait, sensorPortrait, userPortrait
@@ -314,7 +322,7 @@ class Orientation(object):
     def _set_portrait(self, **kwargs):
         raise NotImplementedError()
 
-    def set_free(self, user=True, full=True):
+    def set_free(self, user=False, full=True):
         '''Rotate freely following sensor information from the device.
 
         :param user: If True, obeys the user's orientation lock setting.
