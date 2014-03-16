@@ -4,7 +4,7 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'camera', 'gps', 'notification', 'tts', 'email')
+__all__ = ('accelerometer', 'camera', 'gps', 'notification', 'tts', 'email', 'vibrator')
 __version__ = '1.1.2'
 
 from plyer import facades
@@ -33,3 +33,7 @@ tts = Proxy(
 #: Email proxy to :class:`plyer.facades.Email`
 email = Proxy(
     'email', facades.Email)
+
+#: Vibrate proxy to :class:`plyer.facades.Vibrator`
+vibrator = Proxy(
+    'vibrator', facades.Vibrator)
