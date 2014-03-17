@@ -270,11 +270,6 @@ class Orientation(object):
         These settings are generally guidelines, the operating
         system may choose to ignore them, or they may be overridden by
         other system components.
-
-    .. warning::
-        Some of these functions depend on specific versions of the Android
-        API. The default parameters should work with any reasonably recent
-        version, but check the documentation if choosing other settings.
     '''
 
     def set_landscape(self, reverse=False):
@@ -284,7 +279,6 @@ class Orientation(object):
                         orientation.
         '''
         self._set_landscape(reverse=reverse)
-        # landscape, reverseLandscape, sensorLandscape, userLandscape
 
     def _set_landscape(self, **kwargs):
         raise NotImplementedError()
@@ -296,7 +290,6 @@ class Orientation(object):
                         orientation.
         '''
         self._set_portrait(reverse=reverse)
-        # portrait, reversePortrait, sensorPortrait, userPortrait
 
     def _set_portrait(self, **kwargs):
         raise NotImplementedError()
@@ -308,11 +301,8 @@ class Orientation(object):
                      to any orientation), 'landscape' (choose nearest
                      landscape mode) or 'portrait' (choose nearest
                      portrait mode). Defaults to 'any'.
-        :param user: if True, obey the user's rotation lock setting.
-                     Defaults to False.
         '''
         self._set_sensor(mode=mode)
-        # fullUser, user, sensor, fullSensor
 
     def _set_sensor(self, **kwargs):
         raise NotImplementedError()
