@@ -1,6 +1,5 @@
 try:
     import opencv as cv
-    import opencv.highgui as hg
 except ImportError:
     try:
         import cv2.cv as cv
