@@ -11,9 +11,6 @@ interface = Builder.load_string('''
     valign: 'middle'
     halign: 'center'
 
-<RedButton@WrapButton>:
-    background_color: 1, 0, 0, 1
-
 BoxLayout:
     orientation: 'horizontal'
     GridLayout:
@@ -26,40 +23,21 @@ BoxLayout:
             text: 'portrait reverse'
             on_release: orientation.set_portrait(reverse=True)
         WrapButton:
-            text: 'portrait sensor ignore user'
-            on_release: orientation.set_portrait(sensor=True, user=False)
-        RedButton:
-            text: 'portrait sensor user'
-            on_release: orientation.set_portrait(sensor=True, user=True)
-        WrapButton:
             text: 'landscape'
             on_release: orientation.set_landscape()
         WrapButton:
             text: 'landscape reverse'
             on_release: orientation.set_landscape(reverse=True)
         WrapButton:
-            text: 'landscape sensor ignore user'
-            on_release: orientation.set_landscape(sensor=True, user=False)
-        RedButton:
-            text: 'landscape sensor user'
-            on_release: orientation.set_landscape(sensor=True, user=True)
-        RedButton:
-            text: 'lock current'
-            on_release: orientation.lock()
-        Label:
-            text: '(placeholder)'
+            text: 'free sensor'
+            on_release: orientation.set_sensor(mode='any')
+        Widget:
         WrapButton:
-            text: 'free rotate'
-            on_release: orientation.set_free(user=False, full=False)
+            text: 'landscape sensor'
+            on_release: orientation.set_sensor(mode='landscape')
         WrapButton:
-            text: 'user limited rotate'
-            on_release: orientation.set_free(user=True, full=False)
-        WrapButton:
-            text: 'full free rotate'
-            on_release: orientation.set_free(user=False, full=True)
-        RedButton:
-            text: 'user limited full rotate'
-            on_release: orientation.set_free(user=True, full=True)
+            text: 'portrait sensor'
+            on_release: orientation.set_sensor(mode='portrait')
             
     BoxLayout:
         orientation: 'vertical'

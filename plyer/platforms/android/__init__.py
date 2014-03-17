@@ -7,5 +7,3 @@ if 'PYTHON_SERVICE_ARGUMENT' in environ:
 else:
     PythonActivity = autoclass('org.renpy.android.PythonActivity')
     activity = PythonActivity.mActivity
-
-api_level = autoclass('android.os.Build$VERSION').SDK_INT
