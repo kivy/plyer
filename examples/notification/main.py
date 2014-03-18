@@ -16,8 +16,8 @@ from plyer.utils import platform
 class NotificationDemo(BoxLayout):
 
     def do_notify(self, mode='normal'):
-        kwargs = {'title': self.ids.notification_title.text,
-                  'message': self.ids.notification_text.text}
+        kwargs = {'title': self.ids.notification_title.text.decode('utf8'),
+                  'message': self.ids.notification_text.text.decode('utf8')}
         if mode == 'fancy':
             kwargs['app_name'] = "Plyer Notification Example"
             if platform == "win":
