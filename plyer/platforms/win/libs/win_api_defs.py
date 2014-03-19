@@ -12,9 +12,10 @@ import ctypes
 from ctypes import (Structure, windll, sizeof, byref, POINTER, memset,
                     WINFUNCTYPE)
 from ctypes.wintypes import (DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
-    HRESULT, LPCWSTR, LPWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
+    LPCWSTR, LPWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
     HBRUSH, HMODULE, ATOM, BOOL, HANDLE, LONG, HHOOK)
 LRESULT = LPARAM
+HRESULT = HANDLE
 HCURSOR = HICON
 
 
