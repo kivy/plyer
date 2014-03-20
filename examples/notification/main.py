@@ -10,13 +10,19 @@ from kivy.uix.boxlayout import BoxLayout
 
 from plyer import notification
 from plyer.utils import platform
+from plyer.compat import PY2
 
 
 class NotificationDemo(BoxLayout):
 
     def do_notify(self, mode='normal'):
-        kwargs = {'title': self.ids.notification_title.text,
-                  'message': self.ids.notification_text.text}
+        title = self.ids.notification_title.text
+        message = self.ids.notification_text.text
+        if PY2:
+            title = title.decode('utf8')
+            message = message.decode('utf8')
+        kwargs = {'title': title, 'message': message}
+
         if mode == 'fancy':
             kwargs['app_name'] = "Plyer Notification Example"
             if platform == "win":

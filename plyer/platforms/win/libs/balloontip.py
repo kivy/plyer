@@ -5,7 +5,8 @@ __all__ = ('WindowsBalloonTip', 'balloon_tip')
 
 import time
 import ctypes
-import win_api_defs
+from plyer.platforms.win.libs import win_api_defs
+from plyer.compat import PY2
 from threading import RLock
 
 
@@ -56,8 +57,10 @@ class WindowsBalloonTip(object):
         '''
 
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
-        wnd_class_ex.lpszClassName = ('PlyerTaskbar' +
-            str(WindowsBalloonTip._get_unique_id())).decode('utf8')
+        class_name = 'PlyerTaskbar' + str(WindowsBalloonTip._get_unique_id())
+        if PY2:
+            class_name = class_name.decode('utf8')
+        wnd_class_ex.lpszClassName = class_name
         # keep ref to it as long as window is alive
         wnd_class_ex.lpfnWndProc =\
         win_api_defs.WindowProc(win_api_defs.DefWindowProcW)
@@ -81,11 +84,11 @@ class WindowsBalloonTip(object):
         # load icon
         if app_icon:
             icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE
-            hicon = win_api_defs.LoadImageW(None, app_icon.decode('utf8'),
-                                            IMAGE_ICON, 0, 0, icon_flags)
+            hicon = win_api_defs.LoadImageW(None, app_icon, IMAGE_ICON, 0, 0,
+                                            icon_flags)
             if hicon is None:
                 raise Exception('Could not load icon {}'.
-                                format(icon_path_name).decode('utf8'))
+                                format(icon_path_name))
             self._balloon_icon = self._hicon = hicon
         else:
             self._hicon = win_api_defs.LoadIconW(None,
@@ -119,9 +122,8 @@ class WindowsBalloonTip(object):
             if self._balloon_icon is not None:
                 icon_flag = NIIF_USER | NIIF_LARGE_ICON
         notify_data = win_api_defs.get_NOTIFYICONDATAW(0, self._hwnd,
-            id(self), flags, 0, hicon, app_name.decode('utf8')[:127], 0, 0,
-            message.decode('utf8')[:255], NOTIFYICON_VERSION_4,
-            title.decode('utf8')[:63], icon_flag, win_api_defs.GUID(),
+            id(self), flags, 0, hicon, app_name, 0, 0, message,
+            NOTIFYICON_VERSION_4, title, icon_flag, win_api_defs.GUID(),
             self._balloon_icon)
 
         self._notify_data = notify_data
