@@ -21,7 +21,10 @@ class WindowsEmail(Email):
             uri += "body="
             uri += quote(str(text))
 
-        os.startfile(uri)
+        try:
+            os.startfile(uri)
+        except WindowsError:
+            print "Warning: unable to find a program able to send emails."
 
 
 def instance():
