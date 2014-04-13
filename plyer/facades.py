@@ -7,7 +7,7 @@ Interface of all the features availables.
 '''
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
-           'TTS', 'Email', 'Vibrator')
+           'TTS', 'Email', 'Vibrator', 'Sms')
 
 
 class Accelerometer(object):
@@ -261,3 +261,21 @@ class Vibrator(object):
 
     def _cancel(self, **kwargs):
         raise NotImplementedError()
+
+class Sms(object):
+    '''Sms facade.
+
+    .. note::
+        On Android your app needs the SEND_SMS permission in order
+        send sms messages.
+
+    '''
+
+    def send(self, phone_number, message):
+        self._send(phone_number=phone_number, message=message)
+
+    # private
+
+    def _send(self, **kwargs):
+        raise NotImplementedError()
+
