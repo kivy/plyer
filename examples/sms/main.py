@@ -7,7 +7,6 @@ from kivy.properties import StringProperty
 from plyer import sms
 
 Builder.load_string('''
-#:import sms plyer.sms
 <SmsInterface>:
     orientation: 'vertical'
     BoxLayout:
@@ -36,8 +35,7 @@ class IntentButton(Button):
     msg = StringProperty()
 
     def send_sms(self, *args):
-        sms.send(phone_number=self.phone_num,
-                   message=self.msg)
+        sms.send(phone_number=self.phone_num, message=self.msg)
 
 class SmsApp(App):
     def build(self):
