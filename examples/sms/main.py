@@ -10,19 +10,25 @@ Builder.load_string('''
 <SmsInterface>:
     orientation: 'vertical'
     BoxLayout:
+        size_hint_y: None
+        height: sp(30)
         Label:
-            text: 'Phone number:'
+            text: 'Recipient:'
         TextInput:
-            id: phone_number
+            id: recipient
+            multiline: False
+            on_text_validate: message.focus = True
     BoxLayout:
         Label:
             text: 'Message:'
         TextInput:
             id: message
     IntentButton:
-        phone_num: phone_number.text
-        msg: message.text
-        text: 'Send Sms'
+        sms_recipient: recipient.text
+        sms_message: message.text
+        text: 'Send SMS'
+        size_hint_y: None
+        height: sp(40)
         on_release: self.send_sms()
 ''')
 
@@ -31,11 +37,11 @@ class SmsInterface(BoxLayout):
     pass
 
 class IntentButton(Button):
-    phone_num = StringProperty()
-    msg = StringProperty()
+    sms_recipient = StringProperty()
+    sms_message = StringProperty()
 
     def send_sms(self, *args):
-        sms.send(phone_number=self.phone_num, message=self.msg)
+        sms.send(recipient=self.sms_recipient, message=self.sms_message)
 
 class SmsApp(App):
     def build(self):

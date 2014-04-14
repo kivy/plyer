@@ -271,11 +271,10 @@ class Sms(object):
 
     '''
 
-    def send(self, phone_number, message):
-        self._send(phone_number=phone_number, message=message)
+    def send(self, recipient, message):
+        self._send(recipient=recipient, message=message)
 
     # private
 
     def _send(self, **kwargs):
         raise NotImplementedError()
-

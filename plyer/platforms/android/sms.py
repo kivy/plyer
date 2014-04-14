@@ -12,11 +12,11 @@ class AndroidSms(Sms):
     def _send(self, **kwargs):
         sms = SmsManager.getDefault()
 
-        phone_number = kwargs.get('phone_number')
+        recipient = kwargs.get('recipient')
         message = kwargs.get('message')
 
         if sms:
-            sms.sendTextMessage(phone_number, None, message, None, None)
+            sms.sendTextMessage(recipient, None, message, None, None)
 
 def instance():
     return AndroidSms()
