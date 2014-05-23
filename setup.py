@@ -18,6 +18,7 @@ packages = [
     'plyer.platforms.win.libs',
     'plyer.platforms.ios',
     'plyer.platforms.macosx',
+    'plyer.platforms.macosx.libs',
 ]
 
 
