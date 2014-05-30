@@ -5,7 +5,7 @@ Python-for-android compilation:
 
 	./distribute.sh -m 'kivy plyer'
 	cd dist/default
-	./build.py --org.test.accelsimpleexample --name "Kivy Basic Accelerometer" \
+	./build.py --package org.test.accelsimpleexample --name "Kivy Basic Accelerometer" \
 		--dir /path/to/plyer/examples/accelerometer/basic --version 1.0 \
 		debug installd 
 
