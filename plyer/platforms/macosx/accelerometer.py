@@ -9,10 +9,10 @@ from plyer.platforms.macosx.libs import osx_motion_sensor
 class OSXAccelerometer(Accelerometer):
 
     def _enable(self):
-    	try:
-			osx_motion_sensor.get_coord()
+        try:
+            osx_motion_sensor.get_coord()
         except:
-        	raise Exception('Could not enable motion sensor on this macbook!')
+            raise Exception('Could not enable motion sensor on this macbook!')
 
     def _disable(self):
         pass

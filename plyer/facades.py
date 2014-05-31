@@ -23,7 +23,7 @@ class Accelerometer(object):
 
     def enable(self):
         '''Activate the accelerometer sensor. Throws an error if hardware is 
-        not available or not implemented.
+        not available or not implemented on.
         '''
         self._enable()
 
