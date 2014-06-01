@@ -11,7 +11,7 @@ Hardware = autoclass('org.renpy.Ios.Hardware')
 class IosCompass(Compass):
 
     def __init__(self):
-        super(IosAccelerometer, self).__init__()
+        super(IosCompass, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
         self.bridge.motionManager.magnetometerUpdateInterval_(0.1)
 
