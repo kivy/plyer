@@ -13,13 +13,13 @@ class IosCompass(Compass):
     def __init__(self):
         super(IosCompass, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
-        self.bridge.motionManager.magnetometerUpdateInterval_(0.1)
+        self.bridge.motionManager.setMagnetometerUpdateInterval_(0.1)
 
     def _enable(self):
-        self.bridge.startMagnetometerUpdates()
+        self.bridge.startMagnetometer()
 
     def _disable(self):
-        self.bridge.stopMagnetometerUpdates()
+        self.bridge.stopMagnetometer()
 
     def _get_orientation(self):
         return ( 
