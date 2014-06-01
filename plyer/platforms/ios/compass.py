@@ -10,7 +10,7 @@ Hardware = autoclass('org.renpy.Ios.Hardware')
 
 class IosCompass(Compass):
 
-	def __init__(self):
+    def __init__(self):
         super(IosAccelerometer, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
         self.bridge.motionManager.magnetometerUpdateInterval_(0.1)
@@ -23,9 +23,9 @@ class IosCompass(Compass):
 
     def _get_orientation(self):
         return ( 
-        	self.bridge.mg_x,
-        	self.bridge.mg_y,
-        	self.bridge.mg_z)
+            self.bridge.mg_x,
+            self.bridge.mg_y,
+            self.bridge.mg_z)
 
 def instance():
     return IosCompass()
