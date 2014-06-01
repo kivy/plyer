@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Kivy Basic Accelerometer
+title = Kivy Compass
 
 # (str) Package name
-package.name = accelbasicexample
+package.name = compassexample
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
