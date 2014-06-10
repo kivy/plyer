@@ -21,9 +21,7 @@ class AccelerometerSensorListener(PythonJavaClass):
         self.sensor = self.SensorManager.getDefaultSensor(
                 Sensor.TYPE_ACCELEROMETER)
         
-        self.ac_x = 0
-        self.ac_y = 0
-        self.ac_z = 0
+        self.values = [0, 0, 0]
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
@@ -38,9 +36,7 @@ class AccelerometerSensorListener(PythonJavaClass):
 
     @java_method('(Landroid/hardware/SensorEvent;)V')
     def onSensorChanged(self, event):
-        self.ac_x = event.values[0]
-        self.ac_y = event.values[1]
-        self.ac_z = event.values[2]
+        self.values = event.values[:3]
 
     @java_method('(Landroid/hardware/Sensor;I)V')
     def onAccuracyChanged(self, sensor, accuracy):
@@ -59,7 +55,7 @@ class AndroidAccelerometer(Accelerometer):
         self.listener.disable()
 
     def _get_acceleration(self):
-        return (self.listener.ac_x, self.listener.ac_y, self.listener.ac_z) 
+        return tuple(self.listener.values)
         
 def instance():
     return AndroidAccelerometer()
