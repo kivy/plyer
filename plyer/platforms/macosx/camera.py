@@ -20,7 +20,8 @@ class CaptureCameraImageSnap(Thread):
             pass
 
     def run(self):
-        subprocess.check_call([imagesnap, self.filename], stdout=subprocess.PIPE)
+        p = subprocess.Popen([imagesnap, self.filename])
+        p.wait()
         if(self.on_complete(self.filename)):
            self._unlink()
 
