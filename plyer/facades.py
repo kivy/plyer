@@ -7,7 +7,7 @@ Interface of all the features availables.
 '''
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
-           'TTS', 'Email', 'Vibrator')
+           'TTS', 'Email', 'Vibrator', 'PlaySound')
 
 
 class Accelerometer(object):
@@ -260,4 +260,29 @@ class Vibrator(object):
         self._cancel()
 
     def _cancel(self, **kwargs):
+        raise NotImplementedError()
+
+class PlaySound(object):
+    '''Play sound facade.
+    '''
+
+    def load(self, filename=None):
+        '''Play a sound using URI.
+
+        :param filename: Name of the sound file
+        :type filename: str
+        '''
+        self._load(filename=filename)
+
+    def play(self):
+        '''Plays the loaded sound file. 
+        '''
+        self._play()
+
+    # private
+
+    def _load(self, filename):
+        raise NotImplementedError()
+        
+    def _play(self):
         raise NotImplementedError()
