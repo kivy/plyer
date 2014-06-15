@@ -27,4 +27,5 @@ Notifications                      X             X                 X       X   X
 Text to speech                     X             X                 X       X   X
 Email (open mail client)                         X
 Vibrator                                         X
+Play Sound			   X             X		   X	   X   X
 ================================== ============= ============= === ======= === =====
