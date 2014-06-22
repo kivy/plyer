@@ -261,3 +261,27 @@ class Vibrator(object):
 
     def _cancel(self, **kwargs):
         raise NotImplementedError()
+
+class UniqueID(object):
+    '''UniqueID facade.
+
+    .. note::
+    On Android your app needs the READ_PHONE_STATE permission and it returns IMEI.
+        Mac OSX > 10.5, it returns the serial number of the device,
+        Linux, it returns the serial number using lshw, and
+        Windows, it reads and returns MachineGUID from regkey.
+    '''
+
+    @property
+    def id(self):
+        '''Property that returns the unique id of the platform
+        '''
+        return self.get_uid()
+
+    def get_uid(self):
+        return self._get_uid()
+
+    # private
+
+    def _get_uid(self, **kwargs):
+        raise NotImplementedError()
