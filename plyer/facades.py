@@ -7,7 +7,7 @@ Interface of all the features availables.
 '''
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
-           'TTS', 'Email', 'Vibrator', 'Sms')
+           'TTS', 'Email', 'Vibrator', 'Sms', 'Compass')
 
 
 class Accelerometer(object):
@@ -263,6 +263,7 @@ class Vibrator(object):
     def _cancel(self, **kwargs):
         raise NotImplementedError()
 
+
 class Sms(object):
     '''Sms facade.
 
@@ -278,4 +279,39 @@ class Sms(object):
     # private
 
     def _send(self, **kwargs):
+
+
+class Compass(object):
+    '''Compass facade.
+    '''
+
+    @property
+    def orientation(self):
+        '''Property that returns values of the current compass 
+        (magnetific field) sensors, as a (x, y, z) tuple
+        '''
+        return self.get_orientation()
+
+    def enable(self):
+        '''Activate the compass sensor
+        '''
+        self._enable()
+
+    def disable(self):
+        '''Disable the compass sensor
+        '''
+        self._disable()
+
+    def get_orientation(self):
+        return self._get_orientation()
+
+    # private
+
+    def _enable(self):
+        raise NotImplementedError()
+
+    def _disable(self):
+        raise NotImplementedError()
+
+    def _get_orientation(self):
         raise NotImplementedError()

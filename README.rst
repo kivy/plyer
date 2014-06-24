@@ -28,4 +28,5 @@ Text to speech                     X             X                 X       X   X
 Email (open mail client)                         X
 Vibrator                                         X
 Sms (send messages)                              X
+Compass						 X
 ================================== ============= ============= === ======= === =====

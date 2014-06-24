@@ -1,0 +1,17 @@
+Compass example.
+
+
+Python-for-android compilation:
+
+	./distribute.sh -m 'kivy plyer'
+	cd dist/default
+	./build.py --package org.test.compassexample --name "Kivy Compass" \
+		--dir /path/to/plyer/examples/compass --version 1.0 \
+		debug installd 
+
+
+Buildozer:
+
+	cd /path/to/plyer/examples/compass
+	# edit the buildozer.spec if required, then
+	buildozer android debug deploy run
