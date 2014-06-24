@@ -28,6 +28,6 @@ Text to speech                     X             X                 X       X   X
 Email (open mail client)                         X
 Vibrator                                         X
 Sms (send messages)                              X
-Compass                            X
+Compass                            X             X             X
 Unique ID (IMEI or SN)             X             X                 X       X   X
 ================================== ============= ============= === ======= === =====
