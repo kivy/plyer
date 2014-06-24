@@ -30,5 +30,5 @@ Vibrator                                         X
 Sms (send messages)                              X
 Compass                            X             X             X
 Unique ID (IMEI or SN)             X             X                 X       X   X
-Gyroscope                          X             X
+Gyroscope                          X             X             X
 ================================== ============= ============= === ======= === =====
