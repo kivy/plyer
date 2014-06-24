@@ -269,8 +269,11 @@ class Sms(object):
     '''Sms facade.
 
     .. note::
+
         On Android your app needs the SEND_SMS permission in order
         send sms messages.
+
+    .. versionadded:: 1.2.0
 
     '''
 
@@ -285,6 +288,8 @@ class Sms(object):
 
 class Compass(object):
     '''Compass facade.
+
+    .. versionadded:: 1.2.0
     '''
 
     @property
@@ -321,6 +326,8 @@ class Compass(object):
 
 class Gyroscope(object):
     '''Gyroscope facade.
+
+    .. versionadded:: 1.2.0
     '''
 
     @property
@@ -366,6 +373,7 @@ class UniqueID(object):
         * Linux, it returns the serial number using lshw
         * Windows, it reads and returns MachineGUID from regkey.
 
+    .. versionadded:: 1.2.0
     '''
 
     @property
