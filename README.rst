@@ -11,7 +11,7 @@ Plyer tries not to reinvent the wheel, and will call for external libraries to
 implement the api in the easiest way, depending on the current platform.
 
 - on python-for-android, pyjnius is used
-- on kivy-ios, pyobjius is used
+- on kivy-ios, pyobjus is used
 - on windows/mac/linux, commonly found libraries and programs will be used
 
 Support
