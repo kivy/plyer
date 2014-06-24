@@ -7,7 +7,8 @@ Interface of all the features availables.
 '''
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
-           'TTS', 'Email', 'Vibrator', 'Sms', 'Compass')
+           'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
+           'Gyroscope', 'UniqueID')
 
 
 class Accelerometer(object):
@@ -300,6 +301,42 @@ class Compass(object):
 
     def disable(self):
         '''Disable the compass sensor
+        '''
+        self._disable()
+
+    def get_orientation(self):
+        return self._get_orientation()
+
+    # private
+
+    def _enable(self):
+        raise NotImplementedError()
+
+    def _disable(self):
+        raise NotImplementedError()
+
+    def _get_orientation(self):
+        raise NotImplementedError()
+
+
+class Gyroscope(object):
+    '''Gyroscope facade.
+    '''
+
+    @property
+    def orientation(self):
+        '''Property that returns values of the current Gyroscope sensors, as
+        a (x, y, z) tuple
+        '''
+        return self.get_orientation()
+
+    def enable(self):
+        '''Activate the Gyroscope sensor
+        '''
+        self._enable()
+
+    def disable(self):
+        '''Disable the Gyroscope sensor
         '''
         self._disable()
 
