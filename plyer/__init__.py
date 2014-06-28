@@ -5,7 +5,8 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'camera', 'gps', 'notification', 
-			'tts', 'email', 'vibrator', 'sms', 'compass', 'uniqueid')
+            'tts', 'email', 'vibrator', 'sms', 'compass', 
+            'gyroscope', 'uniqueid', 'battery')
 
 __version__ = '1.2.0'
 
@@ -51,3 +52,7 @@ compass = Proxy(
 #: UniqueID proxy to :class:`plyer.facades.UniqueID`
 uniqueid = Proxy(
     'uniqueid', facades.UniqueID)
+
+#: Battery proxy to :class:`plyer.facades.Battery`
+battery = Proxy(
+    'battery', facades.Battery)

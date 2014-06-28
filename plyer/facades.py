@@ -8,7 +8,7 @@ Interface of all the features availables.
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
            'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
-           'Gyroscope', 'UniqueID')
+           'Gyroscope', 'UniqueID', 'Battery')
 
 
 class Accelerometer(object):
@@ -389,3 +389,7 @@ class UniqueID(object):
 
     def _get_uid(self, **kwargs):
         raise NotImplementedError()
+
+
+class Battery(object):
+    pass
