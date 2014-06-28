@@ -392,4 +392,25 @@ class UniqueID(object):
 
 
 class Battery(object):
-    pass
+    '''Battery info facade.
+
+        Returns a status dictionary with supported information.
+        If any of the fields is not readable, it is set as None.
+    '''
+
+    @property
+    def status(self):
+        '''Property that returns a dictionary with following keys:
+            - connected: Connected to power supply; boolean
+            - percentage: Percentage charge remaining
+            - time: Time remaining on charge, if available; In hours
+        '''
+        pass
+
+    def get_status(self):
+        return self._get_status()
+
+    #private
+
+    def _get_status(self):
+        raise NotImplementedError()

@@ -49,6 +49,10 @@ sms = Proxy(
 compass = Proxy(
     'compass', facades.Compass)
 
+#: Gyroscope proxy to :class:`plyer.facades.Gyroscope`
+gyroscope = Proxy(
+    'Gyroscope', facades.Gyroscope)
+
 #: UniqueID proxy to :class:`plyer.facades.UniqueID`
 uniqueid = Proxy(
     'uniqueid', facades.UniqueID)
