@@ -25,7 +25,7 @@ Camera (taking picture)            X             X
 GPS                                X             X
 Notifications                      X             X                 X       X   X
 Text to speech                     X             X                 X       X   X
-Email (open mail client)                         X
+Email (open mail client)                         X                 X       X   X
 Vibrator                                         X
 Sms (send messages)                              X
 Compass                            X             X             X
