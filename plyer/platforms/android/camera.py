@@ -1,3 +1,6 @@
+
+import android
+import android.activity
 from os import unlink
 from jnius import autoclass, cast
 from plyer.facades import Camera
@@ -15,8 +18,8 @@ class AndroidCamera(Camera):
         assert(on_complete is not None)
         self.on_complete = on_complete
         self.filename = filename
-        activity.unbind(on_activity_result=self._on_activity_result)
-        activity.bind(on_activity_result=self._on_activity_result)
+        android.activity.unbind(on_activity_result=self._on_activity_result)
+        android.activity.bind(on_activity_result=self._on_activity_result)
         intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         uri = Uri.parse('file://' + filename)
         parcelable = cast('android.os.Parcelable', uri)
@@ -26,7 +29,7 @@ class AndroidCamera(Camera):
     def _on_activity_result(self, requestCode, resultCode, intent):
         if requestCode != 0x123:
             return
-        activity.unbind(on_activity_result=self._on_activity_result)
+        android.activity.unbind(on_activity_result=self._on_activity_result)
         if self.on_complete(self.filename):
             self._unlink(self.filename)
 
