@@ -401,11 +401,10 @@ class Battery(object):
     @property
     def status(self):
         '''Property that returns a dictionary with following keys:
-            - connected: Connected to power supply; boolean
-            - percentage: Percentage charge remaining
-            - time: Time remaining on charge, if available; In hours
+            - connected: Connected to power supply as a boolean
+            - percentage: Percentage charge remaining in float
         '''
-        pass
+        return self.get_status()
 
     def get_status(self):
         return self._get_status()
