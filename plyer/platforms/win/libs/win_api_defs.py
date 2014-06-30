@@ -177,3 +177,20 @@ DestroyWindow.restype = BOOL
 LoadIconW = windll.User32.LoadIconW
 LoadIconW.argtypes = [HINSTANCE, LPCWSTR]
 LoadIconW.restype = HICON
+
+
+class SYSTEM_POWER_STATUS(ctypes.Structure):
+    _fields_ = [
+        ('ACLineStatus', BYTE),
+        ('BatteryFlag', BYTE),
+        ('BatteryLifePercent', BYTE),
+        ('Reserved1', BYTE),
+        ('BatteryLifeTime', DWORD),
+        ('BatteryFullLifeTime', DWORD),
+    ]
+
+SystemPowerStatusP = ctypes.POINTER(SYSTEM_POWER_STATUS)
+
+GetSystemPowerStatus = ctypes.windll.kernel32.GetSystemPowerStatus
+GetSystemPowerStatus.argtypes = [SystemPowerStatusP]
+GetSystemPowerStatus.restype = BOOL

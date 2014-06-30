@@ -8,7 +8,7 @@ Interface of all the features availables.
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
            'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
-           'Gyroscope', 'UniqueID')
+           'Gyroscope', 'UniqueID', 'Battery')
 
 
 class Accelerometer(object):
@@ -388,4 +388,28 @@ class UniqueID(object):
     # private
 
     def _get_uid(self, **kwargs):
+        raise NotImplementedError()
+
+
+class Battery(object):
+    '''Battery info facade.
+
+        Returns a status dictionary with supported information.
+        If any of the fields is not readable, it is set as None.
+    '''
+
+    @property
+    def status(self):
+        '''Property that returns a dictionary with following keys:
+            - connected: Connected to power supply as a boolean
+            - percentage: Percentage charge remaining in float
+        '''
+        return self.get_status()
+
+    def get_status(self):
+        return self._get_status()
+
+    #private
+
+    def _get_status(self):
         raise NotImplementedError()
