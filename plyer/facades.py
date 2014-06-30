@@ -2,7 +2,7 @@
 Facades
 =======
 
-Interface of all the features availables.
+Interface of all the features available.
 
 '''
 
@@ -18,18 +18,18 @@ class Accelerometer(object):
     @property
     def acceleration(self):
         '''Property that returns values of the current acceleration sensors, as
-        a (x, y, z) tuple
+        a (x, y, z) tuple.
         '''
         return self.get_acceleration()
 
     def enable(self):
-        '''Activate the accelerometer sensor. Throws an error if hardware is 
+        '''Activate the accelerometer sensor. Throws an error if the hardware is 
         not available or not implemented on.
         '''
         self._enable()
 
     def disable(self):
-        '''Disable the accelerometer sensor
+        '''Disable the accelerometer sensor.
         '''
         self._disable()
 
@@ -55,8 +55,8 @@ class Camera(object):
     def take_picture(self, filename, on_complete):
         '''Ask the OS to capture a picture, and store it at filename.
 
-        When the capture is done, on_complete will be called with the filename
-        as argument. If the callback returns True, the filename will be unlink.
+        When the capture is done, on_complete will be called with the filename as
+        an argument. If the callback returns True, the filename will be unlinked.
 
         :param filename: Name of the image file
         :param on_complete: Callback that will be called when the operation is
@@ -150,13 +150,13 @@ class GPS(object):
     .. versionadded:: 1.1
 
     You need to set a `on_location` callback with the :meth:`configure` method.
-    This callback will receive a couple of keywords / value, that might be
-    different depending of their availability on the targetted platform.
+    This callback will receive a couple of keywords / values, that might be
+    different depending of their availability on the targeted platform.
     Lat and lon are always available.
 
     - lat: latitude of the last location, in degrees
     - lon: longitude of the last location, in degrees
-    - speed: speed of the user, in meters/seconds over ground
+    - speed: speed of the user, in meters/second over ground
     - bearing: bearing in degrees
     - altitude: altitude in meters above the sea level
 
@@ -192,12 +192,12 @@ class GPS(object):
         self._configure()
 
     def start(self):
-        '''Start the GPS locations updates
+        '''Start the GPS location updates.
         '''
         self._start()
 
     def stop(self):
-        '''Stop the GPS locations updates
+        '''Stop the GPS location updates.
         '''
         self._stop()
 
@@ -270,7 +270,7 @@ class Sms(object):
 
     .. note::
 
-        On Android your app needs the SEND_SMS permission in order
+        On Android your app needs the SEND_SMS permission in order to
         send sms messages.
 
     .. versionadded:: 1.2.0
@@ -295,17 +295,17 @@ class Compass(object):
     @property
     def orientation(self):
         '''Property that returns values of the current compass 
-        (magnetific field) sensors, as a (x, y, z) tuple
+        (magnetic field) sensors, as a (x, y, z) tuple.
         '''
         return self.get_orientation()
 
     def enable(self):
-        '''Activate the compass sensor
+        '''Activate the compass sensor.
         '''
         self._enable()
 
     def disable(self):
-        '''Disable the compass sensor
+        '''Disable the compass sensor.
         '''
         self._disable()
 
@@ -333,17 +333,17 @@ class Gyroscope(object):
     @property
     def orientation(self):
         '''Property that returns values of the current Gyroscope sensors, as
-        a (x, y, z) tuple
+        a (x, y, z) tuple.
         '''
         return self.get_orientation()
 
     def enable(self):
-        '''Activate the Gyroscope sensor
+        '''Activate the Gyroscope sensor.
         '''
         self._enable()
 
     def disable(self):
-        '''Disable the Gyroscope sensor
+        '''Disable the Gyroscope sensor.
         '''
         self._disable()
 
@@ -378,7 +378,7 @@ class UniqueID(object):
 
     @property
     def id(self):
-        '''Property that returns the unique id of the platform
+        '''Property that returns the unique id of the platform.
         '''
         return self.get_uid()
 
