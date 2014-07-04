@@ -19,7 +19,6 @@ HRESULT = HANDLE
 HCURSOR = HICON
 
 
-
 class GUID(Structure):
     _fields_ = [
         ('Data1', DWORD),
@@ -38,10 +37,12 @@ class DLLVERSIONINFO(Structure):
         ('dwPlatformID', DWORD),
     ]
 
+
 def get_DLLVERSIONINFO(*largs):
     version_info = DLLVERSIONINFO(*largs)
     version_info.cbSize = sizeof(DLLVERSIONINFO)
     return version_info
+
 
 def MAKEDLLVERULL(major, minor, build, sp):
     return (major << 48) | (minor << 32) | (build << 16) | sp
@@ -65,6 +66,7 @@ NOTIFYICONDATAW_fields = [
     ("hBalloonIcon", HICON),
 ]
 
+
 class NOTIFYICONDATAW(Structure):
     _fields_ = NOTIFYICONDATAW_fields[:]
 
@@ -80,9 +82,11 @@ class NOTIFYICONDATAW_V2(Structure):
 class NOTIFYICONDATAW_V1(Structure):
     _fields_ = NOTIFYICONDATAW_fields[:6]
 
+
 NOTIFYICONDATA_V3_SIZE = sizeof(NOTIFYICONDATAW_V3)
 NOTIFYICONDATA_V2_SIZE = sizeof(NOTIFYICONDATAW_V2)
 NOTIFYICONDATA_V1_SIZE = sizeof(NOTIFYICONDATAW_V1)
+
 
 def get_NOTIFYICONDATAW(*largs):
     notify_data = NOTIFYICONDATAW(*largs)
@@ -140,6 +144,7 @@ class WNDCLASSEXW(Structure):
         ('lpszClassName', LPCWSTR),
         ('hIconSm', HICON),
     ]
+
 
 def get_WNDCLASSEXW(*largs):
     wnd_class = WNDCLASSEXW(*largs)
