@@ -23,7 +23,7 @@ class Accelerometer(object):
         return self.get_acceleration()
 
     def enable(self):
-        '''Activate the accelerometer sensor. Throws an error if hardware is 
+        '''Activate the accelerometer sensor. Throws an error if hardware is
         not available or not implemented on.
         '''
         self._enable()
@@ -219,7 +219,6 @@ class Vibrator(object):
     .. note::
         On Android your app needs the VIBRATE permission to
         access the vibrator.
-
     '''
 
     def vibrate(self, time=1):
@@ -237,13 +236,15 @@ class Vibrator(object):
         optional repeat.
 
         :param pattern: Pattern to vibrate with. Should be a list of
-        times in seconds. The first number is how long to wait before
-        vibrating, and subsequent numbers are times to vibrate and not
-        vibrate alternately. Defaults to ``[0, 1]``.
+            times in seconds. The first number is how long to wait
+            before vibrating, and subsequent numbers are times to
+            vibrate and not vibrate alternately.
+            Defaults to ``[0, 1]``.
 
         :param repeat: Index at which to repeat the pattern. When the
-        vibration pattern reaches this index, it will start again from
-        the beginning. Defaults to ``-1``, which means no repeat.
+            vibration pattern reaches this index, it will start again
+            from the beginning. Defaults to ``-1``, which means no
+            repeat.
         '''
         self._pattern(pattern=pattern, repeat=repeat)
 
@@ -251,7 +252,9 @@ class Vibrator(object):
         raise NotImplementedError()
 
     def exists(self):
-        '''Check if the device has a vibrator. Returns True or False.'''
+        '''Check if the device has a vibrator. Returns True or
+            False.
+        '''
         return self._exists()
 
     def _exists(self, **kwargs):
@@ -294,7 +297,7 @@ class Compass(object):
 
     @property
     def orientation(self):
-        '''Property that returns values of the current compass 
+        '''Property that returns values of the current compass
         (magnetific field) sensors, as a (x, y, z) tuple
         '''
         return self.get_orientation()
@@ -332,8 +335,8 @@ class Gyroscope(object):
 
     @property
     def orientation(self):
-        '''Property that returns values of the current Gyroscope sensors, as
-        a (x, y, z) tuple
+        '''Property that returns values of the current Gyroscope
+        sensors, as a (x, y, z) tuple
         '''
         return self.get_orientation()
 
@@ -365,13 +368,15 @@ class Gyroscope(object):
 class UniqueID(object):
     '''UniqueID facade.
 
-    .. note::
+    Returns the following depending on the platform:
 
-        * On Android your app needs the READ_PHONE_STATE permission and it
-          returns IMEI
-        * Mac OSX > 10.5, it returns the serial number of the device
-        * Linux, it returns the serial number using lshw
-        * Windows, it reads and returns MachineGUID from regkey.
+    * **Android**: IMEI
+    * **Mac OSX**: Serial number of the device
+    * **Linux**: Serial number using lshw
+    * **Windows**: MachineGUID from regkey
+
+    .. note::
+        On Android your app needs the READ_PHONE_STATE permission
 
     .. versionadded:: 1.2.0
     '''
@@ -392,17 +397,17 @@ class UniqueID(object):
 
 
 class Battery(object):
-    '''Battery info facade.
-
-        Returns a status dictionary with supported information.
-        If any of the fields is not readable, it is set as None.
-    '''
+    '''Battery info facade.'''
 
     @property
     def status(self):
-        '''Property that returns a dictionary with following keys:
-            - connected: Connected to power supply as a boolean
-            - percentage: Percentage charge remaining in float
+        '''Property that contains a dict with the following fields:
+             * **connected** *(bool)*: Whether to power supply
+             * **percentage** *(float)*: Battery charge remaining
+
+            .. warning::
+                If any of the fields is not readable, it is set as
+                None.
         '''
         return self.get_status()
 
