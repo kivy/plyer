@@ -31,5 +31,5 @@ Sms (send messages)                              X
 Compass                            X             X             X
 Unique ID (IMEI or SN)             X             X                 X       X   X
 Gyroscope                          X             X             X
-Battery                            X             X             X           X   X
+Battery                            X             X                 X       X   X
 ================================== ============= ============= === ======= === =====
