@@ -57,10 +57,8 @@ if __name__ == '__main__':
         return checker.check_all()
 
     errors = 0
-    exclude_dirs = ['/lib', '/coverage', '/pep8', '/doc']
-    exclude_files = ['kivy/gesture.py', 'osx/build.py', 'win32/build.py',
-                     'kivy/tools/stub-gl-debug.py',
-                     'kivy/modules/webdebugger.py']
+    exclude_dirs = ['/pep8', '/doc']
+    exclude_files = []
     for target in targets:
         if isdir(target):
             if htmlmode:
