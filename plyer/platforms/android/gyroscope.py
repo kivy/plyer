@@ -11,16 +11,17 @@ Context = autoclass('android.content.Context')
 Sensor = autoclass('android.hardware.Sensor')
 SensorManager = autoclass('android.hardware.SensorManager')
 
+
 class GyroscopeSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
         super(GyroscopeSensorListener, self).__init__()
-        self.SensorManager = cast('android.hardware.SensorManager', 
+        self.SensorManager = cast('android.hardware.SensorManager',
                     activity.getSystemService(Context.SENSOR_SERVICE))
         self.sensor = self.SensorManager.getDefaultSensor(
                 Sensor.TYPE_GYROSCOPE)
-        
+
         self.values = [0, 0, 0]
 
     def enable(self):
@@ -40,8 +41,9 @@ class GyroscopeSensorListener(PythonJavaClass):
 
     @java_method('(Landroid/hardware/Sensor;I)V')
     def onAccuracyChanged(self, sensor, accuracy):
-        # Maybe, do something in future? 
-        pass 
+        # Maybe, do something in future?
+        pass
+
 
 class AndroidGyroscope(Gyroscope):
     def __init__(self):
@@ -56,6 +58,7 @@ class AndroidGyroscope(Gyroscope):
 
     def _get_orientation(self):
         return tuple(self.listener.values)
+
 
 def instance():
     return AndroidGyroscope()

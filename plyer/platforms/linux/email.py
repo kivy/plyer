@@ -2,6 +2,7 @@ import subprocess
 from urllib import quote
 from plyer.facades import Email
 
+
 class LinuxEmail(Email):
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')

@@ -6,17 +6,18 @@ Intent = autoclass('android.content.Intent')
 BatteryManager = autoclass('android.os.BatteryManager')
 IntentFilter = autoclass('android.content.IntentFilter')
 
+
 class AndroidBattery(Battery):
     def _get_status(self):
         status = {"connected": None, "percentage": None}
 
         ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
 
-        batteryStatus = cast('android.content.Intent', 
+        batteryStatus = cast('android.content.Intent',
             activity.registerReceiver(None, ifilter))
 
         query = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-        isCharging = (query == BatteryManager.BATTERY_STATUS_CHARGING or \
+        isCharging = (query == BatteryManager.BATTERY_STATUS_CHARGING or
                      query == BatteryManager.BATTERY_STATUS_FULL)
 
         level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
@@ -27,6 +28,7 @@ class AndroidBattery(Battery):
         status['percentage'] = percentage
 
         return status
-        
+
+
 def instance():
     return AndroidBattery()

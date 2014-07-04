@@ -3,6 +3,7 @@ import Foundation
 import objc
 import AppKit
 
+
 class OSXNotification(Notification):
     def _notify(self, **kwargs):
         NSUserNotification = objc.lookUpClass('NSUserNotification')
@@ -15,9 +16,10 @@ class OSXNotification(Notification):
         #notification.setHasActionButton_(False)
         #notification.setOtherButtonTitle_("View")
         #notification.setUserInfo_({"action":"open_url", "value":url})
-        NSUserNotificationCenter.defaultUserNotificationCenter().setDelegate_(self)
-        NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)
-
+        NSUserNotificationCenter.defaultUserNotificationCenter() \
+                            .setDelegate_(self)
+        NSUserNotificationCenter.defaultUserNotificationCenter() \
+                            .scheduleNotification_(notification)
 
 
 def instance():

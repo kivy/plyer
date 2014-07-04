@@ -8,6 +8,7 @@ from jnius import autoclass
 
 Hardware = autoclass('org.renpy.Ios.Hardware')
 
+
 class IosGyroscope(Gyroscope):
 
     def __init__(self):
@@ -22,10 +23,11 @@ class IosGyroscope(Gyroscope):
         self.bridge.stopGyroscope()
 
     def _get_orientation(self):
-        return ( 
+        return (
             self.bridge.gy_x,
             self.bridge.gy_y,
             self.bridge.gy_z)
+
 
 def instance():
     return IosGyroscope()

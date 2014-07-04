@@ -13,6 +13,7 @@ from sys import platform as _sys_platform
 _platform_ios = None
 _platform_android = None
 
+
 def _determine_platform():
     global _platform_ios, _platform_android
 
@@ -66,7 +67,8 @@ class Proxy(object):
             mod = __import__(module, fromlist='.')
             obj = mod.instance()
         except:
-            import traceback; traceback.print_exc()
+            import traceback
+            traceback.print_exc()
             facade = object.__getattribute__(self, '_facade')
             obj = facade()
 

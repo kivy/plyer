@@ -61,7 +61,8 @@ class _LocationListener(PythonJavaClass):
             elif status == 0x02:
                 s_status = 'available'
             self.root.on_status('provider-status', '{}: {}'.format(
-                provider, s_status)) 
+                provider, s_status))
+
 
 class AndroidGPS(GPS):
 
@@ -77,8 +78,8 @@ class AndroidGPS(GPS):
         for provider in providers:
             self._location_manager.requestLocationUpdates(
                 "gps",
-                1000, # minTime, in milliseconds
-                1, # minDistance, in meters
+                1000,  # minTime, in milliseconds
+                1,  # minDistance, in meters
                 self._location_listener,
                 Looper.getMainLooper())
 

@@ -1,6 +1,7 @@
 from plyer.platforms.win.libs.batterystatus import battery_status
 from plyer.facades import Battery
 
+
 class WinBattery(Battery):
     def _get_status(self):
         status = {"connected": None, "percentage": None}
@@ -14,6 +15,7 @@ class WinBattery(Battery):
         status["percentage"] = query["BatteryLifePercent"]
 
         return status
-        
+
+
 def instance():
     return WinBattery()
