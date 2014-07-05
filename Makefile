@@ -11,9 +11,6 @@ force:
 debug:
 	$(PYTHON) setup.py build_ext --inplace -f -g
 
-mesabuild:
-	/usr/bin/env USE_MESAGL=1 $(PYTHON) setup.py build_ext --inplace
-
 pdf:
 	$(MAKE) -C docs latex && make -C docs/build/latex all-pdf
 
