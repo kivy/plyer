@@ -1,4 +1,3 @@
-
 import android
 import android.activity
 from os import unlink
@@ -38,6 +37,7 @@ class AndroidCamera(Camera):
             unlink(fn)
         except:
             pass
+
 
 def instance():
     return AndroidCamera()

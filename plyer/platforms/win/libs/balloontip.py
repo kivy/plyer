@@ -63,9 +63,9 @@ class WindowsBalloonTip(object):
         wnd_class_ex.lpszClassName = class_name
         # keep ref to it as long as window is alive
         wnd_class_ex.lpfnWndProc =\
-        win_api_defs.WindowProc(win_api_defs.DefWindowProcW)
+            win_api_defs.WindowProc(win_api_defs.DefWindowProcW)
         wnd_class_ex.hInstance = win_api_defs.GetModuleHandleW(None)
-        if wnd_class_ex.hInstance == None:
+        if wnd_class_ex.hInstance is None:
             raise Exception('Could not get windows module instance.')
         class_atom = win_api_defs.RegisterClassExW(wnd_class_ex)
         if class_atom == 0:
@@ -77,7 +77,7 @@ class WindowsBalloonTip(object):
         self._hwnd = win_api_defs.CreateWindowExW(0, class_atom,
             '', WS_OVERLAPPED, 0, 0, CW_USEDEFAULT,
             CW_USEDEFAULT, None, None, wnd_class_ex.hInstance, None)
-        if self._hwnd == None:
+        if self._hwnd is None:
             raise Exception('Could not get create window.')
         win_api_defs.UpdateWindow(self._hwnd)
 

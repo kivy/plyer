@@ -12,13 +12,13 @@ class AndroidVibrator(Vibrator):
         time = kwargs.get('time')
 
         if vibrator:
-            vibrator.vibrate(int(1000*time))
+            vibrator.vibrate(int(1000 * time))
 
     def _pattern(self, **kwargs):
         pattern = kwargs.get('pattern')
         repeat = kwargs.get('repeat')
 
-        pattern = [int(1000*time) for time in pattern]
+        pattern = [int(1000 * time) for time in pattern]
 
         if vibrator:
             vibrator.vibrate(pattern, repeat)

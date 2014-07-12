@@ -2,6 +2,7 @@ import os
 from urllib import quote
 from plyer.facades import Email
 
+
 class WindowsEmail(Email):
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')

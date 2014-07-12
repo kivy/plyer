@@ -2,7 +2,8 @@
 iOS accelerometer
 -----------------
 
-Taken from: https://pyobjus.readthedocs.org/en/latest/pyobjus_ios.html#accessing-accelerometer
+Taken from: http://pyobjus.readthedocs.org/en/latest/pyobjus_ios.html \
+            #accessing-accelerometer
 '''
 
 from plyer.facades import Accelerometer
@@ -27,6 +28,7 @@ class IosAccelerometer(Accelerometer):
             self.bridge.ac_x,
             self.bridge.ac_y,
             self.bridge.ac_z)
+
 
 def instance():
     return IosAccelerometer()

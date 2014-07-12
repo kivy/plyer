@@ -8,6 +8,7 @@ from jnius import autoclass
 
 Hardware = autoclass('org.renpy.Ios.Hardware')
 
+
 class IosCompass(Compass):
 
     def __init__(self):
@@ -22,10 +23,11 @@ class IosCompass(Compass):
         self.bridge.stopMagnetometer()
 
     def _get_orientation(self):
-        return ( 
+        return (
             self.bridge.mg_x,
             self.bridge.mg_y,
             self.bridge.mg_z)
+
 
 def instance():
     return IosCompass()

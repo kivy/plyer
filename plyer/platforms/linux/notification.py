@@ -8,8 +8,9 @@ class NotifySendNotification(Notification):
     '''
     def _notify(self, **kwargs):
         subprocess.call(["notify-send",
-                         kwargs.get('title'), 
+                         kwargs.get('title'),
                          kwargs.get('message')])
+
 
 class NotifyDbus(Notification):
     ''' notify using dbus interface
@@ -35,6 +36,7 @@ class NotifyDbus(Notification):
         interface = dbus.Interface(obj, _interface_name)
         interface.Notify(app_name, replaces_id, app_icon,
             summary, body, actions, hints, timeout)
+
 
 def instance():
     import sys
