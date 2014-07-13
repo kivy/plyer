@@ -43,7 +43,7 @@ class MagneticFieldSensorListener(PythonJavaClass):
 
 class AndroidCompass(Compass):
     def __init__(self):
-        super(AndroidAccelerometer, self).__init__()
+        super(AndroidCompass, self).__init__()
         self.listener = MagneticFieldSensorListener()
 
     def _enable(self):
