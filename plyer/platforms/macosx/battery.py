@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
+from plyer.utils import whereis_exe
 
 
 class OSXBattery(Battery):

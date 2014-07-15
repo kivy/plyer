@@ -1,6 +1,7 @@
 import subprocess
 from urllib import quote
 from plyer.facades import Email
+from plyer.utils import whereis_exe
 
 
 class LinuxEmail(Email):

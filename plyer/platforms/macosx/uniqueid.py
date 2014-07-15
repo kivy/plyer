@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import UniqueID
+from plyer.utils import whereis_exe
 
 
 class OSXUniqueID(UniqueID):
