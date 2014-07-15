@@ -23,4 +23,3 @@ def instance():
         return LinuxUniqueID()
     sys.stderr.write("lshw not found.")
     return UniqueID()
-
