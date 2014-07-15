@@ -26,4 +26,8 @@ class MacOSXEmail(Email):
 
 
 def instance():
-    return MacOSXEmail()
+    import sys
+    if whereis_exe('open'):
+        return MacOSXEmail()
+    sys.stderr.write("open not found.")
+    return Email()

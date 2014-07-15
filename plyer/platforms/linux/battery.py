@@ -31,4 +31,8 @@ class LinuxBattery(Battery):
 
 
 def instance():
-    return LinuxBattery()
+    import sys
+    if whereis_exe('upower'):
+        return LinuxBattery()
+    sys.stderr.write("upower not found.")
+    return Battery()

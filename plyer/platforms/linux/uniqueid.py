@@ -17,4 +17,10 @@ class LinuxUniqueID(UniqueID):
 
 
 def instance():
-    return LinuxUniqueID()
+    import sys
+    if whereis_exe('lshw'):
+        return LinuxUniqueID()
+    sys.stderr.write("lshw not found.")
+    return UniqueID()
+
+

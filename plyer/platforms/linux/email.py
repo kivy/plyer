@@ -26,4 +26,8 @@ class LinuxEmail(Email):
 
 
 def instance():
-    return LinuxEmail()
+    import sys
+    if whereis_exe('xdg-open'):
+        return LinuxEmail()
+    sys.stderr.write("xdg-open not found.")
+    return Email()

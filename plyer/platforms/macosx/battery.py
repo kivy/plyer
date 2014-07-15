@@ -32,4 +32,8 @@ class OSXBattery(Battery):
 
 
 def instance():
-    return OSXBattery()
+    import sys
+    if whereis_exe('ioreg'):
+        return OSXBattery()
+    sys.stderr.write("ioreg not found.")
+    return Battery()

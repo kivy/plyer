@@ -17,4 +17,8 @@ class OSXUniqueID(UniqueID):
 
 
 def instance():
-    return OSXUniqueID()
+    import sys
+    if whereis_exe('ioreg'):
+        return OSXUniqueID()
+    sys.stderr.write("ioreg not found.")
+    return UniqueID()
