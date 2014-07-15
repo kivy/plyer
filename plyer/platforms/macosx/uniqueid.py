@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import UniqueID
+from plyer.utils import whereis_exe
 
 
 class OSXUniqueID(UniqueID):
@@ -17,4 +18,8 @@ class OSXUniqueID(UniqueID):
 
 
 def instance():
-    return OSXUniqueID()
+    import sys
+    if whereis_exe('ioreg'):
+        return OSXUniqueID()
+    sys.stderr.write("ioreg not found.")
+    return UniqueID()

@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
+from plyer.utils import whereis_exe
 
 
 class LinuxBattery(Battery):
@@ -31,4 +32,8 @@ class LinuxBattery(Battery):
 
 
 def instance():
-    return LinuxBattery()
+    import sys
+    if whereis_exe('upower'):
+        return LinuxBattery()
+    sys.stderr.write("upower not found.")
+    return Battery()

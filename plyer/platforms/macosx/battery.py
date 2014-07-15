@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
+from plyer.utils import whereis_exe
 
 
 class OSXBattery(Battery):
@@ -32,4 +33,8 @@ class OSXBattery(Battery):
 
 
 def instance():
-    return OSXBattery()
+    import sys
+    if whereis_exe('ioreg'):
+        return OSXBattery()
+    sys.stderr.write("ioreg not found.")
+    return Battery()

@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from plyer.facades import UniqueID
+from plyer.utils import whereis_exe
 
 
 class LinuxUniqueID(UniqueID):
@@ -17,4 +18,8 @@ class LinuxUniqueID(UniqueID):
 
 
 def instance():
-    return LinuxUniqueID()
+    import sys
+    if whereis_exe('lshw'):
+        return LinuxUniqueID()
+    sys.stderr.write("lshw not found.")
+    return UniqueID()
