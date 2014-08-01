@@ -34,7 +34,7 @@ class AccelerometerTest(BoxLayout):
             self.ids.accel_status.text = "Accelerometer is not implemented for your platform"
 
     def get_acceleration(self, dt):
-        val = accelerometer.acceleration
+        val = accelerometer.acceleration[:3]
 
         if(not val == (None, None, None)):
             self.ids.x_label.text = "X: " + str(val[0])
