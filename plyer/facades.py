@@ -18,7 +18,7 @@ class Accelerometer(object):
     @property
     def acceleration(self):
         '''Property that returns values of the current acceleration
-        sensors, as a (x, y, z) tuple. Returns (None, None, None) 
+        sensors, as a (x, y, z) tuple. Returns (None, None, None)
         if no data is currently available.
         '''
         return self.get_acceleration()
@@ -300,7 +300,7 @@ class Compass(object):
     @property
     def orientation(self):
         '''Property that returns values of the current compass
-        (magnetic field) sensors, as a (x, y, z) tuple. 
+        (magnetic field) sensors, as a (x, y, z) tuple.
         Returns (None, None, None) if no data is currently available.
         '''
         return self.get_orientation()
@@ -339,7 +339,7 @@ class Gyroscope(object):
     @property
     def orientation(self):
         '''Property that returns values of the current Gyroscope sensors, as
-        a (x, y, z) tuple. Returns (None, None, None) if no data is currently 
+        a (x, y, z) tuple. Returns (None, None, None) if no data is currently
         available.
         '''
         return self.get_orientation()
