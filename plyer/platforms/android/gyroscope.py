@@ -22,7 +22,7 @@ class GyroscopeSensorListener(PythonJavaClass):
         self.sensor = self.SensorManager.getDefaultSensor(
                 Sensor.TYPE_GYROSCOPE)
 
-        self.values = [0, 0, 0]
+        self.values = [None, None, None]
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,

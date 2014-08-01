@@ -36,9 +36,10 @@ class AccelerometerTest(BoxLayout):
     def get_acceleration(self, dt):
         val = accelerometer.acceleration
 
-        self.ids.x_label.text = "X: " + str(val[0])
-        self.ids.y_label.text = "Y: " + str(val[1])
-        self.ids.z_label.text = "Z: " + str(val[2])
+        if(not val == (None, None, None)):
+            self.ids.x_label.text = "X: " + str(val[0])
+            self.ids.y_label.text = "Y: " + str(val[1])
+            self.ids.z_label.text = "Z: " + str(val[2])
 
 class AccelerometerTestApp(App):
     def build(self):

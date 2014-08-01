@@ -18,7 +18,7 @@ class MagneticFieldSensorListener(PythonJavaClass):
         self.sensor = self.SensorManager.getDefaultSensor(
                 Sensor.TYPE_MAGNETIC_FIELD)
 
-        self.values = [0, 0, 0]
+        self.values = [None, None, None]
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,

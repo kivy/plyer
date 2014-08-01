@@ -110,6 +110,9 @@ def get_coord():
     ret, data = read_sms()
 
     if (ret > 0):
-        return (data.x, data.y, data.z)
+        if(data.x):
+            return (data.x, data.y, data.z)
+        else:
+            return (None, None, None)
     else:
         raise Exception(ERROR_DICT[str(ret)])

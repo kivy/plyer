@@ -70,10 +70,11 @@ class AccelerometerDemo(BoxLayout):
             self.counter = 99
 
         val = accelerometer.acceleration
-        
-        self.plot[0].points.append((self.counter, val[0]))
-        self.plot[1].points.append((self.counter, val[1]))
-        self.plot[2].points.append((self.counter, val[2]))
+
+        if(not val == (None, None, None)):
+            self.plot[0].points.append((self.counter, val[0]))
+            self.plot[1].points.append((self.counter, val[1]))
+            self.plot[2].points.append((self.counter, val[2]))
 
         self.counter += 1       
 
