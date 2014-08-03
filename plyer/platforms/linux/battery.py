@@ -4,7 +4,7 @@ from plyer.facades import Battery
 
 class LinuxBattery(Battery):
     def _get_status(self):
-        status = {"connected": None, "percentage": None}
+        status = {"isCharging": None, "percentage": None}
 
         # We are supporting only one battery now
         dev = "/org/freedesktop/UPower/device/battery_BAT0"
@@ -23,7 +23,7 @@ class LinuxBattery(Battery):
                 percentage = float(l.rpartition(':')[-1].strip()[:-1])
 
         if(power_supply):
-            status['connected'] = power_supply == "yes"
+            status['isCharging'] = power_supply != "yes"
 
         status['percentage'] = percentage
 
