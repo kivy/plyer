@@ -4,14 +4,14 @@ from plyer.facades import Battery
 
 class WinBattery(Battery):
     def _get_status(self):
-        status = {"connected": None, "percentage": None}
+        status = {"isCharging": None, "percentage": None}
 
         query = battery_status()
 
         if (not query):
             return status
 
-        status["connected"] = query["ACLineStatus"] == 1
+        status["isCharging"] = query["BatteryFlag"] == 8
         status["percentage"] = query["BatteryLifePercent"]
 
         return status

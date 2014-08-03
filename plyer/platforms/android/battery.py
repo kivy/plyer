@@ -9,7 +9,7 @@ IntentFilter = autoclass('android.content.IntentFilter')
 
 class AndroidBattery(Battery):
     def _get_status(self):
-        status = {"connected": None, "percentage": None}
+        status = {"isCharging": None, "percentage": None}
 
         ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
 
@@ -24,7 +24,7 @@ class AndroidBattery(Battery):
         scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
         percentage = level / float(scale)
 
-        status['connected'] = isCharging
+        status['isCharging'] = isCharging
         status['percentage'] = percentage
 
         return status

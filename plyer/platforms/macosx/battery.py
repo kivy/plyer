@@ -5,7 +5,7 @@ from plyer.utils import whereis_exe
 
 class OSXBattery(Battery):
     def _get_status(self):
-        status = {"connected": None, "percentage": None}
+        status = {"isCharging": None, "percentage": None}
 
         ioreg_process = Popen(["ioreg", "-rc", "AppleSmartBattery"],
                 stdout=PIPE)
@@ -14,17 +14,17 @@ class OSXBattery(Battery):
         if not output:
             return status
 
-        ExternalConnected = MaxCapacity = CurrentCapacity = None
+        IsCharging = MaxCapacity = CurrentCapacity = None
         for l in output.splitlines():
-            if 'ExternalConnected' in l:
-                ExternalConnected = l.rpartition('=')[-1].strip()
+            if 'IsCharging' in l:
+                IsCharging = l.rpartition('=')[-1].strip()
             if 'MaxCapacity' in l:
                 MaxCapacity = float(l.rpartition('=')[-1].strip())
             if 'CurrentCapacity' in l:
                 CurrentCapacity = float(l.rpartition('=')[-1].strip())
 
-        if (ExternalConnected):
-            status['connected'] = ExternalConnected == "Yes"
+        if (IsCharging):
+            status['isCharging'] = IsCharging == "Yes"
 
         if (CurrentCapacity and MaxCapacity):
             status['percentage'] = 100. * CurrentCapacity / MaxCapacity
