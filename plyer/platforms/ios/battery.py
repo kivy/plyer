@@ -7,24 +7,27 @@ UIDevice = autoclass('UIDevice')
 
 
 class iOSBattery(Battery):
+    def __init__(self):
+        super(iOSBattery, self).__init__()
+        self.device = UIDevice.currentDevice()
+
     def _get_status(self):
         status = {"isCharging": None, "percentage": None}
 
-        currentdevice = UIDevice.currentDevice()
-        currentdevice.setBatteryMonitoringEnabled_(True)
+        if(not self.device.batteryMonitoringEnabled):
+            self.device.setBatteryMonitoringEnabled_(True)
 
-        if(currentdevice.batteryMonitoringEnabled):
-            if currentdevice.batteryState == 0:
-                isCharging = None
-            elif currentdevice.batteryState == 2:
-                isCharging = True
-            else:
-                isCharging = False
+        if self.device.batteryState == 0:
+            isCharging = None
+        elif self.device.batteryState == 2:
+            isCharging = True
+        else:
+            isCharging = False
 
-            percentage = currentdevice.batteryLevel * 100.
+        percentage = self.device.batteryLevel * 100.
 
-            status['isCharging'] = isCharging
-            status['percentage'] = percentage
+        status['isCharging'] = isCharging
+        status['percentage'] = percentage
 
         return status
 
