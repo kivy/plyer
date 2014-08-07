@@ -7,6 +7,10 @@ from plyer.facades import Compass
 from jnius import PythonJavaClass, java_method, autoclass, cast
 from plyer.platforms.android import activity
 
+Context = autoclass('android.content.Context')
+Sensor = autoclass('android.hardware.Sensor')
+SensorManager = autoclass('android.hardware.SensorManager')
+
 
 class MagneticFieldSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']

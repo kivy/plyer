@@ -406,7 +406,7 @@ class Battery(object):
     @property
     def status(self):
         '''Property that contains a dict with the following fields:
-             * **connected** *(bool)*: Whether to power supply
+             * **isCharging** *(bool)*: Battery is charging
              * **percentage** *(float)*: Battery charge remaining
 
             .. warning::
