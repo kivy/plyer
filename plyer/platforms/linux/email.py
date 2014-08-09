@@ -1,6 +1,9 @@
 import subprocess
 from urllib import quote
-from plyer.facades import Email
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 from plyer.utils import whereis_exe
 
 
