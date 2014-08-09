@@ -22,7 +22,7 @@ class iOSTextToSpeech(TTS):
         message = kwargs.get('message')
 
         if(not self.voice):
-            self.set_locale()
+            self._set_locale()
 
         utterance = \
             AVSpeechUtterance.speechUtteranceWithString_(objc_str(message))
