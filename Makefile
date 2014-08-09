@@ -3,13 +3,13 @@ CHECKSCRIPT = plyer/tools/pep8checker/pep8kivy.py
 PLYER_DIR = plyer/
 
 build:
-	$(PYTHON) setup.py build_ext --inplace
+	$(PYTHON) setup.py build
 
 force:
-	$(PYTHON) setup.py build_ext --inplace -f
+	$(PYTHON) setup.py build -f
 
 debug:
-	$(PYTHON) setup.py build_ext --inplace -f -g
+	$(PYTHON) setup.py build -f -g
 
 pdf:
 	$(MAKE) -C docs latex && make -C docs/build/latex all-pdf
