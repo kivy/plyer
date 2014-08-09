@@ -51,7 +51,7 @@ class AndroidAccelerometer(Accelerometer):
         self.bState = False
         
     def _enable(self):
-        if (not self.bState)
+        if (not self.bState):
             self.listener = AccelerometerSensorListener()
             self.listener.enable()
             self.bState = True
