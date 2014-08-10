@@ -4,7 +4,7 @@ from plyer.utils import whereis_exe
 
 
 class OSXBattery(Battery):
-    def _get_status(self):
+    def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
         ioreg_process = Popen(["ioreg", "-rc", "AppleSmartBattery"],

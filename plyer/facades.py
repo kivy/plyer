@@ -410,12 +410,12 @@ class Battery(object):
                 If any of the fields is not readable, it is set as
                 None.
         '''
-        return self.get_status()
+        return self.get_state()
 
-    def get_status(self):
-        return self._get_status()
+    def get_state(self):
+        return self._get_state()
 
     #private
 
-    def _get_status(self):
+    def _get_state(self):
         raise NotImplementedError()

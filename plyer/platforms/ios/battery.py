@@ -11,7 +11,7 @@ class iOSBattery(Battery):
         super(iOSBattery, self).__init__()
         self.device = UIDevice.currentDevice()
 
-    def _get_status(self):
+    def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
         if(not self.device.batteryMonitoringEnabled):
