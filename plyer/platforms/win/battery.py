@@ -3,7 +3,7 @@ from plyer.facades import Battery
 
 
 class WinBattery(Battery):
-    def _get_status(self):
+    def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
         query = battery_status()

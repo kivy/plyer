@@ -4,7 +4,7 @@ from plyer.utils import whereis_exe
 
 
 class LinuxBattery(Battery):
-    def _get_status(self):
+    def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
         # We are supporting only one battery now

@@ -8,7 +8,7 @@ IntentFilter = autoclass('android.content.IntentFilter')
 
 
 class AndroidBattery(Battery):
-    def _get_status(self):
+    def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
         ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
