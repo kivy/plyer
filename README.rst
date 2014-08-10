@@ -29,7 +29,7 @@ Email (open mail client)                         X             X   X       X   X
 Vibrator                                         X
 Sms (send messages)                              X
 Compass                            X             X             X
-Unique ID (IMEI or SN)             X             X                 X       X   X
+Unique ID (IMEI or SN)             X             X             X   X       X   X
 Gyroscope                          X             X             X
 Battery                            X             X             X   X       X   X
 ================================== ============= ============= === ======= === =====
