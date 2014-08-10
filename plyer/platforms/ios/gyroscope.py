@@ -4,7 +4,7 @@ iOS Gyroscope
 '''
 
 from plyer.facades import Gyroscope
-from jnius import autoclass
+from pyobjus import autoclass
 
 Hardware = autoclass('org.renpy.Ios.Hardware')
 
