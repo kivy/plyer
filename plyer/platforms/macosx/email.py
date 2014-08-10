@@ -1,7 +1,7 @@
 import subprocess
 
 try:
-    from urllib.parse import quote #Python 3
+    from urllib.parse import quote
 except ImportError:
     from urllib import quote
 

@@ -49,7 +49,7 @@ class AndroidAccelerometer(Accelerometer):
     def __init__(self):
         super(AndroidAccelerometer, self).__init__()
         self.bState = False
-        
+
     def _enable(self):
         if (not self.bState):
             self.listener = AccelerometerSensorListener()
@@ -71,7 +71,7 @@ class AndroidAccelerometer(Accelerometer):
     def __del__(self):
         if(self.bState):
             self._disable()
-        super(self.__class__, self).__del__()     
+        super(self.__class__, self).__del__()
 
 
 def instance():
