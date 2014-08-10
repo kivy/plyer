@@ -6,8 +6,6 @@ iOS Compass
 from plyer.facades import Compass
 from pyobjus import autoclass
 
-Hardware = autoclass('org.renpy.Ios.Hardware')
-
 
 class IosCompass(Compass):
 
