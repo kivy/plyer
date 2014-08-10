@@ -4,7 +4,7 @@ iOS Compass
 '''
 
 from plyer.facades import Compass
-from jnius import autoclass
+from pyobjus import autoclass
 
 Hardware = autoclass('org.renpy.Ios.Hardware')
 
