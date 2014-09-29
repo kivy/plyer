@@ -484,7 +484,7 @@ class USSD(object):
         return self._get_network_notification()
 
     @property
-    def network_response(self):
+    def network_request(self):
         '''Contains any pending network-initiated request for a response.
         Client should call Respond() with the appropriate response to this
         request.
@@ -494,8 +494,8 @@ class USSD(object):
         '''
         return self.get_network_response()
     
-    def get_network_response(self):
-        return self._get_network_response()
+    def get_network_request(self):
+        return self._get_network_request()
     
     #private
 
@@ -514,5 +514,5 @@ class USSD(object):
     def _get_network_notification(self):
         raise NotImplementedError()
 
-    def _get_network_response(self):
+    def _get_network_request(self):
         raise NotImplementedError()
