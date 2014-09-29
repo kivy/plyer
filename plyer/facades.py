@@ -492,7 +492,7 @@ class USSD(object):
         When no USSD session is active, or when there is no pending
         network-initiated request, this property will be an empty string.
         '''
-        return self.get_network_response()
+        return self.get_network_request()
     
     def get_network_request(self):
         return self._get_network_request()
