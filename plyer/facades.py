@@ -422,3 +422,97 @@ class Battery(object):
 
     def _get_state(self):
         raise NotImplementedError()
+
+class USSD(object):
+    '''USSD facade.'''
+
+    def initiate(self, command):
+        '''Sends a USSD command string to the network initiating a USSD
+        session.
+
+        When the request is handled by the network, the method returns
+        the response or an appropriate error. The network may be awaiting
+        further response from the modem after returning from this method
+        and no new command can be initiated until this one is cancelled or
+        ended.
+
+        Returns the network's response.
+        '''
+        return self._initiate(command)
+
+    def respond(self, response):
+        '''Respond to a USSD request that is either initiated by the mobile
+        network, or that is awaiting further input after initiate() was
+        called. The network may need further responses.
+
+        Returns the network's response.
+        '''
+        return self._respond(response)
+
+    def cancel(self):
+        '''Cancel an ongoing USSD session, either mobile or network initiated.
+        '''
+        return self._cancel()
+
+    @property
+    def status(self):
+        '''Returns a string describing the current status of the ongoing USSD
+        session.
+
+            * **unknown**: Unknown state.
+            * **idle**: No active session.
+            * **active**: A session is active and the modem is waiting for a
+            network response.
+            * **response**: The network is waiting for the client's response.
+        '''
+        return self.get_state()
+
+    def get_state(self):
+        return self._get_state()
+
+    @property
+    def network_notification(self):
+        '''Contains any network-initiated request to which no USSD response
+        is required.
+
+        When no USSD session is active, or when there is no network-initiated
+        request, this property will be an empty string.
+        '''
+        return self.get_network_notification()
+
+    def get_network_notification(self):
+        return self._get_network_notification()
+
+    @property
+    def network_response(self):
+        '''Contains any pending network-initiated request for a response.
+        Client should call Respond() with the appropriate response to this
+        request.
+
+        When no USSD session is active, or when there is no pending
+        network-initiated request, this property will be an empty string.
+        '''
+        return self.get_network_response()
+    
+    def get_network_response(self):
+        return self._get_network_response()
+    
+    #private
+
+    def _initiate(self, command):
+        raise NotImplementedError()
+
+    def _respond(self, response):
+        raise NotImplementedError()
+
+    def _cancel(self):
+        raise NotImplementedError()
+
+    def _get_state(self):
+        raise NotImplementedError()
+
+    def _get_network_notification(self):
+        raise NotImplementedError()
+
+    def _get_network_response(self):
+        raise NotImplementedError()
