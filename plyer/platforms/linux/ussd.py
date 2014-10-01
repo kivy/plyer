@@ -40,19 +40,22 @@ class USSD(USSD):
 
     def _initiate(self, command):
         proxy = self._get_first_modem_proxy()
-
         ussd_iface = dbus.Interface(proxy, dbus_interface=MM_DBUS_INTERFACE_USSD)
+        # Workaround for Nokia C1-00
+        try:
+            ussd_iface.Cancel()
+            ussd_iface.Respond("")
+        except:
+            pass
         return str(ussd_iface.Initiate(command))
 
     def _respond(self, response):
         proxy = self._get_first_modem_proxy()
-
         ussd_iface = dbus.Interface(proxy, dbus_interface=MM_DBUS_INTERFACE_USSD)
         return str(ussd_iface.Respond(response))
 
     def _cancel(self):
         proxy = self._get_first_modem_proxy()
-
         ussd_iface = dbus.Interface(proxy, dbus_interface=MM_DBUS_INTERFACE_USSD)
         return ussd_iface.Cancel()
 
