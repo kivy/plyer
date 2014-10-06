@@ -23,7 +23,7 @@ camera = Proxy(
 
 #: GPS proxy to :class:`plyer.facades.GPS`
 gps = Proxy(
-    'plyer_gps', facades.GPS)
+    'gps', facades.GPS)
 
 #: Notification proxy to :class:`plyer.facades.Notification`
 notification = Proxy(

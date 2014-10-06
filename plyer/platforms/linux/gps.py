@@ -3,10 +3,14 @@ Linux GPS
 ---------
 '''
 
+from __future__ import absolute_import
+
 from plyer.facades import GPS
 import gps
-import time
+import os
+import sys
 import threading
+import time
 
 class GPSPoller(threading.Thread):
     def __init__(self, gpsd, callback=None):
