@@ -8,7 +8,7 @@ __all__ = ('accelerometer', 'camera', 'gps', 'notification',
             'tts', 'email', 'vibrator', 'sms', 'compass',
             'gyroscope', 'uniqueid', 'battery')
 
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 
 from plyer import facades
 from plyer.utils import Proxy
