@@ -29,7 +29,7 @@ class AndroidNotification(Notification):
         else:
             noti = noti.getNotification()
 
-        self._get_notification_service().notify(0, noti.build())
+        self._get_notification_service().notify(0, noti)
 
 
 def instance():
