@@ -35,7 +35,7 @@ def _determine_platform():
         return 'win'
     elif _sys_platform in ('darwin', ):
         return 'macosx'
-    elif _sys_platform in ('linux2', 'linux3'):
+    elif _sys_platform.startswith('linux'):
         return 'linux'
     return 'unknown'
 
