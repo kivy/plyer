@@ -66,12 +66,20 @@ class MacFileChooser(object):
         if len(self.filters) > 0
             filthies = []
             for f in self.filters:
-                if not self.use_extensions:
-                    # This would lead to an empty filter, no extension can be obtained
-                    if f.strip().endswith("*"):
-                        continue
-                    pystr = f.strip().split("*")[-1].split(".")[-1]
-                filthies.append(objc_str(pystr))
+                if type(f) == str:
+                    if not self.use_extensions:
+                        if f.strip().endswith("*"):
+                            continue
+                        pystr = f.strip().split("*")[-1].split(".")[-1]
+                    filthies.append(objc_str(pystr))
+                else:
+                    for i in f[1:]:
+                        if not self.use_extensions:
+                            if f.strip().endswith("*"):
+                                continue
+                            pystr = f.strip().split("*")[-1].split(".")[-1]
+                        filthies.append(objc_str(pystr))
+
             ftypes_arr = objc_arr(filthies)
             panel.setAllowedFileTypes_(ftypes)
             panel.setAllowsOtherFileTypes_(not self.use_extensions)
