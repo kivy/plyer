@@ -9,7 +9,7 @@ import os
 import win32gui, win32con, pywintypes
 
 
-class Win32FileChooser(NativeFileChooserBase):
+class Win32FileChooser(object):
     """A native implementation of NativeFileChooser using the
     Win32 API on Windows.
 
