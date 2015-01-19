@@ -6,7 +6,7 @@ Plyer
 
 __all__ = ('accelerometer', 'camera', 'gps', 'notification',
             'tts', 'email', 'vibrator', 'sms', 'compass',
-            'gyroscope', 'uniqueid', 'battery')
+            'gyroscope', 'uniqueid', 'battery', 'irblaster', 'filechooser')
 
 __version__ = '1.2.4-dev'
 
@@ -64,3 +64,7 @@ battery = Proxy(
 #: IrBlaster proxy to :class:`plyer.facades.IrBlaster`
 irblaster = Proxy(
     'irblaster', facades.IrBlaster)
+
+#: FileChooser proxy to :class:`plyer.facades.FileChooser`
+filechooser = Proxy(
+    'filechooser', facades.FileChooser)
