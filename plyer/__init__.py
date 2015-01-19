@@ -6,7 +6,7 @@ Plyer
 
 __all__ = ('accelerometer', 'camera', 'gps', 'notification',
             'tts', 'email', 'vibrator', 'sms', 'compass',
-            'gyroscope', 'uniqueid', 'battery')
+            'gyroscope', 'uniqueid', 'battery', 'filechooser')
 
 __version__ = '1.2.1'
 
@@ -60,3 +60,7 @@ uniqueid = Proxy(
 #: Battery proxy to :class:`plyer.facades.Battery`
 battery = Proxy(
     'battery', facades.Battery)
+
+#: FileChooser proxy to :class:`plyer.facades.FileChooser`
+filechooser = Proxy(
+    'filechooser', facades.FileChooser)
