@@ -4,6 +4,13 @@ Changelog
 %%version%% (unreleased)
 ------------------------
 
+- Update the version to the next dev (missing from the last release)
+  [Mathieu Virbel]
+
+- Merge branch 'master' of ssh://github.com/kivy/plyer. [Mathieu Virbel]
+
+- Add initial changelog. [Mathieu Virbel]
+
 - Plyer: fix androidd notification. Closes #93 (credits to @kashifpk)
   [Mathieu Virbel]
 
