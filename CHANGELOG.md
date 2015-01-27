@@ -4,6 +4,16 @@ Changelog
 %%version%% (unreleased)
 ------------------------
 
+- Setup.py: add changelog into the description + fix rst issue. [Mathieu
+  Virbel]
+
+- Bump to 1.2.3-dev. [Mathieu Virbel]
+
+1.2.2 (2015-01-27)
+------------------
+
+- Bump to 1.2.2. [Mathieu Virbel]
+
 - Update the version to the next dev (missing from the last release)
   [Mathieu Virbel]
 
