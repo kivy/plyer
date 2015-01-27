@@ -21,12 +21,16 @@ packages = [
     'plyer.platforms.macosx.libs',
 ]
 
+with open(join(curdir, "README.rst")) as fd:
+    readme = fd.read()
+with open(join(curdir, "CHANGELOG.md")) as fd:
+    changelog = fd.read()
 
 setup(
     name='plyer',
     version=plyer.__version__,
     description='Platform-independant wrapper for platform-dependant APIs',
-    long_description=open(join(curdir, 'README.rst')).read(),
+    long_description=readme + "\n\n" + changelog,
     author='Kivy team',
     author_email='mat@kivy.org',
     url='https://plyer.readthedocs.org/en/latest/',
