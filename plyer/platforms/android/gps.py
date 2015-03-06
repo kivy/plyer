@@ -65,7 +65,7 @@ class AndroidGPS(GPS):
         providers = self._location_manager.getProviders(False).toArray()
         for provider in providers:
             self._location_manager.requestLocationUpdates(
-                "gps",
+                provider,
                 1000,  # minTime, in milliseconds
                 1,  # minDistance, in meters
                 self._location_listener,
