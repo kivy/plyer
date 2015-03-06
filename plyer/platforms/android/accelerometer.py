@@ -31,10 +31,6 @@ class AccelerometerSensorListener(PythonJavaClass):
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
 
-    @java_method('()I')
-    def hashCode(self):
-        return id(self)
-
     @java_method('(Landroid/hardware/SensorEvent;)V')
     def onSensorChanged(self, event):
         self.values = event.values[:3]

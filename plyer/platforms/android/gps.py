@@ -19,18 +19,6 @@ class _LocationListener(PythonJavaClass):
         self.root = root
         super(_LocationListener, self).__init__()
 
-    @java_method('()I')
-    def hashCode(self):
-        return id(self)
-
-    @java_method('()Ljava/lang/String;', name='hashCode')
-    def hashCode_(self):
-        return '{}'.format(id(self))
-
-    @java_method('(Ljava/lang/Object;)Z')
-    def equals(self, obj):
-        return obj.hashCode() == self.hashCode()
-
     @java_method('(Landroid/location/Location;)V')
     def onLocationChanged(self, location):
         self.root.on_location(
@@ -77,7 +65,7 @@ class AndroidGPS(GPS):
         providers = self._location_manager.getProviders(False).toArray()
         for provider in providers:
             self._location_manager.requestLocationUpdates(
-                "gps",
+                provider,
                 1000,  # minTime, in milliseconds
                 1,  # minDistance, in meters
                 self._location_listener,
