@@ -60,3 +60,7 @@ uniqueid = Proxy(
 #: Battery proxy to :class:`plyer.facades.Battery`
 battery = Proxy(
     'battery', facades.Battery)
+
+#: IrBlaster proxy to :class:`plyer.facades.IrBlaster`
+irblaster = Proxy(
+    'irblaster', facades.IrBlaster)
