@@ -2,14 +2,21 @@ from subprocess import Popen, PIPE
 from plyer.facades import Battery
 from plyer.utils import whereis_exe
 
+from os import environ
+
 
 class OSXBattery(Battery):
     def _get_state(self):
+        old_lang = environ.get('LANG')
+        environ['LANG'] = 'C'
+
         status = {"isCharging": None, "percentage": None}
 
         ioreg_process = Popen(["ioreg", "-rc", "AppleSmartBattery"],
                 stdout=PIPE)
         output = ioreg_process.communicate()[0]
+
+        environ['LANG'] = old_lang
 
         if not output:
             return status
