@@ -29,8 +29,8 @@ class NotifyDbus(Notification):
         _bus_name = 'org.freedesktop.Notifications'
         _object_path = '/org/freedesktop/Notifications'
         _interface_name = _bus_name
-        import dbus
 
+        import dbus
         session_bus = dbus.SessionBus()
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)
