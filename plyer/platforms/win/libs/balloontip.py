@@ -142,9 +142,4 @@ class WindowsBalloonTip(object):
 
 
 def balloon_tip(**kwargs):
-    title = kwargs.get('title', '')
-    message = kwargs.get('message', '')
-    app_name = kwargs.get('app_name', '')
-    app_icon = kwargs.get('app_icon', '')
-    timeout = kwargs.get('timeout', 10)
-    w = WindowsBalloonTip(**kwargs)
+    WindowsBalloonTip(**kwargs)
