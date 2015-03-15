@@ -13,6 +13,7 @@ NSOpenPanel = autoclass('NSOpenPanel')
 NSSavePanel = autoclass('NSSavePanel')
 NSOKButton = 1
 
+
 class MacFileChooser(object):
     """A native implementation of file chooser dialogs using Apple's API
     through pyobjus.
@@ -63,7 +64,7 @@ class MacFileChooser(object):
         # Mac OS X does not support wildcards unlike the other platforms.
         # This tries to convert wildcards to "extensions" when possible,
         # ans sets the panel to also allow other file types, just to be safe.
-        if len(self.filters) > 0
+        if len(self.filters) > 0:
             filthies = []
             for f in self.filters:
                 if type(f) == str:
@@ -81,7 +82,7 @@ class MacFileChooser(object):
                         filthies.append(objc_str(pystr))
 
             ftypes_arr = objc_arr(filthies)
-            panel.setAllowedFileTypes_(ftypes)
+            panel.setAllowedFileTypes_(ftypes_arr)
             panel.setAllowsOtherFileTypes_(not self.use_extensions)
 
         if self.path:
@@ -101,6 +102,7 @@ class MacOSXFileChooser(FileChooser):
     """
     def _file_selection_dialog(self, **kwargs):
         return MacFileChooser(**kwargs).run()
+
 
 def instance():
     return MacOSXFileChooser()
