@@ -4,9 +4,9 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'camera', 'contacts' 'gps', 'notification',
-            'tts', 'email', 'vibrator', 'sms', 'compass',
-            'gyroscope', 'uniqueid', 'battery', 'irblaster', 'filechooser')
+__all__ = ('accelerometer', 'camera', 'contacts', 'gps', 'notification',
+           'tts', 'email', 'vibrator', 'sms', 'compass',
+           'gyroscope', 'uniqueid', 'battery', 'irblaster', 'filechooser')
 
 __version__ = '1.2.4-dev'
 

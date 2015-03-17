@@ -32,59 +32,9 @@ Builder.load_string('''
 class ContactsInterface(BoxLayout):
 
     def vpress(self, *args, **kwargs):
-        from plyer.platforms.android.contacts import instance as contacts
-        print contacts.get()
-        # print 'python', args, kwargs
-        # print 'python', Contacts
-        # print 'python', ContactsContract
-        # print 'python', Contacts.CONTENT_URI
-        # print 'python Content URI', RawContacts.CONTENT_URI
-        # # print 'python', 'displayname', Contacts.DISPLAY_NAME_PRIMARY
-        # print 'python phoneuri', Phone.CONTENT_URI
-        # contentResolver = activity.getContentResolver()
-        # print 'python', contentResolver
-        # cursor = contentResolver.query(Contacts.CONTENT_URI, None, None, None, None)
-        # print 'python', 'count', cursor.getCount()
-        # if cursor.getCount() == 0:
-        #     return
-        # print 'python', cursor
-        # i = 0
-        # while cursor.moveToNext():
-        #     i +=1
-        #     contact_id = cursor.getString(cursor.getColumnIndex(Contacts._ID))
-        #     name = cursor.getString(cursor.getColumnIndex(String('display_name'))).decode('ascii', 'ignore')
-        #     name = unicode(name)
-        #     has_phone_number = cursor.getString(cursor.getColumnIndex('has_phone_number'))
-        #     print 'python', 'details', i, name, contact_id, has_phone_number
-        #     if int(has_phone_number) > 0:
-        #         l = ArrayList()
-        #         print 'python1'
-        #         l.add(contact_id)
-        #         print 'python2', Phone.CONTACT_ID, Phone.NUMBER
-        #         phone_cursor = contentResolver.query(Phone.CONTENT_URI, None, String("contact_id=?"), l.toArray(), None)
-        #         print 'python3', phone_cursor.getCount()
-        #         while phone_cursor.moveToNext():
-        #             print 'python', phone_cursor.getString(phone_cursor.getColumnIndex(Phone.NUMBER)), Phone.NUMBER
-        #         phone_cursor.close()
-        #
-        # print 'python its end of contacts'
-        #
-        # String _ID = ContactsContract.Contacts._ID
-        # DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME
-        # HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER
-        #
-        # PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-        # Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-        # NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER
-        #
-        # EmailCONTENT_URI =  ContactsContract.CommonDataKinds.Email.CONTENT_URI
-        # EmailCONTACT_ID = ContactsContract.CommonDataKinds.Email.CONTACT_ID
-        # DATA = ContactsContract.CommonDataKinds.Email.DATA
-        #
-        # contentResolver = activity.getContentResolver()
-        # cursor = contentResolver.query(CONTENT_URI, None,None, None, None)
-        #
-
+        from plyer import contacts
+        print 'python', contacts.get()
+        
 class ContactsApp(App):
     def build(self):
         return ContactsInterface()

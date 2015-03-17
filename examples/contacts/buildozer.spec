@@ -70,13 +70,13 @@ android.permissions = READ_CONTACTS,WRITE_CONTACTS,READ_PROFILE,WRITE_PROFILE
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-#android.ndk_path =
+android.ndk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+android.sdk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-#android.p4a_dir =
+android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
 
 # (list) python-for-android whitelist
 #android.p4a_whitelist =
