@@ -93,6 +93,39 @@ class Camera(object):
         raise NotImplementedError()
 
 
+class Contacts(object):
+    '''Contacts Facade
+
+    .. versionadded:: 1.2.4
+
+    '''
+
+    _contacts = []
+
+    def __len__(self):
+        return len(self._contacts)
+
+    def __getitem__(self, item):
+        return self._contacts[item]
+
+    def __iter__(self):
+        return self._contacts.__iter__()
+
+    def refresh(self):
+        """Refreshes local contact list"""
+        raise NotImplementedError()
+
+    def insert(self):
+        """Creates and inserts contact into system"""
+        raise NotImplementedError()
+
+    def get(self):
+        """Returns all contacts
+        :rtype: list
+        """
+        return self._contacts
+
+
 class Notification(object):
     '''Notification facade.
     '''

@@ -62,6 +62,8 @@ class Proxy(object):
         # do the import
         try:
             name = object.__getattribute__(self, '_name')
+            print 'python import name', name
+            print 'python import platform', platform
             module = 'plyer.platforms.{}.{}'.format(
                 platform, name)
             mod = __import__(module, fromlist='.')

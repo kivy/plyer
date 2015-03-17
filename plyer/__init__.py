@@ -4,7 +4,7 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'camera', 'gps', 'notification',
+__all__ = ('accelerometer', 'camera', 'contacts' 'gps', 'notification',
             'tts', 'email', 'vibrator', 'sms', 'compass',
             'gyroscope', 'uniqueid', 'battery', 'irblaster', 'filechooser')
 
@@ -20,6 +20,10 @@ accelerometer = Proxy(
 #: Camera proxy to :class:`plyer.facades.Camera`
 camera = Proxy(
     'camera', facades.Camera)
+
+#: Contacts proxy to :class:`plyer.facades.Contacts`
+contacts = Proxy(
+    'contacts', facades.Contacts)
 
 #: GPS proxy to :class:`plyer.facades.GPS`
 gps = Proxy(
