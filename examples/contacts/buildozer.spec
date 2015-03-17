@@ -70,18 +70,18 @@ android.permissions = READ_CONTACTS,WRITE_CONTACTS,READ_PROFILE,WRITE_PROFILE
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-android.ndk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
+# android.ndk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-android.sdk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
+# android.sdk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
+# android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
 
 # (list) python-for-android whitelist
 #android.p4a_whitelist =
 
-# (str) Android entry point, default is ok for Kivy-based app
+# (str) Android entry pos ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
 
 # (list) List of Java .jar files to add to the libs so that pyjnius can access

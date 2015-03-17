@@ -1,40 +1,56 @@
 from kivy.app import App
-from jnius import autoclass
-from kivy.uix.boxlayout import BoxLayout
-from kivy.lang import Builder
-from plyer.platforms.android import activity
+from kivy.adapters.dictadapter import DictAdapter
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.listview import ListItemLabel, CompositeListItem, ListView
 
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
-ContactsContract = autoclass('android.provider.ContactsContract')
-Contacts = autoclass('android.provider.ContactsContract$Contacts')
-RawContacts = autoclass('android.provider.ContactsContract$RawContacts')
-
-Phone = autoclass('android.provider.ContactsContract$CommonDataKinds$Phone')
-
-ArrayList = autoclass('java.util.ArrayList')
-Object = autoclass('java.lang.Object')
-String = autoclass('java/lang/String')
-
-Builder.load_string('''
-<ContactsInterface>:
-    id: contacts
-    orientation: 'vertical'
-    Label:
-        size_hint_y: None
-        height: sp(40)
-        text: 'Contact List'
-    Button:
-        text: 'get contacts'
-        on_release: contacts.vpress()
-''')
+from plyer import contacts
 
 
-class ContactsInterface(BoxLayout):
+class ContactsInterface(GridLayout):
 
-    def vpress(self, *args, **kwargs):
-        from plyer import contacts
-        print 'python', contacts.get()
-        
+    def __init__(self, **kwargs):
+        kwargs['cols'] = 3
+        super(ContactsInterface, self).__init__(**kwargs)
+
+        contact_list = contacts.get()
+        args_converter = \
+            lambda row_index, rec: \
+                {'text': rec['display_name'],
+                 'size_hint_y': None,
+                 'height': 25,
+                 'cls_dicts': [{'cls': ListItemLabel,
+                                'kwargs': {'text': rec['contact_id']}},
+                               {'cls': ListItemLabel,
+                                'kwargs': {'text': rec['display_name']}},
+                               {'cls': ListItemLabel,
+                                'kwargs': {
+                                    'text': ','.join(rec['phone_numbers'])
+                                }},
+                               ]}
+
+        item_strings = [str(index) for index in range(len(contact_list) + 1)]
+
+        integers_dict = {
+            str(i + 1): contact for i, contact in enumerate(contact_list)
+        }
+        integers_dict['0'] = {
+            'contact_id': 'contact_id',
+            'display_name': 'display_name',
+            'phone_numbers': 'phone_numbers'
+        }
+        dict_adapter = DictAdapter(sorted_keys=item_strings,
+                                   data=integers_dict,
+                                   args_converter=args_converter,
+                                   selection_mode='single',
+                                   allow_empty_selection=False,
+                                   cls=CompositeListItem)
+
+        # Use the adapter in our ListView:
+        list_view = ListView(adapter=dict_adapter)
+
+        self.add_widget(list_view)
+
+
 class ContactsApp(App):
     def build(self):
         return ContactsInterface()
