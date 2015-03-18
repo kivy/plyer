@@ -107,6 +107,7 @@ class Contacts(object):
 
     def __init__(self):
         """Using refresh that should full fil _contacts"""
+        super(Contacts, self).__init__()
         self.refresh()
 
     def __len__(self):
@@ -119,11 +120,7 @@ class Contacts(object):
         return self._contacts.__iter__()
 
     def refresh(self):
-        """Refreshes local contact list"""
-        raise NotImplementedError()
-
-    def insert(self):
-        """Creates and inserts contact into system"""
+        """Refresh local contact list"""
         raise NotImplementedError()
 
     def get(self):

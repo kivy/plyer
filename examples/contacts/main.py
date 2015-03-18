@@ -12,9 +12,6 @@ class ContactsInterface(GridLayout):
         kwargs['cols'] = 3
         super(ContactsInterface, self).__init__(**kwargs)
 
-        # getting contacts from plyer
-        contact_list = contacts.get()
-
         args_converter = \
             lambda row_index, rec: \
                 {'text': rec['display_name'],
@@ -36,10 +33,10 @@ class ContactsInterface(GridLayout):
                                 }},
                                ]}
 
-        item_strings = [str(index) for index in range(len(contact_list))]
+        item_strings = [str(index) for index in range(len(contacts))]
 
         integers_dict = {
-            str(i): contact for i, contact in enumerate(contact_list)
+            str(i): contact for i, contact in enumerate(contacts)
         }
 
         dict_adapter = DictAdapter(sorted_keys=item_strings,

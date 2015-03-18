@@ -8,7 +8,6 @@ from jnius import autoclass
 JavaContacts = autoclass('android.provider.ContactsContract$Contacts')
 Phone = autoclass('android.provider.ContactsContract$CommonDataKinds$Phone')
 ArrayList = autoclass('java.util.ArrayList')
-String = autoclass('java/lang/String')
 
 
 class AndroidContacts(Contacts):
@@ -16,15 +15,12 @@ class AndroidContacts(Contacts):
     """Android Contacts.
 
     .. versionadded:: 1.2.4
-
     """
 
     def refresh(self):
         """Refresh local contact list."""
         cr = activity.getContentResolver()
         contact_cr = cr.query(JavaContacts.CONTENT_URI, None, None, None, None)
-        if contact_cr.getCount < 1:
-            return
 
         contacts = []
         while contact_cr.moveToNext():
@@ -45,7 +41,7 @@ class AndroidContacts(Contacts):
             if contact['has_phone_number'] > 0:
                 l = ArrayList()
                 l.add(contact['contact_id'])
-                query = String("contact_id=?")
+                query = "contact_id=?"
                 phone_uri = Phone.CONTENT_URI
                 phone_cr = cr.query(phone_uri, None, query, l.toArray(), None)
 

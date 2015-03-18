@@ -101,6 +101,18 @@ class Proxy(object):
         object.__getattribute__(self, '_ensure_obj')()
         return repr(object.__getattribute__(self, '_obj'))
 
+    def __len__(self):
+        object.__getattribute__(self, '_ensure_obj')()
+        return len(object.__getattribute__(self, '_obj'))
+
+    def __iter__(self):
+        object.__getattribute__(self, '_ensure_obj')()
+        return object.__getattribute__(self, '_obj').__iter__()
+
+    def __getitem__(self, item):
+        object.__getattribute__(self, '_ensure_obj')()
+        return object.__getattribute__(self, '_obj')[item]
+
 
 def whereis_exe(program):
     ''' Tries to find the program on the system path.
