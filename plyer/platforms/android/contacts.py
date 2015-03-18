@@ -1,3 +1,5 @@
+"""This module provides access for contact list."""
+
 from plyer.facades import Contacts
 from plyer.platforms.android import activity
 
@@ -10,20 +12,15 @@ String = autoclass('java/lang/String')
 
 
 class AndroidContacts(Contacts):
-    '''Android Contacts
+
+    """Android Contacts.
 
     .. versionadded:: 1.2.4
 
-    '''
-
-    def __init__(self):
-        self.refresh()
-
-    def insert(self):
-        pass
+    """
 
     def refresh(self):
-        """Refreshes local contact list"""
+        """Refresh local contact list."""
         cr = activity.getContentResolver()
         contact_cr = cr.query(JavaContacts.CONTENT_URI, None, None, None, None)
         if contact_cr.getCount < 1:
@@ -66,4 +63,5 @@ class AndroidContacts(Contacts):
 
 
 def instance():
+    """Return android contacts."""
     return AndroidContacts()

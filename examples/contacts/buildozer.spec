@@ -41,7 +41,7 @@ requirements = plyer,kivy
 #icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
-orientation = portrait
+orientation = landscape
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
@@ -70,13 +70,13 @@ android.permissions = READ_CONTACTS,WRITE_CONTACTS,READ_PROFILE,WRITE_PROFILE
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-# android.ndk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
+# android.ndk_path =
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-# android.sdk_path = /home/thegrymek/Projects/python/kivy-dev-thegrymek/android
+# android.sdk_path =
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-# android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
+# android.p4a_dir =
 
 # (list) python-for-android whitelist
 #android.p4a_whitelist =

@@ -12,32 +12,36 @@ class ContactsInterface(GridLayout):
         kwargs['cols'] = 3
         super(ContactsInterface, self).__init__(**kwargs)
 
+        # getting contacts from plyer
         contact_list = contacts.get()
+
         args_converter = \
             lambda row_index, rec: \
                 {'text': rec['display_name'],
                  'size_hint_y': None,
-                 'height': 25,
+                 'height': 35,
                  'cls_dicts': [{'cls': ListItemLabel,
-                                'kwargs': {'text': rec['contact_id']}},
-                               {'cls': ListItemLabel,
-                                'kwargs': {'text': rec['display_name']}},
+                                'kwargs': {
+                                    'text': rec['contact_id'],
+                                    'size_hint_x': 0.2
+                                }},
                                {'cls': ListItemLabel,
                                 'kwargs': {
-                                    'text': ','.join(rec['phone_numbers'])
+                                    'text': rec['display_name'],
+                                    'size_hint_x': 0.5
+                                }},
+                               {'cls': ListItemLabel,
+                                'kwargs': {
+                                    'text': ', '.join(rec['phone_numbers'])
                                 }},
                                ]}
 
-        item_strings = [str(index) for index in range(len(contact_list) + 1)]
+        item_strings = [str(index) for index in range(len(contact_list))]
 
         integers_dict = {
-            str(i + 1): contact for i, contact in enumerate(contact_list)
+            str(i): contact for i, contact in enumerate(contact_list)
         }
-        integers_dict['0'] = {
-            'contact_id': 'contact_id',
-            'display_name': 'display_name',
-            'phone_numbers': 'phone_numbers'
-        }
+
         dict_adapter = DictAdapter(sorted_keys=item_strings,
                                    data=integers_dict,
                                    args_converter=args_converter,
@@ -52,6 +56,7 @@ class ContactsInterface(GridLayout):
 
 
 class ContactsApp(App):
+
     def build(self):
         return ContactsInterface()
 
