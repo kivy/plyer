@@ -17,21 +17,20 @@ class AndroidContacts(Contacts):
     .. versionadded:: 1.2.4
     """
 
-    def query(self, url, columns=None, where=None,
-              where_args=None, order_by=None):
+    def query(self, url, columns=None, params=None, order_by=None):
         """Gives cursor over the result set
 
         Android query behaves a little like SQL queries.
         With params you can read query as:
             select `columns`
             from `url`
-            where `where` % `where_args`
+            where `params`
             order by `order_by`
 
-        :param url: address from retrieve results
-        :param columns: selected columns to return. If none then return all
-        :param where: args to filter results.
-        :param where_args: list of strings replaced with `?` in where
+        :param url: str, address which query would retrieve results
+        :param columns: list of str, list of columns that query will return.
+            If none then return all columns.
+        :param params: dict of str:str, params included in clause `where`.
         :param order_by: order of result
         :return: cursor with the results
         """
@@ -42,40 +41,40 @@ class AndroidContacts(Contacts):
             [j_columns.add(column) for column in columns]
             columns = j_columns.toArray()
 
-        if where_args:
+        where_params, where_args = None, None
+        if params:
+            where_params = '&'.join(['%s=?' % key for key in params.keys()])
+
             j_args = ArrayList()
-            [j_args.add(param) for param in where_args]
+            [j_args.add(val) for val in params.values()]
             where_args = j_args.toArray()
 
         cr = activity.getContentResolver()
-        return cr.query(url, columns, where, where_args, order_by)
+        return cr.query(url, columns, where_params, where_args, order_by)
 
     def refresh(self):
         """Refresh local contact list."""
         contact_cr = self.query(JavaContacts.CONTENT_URI)
 
         contacts = []
+
         while contact_cr.moveToNext():
             contact = {}
 
             contact_id = contact_cr.getColumnIndex(JavaContacts._ID)
-            contact['contact_id'] = contact_cr.getString(contact_id)
+            contact_id = contact_cr.getString(contact_id)
 
             display_name = contact_cr.getColumnIndex('display_name')
             display_name = contact_cr.getString(display_name)
-            contact['display_name'] = display_name.decode('ascii', 'ignore')
+            display_name = display_name.decode('ascii', 'ignore')
 
-            has_phone_number = contact_cr.getColumnIndex('has_phone_number')
-            has_phone_number = int(contact_cr.getString(has_phone_number))
-            contact['has_phone_number'] = has_phone_number
+            has_phones = int(contact_cr.getColumnIndex('has_phone_number'))
 
             phone_numbers = []
-            if contact['has_phone_number'] > 0:
-                where = "contact_id=?"
-                where_args = [contact['contact_id']]
+            if has_phones > 0:
                 phone_uri = Phone.CONTENT_URI
-                phone_cr = self.query(phone_uri, where=where,
-                                      where_args=where_args)
+                phone_cr = self.query(phone_uri,
+                                      params={'contact_id': contact_id})
 
                 while phone_cr.moveToNext():
                     phone_number = phone_cr.getColumnIndex(Phone.NUMBER)
@@ -83,7 +82,9 @@ class AndroidContacts(Contacts):
                     phone_numbers.append(phone_number)
                 phone_cr.close()
 
-            contact['phone_numbers'] = phone_numbers
+            contact['id'] = contact_id
+            contact['display_name'] = display_name
+            contact['phones'] = phone_numbers
             contacts.append(contact)
 
         contact_cr.close()

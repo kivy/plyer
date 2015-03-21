@@ -13,33 +13,30 @@ class ContactsInterface(GridLayout):
         super(ContactsInterface, self).__init__(**kwargs)
 
         args_converter = \
-            lambda row_index, rec: \
-                {'text': rec['display_name'],
-                 'size_hint_y': None,
-                 'height': 35,
-                 'cls_dicts': [{'cls': ListItemLabel,
-                                'kwargs': {
-                                    'text': rec['contact_id'],
-                                    'size_hint_x': 0.2
-                                }},
-                               {'cls': ListItemLabel,
-                                'kwargs': {
-                                    'text': rec['display_name'],
-                                    'size_hint_x': 0.5
-                                }},
-                               {'cls': ListItemLabel,
-                                'kwargs': {
-                                    'text': ', '.join(rec['phone_numbers'])
-                                }},
-                               ]}
+            lambda row_index, rec: {
+                'text': rec['display_name'],
+                'size_hint_y': None,
+                'height': 35,
+                'cls_dicts': [
+                    {'cls': ListItemLabel,
+                        'kwargs': {
+                            'text': rec['id'],
+                            'size_hint_x': 0.2
+                        }},
+                    {'cls': ListItemLabel,
+                        'kwargs': {
+                            'text': rec['display_name'],
+                            'size_hint_x': 0.5
+                        }},
+                    {'cls': ListItemLabel,
+                        'kwargs': {
+                            'text': ', '.join(rec['phones'])
+                        }},
+                ]}
 
-        item_strings = [str(index) for index in range(len(contacts))]
+        integers_dict = {int(contact['id']): contact for contact in contacts}
 
-        integers_dict = {
-            str(i): contact for i, contact in enumerate(contacts)
-        }
-
-        dict_adapter = DictAdapter(sorted_keys=item_strings,
+        dict_adapter = DictAdapter(sorted_keys=sorted(integers_dict.keys()),
                                    data=integers_dict,
                                    args_converter=args_converter,
                                    selection_mode='single',
@@ -63,4 +60,3 @@ class ContactsApp(App):
 
 if __name__ == "__main__":
     ContactsApp().run()
-

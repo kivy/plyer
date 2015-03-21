@@ -97,16 +97,44 @@ class Camera(object):
 
 
 class Contacts(object):
-    '''Contacts Facade
+    """Contacts Facade
 
     .. versionadded:: 1.2.4
 
-    '''
+    This class provides contact list received from your device.
+
+    Contacts class operate on a list of Contacts.
+
+    Contact is a dict with a fields:
+        `id`: int, unique id of contact.
+        `display_name`: str, name of contact displayed in a phone.
+        'phones': list of str, all phone numbers of contact.
+
+    Example
+    -------
+
+        >> from plyer import contacts
+        >>
+        >> print 'I have {} contacts'.format(len(contacts))
+        I have 3 contacts
+        >>
+        >> print contacts[0]
+        {
+            'id': 1
+            'display_name': 'Kivy Team'
+            'phones': ['123-123-123']
+        }
+        >>
+        >> contact_names = [contact['display_name'] for contact in contacts]
+        >> print 'My contact list: {}'.format(', '.join(contact_names))
+        My contact list: Kivy Team, my_account@gmail.com, member1
+
+    """
 
     _contacts = []
 
     def __init__(self):
-        """Using refresh that should full fil _contacts"""
+        """Using refresh that full fil _contacts"""
         super(Contacts, self).__init__()
         self.refresh()
 
@@ -122,12 +150,6 @@ class Contacts(object):
     def refresh(self):
         """Refresh local contact list"""
         raise NotImplementedError()
-
-    def get(self):
-        """Returns all contacts
-        :rtype: list
-        """
-        return self._contacts
 
 
 class Notification(object):
