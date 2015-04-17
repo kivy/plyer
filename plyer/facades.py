@@ -6,6 +6,8 @@ Interface of all the features available.
 
 '''
 
+from contact_utils import ContactManager
+
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
            'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
            'Gyroscope', 'UniqueID', 'Battery', 'IrBlaster', 'FileChooser')
@@ -96,90 +98,7 @@ class Camera(object):
         raise NotImplementedError()
 
 
-class ContactManager(object):
-    """Manager for receiving specific objects.
-
-    .. versionadded:: 1.2.4
-
-    Class for easier management contacts and groups.
-    """
-    _data = []
-
-    def __len__(self):
-        return len(self._data)
-
-    def __getitem__(self, item):
-        return self._data[item]
-
-    def __iter__(self):
-        return self._data.__iter__()
-
-    def __init__(self, data=None):
-        """Initial Method.
-
-        :param data: list of objects
-        """
-        super(ContactManager, self).__init__()
-        if data is None:
-            self.refresh()
-
-    @classmethod
-    def from_data(cls, initial_data):
-        """Return manager from given data.
-
-        :param initial_data: list of contacts or groups. Because of given data
-        manager do not refresh itself and will handle only on given data.
-        """
-        self = cls(initial_data)
-        return self
-
-    @classmethod
-    def filter(cls, **params):
-        """Return objects filtered in params.
-
-        :param params: dictionary where `key` is a column from object and
-        value of key is compared to value of column from this object.
-        Example
-        -------
-            >>> from plyer import contacts
-            >>> kivy_contacts = contacts.filter(display_name='kivy')
-            >>> print kivy_contacts
-            >>> [{
-            '   'id': 1,
-                'display_name': 'kivy',
-                'phones': ['123-123-123']
-            }]
-        """
-        result = []
-
-        # filtering objects
-        for obj in cls._data:
-
-            # filtering by params
-            for column, value in params.items():
-                if column in obj and obj[column] == value:
-                    result.append(obj)
-        return cls(result)
-
-    @classmethod
-    def all(cls):
-        """Return all objects."""
-        return cls()
-
-    def refresh(self):
-        """Refresh data from db."""
-        raise NotImplementedError
-
-    def exist(self):
-        """Returns True if have any object."""
-        return bool(self._data)
-
-    def first(self):
-        """Return first object from list of objects."""
-        return self._data[0] if len(self._data) else None
-
-
-class Contacts(object):
+class Contacts(ContactManager):
     """Contacts Facade
 
     .. versionadded:: 1.2.4
@@ -214,16 +133,9 @@ class Contacts(object):
 
     """
 
-    _contacts = []
-
-    def __init__(self):
-        """Initial Method."""
-        super(Contacts, self).__init__()
-
-
     def refresh(self):
-        """Refresh local contact list"""
-        raise NotImplementedError()
+        """Refresh data from db."""
+        raise NotImplementedError
 
 
 class Notification(object):

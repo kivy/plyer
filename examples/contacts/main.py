@@ -5,7 +5,6 @@ from kivy.uix.listview import ListItemLabel, CompositeListItem, ListView
 
 from contacts import instance
 contacts = instance()
-contacts.refresh()
 
 
 class ContactsInterface(GridLayout):
