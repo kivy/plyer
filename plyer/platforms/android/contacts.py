@@ -1,4 +1,4 @@
-"""This module provides access for contact list."""
+"""This module provides access for android contact list."""
 
 from plyer.facades import Contacts
 from plyer.platforms.android import activity
@@ -18,7 +18,7 @@ class AndroidContacts(Contacts):
     """
 
     def query(self, url, columns=None, params=None, order_by=None):
-        """Gives cursor over the result set
+        """Gives cursor over the result set.
 
         Android query behaves a little like SQL queries.
         With params you can read query as:

@@ -3,7 +3,9 @@ from kivy.adapters.dictadapter import DictAdapter
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.listview import ListItemLabel, CompositeListItem, ListView
 
-from plyer import contacts
+from contacts import instance
+contacts = instance()
+contacts.refresh()
 
 
 class ContactsInterface(GridLayout):
