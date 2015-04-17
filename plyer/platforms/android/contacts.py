@@ -57,8 +57,10 @@ class AndroidContacts(Contacts):
         contact_cr = self.query(JavaContacts.CONTENT_URI)
 
         contacts = []
-
-        while contact_cr.moveToNext():
+        i = 50
+        while contact_cr.moveToNext() and i > 5:
+            i -= 1
+            # print i, i+1, i+5
             contact = {}
 
             contact_id = contact_cr.getColumnIndex(JavaContacts._ID)
@@ -88,9 +90,10 @@ class AndroidContacts(Contacts):
             contacts.append(contact)
 
         contact_cr.close()
-        self._contacts = contacts
+        self._data = contacts
 
 
 def instance():
     """Return android contacts."""
-    return AndroidContacts()
+    contacts = AndroidContacts()
+    return contacts

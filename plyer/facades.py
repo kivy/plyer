@@ -132,10 +132,7 @@ class Contacts(ContactManager):
         My contact list: Kivy Team, my_account@gmail.com, member1
 
     """
-
-    def refresh(self):
-        """Refresh data from db."""
-        raise NotImplementedError
+    pass
 
 
 class Notification(object):
