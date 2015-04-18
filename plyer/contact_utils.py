@@ -89,8 +89,33 @@ class ContactManager(object):
         return self._data[0] if len(self._data) else None
 
 
-class Contact(object):
-    """Contact.
+class AbstractDBObject(object):
+
+    _columns = {}
+
+    def __getitem__(self, item):
+        if item in self._columns:
+            return self._columns[item]
+
+    def fields(self):
+        """Return list of fields name."""
+        return self._columns.keys()
+
+    def save(self):
+        """Save object."""
+        raise NotImplementedError
+
+    def translate(self):
+        """Return implemented on current platform."""
+        raise NotImplementedError
+
+    def refresh(self):
+        """"""
+        raise NotImplementedError
+
+
+class Contact(AbstractDBObject):
+    """Abstract Contact.
 
     Keeps personal info about contact like name or surname.
     Also provides access to phones, addresses and emails from that instance.
@@ -126,9 +151,6 @@ class Contact(object):
         ['123-123-123']
     """
 
-    _data = {}
-    """Personal info about contact."""
-
     groups = []
     """List of groups that contact belongs to."""
 
@@ -145,21 +167,21 @@ class Contact(object):
     """List of photos that contact is sticked to."""
 
 
-class Group(object):
+class Group(AbstractDBObject):
     pass
 
 
-class Phone(object):
+class Phone(AbstractDBObject):
     pass
 
 
-class Address(object):
+class Address(AbstractDBObject):
     pass
 
 
-class Email(object):
+class Email(AbstractDBObject):
     pass
 
 
-class Photo(object):
+class Photo(AbstractDBObject):
     pass
