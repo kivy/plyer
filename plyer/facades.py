@@ -6,7 +6,7 @@ Interface of all the features available.
 
 '''
 
-from contact_utils import ContactManager
+from contact_utils import AbstractManager
 
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
            'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
@@ -98,7 +98,7 @@ class Camera(object):
         raise NotImplementedError()
 
 
-class Contacts(ContactManager):
+class Contacts(AbstractManager):
     """Contacts Facade
 
     .. versionadded:: 1.2.4

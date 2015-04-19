@@ -3,15 +3,17 @@
 Implements Manager for easier management of contacts and
 small instances for store information about photos, emails and addresses.
 """
+from abc import ABCMeta
 
 
-class ContactManager(object):
+class AbstractManager(object):
     """Manager for receiving specific objects.
 
     .. versionadded:: 1.2.4
 
     Class for easier management contacts and groups.
     """
+    __metaclass__ = ABCMeta
     _data = []
 
     def __len__(self):
@@ -23,15 +25,23 @@ class ContactManager(object):
     def __iter__(self):
         return self._data.__iter__()
 
-    def __init__(self, data=None):
+    def __str__(self):
+        return '%s' % self._data
+
+    def __repr__(self):
+        return '%r' % self._data
+
+    def __init__(self, initial_data=None):
         """Initial Method.
 
         :param data: list of objects. If not given, objects will be retrieved
         from database of device.
         """
-        super(ContactManager, self).__init__()
-        if data is None:
-            self.refresh()
+        super(AbstractManager, self).__init__()
+        if initial_data:
+            if not isinstance(initial_data, list):
+                raise TypeError('Wrong type of data. Use List Type.')
+            self._data = initial_data
 
     @classmethod
     def from_data(cls, initial_data):
@@ -43,8 +53,7 @@ class ContactManager(object):
         self = cls(initial_data)
         return self
 
-    @classmethod
-    def filter(cls, **params):
+    def filter(self, **params):
         """Return objects filtered in params.
 
         :param params: dictionary where `key` is a column from object and
@@ -61,18 +70,17 @@ class ContactManager(object):
             }]
         """
         result = []
-
         # filtering objects
-        for obj in cls._data:
-
+        for obj in self._data:
             # filtering by params
             for column, value in params.items():
                 if column in obj and obj[column] == value:
                     result.append(obj)
-        return cls(result)
 
-    def refresh(self):
-        """Refresh data from db."""
+        return AbstractManager.from_data(result)
+
+    def reload(self):
+        """Reload data from db."""
         raise NotImplementedError
 
     @classmethod
@@ -88,17 +96,57 @@ class ContactManager(object):
         """Return first object from list of objects."""
         return self._data[0] if len(self._data) else None
 
+    def last(self):
+        """Return last object from list."""
+        return self._data[-1] if self._data else None
+
 
 class AbstractDBObject(object):
-
+    __metaclass__ = ABCMeta
     _columns = {}
+    _relations = {}
+
+    def __init__(self):
+        super(AbstractDBObject, self).__init__()
+        self._columns = dict(**self._columns)
+        self._relations = dict(**self._relations)
 
     def __getitem__(self, item):
         if item in self._columns:
             return self._columns[item]
+        if item in self._relations:
+            return self._relations[item]
+        return None
+
+    def __setitem__(self, key, value):
+        if key in self._columns:
+            self._columns[key] = value
+        if key in self._relations:
+            self._relations[key] = value
+
+    def __contains__(self, item):
+        if item in self._columns:
+            return True
+        return False
+
+    @classmethod
+    def from_params(cls, **initial_data):
+        """Creates objects from params.
+
+        Fulfils columns with value from parameters.
+        :param initial_data: dictionary where key is a column name
+        and value is a value of that column.
+        """
+        self = cls()
+
+        for key, value in initial_data.iteritems():
+            if key in self._columns:
+                self._columns[key] = value
+
+        return self
 
     def fields(self):
-        """Return list of fields name."""
+        """Return list of available fields."""
         return self._columns.keys()
 
     def save(self):
@@ -106,15 +154,15 @@ class AbstractDBObject(object):
         raise NotImplementedError
 
     def translate(self):
-        """Return implemented on current platform."""
+        """Return structured data for current platform."""
         raise NotImplementedError
 
-    def refresh(self):
-        """"""
+    def reload(self):
+        """Reload object from device."""
         raise NotImplementedError
 
 
-class Contact(AbstractDBObject):
+class AbstractContact(AbstractDBObject):
     """Abstract Contact.
 
     Keeps personal info about contact like name or surname.
@@ -147,41 +195,71 @@ class Contact(AbstractDBObject):
         ]
         >>> print contact['display_name']
         'Kivy Team'
-        >>> print contact['phones']
+        >>> print contact['phone_numbers']
         ['123-123-123']
     """
 
-    groups = []
-    """List of groups that contact belongs to."""
+    def __str__(self):
+        return 'display_name:%s id:%s' % (self['display_name'], self['id'])
 
-    phones = []
-    """List of phones that contact has."""
+    __metaclass__ = ABCMeta
 
-    addresses = []
-    """List of addresses that contact has."""
+    _columns = {
+        'id': basestring,
+        'display_name': basestring
+    }
 
-    emails = []
-    """List of emails that contact has."""
+    _relations = {
+        # List of groups that contact belongs to.
+        'groups': AbstractManager,
 
-    photos = []
-    """List of photos that contact is sticked to."""
+        # List of phones that contact has.
+        'phone_numbers': AbstractManager,
 
+        # List of addresses that contact has.
+        'addresses': AbstractManager,
 
-class Group(AbstractDBObject):
-    pass
+        # List of emails that contact has.
+        'emails': AbstractManager,
 
+        # List of photos that contact that stick to.
+        'photos': AbstractManager
 
-class Phone(AbstractDBObject):
-    pass
-
-
-class Address(AbstractDBObject):
-    pass
-
-
-class Email(AbstractDBObject):
-    pass
+    }
 
 
-class Photo(AbstractDBObject):
-    pass
+class AbstractGroup(AbstractDBObject):
+    __metaclass__ = ABCMeta
+    _columns = {
+        'id': int,
+        'name': basestring
+    }
+
+
+class AbstractPhone(AbstractDBObject):
+    __metaclass__ = ABCMeta
+    _columns = {
+        'contact_id': basestring,
+        'number': basestring
+    }
+
+    def __str__(self):
+        return '%s' % (self['number'])
+
+    def __repr__(self):
+        return '%r:%r' % (self['contact_id'], self['number'])
+
+
+class AbstractAddress(AbstractDBObject):
+    __metaclass__ = ABCMeta
+    _columns = {}
+
+
+class AbstractEmail(AbstractDBObject):
+    __metaclass__ = ABCMeta
+    _columns = {}
+
+
+class AbstractPhoto(AbstractDBObject):
+    __metaclass__ = ABCMeta
+    _columns = {}

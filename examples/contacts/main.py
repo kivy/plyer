@@ -3,9 +3,8 @@ from kivy.adapters.dictadapter import DictAdapter
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.listview import ListItemLabel, CompositeListItem, ListView
 
-from contacts import instance
-contacts = instance()
-
+from plyer import contacts
+contacts.reload()
 
 class ContactsInterface(GridLayout):
 
@@ -31,7 +30,9 @@ class ContactsInterface(GridLayout):
                         }},
                     {'cls': ListItemLabel,
                         'kwargs': {
-                            'text': ', '.join(rec['phones'])
+                            'text': ', '.join([
+                                p['number'] for p in rec['phone_numbers']
+                            ])
                         }},
                 ]}
 
