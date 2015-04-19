@@ -6,6 +6,8 @@ Interface of all the features available.
 
 '''
 
+from contact_utils import AbstractManager
+
 __all__ = ('Accelerometer', 'Camera', 'GPS', 'Notification',
            'TTS', 'Email', 'Vibrator', 'Sms', 'Compass',
            'Gyroscope', 'UniqueID', 'Battery', 'IrBlaster', 'FileChooser')
@@ -67,7 +69,9 @@ class Camera(object):
         :type filename: str
         :type on_complete: callable
         '''
+
         self._take_picture(filename=filename, on_complete=on_complete)
+
     def take_video(self, filename, on_complete):
         '''Ask the OS to capture a video, and store it at filename.
 
@@ -82,15 +86,53 @@ class Camera(object):
         :type filename: str
         :type on_complete: callable
         '''
+
         self._take_video(filename=filename, on_complete=on_complete)
 
     # private
 
     def _take_picture(self, **kwargs):
         raise NotImplementedError()
-        
+
     def _take_video(self, **kwargs):
         raise NotImplementedError()
+
+
+class Contacts(AbstractManager):
+    """Contacts Facade
+
+    .. versionadded:: 1.2.4
+
+    This class provides contact list received from your device.
+
+    Contacts class operate on a list of Contacts.
+
+    Contact is a dict with a fields:
+        `id`: int, unique id of contact.
+        `display_name`: str, name of contact displayed in a phone.
+        'phones': list of str, all phone numbers of contact.
+
+    Example
+    -------
+
+        >> from plyer import contacts
+        >>
+        >> print 'I have {} contacts'.format(len(contacts))
+        I have 3 contacts
+        >>
+        >> print contacts[0]
+        {
+            'id': 1
+            'display_name': 'Kivy Team'
+            'phones': ['123-123-123']
+        }
+        >>
+        >> contact_names = [contact['display_name'] for contact in contacts]
+        >> print 'My contact list: {}'.format(', '.join(contact_names))
+        My contact list: Kivy Team, my_account@gmail.com, member1
+
+    """
+    pass
 
 
 class Notification(object):
@@ -98,7 +140,7 @@ class Notification(object):
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
-                timeout=10):
+               timeout=10):
         '''Send a notification.
 
         :param title: Title of the notification
@@ -436,19 +478,18 @@ class Battery(object):
     def get_state(self):
         return self._get_state()
 
-    #private
+    # private
 
     def _get_state(self):
         raise NotImplementedError()
 
 
 class IrBlaster(object):
-    '''Infrared blaster facade.'''
+    """Infrared blaster facade."""
 
     @staticmethod
     def periods_to_microseconds(frequency, pattern):
-        '''Convert a pattern from period counts to microseconds.
-        '''
+        """Convert a pattern from period counts to microseconds."""
         period = 1000000. / frequency
         return [period * x for x in pattern]
 
