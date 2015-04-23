@@ -1,17 +1,14 @@
-from jnius import autoclass, cast
+from jnius import autoclass
 from plyer.platforms.android import activity
 from plyer.facades import UniqueID
 
-TelephonyManager = autoclass('android.telephony.TelephonyManager')
-Context = autoclass('android.content.Context')
-
+Secure = autoclass('android.provider.Settings$Secure')
 
 class AndroidUniqueID(UniqueID):
 
     def _get_uid(self):
-        manager = cast('android.telephony.TelephonyManager',
-            activity.getSystemService(Context.TELEPHONY_SERVICE))
-        return manager.getDeviceId()
+        return Secure.getString(activity.getContentResolver(),
+                              Secure.ANDROID_ID)
 
 
 def instance():
