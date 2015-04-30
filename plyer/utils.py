@@ -10,9 +10,6 @@ from os import environ
 from os import path
 from sys import platform as _sys_platform
 
-_platform_ios = None
-_platform_android = None
-
 
 class Platform(object):
     # refactored to class to allow module function to be replaced
