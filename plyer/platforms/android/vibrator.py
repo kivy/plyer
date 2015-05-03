@@ -5,7 +5,6 @@ from plyer.facades import Vibrator
 from plyer.platforms.android import activity
 from plyer.platforms.android import SDK_INT
 
-Intent = autoclass('android.content.Intent')
 Context = autoclass('android.content.Context')
 vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
 
