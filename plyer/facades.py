@@ -251,7 +251,7 @@ class Vibrator(object):
     def _vibrate(self, **kwargs):
         raise NotImplementedError()
 
-    def pattern(self, pattern=[0, 1], repeat=-1):
+    def pattern(self, pattern=(0, 1), repeat=-1):
         '''Ask the vibrator to vibrate with the given pattern, with an
         optional repeat.
 
