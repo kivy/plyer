@@ -33,8 +33,5 @@ Unique ID (IMEI or SN)             X             X             X   X       X   X
 Gyroscope                          X             X             X
 Battery                            X             X             X   X       X   X
 Native file chooser                                                X       X   X
-Text to speech                     X             X                 X       X   X
-Email (open mail client)                         X
-Vibrator                                         X
 Orientation                                      X
 ================================== ============= ============= === ======= === =====
