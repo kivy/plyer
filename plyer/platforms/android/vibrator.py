@@ -39,7 +39,7 @@ class AndroidVibrator(Vibrator):
     def _exists(self):
         if SDK_INT >= 11:
             return vibrator.hasVibrator()
-        return
+        return NotImplementedError()
 
     def _cancel(self):
         vibrator.cancel()
