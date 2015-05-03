@@ -38,20 +38,6 @@ BoxLayout:
         WrapButton:
             text: 'portrait sensor'
             on_release: orientation.set_sensor(mode='portrait')
-            
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text_size: self.size
-            markup: True
-            halign: 'center'
-            text: '[color=#ff0000]RED[/color] functions need api level 18 if running on android!'
-            size_hint_y: None
-            height: sp(80)
-        Image:
-            source: 'data/logo/kivy-icon-512.png'
-            allow_stretch: True
-            keep_ratio: False
 ''')
 
 runTouchApp(interface)
