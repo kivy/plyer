@@ -9,8 +9,13 @@ from kivy.properties import ListProperty
 from kivy.app import App
 from kivy.metrics import sp
 import random
+from plyer.utils import platform
 
-Builder.load_string("""
+import logging
+
+log = logging.getLogger()
+
+kv = """
 <Separator@BoxLayout>:
     module_name: ""
     canvas.before:
@@ -26,7 +31,6 @@ Builder.load_string("""
         text: root.module_name
 
 <LogItem@BoxLayout>:
-    index: 0
     spacing: "5dp"
     test_result: ""
     canvas.before:
@@ -40,7 +44,28 @@ Builder.load_string("""
         text: root.test_result
         color: (0, 1, 0, 1)
         text_size: (self.width, None)
-""")
+
+# app example
+BoxLayout:
+    orientation: "vertical"
+    BoxLayout:
+        padding: "2sp"
+        spacing: "2sp"
+        size_hint_y: None
+        height: "48sp"
+
+        Button:
+            text: "Sort data"
+            on_release: app.sort_data()
+
+        Button:
+            text: "Generate new data"
+            on_release: app.generate_new_data()
+
+    RecycleView:
+        id: rv
+
+"""
 
 registered_modules = defaultdict(list)
 
@@ -77,66 +102,75 @@ def test_vibrator_vibrate():
     vibrator.pattern([0.5, 0.1, 0.4])
 
 
-class TestApp(App):
+class State:
+
+    Ok = 'Ok'
+    NotImplemented = 'Not Implemented'
+    Error = 'Error'
+
+
+class TestViewApp(App):
 
     results = ListProperty()
     rv = RecycleView()
 
+    def build(self):
+        self.root = Builder.load_string(kv)
+        self.rv = self.root.ids.rv
+        self.rv.key_viewclass = "viewclass"
+        self.rv.key_size = "height"
+        self.rv.data = self.results
+        self.run_tests()
+
     def try_method(self, f):
         try:
             f()
-            return 0
-        except ImportError:
-            print 'cannot import'
-            return -3
+            log.info(State.Ok)
+            return State.Ok
         except NotImplementedError:
-            print 'Not implemented yet on this platform'
-            return -2
+            log.info(State.NotImplemented)
+            return State.NotImplemented
         except Exception:
-            print 'error'
-            return -1
+            log.info(State.Error)
+            return State.Error
 
     def run_tests(self):
 
         for module, functions in registered_modules.iteritems():
-            print 'testing module', module
-            self._add_separator(module)
-            for name, function in functions:
-                print 'testing function', name
-                result = self.try_method(function)
+            log.info('Testing module %s', module)
+            try:
+                __import__('plyer.platforms.%s.%s' % (platform, module))
+            except ImportError:
+                self._add_separator(module, State.NotImplemented)
 
+            total = len(functions)
+            passed = 0
+            for name, function in functions:
+                log.info('Testing function %s', name)
+                result = self.try_method(function)
+                if result == State.Ok:
+                    passed += 1
                 self._add_test_result(name, result)
 
-    def _add_separator(self, module_name):
+    def _add_separator(self, module_name, state=None):
         self.results.append({
             "viewclass": "Separator",
             "height": sp(20),
-            "module_name": module_name
+            "index": len(self.results),
+            "module_name": '%25s %s' % (module_name, state)
         })
         self.rv.refresh_from_data(force=True)
 
-    def _add_test_result(self, test_name, result):
+    def _add_test_result(self, test_name, state):
         self.rv.data.append({
             "viewclass": "LogItem",
+            "index": len(self.results),
             "test_result": "{} {}".format(
-                result,
+                state,
                 test_name,
             )
         })
         self.rv.refresh_from_data(force=True)
 
-    def build(self):
-        self.rv.key_viewclass = "viewclass"
-        self.rv.key_height = "height"
-        self.rv.data = self.results
+TestViewApp().run()
 
-        layout = BoxLayout(orientation='vertical')
-        refresh_button = Button(text='Run Tests', size_hint=(1, .1))
-        refresh_button.bind(on_press=self.run_tests())
-        layout.add_widget(self.rv)
-
-        return self.rv
-
-test_app = TestApp()
-test_app.run()
-test_app.run_tests()
