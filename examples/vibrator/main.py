@@ -1,8 +1,6 @@
-
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
-
+from kivy.uix.boxlayout import BoxLayout
 
 Builder.load_string('''
 #:import vibrator plyer.vibrator
@@ -36,10 +34,12 @@ Builder.load_string('''
 
 
 class VibrationInterface(BoxLayout):
+    '''Root Widget.'''
     pass
 
 
 class VibrationApp(App):
+
     def build(self):
         return VibrationInterface()
 
