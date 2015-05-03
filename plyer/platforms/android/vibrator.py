@@ -1,4 +1,5 @@
 """Implementation Vibrator for Android."""
+
 from jnius import autoclass
 from plyer.facades import Vibrator
 from plyer.platforms.android import activity
