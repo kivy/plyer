@@ -9,11 +9,10 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
            'DestroyWindow', 'LoadIconW')
 
 import ctypes
-from ctypes import (Structure, windll, sizeof, byref, POINTER, memset,
-                    WINFUNCTYPE)
+from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
 from ctypes.wintypes import (DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
-    LPCWSTR, LPWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
-    HBRUSH, HMODULE, ATOM, BOOL, HANDLE, LONG, HHOOK)
+    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
+    HBRUSH, HMODULE, ATOM, BOOL, HANDLE)
 LRESULT = LPARAM
 HRESULT = HANDLE
 HCURSOR = HICON

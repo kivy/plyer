@@ -14,7 +14,6 @@ class MacOSXEmail(Email):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
         text = kwargs.get('text')
-        create_chooser = kwargs.get('create_chooser')
 
         uri = "mailto:"
         if recipient:
