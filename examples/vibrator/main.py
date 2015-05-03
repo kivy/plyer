@@ -1,4 +1,3 @@
-"""Plyer Vibrator Example."""
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -40,10 +39,8 @@ class VibrationInterface(BoxLayout):
 
 
 class VibrationApp(App):
-    """Main Application."""
 
     def build(self):
-        """Return root widget."""
         return VibrationInterface()
 
     def on_pause(self):
