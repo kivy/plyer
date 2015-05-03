@@ -17,12 +17,6 @@ class AndroidVibrator(Vibrator):
         * vibrate from given pattern.
         * cancel vibration.
         * check whether Vibrator exists.
-
-    .. warning::
-        Feature check if Vibrator exists works only for
-        Android ver. 3.0.x (SDK >= 11) and above. For android with SDK < 11
-        it just returns `None`.
-
     '''
 
     def _vibrate(self, time=1):
