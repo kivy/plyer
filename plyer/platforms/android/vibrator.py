@@ -19,24 +19,24 @@ class AndroidVibrator(Vibrator):
         * check whether Vibrator exists.
     '''
 
-    def _vibrate(self, time=1):
+    def _vibrate(self, time=None, **kwargs):
         if vibrator:
             vibrator.vibrate(int(1000 * time))
 
-    def _pattern(self, pattern=(0, 1), repeat=-1):
+    def _pattern(self, pattern=None, repeat=None, **kwargs):
         pattern = [int(1000 * time) for time in pattern]
 
         if vibrator:
             vibrator.vibrate(pattern, repeat)
 
-    def _exists(self):
+    def _exists(self, **kwargs):
         if SDK_INT >= 11:
             return vibrator.hasVibrator()
         elif activity.getSystemService(Context.VIBRATOR_SERVICE) is None:
             raise NotImplementedError()
         return True
 
-    def _cancel(self):
+    def _cancel(self, **kwargs):
         vibrator.cancel()
 
 
