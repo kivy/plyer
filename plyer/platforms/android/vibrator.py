@@ -39,7 +39,9 @@ class AndroidVibrator(Vibrator):
     def _exists(self):
         if SDK_INT >= 11:
             return vibrator.hasVibrator()
-        return NotImplementedError()
+        elif activity.getSystemService(Context.VIBRATOR_SERVICE) is None:
+            raise NotImplementedError()
+        return True
 
     def _cancel(self):
         vibrator.cancel()
