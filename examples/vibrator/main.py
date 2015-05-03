@@ -34,7 +34,7 @@ Builder.load_string('''
 
 
 class VibrationInterface(BoxLayout):
-    """Root Widget."""
+    '''Root Widget.'''
     pass
 
 

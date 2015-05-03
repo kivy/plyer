@@ -1,4 +1,4 @@
-"""Implementation Vibrator for Android."""
+'''Implementation Vibrator for Android.'''
 
 from jnius import autoclass
 from plyer.facades import Vibrator
@@ -11,7 +11,7 @@ vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
 
 
 class AndroidVibrator(Vibrator):
-    """Android Vibrator class.
+    '''Android Vibrator class.
 
     Supported features:
         * vibrate for some period of time.
@@ -24,7 +24,7 @@ class AndroidVibrator(Vibrator):
         Android ver. 3.0.x (SDK >= 11) and above. For android with SDK < 11
         it just returns `None`.
 
-    """
+    '''
 
     def _vibrate(self, time=1):
         if vibrator:
@@ -48,8 +48,8 @@ class AndroidVibrator(Vibrator):
 
 
 def instance():
-    """Returns Vibrator with android features.
+    '''Returns Vibrator with android features.
 
     :return: instance of class AndroidVibrator
-    """
+    '''
     return AndroidVibrator()
