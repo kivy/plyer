@@ -68,6 +68,7 @@ class Camera(object):
         :type on_complete: callable
         '''
         self._take_picture(filename=filename, on_complete=on_complete)
+
     def take_video(self, filename, on_complete):
         '''Ask the OS to capture a video, and store it at filename.
 
@@ -88,7 +89,7 @@ class Camera(object):
 
     def _take_picture(self, **kwargs):
         raise NotImplementedError()
-        
+
     def _take_video(self, **kwargs):
         raise NotImplementedError()
 
