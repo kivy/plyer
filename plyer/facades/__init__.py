@@ -19,7 +19,7 @@ from plyer.facades.filechooser import FileChooser
 from plyer.facades.gps import GPS
 from plyer.facades.gyroscope import Gyroscope
 from plyer.facades.irblaster import IrBlaster
-from plyer.facades import Orientation
+from plyer.facades.orientation import Orientation
 from plyer.facades.notification import Notification
 from plyer.facades.sms import Sms
 from plyer.facades.tts import TTS
