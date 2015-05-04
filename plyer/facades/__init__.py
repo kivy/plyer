@@ -1,3 +1,11 @@
+'''
+Facades
+=======
+
+Interface of all the features available.
+
+'''
+
 __all__ = ('Accelerometer', 'Battery', 'Camera', 'Compass', 'Email',
            'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster', 'Notification',
            'Sms', 'TTS', 'UniqueID', 'Vibrator')
