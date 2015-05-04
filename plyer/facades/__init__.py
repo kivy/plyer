@@ -7,8 +7,8 @@ Interface of all the features available.
 '''
 
 __all__ = ('Accelerometer', 'Battery', 'Camera', 'Compass', 'Email',
-           'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster', 'Notification',
-           'Sms', 'TTS', 'UniqueID', 'Vibrator')
+           'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster', 'Orientation',
+           'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator')
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.battery import Battery
@@ -19,6 +19,7 @@ from plyer.facades.filechooser import FileChooser
 from plyer.facades.gps import GPS
 from plyer.facades.gyroscope import Gyroscope
 from plyer.facades.irblaster import IrBlaster
+from plyer.facades import Orientation
 from plyer.facades.notification import Notification
 from plyer.facades.sms import Sms
 from plyer.facades.tts import TTS
