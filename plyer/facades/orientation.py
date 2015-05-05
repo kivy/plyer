@@ -5,6 +5,8 @@ class Orientation(object):
         These settings are generally guidelines, the operating
         system may choose to ignore them, or they may be overridden by
         other system components.
+
+    .. versionadded:: 1.2.4
     '''
 
     def set_landscape(self, reverse=False):
