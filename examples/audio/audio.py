@@ -1,15 +1,4 @@
-
-MICROPHONE_STATUS = {
-    'prepare': 'prepare',
-    'ready': 'ready',
-    'pause': 'pause',
-    'play': 'play',
-    'recording': 'recording',
-    'stopped': 'stopped',
-}
-
-
-class Microphone(object):
+class Audio(object):
     """Microphone Facade.
     Used for recording audio.
     Use method `start` to start record and `stop` for stop recording.
@@ -22,16 +11,17 @@ class Microphone(object):
         You need android permissions: RECORD_AUDIO
     """
 
-    _state = MICROPHONE_STATUS['prepare']
+    _state = 'stopped'
     _file_path = ''
 
     def __init__(self, file_path):
-        super(Microphone, self).__init__()
+        super(Audio, self).__init__()
         self._file_path = file_path
 
     def start(self):
         """Start record."""
         self._start()
+        self._state = 'recording'
 
     def _start(self):
         raise NotImplementedError()
@@ -39,6 +29,7 @@ class Microphone(object):
     def stop(self):
         """Stop record."""
         self._stop()
+        self._state = 'stopped'
 
     def _stop(self):
         raise NotImplementedError()
@@ -46,40 +37,31 @@ class Microphone(object):
     def play(self):
         """Play current recording."""
         self._play()
+        self._state = 'playing'
 
     def _play(self):
         raise NotImplementedError()
 
     def pause(self):
-        """Pause Record."""
-        self._pause()
-
-    def resume(self):
-        """Resume recording."""
-        self._resume()
-
-    def _resume(self):
-        raise NotImplementedError()
+        """Pause Recording."""
+        if self.state == 'paused':
+            # state when we want have paused already.
+            self.start()
+        else:
+            self._pause()
+            self._state = 'paused'
 
     def _pause(self):
         raise NotImplementedError()
 
     @property
-    def info(self):
-        """Give info about quality and source destination."""
-        return self._info()
-
-    def _info(self):
-        raise NotImplementedError()
-
-    @property
-    def status(self):
+    def state(self):
         """Return status of Microphone."""
-        return MICROPHONE_STATUS[self._state]
+        return self._state
 
-    @status.setter
-    def status(self, state):
-        self._state = state
+    @state.setter
+    def state(self, status):
+        self._state = status
 
     @property
     def file_path(self):
@@ -87,6 +69,7 @@ class Microphone(object):
 
     @file_path.setter
     def file_path(self, location):
+        """Location of the recording."""
         assert isinstance(location, (basestring, unicode)), \
             'Location must be string or unicode'
         self._file_path = location
