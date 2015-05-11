@@ -13,12 +13,12 @@ MediaPlayer = autoclass('android.media.MediaPlayer')
 
 
 class AndroidAudio(Audio):
-    """Audio for android.
+    '''Audio for android.
 
     For recording audio we use MediaRecorder Android class.
     For playing audio we use MediaPlayer Android class.
 
-    """
+    '''
 
     def __init__(self, file_path=None):
         default_path = '/sdcard/testrecorder.3gp'

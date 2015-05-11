@@ -1,5 +1,5 @@
 class Audio(object):
-    """Audio Facade.
+    '''Audio Facade.
 
     Used for recording audio.
     Use method `start` to start record and `stop` for stop recording.
@@ -11,7 +11,7 @@ class Audio(object):
 
     .. note::
         You need android permissions: RECORD_AUDIO
-    """
+    '''
 
     state = 'ready'
     _file_path = ''
@@ -21,7 +21,7 @@ class Audio(object):
         self._file_path = file_path
 
     def start(self):
-        """Start record."""
+        '''Start record.'''
         self._start()
         self.state = 'recording'
 
@@ -29,7 +29,7 @@ class Audio(object):
         raise NotImplementedError()
 
     def stop(self):
-        """Stop record."""
+        '''Stop record.'''
         self._stop()
         self.state = 'ready'
 
@@ -37,7 +37,7 @@ class Audio(object):
         raise NotImplementedError()
 
     def play(self):
-        """Play current recording."""
+        '''Play current recording.'''
         self._play()
         self.state = 'playing'
 
@@ -50,7 +50,7 @@ class Audio(object):
 
     @file_path.setter
     def file_path(self, location):
-        """Location of the recording."""
+        '''Location of the recording.'''
         assert isinstance(location, (basestring, unicode)), \
             'Location must be string or unicode'
         self._file_path = location
