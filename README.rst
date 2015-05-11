@@ -34,4 +34,5 @@ Gyroscope                          X             X             X
 Battery                            X             X             X   X       X   X
 Native file chooser                                                X       X   X
 Orientation                        X             X
+Audio recording                    X             X
 ================================== ============= ============= === ======= === =====
