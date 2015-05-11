@@ -20,12 +20,11 @@ BoxLayout:
 
     Button:
         text: 'Play'
-        #on_release:
-        #    vibrator.pattern([float(n) for n in ti.text.split(',')])
+        on_release: audio.play()
 
-    TextInput:
-        id: ti
-        text: '0.5,0.5,1,2,0.1,0.1,0.1,0.1,0.1,0.1'
+    Button:
+        text: 'Stop'
+        on_release: audio.stop()
 
 '''
 

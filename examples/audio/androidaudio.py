@@ -9,10 +9,12 @@ from jnius import PythonJavaClass
 # from plyer.facades import MICROPHONE_STATUS
 from audio import Audio
 from plyer.platforms.android import activity
-from plyer.platforms.android import SDK_INT
+# from plyer.platforms.android import SDK_INT
 
 # Java Classes
 FileInputStream = autoclass('java.io.FileInputStream')
+FileOutputStream = autoclass('java.io.FileOutputStream')
+ByteBuffer = autoclass('java.nio.ByteBuffer')
 SequenceInputStream = autoclass('java.io.SequenceInputStream')
 
 # Android Classes
@@ -147,19 +149,17 @@ class AndroidAudio(Audio):
 
     def _merge(self):
         """Merge temporary recording with original recording."""
-        temp = FileInputStream(self._temp_path)
-        orig = FileInputStream(self._file_path)
-
-        stream = SequenceInputStream(temp, orig)
+        input = FileInputStream(self._temp_path)
+        output = FileOutputStream(self._file_path, True)
+        buf = ByteBuffer.allocate(1024).array()
         while True:
-            data = stream.read()
+            data = input.read()
             if data == -1:
                 break
-            orig.writeShort(data)
+            output.write(buf, 0, data)
 
-        stream.close()
-        temp.close()
-        orig.close()
+        output.close()
+        input.close()
 
 
 
