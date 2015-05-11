@@ -1,10 +1,8 @@
-from time import sleep
-
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty
 from kivy.properties import NumericProperty
+from kivy.properties import ObjectProperty
+from kivy.uix.boxlayout import BoxLayout
 
 
 Builder.load_string('''
@@ -90,6 +88,7 @@ class AudioInterface(BoxLayout):
             play_button.text = 'Press to play'
             record_button.disabled = False
 
+
 class AudioApp(App):
 
     def build(self):
@@ -100,5 +99,3 @@ class AudioApp(App):
 
 if __name__ == "__main__":
     AudioApp().run()
-
-
