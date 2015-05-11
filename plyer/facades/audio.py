@@ -1,29 +1,29 @@
 class Audio(object):
     """Audio Facade.
+
     Used for recording audio.
     Use method `start` to start record and `stop` for stop recording.
     For hear, what you have just recorded use method `play`.
 
     Status will tell you about current job of the Audio.
 
+    Default path for recording is set in platform implementation.
+
     .. note::
         You need android permissions: RECORD_AUDIO
     """
 
-    _state = 'ready'
+    state = 'ready'
     _file_path = ''
 
     def __init__(self, file_path):
         super(Audio, self).__init__()
         self._file_path = file_path
 
-    def _prepare(self):
-        raise NotImplementedError
-
     def start(self):
         """Start record."""
         self._start()
-        self._state = 'recording'
+        self.state = 'recording'
 
     def _start(self):
         raise NotImplementedError()
@@ -31,7 +31,7 @@ class Audio(object):
     def stop(self):
         """Stop record."""
         self._stop()
-        self._state = 'ready'
+        self.state = 'ready'
 
     def _stop(self):
         raise NotImplementedError()
@@ -39,19 +39,10 @@ class Audio(object):
     def play(self):
         """Play current recording."""
         self._play()
-        self._state = 'playing'
+        self.state = 'playing'
 
     def _play(self):
         raise NotImplementedError()
-
-    @property
-    def state(self):
-        """Return status of Microphone."""
-        return self._state
-
-    @state.setter
-    def state(self, status):
-        self._state = status
 
     @property
     def file_path(self):

@@ -1,9 +1,6 @@
 from jnius import autoclass
-from jnius import cast
-from jnius import java_method
-from jnius import PythonJavaClass
 
-from audio import Audio
+from plyer.facades.audio import Audio
 
 # Recorder Classes
 MediaRecorder = autoclass('android.media.MediaRecorder')
@@ -14,19 +11,19 @@ AudioEncoder = autoclass('android.media.MediaRecorder$AudioEncoder')
 # Player Classes
 MediaPlayer = autoclass('android.media.MediaPlayer')
 
+
 class AndroidAudio(Audio):
     """Audio for android.
 
-    For recording audio we use MediaRecorder Android c
-    """
+    For recording audio we use MediaRecorder Android class.
+    For playing audio we use MediaPlayer Android class.
 
-    # keeps current options like source, format or encoders
-    _options = {}
+    """
 
     def __init__(self, file_path=None):
         default_path = '/sdcard/testrecorder.3gp'
         super(AndroidAudio, self).__init__(file_path or default_path)
-        
+
         self._recorder = None
         self._player = None
 
@@ -57,8 +54,6 @@ class AndroidAudio(Audio):
         self._player.prepare()
         self._player.start()
 
-
-audio = AndroidAudio()
 
 def instance():
     return AndroidAudio()
