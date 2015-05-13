@@ -8,6 +8,9 @@ class Audio(object):
     `status` will tell you about current job of the Audio.
 
     Default path for recording is set in platform implementation.
+
+    .. note::
+        On Android the `RECORD_AUDIO` permission is needed.
     '''
 
     state = 'ready'
