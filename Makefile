@@ -19,7 +19,7 @@ html:
 	$(MAKE) -C docs html
 
 style:
-	$(PYTHON) $(CHECKSCRIPT) $(PLYER_DIR)
+	$(PYTHON) $(CHECKSCRIPT) .
 
 stylereport:
 	$(PYTHON) $(CHECKSCRIPT) -html $(PLYER_DIR)

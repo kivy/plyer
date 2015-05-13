@@ -50,7 +50,7 @@ class SubprocessFileChooser(object):
         self._process = sp.Popen(cmd, stdout=sp.PIPE)
         while True:
             ret = self._process.poll()
-            if ret != None:
+            if ret is not None:
                 if ret == self.successretcode:
                     out = self._process.communicate()[0].strip()
                     self.selection = self._split_output(out)
@@ -88,7 +88,8 @@ class ZenityFileChooser(SubprocessFileChooser):
     successretcode = 0
 
     def _gen_cmdline(self):
-        cmdline = [which(self.executable), "--file-selection", "--confirm-overwrite"]
+        cmdline = [which(self.executable),
+                   "--file-selection", "--confirm-overwrite"]
         if self.multiple:
             cmdline += ["--multiple"]
         if self.mode == "save":
@@ -98,15 +99,19 @@ class ZenityFileChooser(SubprocessFileChooser):
         if self.path:
             cmdline += ["--filename", self.path]
         if self.title:
-             cmdline += ["--name", self.title]
+            cmdline += ["--name", self.title]
         if self.icon:
             cmdline += ["--window-icon", self.icon]
         for f in self.filters:
             if type(f) == str:
                 cmdline += ["--file-filter", f]
             else:
-                cmdline += ["--file-filter", "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))]
+                cmdline += [
+                    "--file-filter",
+                    "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))
+                ]
         return cmdline
+
 
 class KDialogFileChooser(SubprocessFileChooser):
     """A FileChooser implementation using KDialog (on GNU/Linux).
@@ -132,11 +137,22 @@ class KDialogFileChooser(SubprocessFileChooser):
                 filt += list(f[1:])
 
         if self.mode == "dir":
-            cmdline += ["--getexistingdirectory", (self.path if self.path else os.path.expanduser("~"))]
+            cmdline += [
+                "--getexistingdirectory",
+                (self.path if self.path else os.path.expanduser("~"))
+            ]
         elif self.mode == "save":
-            cmdline += ["--getopenfilename", (self.path if self.path else os.path.expanduser("~")), " ".join(filt)]
+            cmdline += [
+                "--getopenfilename",
+                (self.path if self.path else os.path.expanduser("~")),
+                " ".join(filt)
+            ]
         else:
-            cmdline += ["--getopenfilename", (self.path if self.path else os.path.expanduser("~")), " ".join(filt)]
+            cmdline += [
+                "--getopenfilename",
+                (self.path if self.path else os.path.expanduser("~")),
+                " ".join(filt)
+            ]
         if self.multiple:
             cmdline += ["--multiple", "--separate-output"]
         if self.title:
@@ -144,6 +160,7 @@ class KDialogFileChooser(SubprocessFileChooser):
         if self.icon:
             cmdline += ["--icon", self.icon]
         return cmdline
+
 
 class YADFileChooser(SubprocessFileChooser):
     """A NativeFileChooser implementation using YAD (on GNU/Linux).
@@ -157,7 +174,8 @@ class YADFileChooser(SubprocessFileChooser):
     successretcode = 0
 
     def _gen_cmdline(self):
-        cmdline = [which(self.executable), "--file-selection", "--confirm-overwrite", "--geometry", "800x600+150+150"]
+        cmdline = [which(self.executable), "--file-selection",
+                   "--confirm-overwrite", "--geometry", "800x600+150+150"]
         if self.multiple:
             cmdline += ["--multiple", "--separator", self.separator]
         if self.mode == "save":
@@ -169,19 +187,25 @@ class YADFileChooser(SubprocessFileChooser):
         if self.path:
             cmdline += ["--filename", self.path]
         if self.title:
-             cmdline += ["--name", self.title]
+            cmdline += ["--name", self.title]
         if self.icon:
             cmdline += ["--window-icon", self.icon]
         for f in self.filters:
             if type(f) == str:
                 cmdline += ["--file-filter", f]
             else:
-                cmdline += ["--file-filter", "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))]
+                cmdline += [
+                    "--file-filter",
+                    "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))
+                ]
         return cmdline
 
-CHOOSERS = {"gnome":     ZenityFileChooser,
-            "kde":       KDialogFileChooser,
-            "yad":       YADFileChooser}
+CHOOSERS = {
+    "gnome": ZenityFileChooser,
+    "kde": KDialogFileChooser,
+    "yad": YADFileChooser
+}
+
 
 class LinuxFileChooser(FileChooser):
     """FileChooser implementation for GNu/Linux. Accepts one additional
@@ -193,7 +217,8 @@ class LinuxFileChooser(FileChooser):
     """
 
     desktop = None
-    if str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" and which("kdialog"):
+    if str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" \
+        and which("kdialog"):
         desktop = "kde"
     elif which("yad"):
         desktop = "yad"

@@ -46,7 +46,7 @@ class Win32FileChooser(object):
                 args = {}
 
                 if self.path:
-                    atgs["InitialDir"] = os.path.dirname(self.path)
+                    args["InitialDir"] = os.path.dirname(self.path)
                     args["File"] = os.path.splitext(os.path.dirname(self.path))[0]
                     args["DefExt"] = os.path.splitext(os.path.dirname(self.path))[1]
                 args["Title"] = self.title if self.title else "Pick a file..."
