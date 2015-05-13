@@ -3,14 +3,11 @@ class Audio(object):
 
     Used for recording audio.
     Use method `start` to start record and `stop` for stop recording.
-    For hear, what you have just recorded use method `play`.
+    To hear what you have just recorded, use method `play`.
 
-    Status will tell you about current job of the Audio.
+    `status` will tell you about current job of the Audio.
 
     Default path for recording is set in platform implementation.
-
-    .. note::
-        You need android permissions: RECORD_AUDIO
     '''
 
     state = 'ready'

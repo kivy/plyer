@@ -18,6 +18,8 @@ class AndroidAudio(Audio):
     For recording audio we use MediaRecorder Android class.
     For playing audio we use MediaPlayer Android class.
 
+    .. note::
+        Needed permissions: RECORD_AUDIO
     '''
 
     def __init__(self, file_path=None):
