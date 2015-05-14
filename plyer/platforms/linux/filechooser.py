@@ -11,25 +11,25 @@ import time
 
 
 class SubprocessFileChooser(object):
-    """A file chooser implementation that allows using
+    '''A file chooser implementation that allows using
     subprocess back-ends.
     Normally you only need to override _gen_cmdline, executable,
     separator and successretcode.
-    """
+    '''
 
     executable = ""
-    """The name of the executable of the back-end.
-    """
+    '''The name of the executable of the back-end.
+    '''
 
     separator = "|"
-    """The separator used by the back-end. Override this for automatic
+    '''The separator used by the back-end. Override this for automatic
     splitting, or override _split_output.
-    """
+    '''
 
     successretcode = 0
-    """The return code which is returned when the user doesn't close the
+    '''The return code which is returned when the user doesn't close the
     dialog without choosing anything, or when the app doesn't crash.
-    """
+    '''
 
     path = None
     multiple = False
@@ -60,15 +60,15 @@ class SubprocessFileChooser(object):
             time.sleep(0.1)
 
     def _split_output(self, out):
-        """This methods receives the output of the back-end and turns
+        '''This methods receives the output of the back-end and turns
         it into a list of paths.
-        """
+        '''
         return out.split(self.separator)
 
     def _gen_cmdline(self):
-        """Returns the command line of the back-end, based on the current
+        '''Returns the command line of the back-end, based on the current
         properties. You need to override this.
-        """
+        '''
         raise NotImplementedError()
 
     def run(self):
@@ -76,12 +76,12 @@ class SubprocessFileChooser(object):
 
 
 class ZenityFileChooser(SubprocessFileChooser):
-    """A FileChooser implementation using Zenity (on GNU/Linux).
+    '''A FileChooser implementation using Zenity (on GNU/Linux).
 
     Not implemented features:
     * show_hidden
     * preview
-    """
+    '''
 
     executable = "zenity"
     separator = "|"
@@ -114,12 +114,12 @@ class ZenityFileChooser(SubprocessFileChooser):
 
 
 class KDialogFileChooser(SubprocessFileChooser):
-    """A FileChooser implementation using KDialog (on GNU/Linux).
+    '''A FileChooser implementation using KDialog (on GNU/Linux).
 
     Not implemented features:
     * show_hidden
     * preview
-    """
+    '''
 
     executable = "kdialog"
     separator = "\n"
@@ -163,11 +163,11 @@ class KDialogFileChooser(SubprocessFileChooser):
 
 
 class YADFileChooser(SubprocessFileChooser):
-    """A NativeFileChooser implementation using YAD (on GNU/Linux).
+    '''A NativeFileChooser implementation using YAD (on GNU/Linux).
 
     Not implemented features:
     * show_hidden
-    """
+    '''
 
     executable = "yad"
     separator = "|?|"
@@ -208,13 +208,13 @@ CHOOSERS = {
 
 
 class LinuxFileChooser(FileChooser):
-    """FileChooser implementation for GNu/Linux. Accepts one additional
+    '''FileChooser implementation for GNu/Linux. Accepts one additional
     keyword argument, *desktop_override*, which, if set, overrides the
     back-end that will be used. Set it to "gnome" for Zenity, to "kde"
     for KDialog and to "yad" for YAD (Yet Another Dialog).
     If set to None or not set, a default one will be picked based on
     the running desktop environment and installed back-ends.
-    """
+    '''
 
     desktop = None
     if str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" \
