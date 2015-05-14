@@ -88,8 +88,11 @@ class ZenityFileChooser(SubprocessFileChooser):
     successretcode = 0
 
     def _gen_cmdline(self):
-        cmdline = [which(self.executable),
-                   "--file-selection", "--confirm-overwrite"]
+        cmdline = [
+            which(self.executable),
+            "--file-selection",
+            "--confirm-overwrite"
+        ]
         if self.multiple:
             cmdline += ["--multiple"]
         if self.mode == "save":
@@ -174,8 +177,13 @@ class YADFileChooser(SubprocessFileChooser):
     successretcode = 0
 
     def _gen_cmdline(self):
-        cmdline = [which(self.executable), "--file-selection",
-                   "--confirm-overwrite", "--geometry", "800x600+150+150"]
+        cmdline = [
+            which(self.executable),
+            "--file-selection",
+            "--confirm-overwrite",
+            "--geometry",
+            "800x600+150+150"
+        ]
         if self.multiple:
             cmdline += ["--multiple", "--separator", self.separator]
         if self.mode == "save":

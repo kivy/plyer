@@ -12,7 +12,7 @@ import pywintypes
 
 
 class Win32FileChooser(object):
-    """A native implementation of NativeFileChooser using the
+    '''A native implementation of NativeFileChooser using the
     Win32 API on Windows.
 
     Not Implemented features (all dialogs):
@@ -27,7 +27,7 @@ class Win32FileChooser(object):
     * show_hidden
     * filters
     * path
-    """
+    '''
 
     path = None
     multiple = False
@@ -81,13 +81,12 @@ class Win32FileChooser(object):
                     if self.multiple:
                         seq = str(self.fname).split("\x00")
                         dir_n, base_n = seq[0], seq[1:]
-                        self.selection = [
-                            os.path.join(dir_n, i) for i in base_n]
+                        self.selection = [os.path.join(dir_n, i)
+                                          for i in base_n]
                     else:
                         self.selection = str(self.fname).split("\x00")
             else:
-                # From
-                # http://goo.gl/UDqCqo
+                # From http://goo.gl/UDqCqo
                 pidl, display_name, image_list = shell.SHBrowseForFolder(
                     win32gui.GetDesktopWindow(),
                     None,
@@ -102,8 +101,8 @@ class Win32FileChooser(object):
 
 
 class WinFileChooser(FileChooser):
-    """FileChooser implementation for Windows, using win3all.
-    """
+    '''FileChooser implementation for Windows, using win3all.
+    '''
 
     def _file_selection_dialog(self, **kwargs):
         return Win32FileChooser(**kwargs).run()
