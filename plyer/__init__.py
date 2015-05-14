@@ -6,7 +6,7 @@ Plyer
 
 __all__ = ('accelerometer', 'battery', 'camera', 'compass', 'email',
            'filechooser', 'gps', 'gyroscope', 'irblaster', 'orientation',
-           'notification', 'sms', 'tts', 'uniqueid', 'vibrator')
+           'notification', 'sms', 'speech', 'tts', 'uniqueid', 'vibrator')
 
 __version__ = '1.2.4-dev'
 
@@ -49,6 +49,9 @@ notification = Proxy('notification', facades.Notification)
 
 #: Sms proxy to :class:`plyer.facades.Sms`
 sms = Proxy('sms', facades.Sms)
+
+#: Speech proxy to :class:`plyer.facades.Speech`
+speech = Proxy('speech', facades.Speech)
 
 #: TTS proxy to :class:`plyer.facades.TTS`
 tts = Proxy('tts', facades.TTS)

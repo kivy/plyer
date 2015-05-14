@@ -2,7 +2,9 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 
-from android_speech_recognition import *
+from android_speech_recognition import instance
+
+speech = instance()
 
 Builder.load_string('''
 <SpeechInterface>:
