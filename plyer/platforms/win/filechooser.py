@@ -12,7 +12,7 @@ import pywintypes
 
 
 class Win32FileChooser(object):
-    '''A native implementation of NativeFileChooser using the
+    """A native implementation of NativeFileChooser using the
     Win32 API on Windows.
 
     Not Implemented features (all dialogs):
@@ -27,7 +27,7 @@ class Win32FileChooser(object):
     * show_hidden
     * filters
     * path
-    '''
+    """
 
     path = None
     multiple = False
@@ -44,65 +44,66 @@ class Win32FileChooser(object):
 
     def run(self):
         try:
-            return self._run()
+            if mode != "dir":
+                args = {}
+
+                if self.path:
+                    args["InitialDir"] = os.path.dirname(self.path)
+                    path = os.path.splitext(os.path.dirname(self.path))
+                    args["File"] = path[0]
+                    args["DefExt"] = path[1]
+                args["Title"] = self.title if self.title else "Pick a file..."
+                args["CustomFilter"] = 'Other file types\x00*.*\x00'
+                args["FilterIndex"] = 1
+
+                filters = ""
+                for f in self.filters:
+                    if type(f) == str:
+                        filters += (f + "\x00") * 2
+                    else:
+                        filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
+                args["Filter"] = filters
+
+                flags = (win32con.OFN_EXTENSIONDIFFERENT |
+                         win32con.OFN_OVERWRITEPROMPT)
+                if self.multiple:
+                    flags |= win32con.OFN_ALLOWmultiple | win32con.OFN_EXPLORER
+                if self.show_hidden:
+                    flags |= win32con.OFN_FORCESHOWHIDDEN
+                args["Flags"] = flags
+
+                if self.mode == "open":
+                    self.fname, _, _ = win32gui.GetOpenFileNameW(**args)
+                elif self.mode == "save":
+                    self.fname, _, _ = win32gui.GetSaveFileNameW(**args)
+
+                if self.fname:
+                    if self.multiple:
+                        seq = str(self.fname).split("\x00")
+                        dir_n, base_n = seq[0], seq[1:]
+                        self.selection = [
+                            os.path.join(dir_n, i) for i in base_n]
+                    else:
+                        self.selection = str(self.fname).split("\x00")
+            else:
+                # From
+                # http://goo.gl/UDqCqo
+                pidl, display_name, image_list = shell.SHBrowseForFolder(
+                    win32gui.GetDesktopWindow(),
+                    None,
+                    self.title if self.title else "Pick a folder...",
+                    0, None, None
+                )
+                self.selection = [str(shell.SHGetPathFromIDList(pidl))]
+
+            return self.selection
         except (RuntimeError, pywintypes.error):
             return None
 
-    def _run(self):
-        if mode != "dir":
-            args = {}
-
-            if self.path:
-                args["InitialDir"] = os.path.dirname(self.path)
-                path = os.path.splitext(os.path.dirname(self.path))
-                args["File"] = path[0]
-                args["DefExt"] = path[1]
-            args["Title"] = self.title if self.title else "Pick a file..."
-            args["CustomFilter"] = 'Other file types\x00*.*\x00'
-            args["FilterIndex"] = 1
-
-            filters = ""
-            for f in self.filters:
-                if type(f) == str:
-                    filters += (f + "\x00") * 2
-                else:
-                    filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
-            args["Filter"] = filters
-
-            flag_extension = win32con.OFN_EXTENSIONDIFFERENT
-            flag_overwriteprompt = win32con.OFN_OVERWRITEPROMPT
-            flags = flag_extension | flag_overwriteprompt
-            if self.multiple:
-                flags |= win32con.OFN_ALLOWmultiple | win32con.OFN_EXPLORER
-            if self.show_hidden:
-                flags |= win32con.OFN_FORCESHOWHIDDEN
-            args["Flags"] = flags
-
-            if self.mode == "open":
-                self.fname, _, _ = win32gui.GetOpenFileNameW(**args)
-            elif self.mode == "save":
-                self.fname, _, _ = win32gui.GetSaveFileNameW(**args)
-
-            if self.fname:
-                if self.multiple:
-                    seq = str(self.fname).split("\x00")
-                    dir_n, base_n = seq[0], seq[1:]
-                    self.selection = [
-                        os.path.join(dir_n, i) for i in base_n]
-                else:
-                    self.selection = str(self.fname).split("\x00")
-        else:
-            # From http://goo.gl/UDqCqo
-            pidl, display_name, image_list = shell.SHBrowseForFolder(
-                win32gui.GetDesktopWindow(), None,
-                self.title if self.title else "Pick a folder...", 0, None, None)
-            self.selection = [str(shell.SHGetPathFromIDList(pidl))]
-
-        return self.selection
-
 
 class WinFileChooser(FileChooser):
-    '''FileChooser implementation for Windows, using win3all.'''
+    """FileChooser implementation for Windows, using win3all.
+    """
 
     def _file_selection_dialog(self, **kwargs):
         return Win32FileChooser(**kwargs).run()
