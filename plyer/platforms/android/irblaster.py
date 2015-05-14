@@ -9,6 +9,7 @@ if SDK_INT >= 19:
 else:
     ir_manager = None
 
+
 class AndroidIrBlaster(IrBlaster):
     def _exists(self):
         if ir_manager and ir_manager.hasIrEmitter():

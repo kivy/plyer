@@ -18,7 +18,7 @@ class IosGPS(GPS):
 
     def _start(self):
         self._location_manager.delegate = self
-        
+
         self._location_manager.requestWhenInUseAuthorization()
         # NSLocationWhenInUseUsageDescription key must exist in Info.plist
         # file. When the authorization prompt is displayed your app goes

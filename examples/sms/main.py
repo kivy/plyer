@@ -36,12 +36,14 @@ Builder.load_string('''
 class SmsInterface(BoxLayout):
     pass
 
+
 class IntentButton(Button):
     sms_recipient = StringProperty()
     sms_message = StringProperty()
 
     def send_sms(self, *args):
         sms.send(recipient=self.sms_recipient, message=self.sms_message)
+
 
 class SmsApp(App):
     def build(self):
