@@ -7,7 +7,7 @@ class UniqueID(object):
     * **OS X**: Serial number of the device
     * **Linux**: Serial number using lshw
     * **Windows**: MachineGUID from regkey
-    
+
     .. versionadded:: 1.2.0
 
     .. versionchanged:: 1.2.4
