@@ -2,17 +2,16 @@
 Compass example.
 '''
 
-from kivy.lang import Builder
 from kivy.app import App
-from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 
 from plyer import compass
 
-class compassTest(BoxLayout):
+
+class CompassTest(BoxLayout):
     def __init__(self):
-        super(compassTest, self).__init__()
+        super(CompassTest, self).__init__()
         self.sensorEnabled = False
 
     def do_toggle(self):
@@ -30,8 +29,10 @@ class compassTest(BoxLayout):
                 self.sensorEnabled = False
                 self.ids.toggle_button.text = "Start compass"
         except NotImplementedError:
-            import traceback; traceback.print_exc()
-            self.ids.status.text = "Compass is not implemented for your platform"
+            import traceback
+            traceback.print_exc()
+            status = "Compass is not implemented for your platform"
+            self.ids.status.text = status
 
     def get_readings(self, dt):
         val = compass.orientation
@@ -40,9 +41,10 @@ class compassTest(BoxLayout):
         self.ids.y_label.text = "Y: " + str(val[1])
         self.ids.z_label.text = "Z: " + str(val[2])
 
-class compassTestApp(App):
+
+class CompassTestApp(App):
     def build(self):
-        return compassTest()
+        return CompassTest()
 
 if __name__ == '__main__':
-    compassTestApp().run()
+    CompassTestApp().run()
