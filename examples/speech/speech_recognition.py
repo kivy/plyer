@@ -30,11 +30,8 @@ class Speech(object):
     ]
 
     results = []
-    '''List of strings found while listening. It may consist of many strings
-    that is predicted by recognition program.'''
-
-    errors = []
-    '''List of errors occured while listening.'''
+    '''List of sentences found while listening. It may consist of many similar
+    and possible sentences that was recognition program.'''
 
     state = None
     '''Current state of class. It may become `listening` and `ready`.'''
@@ -63,7 +60,6 @@ class Speech(object):
     def start(self):
         '''Start listening.'''
         self.results = []
-        self.errors = []
         self._start()
         self.state = 'listening'
 
