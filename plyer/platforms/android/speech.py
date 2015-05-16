@@ -4,9 +4,8 @@ from jnius import autoclass
 from jnius import java_method
 from jnius import PythonJavaClass
 
-from plyer.platforms.android import activity
 from plyer.facades import Speech
-
+from plyer.platforms.android import activity
 
 ArrayList = autoclass('java.util.ArrayList')
 Bundle = autoclass('android.os.Bundle')
@@ -112,6 +111,7 @@ class SpeechRecognitionListener(PythonJavaClass):
         for match in matches.toArray():
             texts.append(match.decode('ascii', 'ignore'))
 
+        print texts
         if self.result_callback:
             self.result_callback(texts)
 
@@ -125,19 +125,20 @@ class AndroidSpeech(Speech):
     '''Android Speech Implementation.
 
     Works on API >= 9.
+    Android class `SpeechRecognizer` deactivates automatically.
+
     '''
 
     def _on_error(self, msg):
-        self._errors.append(msg)
+        self.errors.append(msg)
+        self.stop()
 
-    def _on_result(self, msg):
-        self._results.append(msg)
+    def _on_result(self, messages):
+        self.results.extend(messages)
+        self.stop()
 
-    def _on_volume_chaged(value):
-        pass
-
-    def __init__(self):
-        super(AndroidSpeech, self).__init__()
+    def _on_volume_chaged(self, value):
+        self.stop()
 
     @run_on_ui_thread
     def _start(self):
@@ -154,16 +155,17 @@ class AndroidSpeech(Speech):
         listener.set_error_callback(self._on_error)
         listener.set_result_callback(self._on_result)
 
-        speech = SpeechRecognizer.createSpeechRecognizer(activity)
-        speech.setRecognitionListener(listener)
-        speech.startListening(intent)
-        self.speech = speech
+        self.speech = SpeechRecognizer.createSpeechRecognizer(activity)
+        self.speech.setRecognitionListener(listener)
+        self.speech.startListening(intent)
 
     def _stop(self):
-        self.speech.stopListening()
+        if self.speech:
+            self.speech.stopListening()
+        self.speech = None
 
     def _exist(self):
-        return SpeechRecognizer.isRecognitionAvailable(activity)
+        return bool(SpeechRecognizer.isRecognitionAvailable(activity))
 
 
 def instance():

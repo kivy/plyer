@@ -18,7 +18,7 @@ class Speech(object):
         Mute sound in order to disable it.
     '''
 
-    language = 'en-US'
+    _language = 'en-US'
     '''default language in which platform will try to recognize voice.
     In order to change language pick one from list by using
     `supported_languages` method.
@@ -29,15 +29,43 @@ class Speech(object):
         'pl-PL'
     ]
 
-    _results = []
+    results = []
     '''List of strings found while listening.'''
 
-    _errors = []
+    errors = []
     '''List of errors occured while listening.'''
+
+    state = None
 
     @property
     def supported_languages(self):
         return self._supported_languages
+
+    @property
+    def language(self):
+        return self._language
+
+    @language.setter
+    def language(self, lang):
+        if lang in self.supported_languages:
+            self._language = lang
+
+    # Public Methods
+    def start(self):
+        '''Start listening.'''
+        self.results = []
+        self.errors = []
+        self._start()
+        self.state = 'listening'
+
+    def stop(self):
+        '''Stop listening.'''
+        self._stop()
+        self.state = 'ready'
+
+    def exist(self):
+        '''True if Speech Recognition is available.'''
+        return self._exist()
 
     # Private Methods
     def _start(self):
@@ -49,25 +77,3 @@ class Speech(object):
     def _exist(self):
         raise NotImplementedError
 
-    # Public Methods
-    def start(self):
-        '''Start listening.'''
-
-        self._results = []
-        self._errors = []
-        self._start()
-
-    def stop(self):
-        '''Stop listening.'''
-        self._stop()
-
-    def exist(self):
-        '''True if Speech Recognition is available.'''
-        self._exist()
-
-    def get_results(self):
-        '''Return list of found words from voice.
-
-        :rtype: list of strings.
-        '''
-        return self._results
