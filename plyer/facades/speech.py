@@ -81,4 +81,3 @@ class Speech(object):
 
     def _exist(self):
         raise NotImplementedError
-
