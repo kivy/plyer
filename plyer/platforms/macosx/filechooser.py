@@ -15,7 +15,7 @@ NSOKButton = 1
 
 
 class MacFileChooser(object):
-    """A native implementation of file chooser dialogs using Apple's API
+    '''A native implementation of file chooser dialogs using Apple's API
     through pyobjus.
 
     Not implemented features:
@@ -25,7 +25,7 @@ class MacFileChooser(object):
     * multiple (only for save dialog. Available in open dialog)
     * icon
     * preview
-    """
+    '''
 
     mode = "open"
     path = None
@@ -98,8 +98,8 @@ class MacFileChooser(object):
 
 
 class MacOSXFileChooser(FileChooser):
-    """FileChooser implementation for Windows, using win3all.
-    """
+    '''FileChooser implementation for Windows, using win3all.
+    '''
     def _file_selection_dialog(self, **kwargs):
         return MacFileChooser(**kwargs).run()
 

@@ -24,7 +24,7 @@ class AndroidCamera(Camera):
         parcelable = cast('android.os.Parcelable', uri)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, parcelable)
         activity.startActivityForResult(intent, 0x123)
-        
+
     def _take_video(self, on_complete, filename=None):
         assert(on_complete is not None)
         self.on_complete = on_complete
@@ -35,8 +35,10 @@ class AndroidCamera(Camera):
         uri = Uri.parse('file://' + filename)
         parcelable = cast('android.os.Parcelable', uri)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, parcelable)
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1) #0 = low quality, suitable for MMS messages, 1 = high quality
-        #intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, X) #Optional, allows limiting record time to X seconds.
+
+        # 0 = low quality, suitable for MMS messages,
+        # 1 = high quality
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
         activity.startActivityForResult(intent, 0x123)
 
     def _on_activity_result(self, requestCode, resultCode, intent):
