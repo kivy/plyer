@@ -4,8 +4,9 @@ from jnius import autoclass
 from jnius import java_method
 from jnius import PythonJavaClass
 
-from plyer.facades import Speech
 from plyer.platforms.android import activity
+from speech_recognition import Speech
+
 
 ArrayList = autoclass('java.util.ArrayList')
 Bundle = autoclass('android.os.Bundle')
@@ -111,7 +112,6 @@ class SpeechRecognitionListener(PythonJavaClass):
         for match in matches.toArray():
             texts.append(match.decode('ascii', 'ignore'))
 
-        print texts
         if self.result_callback:
             self.result_callback(texts)
 
@@ -127,6 +127,8 @@ class AndroidSpeech(Speech):
     Works on API >= 9.
     Android class `SpeechRecognizer` deactivates automatically.
 
+    Class methods `_on_error()`, `_on_result()` are some kind of listeners.
+
     '''
 
     def _on_error(self, msg):
@@ -135,9 +137,6 @@ class AndroidSpeech(Speech):
 
     def _on_result(self, messages):
         self.results.extend(messages)
-        self.stop()
-
-    def _on_volume_chaged(self, value):
         self.stop()
 
     @run_on_ui_thread
