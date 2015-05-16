@@ -51,13 +51,16 @@ class SpeechInterface(BoxLayout):
         start_button = self.ids['start_button']
         start_button.text = 'Stop'
 
-        label = self.ids['results']
-        label.text = ''
+        label_results = self.ids['results']
+        label_results.text = ''
+
+        label_errors = self.ids['errors']
+        label_errors.text = ''
 
         self.speech.start()
         self.state = self.speech.state
 
-        Clock.schedule_interval(self.check_state, 1 / 5.)
+        Clock.schedule_interval(self.check_state, 1)
 
     def stop_listening(self):
         start_button = self.ids['start_button']

@@ -112,7 +112,6 @@ class SpeechRecognitionListener(PythonJavaClass):
         for match in matches.toArray():
             texts.append(match.decode('ascii', 'ignore'))
 
-        print texts
         if self.result_callback:
             self.result_callback(texts)
 
@@ -128,6 +127,8 @@ class AndroidSpeech(Speech):
     Works on API >= 9.
     Android class `SpeechRecognizer` deactivates automatically.
 
+    Class methods `_on_error()`, `_on_result()` are some kind of listeners.
+
     '''
 
     def _on_error(self, msg):
@@ -136,9 +137,6 @@ class AndroidSpeech(Speech):
 
     def _on_result(self, messages):
         self.results.extend(messages)
-        self.stop()
-    
-    def _on_volume_chaged(self, value):
         self.stop()
 
     @run_on_ui_thread
@@ -164,7 +162,6 @@ class AndroidSpeech(Speech):
         if self.speech:
             self.speech.stopListening()
         self.speech = None
-
 
     def _exist(self):
         return bool(SpeechRecognizer.isRecognitionAvailable(activity))

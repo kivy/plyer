@@ -30,23 +30,32 @@ class Speech(object):
     ]
 
     results = []
-    '''List of strings found while listening.'''
+    '''List of strings found while listening. It may consist of many strings
+    that is predicted by recognition program.'''
 
     errors = []
     '''List of errors occured while listening.'''
 
     state = None
+    '''Current state of class. It may become `listening` and `ready`.'''
 
     @property
     def supported_languages(self):
+        '''Return list of supported languages used in recognition.'''
         return self._supported_languages
 
     @property
     def language(self):
+        '''Return current language.'''
         return self._language
 
     @language.setter
     def language(self, lang):
+        '''Set current language.
+
+        Value can not be set if it's not supported. See `supported_languages`
+        to get what language you can set.
+        '''
         if lang in self.supported_languages:
             self._language = lang
 
@@ -76,3 +85,4 @@ class Speech(object):
 
     def _exist(self):
         raise NotImplementedError
+
