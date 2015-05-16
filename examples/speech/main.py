@@ -17,18 +17,9 @@ Builder.load_string('''
     Label:
         size_hint_y: None
         height: sp(40)
-        text: 'Results'
+        text: 'Possible Matches'
     Label:
         id: results
-        size_hint_y: 0.7
-        height: sp(40)
-        text: ''
-    Label:
-        size_hint_y: None
-        height: sp(40)
-        text: 'Errors'
-    Label:
-        id: errors
         size_hint_y: 0.7
         height: sp(40)
         text: ''
@@ -54,9 +45,6 @@ class SpeechInterface(BoxLayout):
         label_results = self.ids['results']
         label_results.text = ''
 
-        label_errors = self.ids['errors']
-        label_errors.text = ''
-
         self.speech.start()
         self.state = self.speech.state
 
@@ -76,9 +64,6 @@ class SpeechInterface(BoxLayout):
             self.stop_listening()
 
     def update(self):
-        label_errors = self.ids['errors']
-        label_errors.text = '\n'.join(set(self.speech.errors))
-
         label_results = self.ids['results']
         label_results.text = '\n'.join(set(self.speech.results))
 

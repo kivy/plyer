@@ -72,26 +72,26 @@ class SpeechRecognitionListener(PythonJavaClass):
     def onError(self, error):
         msg = ''
         if error == SpeechRecognizer.ERROR_AUDIO:
-            msg = 'error_audio'
+            msg = 'audio'
         if error == SpeechRecognizer.ERROR_CLIENT:
-            msg = 'error_client'
+            msg = 'client'
         if error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
             msg = 'insufficient_permissions'
         if error == SpeechRecognizer.ERROR_NETWORK:
-            msg = 'error_network'
+            msg = 'network'
         if error == SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-            msg = 'error_network_timeout'
+            msg = 'network_timeout'
         if error == SpeechRecognizer.ERROR_NO_MATCH:
             msg = 'no_match'
         if error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-            msg = 'error_recognizer_busy'
+            msg = 'recognizer_busy'
         if error == SpeechRecognizer.ERROR_SERVER:
-            msg = 'error_server'
+            msg = 'server'
         if error == SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-            msg = 'error_speech_timeout'
+            msg = 'speech_timeout'
 
-        if self.error_callback:
-            self.error_callback(msg)
+        if msg and self.error_callback:
+            self.error_callback('error:' + msg)
 
     @java_method('(ILandroid/os/Bundle;)V')
     def onEvent(self, event_type, params):
@@ -112,7 +112,7 @@ class SpeechRecognitionListener(PythonJavaClass):
         for match in matches.toArray():
             texts.append(match.decode('ascii', 'ignore'))
 
-        if self.result_callback:
+        if texts and self.result_callback:
             self.result_callback(texts)
 
     @java_method('(F)V')
@@ -128,11 +128,11 @@ class AndroidSpeech(Speech):
     Android class `SpeechRecognizer` deactivates automatically.
 
     Class methods `_on_error()`, `_on_result()` are some kind of listeners.
-
+    Android on finish listening sends one of result: error or possible matches
     '''
 
     def _on_error(self, msg):
-        self.errors.append(msg)
+        self.results.append(msg)
         self.stop()
 
     def _on_result(self, messages):
