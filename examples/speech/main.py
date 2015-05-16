@@ -67,11 +67,11 @@ class SpeechInterface(BoxLayout):
         label_results = self.ids['results']
         label_results.text = '\n'.join(set(self.speech.results))
 
+
 class SpeechApp(App):
 
     def build(self):
         return SpeechInterface()
-
 
     def on_pause(self):
         return True

@@ -4,9 +4,8 @@ from jnius import autoclass
 from jnius import java_method
 from jnius import PythonJavaClass
 
+from plyer.facades import Speech
 from plyer.platforms.android import activity
-from speech_recognition import Speech
-
 
 ArrayList = autoclass('java.util.ArrayList')
 Bundle = autoclass('android.os.Bundle')
