@@ -66,7 +66,9 @@ class Speech(object):
     def stop(self):
         '''Stop listening.'''
         self._stop()
+        print 'stops'
         self.state = 'ready'
+        print 'after stopss'
 
     def exist(self):
         '''True if Speech Recognition is available.'''

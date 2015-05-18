@@ -18,11 +18,11 @@ SpeechRecognizer = autoclass('android.speech.SpeechRecognizer')
 SpeechResults = SpeechRecognizer.RESULTS_RECOGNITION
 
 
-class SpeechRecognitionListener(PythonJavaClass):
+class SpeechListener(PythonJavaClass):
     __javainterfaces__ = ['android/speech/RecognitionListener']
 
     def __init__(self):
-        super(SpeechRecognitionListener, self).__init__()
+        super(SpeechListener, self).__init__()
         self.error_callback = None
         self.result_callback = None
         self.volume_callback = None
@@ -149,7 +149,7 @@ class AndroidSpeech(Speech):
                         RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1000)
 
-        listener = SpeechRecognitionListener()
+        listener = SpeechListener()
         listener.set_error_callback(self._on_error)
         listener.set_result_callback(self._on_result)
 
