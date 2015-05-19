@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = Plyer Hardware Example
 
 # (str) Package name
-package.name = myapp
+package.name = plyer.hardware.example
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -29,11 +29,11 @@ source.include_exts = py,png,jpg,kv,atlas
 # version.filename = %(source.dir)s/main.py
 
 # (str) Application versioning (method 2)
-version = 1.2.0
+version = 1.0.0
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy, plyer
+requirements = kivy,plyer
 
 # (list) Garden requirements
 #garden_requirements =
@@ -45,7 +45,7 @@ requirements = kivy, plyer
 #icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
-orientation = landscape
+orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
@@ -80,7 +80,7 @@ android.permissions = INTERNET, VIBRATE, ACCESS_NETWORK_STATE
 #android.sdk_path =
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
+# android.p4a_dir = /home/thegrymek/Projects/python/kivy-dev-thegrymek/python-for-android
 
 # (list) python-for-android whitelist
 #android.p4a_whitelist =

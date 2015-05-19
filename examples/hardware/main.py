@@ -3,135 +3,92 @@
 Shows in app current sensors, DPI and connection.
 """
 from kivy.app import App
+from kivy.lang import Builder
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.stacklayout import StackLayout
 
-from jnius import autoclass
-from plyer.platforms.android import activity
+from utils import instance
 
-Context = autoclass('android.content.Context')
+Builder.load_string('''
+<UtilsInterface>:
+    orientation: 'vertical'
+    padding: '50dp'
+    spacing: '20dp'
+    Label:
+        size_hint_y: None
+        height: sp(20)
+        text: 'Internet Connection: ' + str(root.hardware.is_connection())
+    Label:
+        size_hint_y: None
+        height: sp(20)
+        text: 'Display Metrics: ' + str(root.hardware.display_metrics())
 
-AndroidString = autoclass('java.lang.String')
-List = autoclass('java.util.List')
-ArrayList = autoclass('java.util.ArrayList')
+    Button:
+        id: button_keyboard
+        height: sp(40)
+        text: 'Show Keyboard'
+        on_release: root.toggle_keyboard()
 
-Vibrator = autoclass('android.os.Vibrator')
+''')
 
-Sensor = autoclass('android.hardware.Sensor')
-SensorEvent = autoclass('android.hardware.SensorEvent')
-SensorEventListener = autoclass('android.hardware.SensorEventListener')
-SensorManager = autoclass('android.hardware.SensorManager')
-
-DisplayMetrics = autoclass('android.util.DisplayMetrics')
-
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
-InputMethodManager = autoclass('android.view.inputmethod.InputMethodManager')
-
-ScanResult = autoclass('android.net.wifi.ScanResult')
-WifiManager = autoclass('android.net.wifi.WifiManager')
-BroadcastReceiver = autoclass('android.content.BroadcastReceiver')
-ConnectivityManager = autoclass('android.net.ConnectivityManager')
-NetworkInfo = autoclass('android.net.NetworkInfo')
-
-Intent = autoclass('android.content.Intent')
-IntentFilter = autoclass('android.content.IntentFilter')
-
-
-class Hardware(object):
-
-    """Hardware.
-
-    Provides access to vibration, display DPI, hardware sensors,
-    show and hide keyboard.
-    """
-
-    @staticmethod
-    def vibrate(self, seconds):
-        """Manually triggers your phone to vibrate.
-
-        :param seconds: number of seconds of vibration
-        """
-        vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
-        vibrator.vibrate(1000 * seconds)
-
-    @staticmethod
-    def get_display_metrics(self):
-        """Return display density DPI.
-
-        :return: int display density
-        """
-        return DisplayMetrics.densityDpi
-
-    @staticmethod
-    def get_hardware_sensors(self):
-        """Return list about information about hardware sensors.
-
-        Items of list is a dict with keys:
-            name str
-            vendor str
-            version int
-            maximum_range float
-            min_delay int
-            power float
-            type int
-        """
-        sensor_manager = activity.getSystemService(Context.SENSOR_SERVICE)
-        sensors = sensor_manager.getSensorList(Sensor.TYPE_ALL)
-
-        result = []
-        for sensor in sensors.toArray():
-            sensor_data = {
-                'name': sensor.getName(),
-                'vendor': sensor.getVendor(),
-                'version': sensor.getVersion(),
-                'maximum_range': sensor.getMaximumRange(),
-                'min_delay': sensor.getMinDelay(),
-                'power': sensor.getPower(),
-                'type': sensor.getType(),
-            }
-            result.append(sensor_data)
-        return result
-
-    @staticmethod
-    def show_keyboard(self):
-        """Show keyboard."""
-        input_manager = activity.getSystemService(Context.INPUT_METHOD_SERVICE)
-        view = PythonActivity.mView
-        input_manager.showSoftInput(view, InputMethodManager.SHOW_FORCED)
-
-    @staticmethod
-    def hide_keyboard(self):
-        """Hide keyboard."""
-        input_manager = activity.getSystemService(Context.INPUT_METHOD_SERVICE)
-        view = PythonActivity.mView
-        input_manager.hideSoftInputFromWindow(view.getWindowToken(), 0)
-
-    @staticmethod
-    def is_connection(self):
-        """Assert is there a connection to internet or not.
-
-        :return: True if connected, False otherwise
-        """
-        service = Context.CONNECTIVITY_SERVICE
-        connection_manager = activity.getSystemService(service)
-        active_network = connection_manager.getActiveNetworkInfo()
-        return active_network is not None and active_network.isConnected()
-
-
-class HardwareLayout(BoxLayout):
-
+class UtilsInterface(BoxLayout):
     """Main Layout."""
 
-    pass
+    hardware = instance()
+    keyboard_state = 'hidden'
 
+    def toggle_keyboard(self):
+        button_keyboard = self.ids['button_keyboard']
+        if self.keyboard_state == 'hidden':
+            self.keyboard_state = 'show'
+            self.hardware.show_keyboard()
+            button_keyboard.text = 'Hide Keyboard'
+        else:
+            self.keyboard_state = 'hidden'
+            self.hardware.hide_keyboard()
+            button_keyboard.text = 'Show Keyboard'
 
-class HardwareApp(App):
+    def add_sensors(self):
 
+        def create_popup(title, content):
+            return Popup(
+                title=title,
+                content=Label(text=content),
+                size_hint=(None, None),
+                size=(500, 700),
+                auto_dismiss=True
+            )
+
+        sensors = self.hardware.get_hardware_sensors()
+        print 'sensors', sensors
+
+        stack = StackLayout()
+        for sensor in sensors:
+            title = sensor['name']
+            content = '\n'.join([key.title() + ' : ' + str(sensor[key]) for key in sensor])
+            print title, content
+            button = Button(
+                text=title,
+                size_hint=(None, 0.15),
+                width=450,
+            )
+            popup = create_popup(title, content)
+            button.bind(on_release=popup.open)
+            stack.add_widget(button)
+        self.add_widget(stack)
+
+class UtilsApp(App):
     """Main App."""
 
     def build(self):
         """Return root layout."""
-        return HardwareLayout()
+        interface = UtilsInterface()
+        interface.add_sensors()
+        return interface
 
 
 if __name__ == "__main__":
-    HardwareApp().run()
+    UtilsApp().run()
