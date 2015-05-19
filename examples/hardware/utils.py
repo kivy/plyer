@@ -9,7 +9,9 @@ from plyer.platforms.android import activity
 Context = autoclass('android.content.Context')
 ConnectivityManager = autoclass('android.net.ConnectivityManager')
 DisplayMetrics = autoclass('android.util.DisplayMetrics')
-GenericBroadcastReceiver = autoclass('org.renpy.android.GenericBroadcastReceiver')
+GenericBroadcastReceiver = autoclass(
+    'org.renpy.android.GenericBroadcastReceiver'
+)
 InputMethodManager = autoclass('android.view.inputmethod.InputMethodManager')
 Intent = autoclass('android.content.Intent')
 IntentFilter = autoclass('android.content.IntentFilter')
@@ -33,7 +35,9 @@ class AndroidUtils(Utils):
 
     class BroadcastReceiver(PythonJavaClass):
         '''Private class for receiving results from wifi manager.'''
-        __javainterfaces__ = ['org/renpy/android/GenericBroadcastReceiverCallback']
+        __javainterfaces__ = [
+            'org/renpy/android/GenericBroadcastReceiverCallback'
+        ]
         __javacontext__ = 'app'
 
         scan_results = None
@@ -58,7 +62,8 @@ class AndroidUtils(Utils):
         self.wifi_manager = cast('android.net.wifi.WifiManager', wifi_service)
 
     def _start_wifi(self):
-        self.wifi_scanner = GenericBroadcastReceiver(Utils.BroadcastReceiver(self))
+        broadcast_receiver = AndroidUtils.BroadcastReceiver(self)
+        self.wifi_scanner = GenericBroadcastReceiver(broadcast_receiver)
         intent_filter = IntentFilter()
         intent_filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         activity.registerReceiver(self.wifi_scanner, intent_filter)
