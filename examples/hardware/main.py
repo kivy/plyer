@@ -10,7 +10,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 
-from utils import instance
+from plyer import utils
 
 Builder.load_string('''
 <UtilsInterface>:
@@ -73,7 +73,7 @@ Builder.load_string('''
 class UtilsInterface(BoxLayout):
     """Main Layout."""
 
-    hardware = instance()
+    hardware = utils
     keyboard_state = 'hidden'
 
     def _create_popup(self, title, content):
@@ -118,7 +118,7 @@ class UtilsInterface(BoxLayout):
     def start_wifi(self):
         wifi_button = self.ids['wifi_button']
         wifi_button.text = 'Show Scan Results'
-        wifi_button.on_release=self.show_wifi_scans
+        wifi_button.on_release = self.show_wifi_scans
         self.hardware.start_wifi()
 
         stop_wifi_button = self.ids['stop_wifi_button']
@@ -130,7 +130,7 @@ class UtilsInterface(BoxLayout):
 
         wifi_button = self.ids['wifi_button']
         wifi_button.text = 'Start Wifi'
-        wifi_button.on_release=self.start_wifi
+        wifi_button.on_release = self.start_wifi
 
         self.hardware.stop_wifi()
 
