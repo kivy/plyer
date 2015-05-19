@@ -12,3 +12,8 @@ venv
 
 *.komodoproject
 .komodotools
+
+# PyDev
+.project
+.pydevproject
+.settings/
