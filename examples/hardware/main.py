@@ -1,6 +1,7 @@
-"""Hardware example.
+"""Utils example.
 
-Shows in app current sensors, DPI and connection.
+Shows current sensors, current screen DPI and available connection to internet,
+wifi features like scanning for devices.
 """
 from kivy.app import App
 from kivy.lang import Builder
@@ -8,15 +9,15 @@ from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.stacklayout import StackLayout
 
 from utils import instance
 
 Builder.load_string('''
 <UtilsInterface>:
     orientation: 'vertical'
-    padding: '50dp'
+    padding: '30dp'
     spacing: '20dp'
+
     Label:
         size_hint_y: None
         height: sp(20)
@@ -24,14 +25,47 @@ Builder.load_string('''
     Label:
         size_hint_y: None
         height: sp(20)
+        text: 'Wifi enabled: ' + str(root.hardware.is_wifi_enabled())
+    Label:
+        size_hint_y: None
+        height: sp(20)
         text: 'Display Metrics: ' + str(root.hardware.display_metrics())
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: 0.3
+        Button:
+            id: wifi_button
+            size_hint_y: None
+            height: sp(35)
+            text: 'Start Wifi'
+            on_release: root.start_wifi()
+
+        Button:
+            id: stop_wifi_button
+            size_hint_y: None
+            height: sp(35)
+            disabled: True
+            text: 'Stop Wifi'
+            on_release: root.stop_wifi()
 
     Button:
         id: button_keyboard
-        height: sp(40)
         size_hint_y: None
+        height: '35dp'
         text: 'Show Keyboard'
         on_release: root.toggle_keyboard()
+
+
+    BoxLayout:
+        id: sensor_layout
+        orientation: 'vertical'
+        Label:
+            size_hint_x: 1
+            size_hint_y: None
+            valign: 'middle'
+            height: '35dp'
+            text: 'Sensors'
 
 ''')
 
@@ -41,6 +75,14 @@ class UtilsInterface(BoxLayout):
 
     hardware = instance()
     keyboard_state = 'hidden'
+
+    def _create_popup(self, title, content):
+        return Popup(
+            title=title,
+            content=Label(text=content),
+            size_hint=(1, 1),
+            auto_dismiss=True
+        )
 
     def toggle_keyboard(self):
         button_keyboard = self.ids['button_keyboard']
@@ -54,34 +96,55 @@ class UtilsInterface(BoxLayout):
             button_keyboard.text = 'Show Keyboard'
 
     def add_sensors(self):
-
-        def create_popup(title, content):
-            return Popup(
-                title=title,
-                content=Label(text=content),
-                size_hint=(None, None),
-                size=(500, 700),
-                auto_dismiss=True
-            )
-
         sensors = self.hardware.get_hardware_sensors()
+        stack = self.ids['sensor_layout']
 
-        stack = StackLayout()
         for sensor in sensors:
             title = sensor['name']
             content = '\n'.join(
                 [key.title() + ' : ' + str(sensor[key]) for key in sensor]
             )
+            popup = self._create_popup(title, content)
 
             button = Button(
                 text=title,
-                size_hint=(None, 0.15),
-                width=450,
+                size_hint_y=None,
+                height='40dp',
+                on_press=popup.open,
             )
-            popup = create_popup(title, content)
-            button.bind(on_release=popup.open)
+
             stack.add_widget(button)
-        self.add_widget(stack)
+
+    def start_wifi(self):
+        wifi_button = self.ids['wifi_button']
+        wifi_button.text = 'Show Scan Results'
+        wifi_button.on_release=self.show_wifi_scans
+        self.hardware.start_wifi()
+
+        stop_wifi_button = self.ids['stop_wifi_button']
+        stop_wifi_button.disabled = False
+
+    def stop_wifi(self):
+        stop_wifi_button = self.ids['stop_wifi_button']
+        stop_wifi_button.disabled = True
+
+        wifi_button = self.ids['wifi_button']
+        wifi_button.text = 'Start Wifi'
+        wifi_button.on_release=self.start_wifi
+
+        self.hardware.stop_wifi()
+
+    def show_wifi_scans(self):
+        wifi_scans = self.hardware.get_wifi_scans()
+        if not wifi_scans:
+            return
+        scan_format = "SSID: %s\nBSSID: %s\nLevel: %s\n"
+        popup = self._create_popup(
+            'Scan Results',
+            '\n'.join([scan_format % (s['ssid'], s['bssid'], s['level'])
+                       for s in wifi_scans])
+        )
+        popup.open()
 
 
 class UtilsApp(App):

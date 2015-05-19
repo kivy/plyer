@@ -56,7 +56,7 @@ fullscreen = 0
 #
 
 # (list) Permissions
-android.permissions = INTERNET, VIBRATE, ACCESS_NETWORK_STATE
+android.permissions = INTERNET, ACCESS_NETWORK_STATE, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE
 
 # (int) Android API to use
 #android.api = 14
