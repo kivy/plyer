@@ -44,7 +44,7 @@ class Win32FileChooser(object):
 
     def run(self):
         try:
-            if mode != "dir":
+            if self.mode != "dir":
                 args = {}
 
                 if self.path:
