@@ -29,10 +29,12 @@ Builder.load_string('''
     Button:
         id: button_keyboard
         height: sp(40)
+        size_hint_y: None
         text: 'Show Keyboard'
         on_release: root.toggle_keyboard()
 
 ''')
+
 
 class UtilsInterface(BoxLayout):
     """Main Layout."""
@@ -63,13 +65,14 @@ class UtilsInterface(BoxLayout):
             )
 
         sensors = self.hardware.get_hardware_sensors()
-        print 'sensors', sensors
 
         stack = StackLayout()
         for sensor in sensors:
             title = sensor['name']
-            content = '\n'.join([key.title() + ' : ' + str(sensor[key]) for key in sensor])
-            print title, content
+            content = '\n'.join(
+                [key.title() + ' : ' + str(sensor[key]) for key in sensor]
+            )
+
             button = Button(
                 text=title,
                 size_hint=(None, 0.15),
@@ -79,6 +82,7 @@ class UtilsInterface(BoxLayout):
             button.bind(on_release=popup.open)
             stack.add_widget(button)
         self.add_widget(stack)
+
 
 class UtilsApp(App):
     """Main App."""
