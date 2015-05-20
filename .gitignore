@@ -5,6 +5,8 @@
 build
 docs/build/
 dist
+bin
+.buildozer/
 *.egg-info
 venv
 
