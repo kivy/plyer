@@ -48,12 +48,9 @@ class AudioWorker(Process):
     def run(self):
         super(AudioWorker, self).run()
         signal = None
-        chances = 100
-        while not signal and chances > 0:
+        while not signal:
             signal = self.get_signal()
-            time.sleep(1 / 10)
-            chances -= 1
-            print chances
+            time.sleep(1 / 100)
 
         if signal == SIGNAL['start_recording']:
             self.start_recording()
@@ -136,8 +133,8 @@ class LinuxAudio(Audio):
         self._queue = Queue()
 
     def _start(self):
-        self._queue.put(SIGNAL['start_recording'])
         self._process = AudioWorker(self._file_path, self._queue)
+        self._queue.put(SIGNAL['start_recording'])
         self._process.start()
 
     def _stop(self):
@@ -149,8 +146,8 @@ class LinuxAudio(Audio):
         self._process.terminate()
 
     def _play(self):
-        self._queue.put(SIGNAL['start_playing'])
         self._process = AudioWorker(self._file_path, self._queue)
+        self._queue.put(SIGNAL['start_playing'])
         self._process.start()
 
 
