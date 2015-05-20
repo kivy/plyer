@@ -51,8 +51,9 @@ class AudioWorker(Process):
         chances = 100
         while not signal and chances > 0:
             signal = self.get_signal()
-            time.sleep(1 / 1000)
+            time.sleep(1 / 10)
             chances -= 1
+            print chances
 
         if signal == SIGNAL['start_recording']:
             self.start_recording()
