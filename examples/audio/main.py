@@ -72,10 +72,9 @@ class AudioInterface(BoxLayout):
         state = self.audio.state
         state_label.text = 'AudioPlayer State: ' + state
 
-        play_button.disabled = not self.has_record
-
         if state == 'ready':
             record_button.text = 'Start Recording'
+            play_button.disabled = False
 
         if state == 'recording':
             record_button.text = 'Press to Stop Recording'
