@@ -110,7 +110,7 @@ class UtilsInterface(BoxLayout):
                 text=title,
                 size_hint_y=None,
                 height='40dp',
-                on_press=popup.open,
+                on_release=popup.open,
             )
 
             stack.add_widget(button)

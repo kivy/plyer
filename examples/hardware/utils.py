@@ -58,6 +58,7 @@ class AndroidUtils(Utils):
             self.utils.scanned_results = wifi_manager.getScanResults()
 
     def __init__(self):
+        super(AndroidUtils, self).__init__()
         wifi_service = activity.getSystemService(Context.WIFI_SERVICE)
         self.wifi_manager = cast('android.net.wifi.WifiManager', wifi_service)
 
@@ -72,18 +73,21 @@ class AndroidUtils(Utils):
         activity.unregisterReceiver(self.wifi_scanner)
 
     def _get_wifi_scans(self):
-        self.wifi_manager.startScan()
         if not self.scanned_results:
+            self.wifi_manager.startScan()
             return None
 
         access_points = []
-        for access in self.scanned_results.toArray():
+        scanned_points = self.scanned_results.toArray()
+        for access in scanned_points:
             access_point = {
                 'ssid': access.SSID,
                 'bssid': access.BSSID,
                 'level': access.level
             }
             access_points.append(access_point)
+
+        self.wifi_manager.startScan()
         return access_points
 
     def _is_wifi_enabled(self):
