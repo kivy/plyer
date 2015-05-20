@@ -42,8 +42,6 @@ class AudioInterface(BoxLayout):
     audio = ObjectProperty()
     time = NumericProperty(0)
 
-    has_record = False
-
     def start_recording(self):
         state = self.audio.state
         if state == 'ready':
@@ -51,7 +49,6 @@ class AudioInterface(BoxLayout):
 
         if state == 'recording':
             self.audio.stop()
-            self.has_record = True
 
         self.update_labels()
 
