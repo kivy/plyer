@@ -17,7 +17,7 @@ from plyer.utils import Proxy
 #: Accelerometer proxy to :class:`plyer.facades.Accelerometer`
 accelerometer = Proxy('accelerometer', facades.Accelerometer)
 
-#: Accelerometer proxy to :class:`plyer.facades.Audio`
+#: Audio proxy to :class:`plyer.facades.Audio`
 audio = Proxy('audio', facades.Audio)
 
 #: Battery proxy to :class:`plyer.facades.Battery`
@@ -59,5 +59,5 @@ tts = Proxy('tts', facades.TTS)
 #: UniqueID proxy to :class:`plyer.facades.UniqueID`
 uniqueid = Proxy('uniqueid', facades.UniqueID)
 
-#: Vibrate proxy to :class:`plyer.facades.Vibrator`
+#: Vibrator proxy to :class:`plyer.facades.Vibrator`
 vibrator = Proxy('vibrator', facades.Vibrator)
