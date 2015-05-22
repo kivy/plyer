@@ -36,6 +36,9 @@ class Orientation(object):
     Orientation facade.
     '''
 
+    orientation = None
+    '''Current orientation.'''
+
     def set_landscape(self, reverse=False):
         '''
         Rotate the app to a landscape orientation.

@@ -3,8 +3,10 @@ from kivy.base import runTouchApp
 
 from kivy.lang import Builder
 
+from orientation import orientation
+print dir(orientation)
 interface = Builder.load_string('''
-#:import orientation plyer.orientation
+#:import orientation orientation.orientation
 
 <WrapButton@Button>:
     text_size: self.size
