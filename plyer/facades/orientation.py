@@ -9,6 +9,9 @@ class Orientation(object):
     .. versionadded:: 1.2.4
     '''
 
+    orientation = None
+    '''Current orientation.'''
+
     def set_landscape(self, reverse=False):
         '''Rotate the app to a landscape orientation.
 
