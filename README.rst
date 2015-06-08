@@ -33,4 +33,5 @@ Unique ID (IMEI or SN)             X             X             X   X       X   X
 Gyroscope                          X             X             X
 Battery                            X             X             X   X       X   X
 Native file chooser                                                X       X   X
+Wifi                               X             X
 ================================== ============= ============= === ======= === =====
