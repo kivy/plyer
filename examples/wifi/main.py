@@ -4,7 +4,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 
-from android import wifi
+from wifi import instance
 
 Builder.load_string('''
 <WifiInterface>:
@@ -40,7 +40,7 @@ Builder.load_string('''
 class WifiInterface(BoxLayout):
     """Main Layout."""
 
-    wifi = wifi
+    wifi = instance()
 
     def _create_popup(self, title, content):
         return Popup(

@@ -3,8 +3,7 @@ from jnius import cast
 from jnius import java_method
 from jnius import PythonJavaClass
 
-# from plyer.facades import Utils
-from facade import Wifi
+from mwifi import Wifi
 from plyer.platforms.android import activity
 
 Context = autoclass('android.content.Context')
@@ -92,11 +91,6 @@ class AndroidWifi(Wifi):
     def _start_scanning(self):
         self.wifi_manager.startScan()
 
-    def _stop_scanning(self):
-        pass
-
 
 def instance():
     return AndroidWifi()
-
-wifi = instance()
