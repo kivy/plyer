@@ -1,7 +1,8 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
 
 from wifi import instance
@@ -34,6 +35,16 @@ Builder.load_string('''
             disabled: True
             text: 'Disable Wifi'
             on_release: root.stop_wifi()
+
+    BoxLayout:
+        id: scan_layout
+        orientation: 'vertical'
+        Label:
+            size_hint_x: 1
+            size_hint_y: None
+            valign: 'middle'
+            height: '35dp'
+            text: 'Scan Results'
 ''')
 
 
@@ -64,22 +75,34 @@ class WifiInterface(BoxLayout):
         stop_wifi_button.disabled = True
 
         wifi_button = self.ids['wifi_button']
-        wifi_button.text = 'Start Wifi'
+        wifi_button.text = 'Enable Wifi'
         wifi_button.on_release = self.start_wifi
 
         self.wifi.disable()
+        self.ids['scan_layout'].clear_widgets()
 
     def show_wifi_scans(self):
         wifi_scans = self.wifi.get_access_points()
         if not wifi_scans:
             return
+
+        stack = self.ids['scan_layout']
+        stack.clear_widgets()
         scan_format = "SSID: %s\nBSSID: %s\nLevel: %s\n"
-        popup = self._create_popup(
-            'Scan Results',
-            '\n'.join([scan_format % (s['ssid'], s['bssid'], s['level'])
-                       for s in wifi_scans])
-        )
-        popup.open()
+
+        for s in wifi_scans:
+            popup = self._create_popup(
+                s['ssid'],
+                scan_format % (s['ssid'], s['bssid'], s['level'])
+            )
+
+            button = Button(
+                text=s['ssid'],
+                size_hint_y=None,
+                height='40dp',
+                on_release=popup.open,
+            )
+            stack.add_widget(button)
 
 
 class WifiApp(App):
