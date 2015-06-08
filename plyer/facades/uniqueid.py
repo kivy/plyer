@@ -3,15 +3,15 @@ class UniqueID(object):
 
     Returns the following depending on the platform:
 
-    * **Android**: IMEI
-    * **Mac OSX**: Serial number of the device
+    * **Android**: Android ID
+    * **OS X**: Serial number of the device
     * **Linux**: Serial number using lshw
     * **Windows**: MachineGUID from regkey
 
-    .. note::
-        On Android your app needs the READ_PHONE_STATE permission
-
     .. versionadded:: 1.2.0
+
+    .. versionchanged:: 1.2.4
+        On Android returns Android ID instead of IMEI.
     '''
 
     @property
