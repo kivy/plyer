@@ -24,7 +24,7 @@ class Wifi(object):
         '''Turn on wifi.
 
         In order to get available access points use after that
-        method `get_wifi_scans`.
+        method `get_access_points`.
 
         .. note::
             Needed Android Permission; ACCESS_NETWORK_STATE

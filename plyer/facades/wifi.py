@@ -24,7 +24,7 @@ class Wifi(object):
         '''Turn on wifi.
 
         In order to get available access points use after that
-        method `get_wifi_scans`.
+        method `get_access_points`.
 
         .. note::
             Needed Android Permission; ACCESS_NETWORK_STATE
@@ -53,8 +53,7 @@ class Wifi(object):
 
         .. note::
             Android doesn't provides any methods for stop scanning.
-            One of trick is to connect to device.
-            Another one
+            One trick is to connect to device.
         '''
         self._stop_scanning()
 

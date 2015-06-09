@@ -59,5 +59,8 @@ tts = Proxy('tts', facades.TTS)
 #: UniqueID proxy to :class:`plyer.facades.UniqueID`
 uniqueid = Proxy('uniqueid', facades.UniqueID)
 
+#: Wifi proxy to :class:`plyer.facades.Wifi`
+wifi = Proxy('wifi', facades.Wifi)
+
 #: Vibrator proxy to :class:`plyer.facades.Vibrator`
 vibrator = Proxy('vibrator', facades.Vibrator)

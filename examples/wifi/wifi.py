@@ -12,8 +12,6 @@ GenericBroadcastReceiver = autoclass(
 )
 Intent = autoclass('android.content.Intent')
 IntentFilter = autoclass('android.content.IntentFilter')
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
-Sensor = autoclass('android.hardware.Sensor')
 WifiManager = autoclass('android.net.wifi.WifiManager')
 
 
@@ -28,7 +26,7 @@ class AndroidWifi(Wifi):
 
     wifi_manager = None
     wifi_scanner = None
-    scanned_results = None
+    access_points = None
 
     class BroadcastReceiver(PythonJavaClass):
         '''Private class for receiving results from wifi manager.'''
@@ -50,16 +48,29 @@ class AndroidWifi(Wifi):
             '''
             wifi_service = context.getSystemService(Context.WIFI_SERVICE)
             wifi_manager = cast('android.net.wifi.WifiManager', wifi_service)
-            self.facade.scanned_results = wifi_manager.getScanResults()
 
-    def __init__(self):
-        super(AndroidWifi, self).__init__()
-        wifi_service = activity.getSystemService(Context.WIFI_SERVICE)
-        self.wifi_manager = cast('android.net.wifi.WifiManager', wifi_service)
+            scanned_results = wifi_manager.getScanResults()
+            scanned_results = scanned_results.toArray()
+
+            access_points = []
+            for access in scanned_results:
+                access_point = {
+                    'ssid': access.SSID,
+                    'bssid': access.BSSID,
+                    'level': access.level
+                }
+                access_points.append(access_point)
+
+            self.facade.access_points = access_points[:]
 
     def _enable(self):
+        wifi_service = activity.getSystemService(Context.WIFI_SERVICE)
+
+        self.wifi_manager = cast('android.net.wifi.WifiManager', wifi_service)
+
         broadcast_receiver = AndroidWifi.BroadcastReceiver(self)
         self.wifi_scanner = GenericBroadcastReceiver(broadcast_receiver)
+
         intent_filter = IntentFilter()
         intent_filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         activity.registerReceiver(self.wifi_scanner, intent_filter)
@@ -71,22 +82,12 @@ class AndroidWifi(Wifi):
         activity.unregisterReceiver(self.wifi_scanner)
 
     def _get_access_points(self):
-        if not self.scanned_results:
+        if not self.access_points:
             self.wifi_manager.startScan()
             return None
 
-        access_points = []
-        scanned_points = self.scanned_results.toArray()
-        for access in scanned_points:
-            access_point = {
-                'ssid': access.SSID,
-                'bssid': access.BSSID,
-                'level': access.level
-            }
-            access_points.append(access_point)
-
         self.wifi_manager.startScan()
-        return access_points[:]
+        return self.access_points[:]
 
     def _start_scanning(self):
         self.wifi_manager.startScan()
