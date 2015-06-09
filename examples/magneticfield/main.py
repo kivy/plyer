@@ -38,6 +38,7 @@ Builder.load_string('''
 
 ''')
 
+
 class MagneticFieldInterface(BoxLayout):
     def __init__(self):
         super(MagneticFieldInterface, self).__init__()
@@ -50,17 +51,18 @@ class MagneticFieldInterface(BoxLayout):
                 Clock.schedule_interval(self.get_magnetic, 1 / 20.)
 
                 self.sensorEnabled = True
-                self.ids.toggle_button.text = "Stop MagneticField Sensor"
+                self.ids.toggle_button.text = "Stop Magnetic Field Sensor"
             else:
                 magneticfield.disable()
                 Clock.unschedule(self.get_magnetic)
 
                 self.sensorEnabled = False
-                self.ids.toggle_button.text = "Start MagneticField Sensor"
+                self.ids.toggle_button.text = "Start Magnetic Field Sensor"
         except NotImplementedError:
             import traceback
             traceback.print_exc()
-            status = "Magnetic Field sensor is not implemented for your platform"
+            status = "Magnetic Field sensor is not implemented " \
+                     "for your platform"
             self.ids.status.text = status
 
     def get_magnetic(self, dt):
