@@ -44,6 +44,9 @@ gyroscope = Proxy('gyroscope', facades.Gyroscope)
 #: IrBlaster proxy to :class:`plyer.facades.IrBlaster`
 irblaster = Proxy('irblaster', facades.IrBlaster)
 
+#: MagneticField proxy to :class:`plyer.facades.MagneticField`
+magneticfield = Proxy('magneticfield', facades.MagneticField)
+
 #: Orientation proxy to :class:`plyer.facades.Orientation`
 orientation = Proxy('orientation', facades.Orientation)
 
