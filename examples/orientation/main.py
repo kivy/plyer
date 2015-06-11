@@ -7,7 +7,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 
 interface = Builder.load_string('''
-#:import facade orientation.orientation
+#:import facade plyer.orientation
 <WrapButton@Button>:
     text_size: self.size
     valign: 'middle'
@@ -93,7 +93,7 @@ class OrientationInterface(BoxLayout):
 
     def get_orientation(self, dt):
         if self.facade.orientation != (None, None, None):
-            self.pitch, self.roll, self.azimuth  = self.facade.orientation
+            self.pitch, self.roll, self.azimuth = self.facade.orientation
 
 
 class OrientationTestApp(App):
