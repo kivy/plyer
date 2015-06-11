@@ -7,7 +7,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 
 interface = Builder.load_string('''
-#:import facade plyer.orientation
+#:import facade orientation.orientation
 <WrapButton@Button>:
     text_size: self.size
     valign: 'middle'
