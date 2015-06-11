@@ -11,6 +11,7 @@ except ImportError:
 curdir = dirname(__file__)
 packages = [
     'plyer',
+    'plyer.facades',
     'plyer.platforms',
     'plyer.platforms.linux',
     'plyer.platforms.android',
