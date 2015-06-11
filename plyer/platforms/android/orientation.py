@@ -75,8 +75,9 @@ class AndroidOrientation(Orientation):
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
 
     def _get_orientation(self):
-        if self.listener:
-            yaw, pitch, roll = self.listener.values
+        if self.listener and self.listener.values:
+            values = self.listener.values
+            yaw, pitch, roll = values[:3]
             return pitch, roll, yaw
 
     def _enable_listener(self, **kwargs):
