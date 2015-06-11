@@ -4,7 +4,7 @@
 title = Plyer Proximity Example
 
 # (str) Package name
-package.name = proximity.example
+package.name = plyer.proximity
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -25,22 +25,14 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-#version.regex = __version__ = ['"](.*)['"]
-#version.filename = %(source.dir)s/main.py
+# version.regex = __version__ = '(.*)'
+# version.filename = %(source.dir)s/main.py
 
 # (str) Application versioning (method 2)
 version = 0.1
 
 # (list) Application requirements
-# comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy,plyer
-
-# (str) Custom source folders for requirements
-# Sets custom source for any requirements with recipes
-# requirements.source.kivy = ../../kivy
-
-# (list) Garden requirements
-#garden_requirements =
+requirements = plyer,kivy
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
@@ -60,10 +52,10 @@ fullscreen = 0
 #
 
 # (list) Permissions
-#android.permissions = RECORD_AUDIO,WAKE_LOCK
+#android.permissions = INTERNET
 
 # (int) Android API to use
-#android.api = 14
+# android.api = 18
 
 # (int) Minimum API required (8 = Android 2.2 devices)
 #android.minapi = 8
@@ -72,7 +64,7 @@ fullscreen = 0
 #android.sdk = 21
 
 # (str) Android NDK version to use
-#android.ndk = 9c
+#android.ndk = 9
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
@@ -81,13 +73,10 @@ fullscreen = 0
 #android.ndk_path =
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+#android.sdk_path = 
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
 #android.p4a_dir =
-
-# (list) python-for-android whitelist
-#android.p4a_whitelist =
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
@@ -114,13 +103,10 @@ fullscreen = 0
 #android.ouya.icon.filename = %(source.dir)s/data/ouya_icon.png
 
 # (str) XML file to include as an intent filters in <activity> tag
-#android.manifest.intent_filters =
+#android.manifest.intent_filters = 
 
 # (list) Android additionnal libraries to copy into libs/armeabi
 #android.add_libs_armeabi = libs/android/*.so
-#android.add_libs_armeabi_v7a = libs/android-v7/*.so
-#android.add_libs_x86 = libs/android-x86/*.so
-#android.add_libs_mips = libs/android-mips/*.so
 
 # (bool) Indicate whether the screen should stay on
 # Don't forget to add the WAKE_LOCK permission if you set this to True
@@ -150,44 +136,41 @@ fullscreen = 0
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
 
-# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_on_root = 1
 
-
-#    -----------------------------------------------------------------------------
-#    List as sections
+# -----------------------------------------------------------------------------
+# List as sections
+# 
+# You can define all the "list" as [section:key].
+# Each line will be considered as a option to the list.
+# Let's take [app] / source.exclude_patterns.
+# Instead of doing:
 #
-#    You can define all the "list" as [section:key].
-#    Each line will be considered as a option to the list.
-#    Let's take [app] / source.exclude_patterns.
-#    Instead of doing:
+#     [app]
+#     source.exclude_patterns = license,data/audio/*.wav,data/images/original/*
 #
-#[app]
-#source.exclude_patterns = license,data/audio/*.wav,data/images/original/*
+# This can be translated into:
 #
-#    This can be translated into:
-#
-#[app:source.exclude_patterns]
-#license
-#data/audio/*.wav
-#data/images/original/*
+#     [app:source.exclude_patterns]
+#     license
+#     data/audio/*.wav
+#     data/images/original/*
 #
 
 
-#    -----------------------------------------------------------------------------
-#    Profiles
+# -----------------------------------------------------------------------------
+# Profiles
 #
-#    You can extend section / key with a profile
-#    For example, you want to deploy a demo version of your application without
-#    HD content. You could first change the title to add "(demo)" in the name
-#    and extend the excluded directories to remove the HD content.
+# You can extend section / key with a profile
+# For example, you want to deploy a demo version of your application without
+# HD content. You could first change the title to add "(demo)" in the name
+# and extend the excluded directories to remove the HD content.
 #
-#[app@demo]
-#title = My Application (demo)
+#     [app@demo]
+#     title = My Application (demo)
 #
-#[app:source.exclude_patterns@demo]
-#images/hd/*
+#     [app:source.exclude_patterns@demo]
+#     images/hd/*
 #
-#    Then, invoke the command line with the "demo" profile:
+# Then, invoke the command line with the "demo" profile:
 #
-#buildozer --profile demo android debug
+#     buildozer --profile demo android debug
