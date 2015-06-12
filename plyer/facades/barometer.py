@@ -6,17 +6,14 @@ class Barometer(object):
     With method `enable` you turns on step sensor and respectively 'disable'
     method stops the sensor.
 
-    Use property `pressure` to get current air pressure.
+    Use property `pressure` to get current air pressure in hPa.
 
     .. versionadded:: 1.2.5
     '''
 
     @property
     def pressure(self):
-        '''Number of steps traveled since enable sensor.
-
-        :return: total number of steps.
-        '''
+        '''Current air pressure in hPa.'''
         return self._get_pressure()
 
     def _get_pressure(self, **kwargs):

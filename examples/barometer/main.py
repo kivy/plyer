@@ -36,7 +36,7 @@ Builder.load_string('''
                 button_enable.disabled = not button_enable.disabled
 
     Label:
-        text: 'Current pressure:' + str(root.pressure)
+        text: 'Current pressure:' + str(root.pressure) + ' hPa.'
 
 ''')
 
