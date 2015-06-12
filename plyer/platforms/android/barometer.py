@@ -20,13 +20,12 @@ class BarometerSensorListener(PythonJavaClass):
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
-        self.sensor = self.SensorManager.getDefaultSensor(
-            Sensor.TYPE_STEP_COUNTER)
+        self.sensor = self.SensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
         self.value = None
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_UI)
+                    SensorManager.SENSOR_DELAY_NORMAL)
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -46,8 +45,8 @@ class AndroidBarometer(Barometer):
 
     def _get_steps(self):
         if self.listener and self.listener.values:
-            steps = self.listener.value
-            return steps
+            pressure = self.listener.value
+            return pressure
 
     def _enable(self):
         if not self.listener:
