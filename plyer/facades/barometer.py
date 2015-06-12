@@ -1,15 +1,14 @@
 class Barometer(object):
     '''Barometer facade.
 
-    Barometer sensor is used to count number of steps.
+    Barometer sensor is used to measure air pressure.
 
     With method `enable` you turns on step sensor and respectively 'disable'
     method stops the sensor.
 
-    Use property `steps` to get total number of steps traveled since
-    enable sensor.
+    Use property `pressure` to get current air pressure.
 
-    .. versionadded: 1.2.5
+    .. versionadded:: 1.2.5
     '''
 
     @property
