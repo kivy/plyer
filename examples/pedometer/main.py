@@ -16,7 +16,6 @@ Builder.load_string('''
 
     BoxLayout:
         orientation: 'horizontal'
-        height: None
         size_hint_y: 0.3
         Button:
             id: button_enable
@@ -56,7 +55,7 @@ class PedometerInterface(BoxLayout):
         Clock.unschedule(self.get_steps)
 
     def get_steps(self, dt):
-        self.steps = self.pedometer.steps
+        self.steps = self.pedometer.steps or self.steps
 
 
 class PedometerApp(App):

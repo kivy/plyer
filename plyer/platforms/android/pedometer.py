@@ -45,7 +45,7 @@ class AndroidPedometer(Pedometer):
     listener = None
 
     def _get_steps(self):
-        if self.listener and self.listener.values:
+        if self.listener and self.listener.value:
             steps = self.listener.value
             return steps
 
