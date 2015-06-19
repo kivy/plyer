@@ -57,7 +57,9 @@ class AndroidProximity(Proximity):
     def _get_proximity(self):
         if self.listener and self.listener.value:
             value = self.listener.value
-            return value < 3.0
+            # value is None when proxime sensor is covered. In other case
+            # it returns some value.
+            return not value or value < 5.0
 
 
 def instance():
