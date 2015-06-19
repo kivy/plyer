@@ -57,7 +57,7 @@ class AndroidProximity(Proximity):
     def _get_proximity(self):
         if self.listener and self.listener.value:
             value = self.listener.value
-            return value < 30.0
+            return value < 3.0
 
 
 def instance():
