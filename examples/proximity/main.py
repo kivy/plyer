@@ -16,7 +16,6 @@ Builder.load_string('''
 
     BoxLayout:
         orientation: 'horizontal'
-        height: None
         size_hint_y: 0.3
         Button:
             id: button_enable
@@ -42,7 +41,9 @@ Builder.load_string('''
 
     Widget:
     Label:
-        text: 'Cover with hand your top part of phone to see result.'
+        text: 'Cover with your hand'
+    Label:
+        text: 'a top part of phone to see result.'
 ''')
 
 
@@ -50,7 +51,7 @@ class ProximityInterface(BoxLayout):
     '''Root Widget.'''
 
     proximity = ObjectProperty()
-    is_near = BooleanProperty()
+    is_near = BooleanProperty(False)
 
     def enable(self):
         self.proximity.enable()
@@ -61,7 +62,7 @@ class ProximityInterface(BoxLayout):
         Clock.unschedule(self.get_proxime)
 
     def get_proxime(self, dt):
-        self.is_near = self.proximity.proximity
+        self.is_near = self.proximity.proximity or self.is_near
 
 
 class ProximityApp(App):
