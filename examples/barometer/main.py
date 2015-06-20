@@ -8,7 +8,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 Builder.load_string('''
 #:import barometer plyer.barometer
-<PedometerInterface>:
+<BarometerInterface>:
     barometer: barometer
     orientation: 'vertical'
     padding: '50dp'
@@ -16,7 +16,6 @@ Builder.load_string('''
 
     BoxLayout:
         orientation: 'horizontal'
-        height: None
         size_hint_y: 0.3
         Button:
             id: button_enable
@@ -53,10 +52,10 @@ class BarometerInterface(BoxLayout):
 
     def disable(self):
         self.barometer.disable()
-        Clock.unschedule(self.get_steps)
+        Clock.unschedule(self.get_pressure)
 
     def get_pressure(self, dt):
-        self.pressure = self.barometer.pressure
+        self.pressure = self.barometer.pressure or self.pressure
 
 
 class BarometerApp(App):
