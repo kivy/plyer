@@ -43,8 +43,8 @@ class AndroidBarometer(Barometer):
 
     listener = None
 
-    def _get_steps(self):
-        if self.listener and self.listener.values:
+    def _get_pressure(self):
+        if self.listener and self.listener.value:
             pressure = self.listener.value
             return pressure
 
