@@ -64,7 +64,7 @@ class AndroidGravity(Gravity):
             self.listener.disable()
             del self.listener
 
-    def _get_magnetic(self):
+    def _get_gravity(self):
         if self.listener:
             return tuple(self.listener.values)
         else:
