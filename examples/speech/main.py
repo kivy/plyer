@@ -4,9 +4,7 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
-# from plyer import speech
-from speech import instance as Speech
-speech = Speech()
+from plyer import speech
 
 Builder.load_string('''
 <SpeechInterface>:
@@ -52,26 +50,24 @@ class SpeechInterface(BoxLayout):
 
         self.speech.start()
         self.state = self.speech.state
-        print 'setting state', self.state
+
         Clock.schedule_interval(self.check_state, 1/5)
 
     def stop_listening(self):
         start_button = self.ids['start_button']
         start_button.text = 'Start Listening'
-        print 'unscheduling'
+
         self.speech.stop()
         self.update()
 
         Clock.unschedule(self.check_state)
 
     def check_state(self, dt):
-        # print 'checking state', self.state, self.speech.state
         if self.state != self.speech.state:
             self.stop_listening()
 
     def update(self):
         label_results = self.ids['results']
-        print 'main results', self.speech.results, speech.results
         label_results.text = '\n'.join(set(self.speech.results))
 
 

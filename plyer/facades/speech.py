@@ -4,10 +4,10 @@ class Speech(object):
     In order to check that your device supports voice recognition use method
     `exist`.
 
-    Variable `language` indicate which language will be used to match words
+    Variable `language` indicates which language will be used to match words
     from voice.
 
-    Try `start` to start voice recognition immediately and `stop` to stop.
+    Use `start` to start voice recognition immediately and `stop` to stop.
 
     .. note::
         Needed permissions for Android: RECORD_AUDIO and NETWORK.
@@ -66,9 +66,7 @@ class Speech(object):
     def stop(self):
         '''Stop listening.'''
         self._stop()
-        print 'stops'
         self.state = 'ready'
-        print 'after stopss'
 
     def exist(self):
         '''True if Speech Recognition is available.'''

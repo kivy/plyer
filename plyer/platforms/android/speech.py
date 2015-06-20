@@ -123,7 +123,6 @@ class SpeechListener(PythonJavaClass):
 class AndroidSpeech(Speech):
     '''Android Speech Implementation.
 
-    Works on API >= 9.
     Android class `SpeechRecognizer` deactivates automatically.
 
     Class methods `_on_error()`, `_on_result()` are some kind of listeners.
