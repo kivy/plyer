@@ -1,0 +1,30 @@
+#:kivy 1.8.0
+<RotationTest>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            id: x_label
+            text: 'Azimuth: '
+
+        Label:
+            id: y_label
+            text: 'Pitch: '
+
+        Label:
+            id: z_label
+            text: 'Roll: '
+
+        Label:
+            id: status
+            text: ''
+
+        BoxLayout:
+            size_hint_y: None
+            height: '48dp'
+            padding: '4dp'
+
+            ToggleButton:
+                id: toggle_button
+                text: 'Start rotation'
+                on_press: root.do_toggle()
