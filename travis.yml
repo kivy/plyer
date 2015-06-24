@@ -6,3 +6,11 @@ python:
 script:
   - make style
 
+notifications:
+  irc:
+    channels:
+      - chat.freenode.net#kivy-dev
+    on_success: change
+    on_failure: always
+    use_notice: true
+    skip_join: true
