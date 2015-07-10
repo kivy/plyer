@@ -89,7 +89,7 @@ class MacFileChooser(object):
             url = NSURL.fileURLWithPath_(self.path)
             panel.setDirectoryURL_(url)
 
-        if panel.runModal_():
+        if panel.runModal():
             if self.mode == "save" or not self.multiple:
                 return [panel.filename().UTF8String()]
             else:
