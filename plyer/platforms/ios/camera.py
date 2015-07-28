@@ -5,6 +5,7 @@ from plyer.facades import Camera
 
 from plyer.utils import reify
 
+
 class iOSCamera(Camera):
 
     @reify
@@ -29,7 +30,6 @@ class iOSCamera(Camera):
         photos.capture_image(filename)
         return True
 
-
     def capture_callback(self, photolibrary):
         # Image was choosen
 
@@ -38,7 +38,6 @@ class iOSCamera(Camera):
 
         if self.on_complete(self.filename):
             self._unlink(self.filename)
-
 
     def _take_video(self, on_complete, filename=None):
         assert(on_complete is not None)
