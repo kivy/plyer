@@ -134,6 +134,7 @@ def whereis_exe(program):
             return path.join(p, program)
     return None
 
+
 class reify(object):
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
