@@ -6,7 +6,7 @@ Plyer
 
 __all__ = ('accelerometer', 'audio', 'battery', 'camera', 'compass', 'email',
            'filechooser', 'gps', 'gyroscope', 'irblaster', 'orientation',
-           'notification', 'sms', 'tts', 'uniqueid', 'vibrator')
+           'notification', 'sms', 'tts', 'uniqueid', 'vibrator', 'gallery')
 
 __version__ = '1.2.5dev'
 
@@ -28,6 +28,9 @@ compass = Proxy('compass', facades.Compass)
 
 #: Camera proxy to :class:`plyer.facades.Camera`
 camera = Proxy('camera', facades.Camera)
+
+#: Gallery proxy to :class:`plyer.facades.Gallery`
+gallery = Proxy('gallery', facades.Gallery)
 
 #: Email proxy to :class:`plyer.facades.Email`
 email = Proxy('email', facades.Email)
