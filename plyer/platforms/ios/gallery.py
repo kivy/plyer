@@ -2,10 +2,26 @@ from pyobjus import autoclass
 from pyobjus import protocol
 from os import unlink
 from plyer.facades import Gallery
+from plyer.utils import reify
 
-from kivy.utils import reify
 
 class iOSGallery(Gallery):
+
+    def __init__(self, **kwargs):
+        super(iOSGallery, self).__init__(kwargs)
+        self._create_nomedia()
+
+    def _create_nomedia(self):
+        if platform != 'android':
+            return
+
+        nfile = self.get_temporary_dir() + '/.nomedia'
+        if exists(nfile):
+            return
+
+        f = open(nfile, 'wr')
+        f.write('')
+        f.close()
 
     @reify
     def photos(self):
