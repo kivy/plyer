@@ -6,6 +6,7 @@ from os.path import join, exists
 
 tmpfileindex = 1
 
+
 class MediaApp(App):
     '''This is a demo app meant for showcasing the usage of
     camera and gallery from within a kivy app.
@@ -55,7 +56,9 @@ FloatLayout
         return App.get_running_app().user_data_dir
 
     def take_picture(self):
-        camera.take_picture(self.create_temporary_file(), self._on_picture_complete)
+        camera.take_picture(
+            self.create_temporary_file(),
+            self._on_picture_complete)
 
     def _on_picture_complete(self, fn):
         self.root.ids.img.source = fn

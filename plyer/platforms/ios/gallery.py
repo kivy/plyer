@@ -41,7 +41,6 @@ class iOSGallery(Gallery):
         self._capture_filename = filename
         photos.chooseFromGallery(filename, type='image')
 
-
     def capture_callback(self, photolibrary):
         # Image was choosen
 
@@ -58,12 +57,11 @@ class iOSGallery(Gallery):
 
         # unbind
         self.photos.unbind(
-                   on_image_captured=self.capture_callback,
-                   on_capture_cancelled=self.capture_cancelled)
+            on_image_captured=self.capture_callback,
+            on_capture_cancelled=self.capture_cancelled)
 
         self.on_complete(self.filename, finished=True)
         #self._unlink(self.filename)
-
 
     def _choose_video(self, on_complete, filename=None):
         assert(on_complete is not None)
