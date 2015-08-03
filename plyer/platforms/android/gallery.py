@@ -5,8 +5,8 @@ from android import autoclass
 import threading
 from time import sleep
 
-Intent = autoclass ('android.content.Intent')
-PythonActivity = autoclass ('org.renpy.android.PythonActivity')
+Intent = autoclass('android.content.Intent')
+PythonActivity = autoclass('org.renpy.android.PythonActivity')
 Uri = autoclass('android.net.Uri')
 CompressFormat = autoclass('android.graphics.Bitmap$CompressFormat')
 BitmapFactory = autoclass('android.graphics.BitmapFactory')
@@ -15,6 +15,7 @@ FileOutputStream = autoclass('java.io.FileOutputStream')
 BufferedOutputStream = autoclass('java.io.BufferedOutputStream')
 ContentResolver = PythonActivity.mActivity.getContentResolver()
 Version = autoclass('android.os.Build$VERSION')
+
 
 class AndroidGallery(Gallery):
 
@@ -43,10 +44,6 @@ class AndroidGallery(Gallery):
             self.on_complete([], True)
             return
 
-        uri = []
-        #data = intent.getData()
-        #if data:
-	        #self._get_path_from_URI([data])
         uri = []
         data = intent.getClipData()
         if not data:
@@ -78,17 +75,17 @@ class AndroidGallery(Gallery):
                         if pth:
                             ret.append(pth)
                 except Exception as e:
-                    parcelFileDescriptor = ContentResolver.openFileDescriptor(uri, 'r')
-                    #ist = FileInputStream(parcelFileDescriptor.getFileDescriptor())
+                    parcelFileDescriptor = \
+                        ContentResolver.openFileDescriptor(uri, 'r')
                     file_nm, ext = self.filename.rsplit('.')
-                    filename = file_nm[:-1] + str(int(file_nm[-1]) + 1) + '.' + ext
+                    filename = file_nm[:-1] +\
+                        str(int(file_nm[-1]) + 1) + '.' + ext
                     self.filename = filename
-                    #ln = 0
                     output = BufferedOutputStream(FileOutputStream(filename))
-                    bitmap = BitmapFactory.decodeFileDescriptor(parcelFileDescriptor.getFileDescriptor())
+                    bitmap = BitmapFactory.decodeFileDescriptor(
+                        parcelFileDescriptor.getFileDescriptor())
                     bitmap.compress(CompressFormat.JPEG, 100, output)
                     ret.append(filename)
-                    #ist.close()
                     continue
                 except Exception as e:
                     Logger.debug('ScramPhoto: {}'.format(e))
@@ -97,7 +94,7 @@ class AndroidGallery(Gallery):
                 continue
         self.on_complete(ret, False)
         #jnius.detach()
-        sleep(2000000000)
+        sleep(2000000)
 
 
 def instance():
