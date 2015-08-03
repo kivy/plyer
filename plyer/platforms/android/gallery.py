@@ -39,7 +39,8 @@ class AndroidGallery(Gallery):
         activity.unbind(on_activity_result=self.on_activity_result)
 
         if requestCode != 0x100:
-	        return
+            return
+
         if resultCode != -1:
             self.on_complete([], True)
             return
@@ -64,7 +65,7 @@ class AndroidGallery(Gallery):
         for count, uri in enumerate(uris):
             scheme = uri.getScheme()
             if scheme == 'content':
-                PythonActivity.toastError('Loading file {}'.format(count +  1))
+                PythonActivity.toastError('Loading file {}'.format(count + 1))
                 try:
                     cursor = ContentResolver.query(
                             uri, None, None, None, None)
