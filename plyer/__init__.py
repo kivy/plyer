@@ -5,7 +5,7 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'audio', 'battery', 'camera', 'compass', 'email',
-           'filechooser', 'gps', 'gyroscope', 'irblaster', 'orientation',
+           'filechooser', 'gps', 'gravity', 'gyroscope', 'irblaster', 'orientation',
            'notification', 'sms', 'tts', 'uniqueid', 'vibrator')
 
 __version__ = '1.2.5dev'
@@ -37,6 +37,9 @@ filechooser = Proxy('filechooser', facades.FileChooser)
 
 #: GPS proxy to :class:`plyer.facades.GPS`
 gps = Proxy('gps', facades.GPS)
+
+#: Gravity proxy to :class:`plyer.facades.Gravity`
+gravity = Proxy('gravity', facades.Gravity)
 
 #: Gyroscope proxy to :class:`plyer.facades.Gyroscope`
 gyroscope = Proxy('gyroscope', facades.Gyroscope)
