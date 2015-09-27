@@ -1,5 +1,6 @@
 # coding=utf-8
 
+
 class Flash(object):
     """Flash facade.
 
