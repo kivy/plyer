@@ -61,3 +61,6 @@ uniqueid = Proxy('uniqueid', facades.UniqueID)
 
 #: Vibrator proxy to :class:`plyer.facades.Vibrator`
 vibrator = Proxy('vibrator', facades.Vibrator)
+
+#: Flash proxy to :class:`plyer.facades.Flash`
+flash = Proxy('flash', facades.Flash)
