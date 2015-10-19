@@ -17,23 +17,23 @@ implement the api in the easiest way, depending on the current platform.
 Support
 -------
 
-================================== ============= ============= === ======= === =====
-Platform                           Android < 4.0 Android > 4.0 iOS Windows OSX Linux
-================================== ============= ============= === ======= === =====
-Accelerometer                      X             X             X           X   X
-Camera (taking picture)            X             X
-GPS                                X             X             X
-Notifications                      X             X                 X       X   X
-Text to speech                     X             X             X   X       X   X
-Email (open mail client)           X             X             X   X       X   X
-Vibrator                           X             X             X
-Sms (send messages)                X             X
-Compass                            X             X             X
-Unique ID (IMEI or SN)             X             X             X   X       X   X
-Gyroscope                          X             X             X
-Battery                            X             X             X   X       X   X
-Native file chooser                                                X       X   X
-Orientation                        X             X
-Audio recording                    X             X
-Flash                              X             X             X
-================================== ============= ============= === ======= === =====
+================================== ======= === ======= ==== =====
+Platform                           Android iOS Windows OS X Linux
+================================== ======= === ======= ==== =====
+Accelerometer                      X       X           X    X
+Camera (taking picture)            X
+GPS                                X       X
+Notifications                      X           X       X    X
+Text to speech                     X       X   X       X    X
+Email (open mail client)           X       X   X       X    X
+Vibrator                           X       X
+Sms (send messages)                X
+Compass                            X       X
+Unique ID                          X       X   X       X    X
+Gyroscope                          X       X
+Battery                            X       X   X       X    X
+Native file chooser                            X       X    X
+Orientation                        X
+Audio recording                    X
+Flash                              X       X
+================================== ======= === ======= ==== =====
