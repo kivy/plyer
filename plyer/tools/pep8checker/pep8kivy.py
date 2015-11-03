@@ -67,7 +67,8 @@ if __name__ == '__main__':
             if htmlmode:
                 path = join(dirname(abspath(__file__)), 'pep8base.html')
                 print(open(path, 'r').read())
-                print('''<p>Generated: %s</p><table>''' % (time.strftime('%c')))
+                print('''<p>Generated: %s</p><table>''' % \
+                     (time.strftime('%c')))
 
             for dirpath, dirnames, filenames in walk(target):
                 cont = False
