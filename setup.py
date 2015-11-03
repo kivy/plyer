@@ -30,7 +30,7 @@ with open(join(curdir, "CHANGELOG.md")) as fd:
 setup(
     name='plyer',
     version=plyer.__version__,
-    description='Platform-independent Python wrapper for platform-dependent APIs',
+    description='Platform-independent wrapper for platform-dependent APIs',
     long_description=readme + "\n\n" + changelog,
     author='Kivy team',
     author_email='mat@kivy.org',
