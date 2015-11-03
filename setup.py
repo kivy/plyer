@@ -30,7 +30,7 @@ with open(join(curdir, "CHANGELOG.md")) as fd:
 setup(
     name='plyer',
     version=plyer.__version__,
-    description='Platform-independant wrapper for platform-dependant APIs',
+    description='Platform-independent Python wrapper for platform-dependent APIs',
     long_description=readme + "\n\n" + changelog,
     author='Kivy team',
     author_email='mat@kivy.org',
@@ -51,6 +51,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
-
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ),
 )
