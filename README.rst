@@ -56,7 +56,7 @@ Contributing
 ------------
 
 We love pull requests and discussing novel ideas. Check out our
-`contribution guide<http://kivy.org/docs/contribute.html>`_ and
+`contribution guide <http://kivy.org/docs/contribute.html>`_ and
 feel free to improve Plyer.
 
 The following mailing list and IRC channel are used exclusively for
