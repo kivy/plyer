@@ -14,8 +14,8 @@ implement the api in the easiest way, depending on the current platform.
 - on kivy-ios, pyobjus is used
 - on windows/mac/linux, commonly found libraries and programs will be used
 
-Support
--------
+Supported APIs
+--------------
 
 ================================== ======= === ======= ==== =====
 Platform                           Android iOS Windows OS X Linux
@@ -37,3 +37,42 @@ Orientation                        X
 Audio recording                    X
 Flash                              X       X
 ================================== ======= === ======= ==== =====
+
+Support
+-------
+
+If you need assistance, you can ask for help on our mailing list:
+
+* User Group : https://groups.google.com/group/kivy-users
+* Email      : kivy-users@googlegroups.com
+
+We also have an IRC channel:
+
+* Server  : irc.freenode.net
+* Port    : 6667, 6697 (SSL only)
+* Channel : #kivy
+
+Contributing
+------------
+
+We love pull requests and discussing novel ideas. Check out our
+`contribution guide<http://kivy.org/docs/contribute.html>`_ and
+feel free to improve Plyer.
+
+The following mailing list and IRC channel are used exclusively for
+discussions about developing the Kivy framework and its sister projects:
+
+* Dev Group : https://groups.google.com/group/kivy-dev
+* Email     : kivy-dev@googlegroups.com
+
+IRC channel:
+
+* Server  : irc.freenode.net
+* Port    : 6667, 6697 (SSL only)
+* Channel : #kivy-dev
+
+License
+-------
+
+Plyer is released under the terms of the MIT License. Please refer to the
+LICENSE file.
