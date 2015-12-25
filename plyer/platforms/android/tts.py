@@ -18,7 +18,11 @@ class AndroidTextToSpeech(TTS):
             # -1 indicates error. Let's wait and then try again
             sleep(0.1)
             retries += 1
-
+        
+    def _speak_to_file(self,**kwargs):
+		tts = TextToSpeech(activity, None)
+		tts.setLanguage(Locale.US)
+		tts.synthesizeToFile(kwargs.get('message').encode('utf-8'),None,kwargs.get('fileName'))
 
 def instance():
     return AndroidTextToSpeech()
