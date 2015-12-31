@@ -2,8 +2,8 @@ class Notification(object):
     '''Notification facade.
     '''
 
-    def notify(self, title='', message='', app_name='', app_icon='',
-                timeout=10):
+    def notify(self, title='', message='', ticker='', app_name='', app_icon='',
+               timeout=10):
         '''Send a notification.
 
         :param title: Title of the notification
@@ -17,8 +17,8 @@ class Notification(object):
         :type app_icon: str
         :type timeout: int
         '''
-        self._notify(title=title, message=message, app_icon=app_icon,
-                     app_name=app_name, timeout=timeout)
+        self._notify(title=title, message=message, ticker=ticker,
+                     app_icon=app_icon, app_name=app_name, timeout=timeout)
 
     # private
 

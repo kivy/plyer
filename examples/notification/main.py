@@ -18,10 +18,11 @@ class NotificationDemo(BoxLayout):
     def do_notify(self, mode='normal'):
         title = self.ids.notification_title.text
         message = self.ids.notification_text.text
+        ticker = self.ids.ticker_text.text
         if PY2:
             title = title.decode('utf8')
             message = message.decode('utf8')
-        kwargs = {'title': title, 'message': message}
+        kwargs = {'title': title, 'message': message, 'ticker': ticker}
 
         if mode == 'fancy':
             kwargs['app_name'] = "Plyer Notification Example"
@@ -42,4 +43,3 @@ class NotificationDemoApp(App):
 
 if __name__ == '__main__':
     NotificationDemoApp().run()
-
