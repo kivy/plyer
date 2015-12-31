@@ -22,7 +22,7 @@ class AndroidBattery(Battery):
 
         level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-        percentage = (level / float(scale))*100
+        percentage = (level / float(scale)) * 100
 
         status['isCharging'] = isCharging
         status['percentage'] = percentage

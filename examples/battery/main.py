@@ -39,7 +39,7 @@ class BatteryInterface(BoxLayout):
 
     def get_status(self, *args):
         self.lbl1.text = str(battery.status['isCharging'])
-        self.lbl2.text = str(battery.status['percentage'])+"%"
+        self.lbl2.text = str(battery.status['percentage']) + "%"
 
 
 class BatteryApp(App):
