@@ -22,7 +22,7 @@ Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
 Call                               X
-Camera (taking picture)            X
+Camera (taking picture)            X       X
 GPS                                X       X
 Notifications                      X           X       X    X
 Text to speech                     X       X   X       X    X
