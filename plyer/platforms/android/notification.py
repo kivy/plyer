@@ -17,10 +17,8 @@ class AndroidNotification(Notification):
     def _notify(self, **kwargs):
         icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
         noti = NotificationBuilder(activity)
-        noti.setContentTitle(AndroidString(
-            kwargs.get('title').encode('utf-8')))
-        noti.setContentText(AndroidString(
-            kwargs.get('message').encode('utf-8')))
+        noti.setContentTitle(kwargs.get('title'))
+        noti.setContentText(kwargs.get('message'))
         noti.setSmallIcon(icon)
         noti.setAutoCancel(True)
 
