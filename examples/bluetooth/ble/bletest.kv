@@ -1,0 +1,42 @@
+<DeviceItem>:
+	orientation: 'vertical'
+	opacity: 1.0 - (max(0, root.age - 10.) / 55.)
+	BoxLayout:
+		Label:
+			text: root.uuid
+		Label:
+			text: 'Type: ' + root.beacon_type
+			size_hint_x: 0.5
+	BoxLayout:
+		Label:
+			text: 'Distance: {:.2f}m'.format(root.distance)
+		Label:
+			text: 'Updated: {:d}s'.format(root.age)
+		Label:
+			text: 'Known: {:d}s'.format(root.total + root.age)
+
+
+BoxLayout:
+	orientation: 'vertical'
+
+	Label:
+		size_hint_y: None
+		height: self.texture_size[1] + dp(8)
+		font_size: sp(48)
+		text: 'BLE Scanner'
+
+	BoxLayout:
+		size_hint_y: None
+		height: dp(48)
+
+		Label:
+			text: 'State: {}'.format(app.state)
+
+		Button:
+			text: 'Stop' if app.scanning else 'Scan'
+			on_release: app.toggle_scan()
+			disabled: not app.ble_available
+
+	ListView:
+		id: listview
+		adapter: app.adapter
