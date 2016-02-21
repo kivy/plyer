@@ -116,7 +116,8 @@ class BleTestApp(App):
         self.advertising = ble_peripheral.is_advertising
 
     def discover(self, device):
-        Logger.info('Central: {}'.format(device))
+        if device.age < 0.1:
+            Logger.info('Central: {}'.format(device))
 
     def update_list(self, *args):
         self.scanning = ble_central.is_scanning
