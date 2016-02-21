@@ -38,7 +38,6 @@ requirements = kivy,plyer
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
-requirements.source.plyer = ../../..
 
 # (list) Garden requirements
 #garden_requirements =
@@ -150,7 +149,6 @@ fullscreen = 1
 # (str) Name of the certificate to use for signing the debug version
 # Get a list of available identities: buildozer ios list_identities
 #ios.codesign.debug = "iPhone Developer: <lastname> <firstname> (<hexstring>)"
-ios.codesign.debug = "iPhone Developer: dkived@gmail.com (58KJJ736S8)"
 
 # (str) Name of the certificate to use for signing the release version
 #ios.codesign.release = %(ios.codesign.debug)s
