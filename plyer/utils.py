@@ -167,3 +167,10 @@ class reify(object):
         retval = self.func(inst)
         setattr(inst, self.func.__name__, retval)
         return retval
+
+
+def iprop(p):
+    '''Utility function for accessing objective C properties.'''
+    if callable(p):
+        return p()
+    return p

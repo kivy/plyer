@@ -1,15 +1,18 @@
 '''
-MacOSX Bluetooth
-----------------
+MacOSX BLE Central
+------------------
 
 
 '''
 
-from plyer.facades import Ble
+from plyer.facades import BleCentral
+from plyer.platforms.macosx.libs.cbadvertisement import CBAdvertisementDataKeys
+from plyer.utils import iprop
 
 from pyobjus.dylib_manager import load_framework
-from pyobjus import autoclass, protocol, dereference, ObjcString, CArray
-from pyobjus.objc_py_types import enum, dict_from_objc
+from pyobjus import (autoclass, protocol, symbol, dereference, ObjcString,
+                     CArray, objc_dict, objc_i)
+from pyobjus.objc_py_types import enum
 
 load_framework('/System/Library/Frameworks/CoreBluetooth.framework')
 
@@ -27,8 +30,23 @@ cb_central_manager_state_map = {v:k.replace('_', ' ') for k, v
                                 in CBCentralManagerState.__dict__.items()
                                 if not k.startswith('_')}
 
+c = CArray()
 
-class _BleImpl(object):
+
+class BleDevice(BleCentral.Device):
+    def __init__(self, uuid, name, power, announcement=None, services=None,
+                 peripheral=None):
+        super(BleDevice, self).__init__(uuid, name, power,
+                                        announcement=announcement,
+                                        services=services)
+        self.peripheral = peripheral
+
+    def _update(self, new):
+        super(BleDevice, self)._update(new)
+        self.peripheral = new.peripheral
+
+
+class BleCentralImpl(object):
     def __init__(self):
         self.state = 0
         self.scanning = False
@@ -47,8 +65,7 @@ class _BleImpl(object):
 
     @protocol('CBCentralManagerDelegate')
     def centralManagerDidUpdateState_(self, central):
-        self.state = central.state
-        # print 'central state updated: {}[{}]'.format(self.state_description, self.state)
+        self.state = iprop(central.state)
 
         if self.scanning and not self.bt_on:
             self.stop_scanning()
@@ -61,35 +78,53 @@ class _BleImpl(object):
             central, peripheral, advertisementData, RSSI):
         power = RSSI.floatValue()
 
-        data = dict_from_objc(advertisementData)
-        advdata = data['kCBAdvDataManufacturerData']
-        advbytes = advdata.bytes()
-        advbytes.of_type = 'C'
-        announcement = dereference(advbytes, of_type=CArray, return_count=advdata.length())
+        device = self.device_from_advertisement(peripheral, advertisementData, power)
 
-        if callable(self.on_discover):
-            self.on_discover(Ble.Device(announcement, power))
+        if device and callable(self.on_discover):
+            self.on_discover(device)
+
+    def device_from_advertisement(self, peripheral, advertisementData, power):
+        uuid = iprop(peripheral.identifier).UUIDString().cString()
+        name = iprop(peripheral.name).cString()
+
+        data = advertisementData.objectForKey_(
+            CBAdvertisementDataKeys.ManufacturerData)
+        if data:
+            announcement = c.get_from_ptr(data.bytes().arg_ref, 'C', data.length())
+            return BleDevice(uuid, name, power, announcement=announcement,
+                             peripheral=peripheral)
+
+        uuids = advertisementData.objectForKey_(
+            CBAdvertisementDataKeys.ServiceUUIDs)
+        if uuids:
+            services = []
+            for i in range(iprop(uuids.count)):
+                cbuuid = uuids.objectAtIndex_(i)
+                services.append(iprop(cbuuid.UUIDString).cString())
+            return BleDevice(uuid, name, power, services=services,
+                             peripheral=peripheral)
+
+        return None
 
     def start_scanning(self):
         if self.scanning:
-            print 'already scanning'
             return
 
-        print 'start scanning'
-        self.central.scanForPeripheralsWithServices_options_(None, None)
+        options = objc_dict({
+            'kCBScanOptionAllowDuplicates': objc_i(1)
+        })
+        self.central.scanForPeripheralsWithServices_options_(None, options)
         self.scanning = True
 
     def stop_scanning(self):
         if not self.scanning:
-            print 'not scanning'
             return
 
-        print 'stop scanning'
         self.central.stopScan()
         self.scanning = False
 
 
-class OSXBle(Ble):
+class OSXBleCentral(BleCentral):
 
     _ble = None
 
@@ -99,8 +134,8 @@ class OSXBle(Ble):
             self.init()
         return self._ble
 
-    def __init__(self):
-        self._ble = _BleImpl()
+    def init(self):
+        self._ble = BleCentralImpl()
 
     def _state(self):
         return self.ble.state_description
@@ -120,10 +155,11 @@ class OSXBle(Ble):
         return self.ble.scanning
 
     def set_callbacks(self, **kwargs):
-        super(OSXBle, self).set_callbacks(**kwargs)
+        super(OSXBleCentral, self).set_callbacks(**kwargs)
         self.ble.on_state = self.on_state
         self.ble.on_discover = self.on_discover
 
 
 def instance():
-    return OSXBle()
+    return OSXBleCentral()
+
