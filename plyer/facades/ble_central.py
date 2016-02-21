@@ -45,13 +45,12 @@ class BleDeviceMeta(type):
         device = super(BleDeviceMeta, cls).__call__(*args, **kwargs)
         uuid = device.uuid
         if uuid:
-            key = (uuid, device.beacon_uuid)
+            key = device.key
             existing = BleDevice.devices.get(key)
             if existing:
                 existing._update(device)
                 device = existing
-            else:
-                BleDevice.devices[key] = device
+            BleDevice.devices[device.key] = device
         cls.prune_devices()
         return device
 
@@ -97,6 +96,10 @@ class BleDevice(with_metaclass(BleDeviceMeta)):
     tx_power = None
     prefix_hex = None
     services = None
+
+    @property
+    def key(self):
+        return self.uuid, self.beacon_uuid
 
     def __init__(self, uuid, name, power, announcement=None, services=None):
         self.uuid = UUID(uuid)

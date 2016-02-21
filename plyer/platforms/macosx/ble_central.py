@@ -4,6 +4,7 @@ MacOSX BLE Central
 
 
 '''
+from uuid import UUID
 
 from plyer.facades import BleCentral
 from plyer.platforms.macosx.libs.cbadvertisement import CBAdvertisementDataKeys
@@ -41,9 +42,15 @@ class BleDevice(BleCentral.Device):
                                         services=services)
         self.peripheral = peripheral
 
+    @property
+    def key(self):
+        return self.peripheral
+
     def _update(self, new):
-        super(BleDevice, self)._update(new)
         self.peripheral = new.peripheral
+        self.uuid = UUID(iprop(self.peripheral.identifier).UUIDString().cString())
+        self.name = iprop(self.peripheral.name).cString()
+        super(BleDevice, self)._update(new)
 
 
 class BleCentralImpl(object):
