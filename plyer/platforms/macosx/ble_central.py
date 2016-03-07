@@ -7,7 +7,7 @@ MacOSX BLE Central
 from uuid import UUID
 
 from plyer.facades import BleCentral
-from plyer.platforms.macosx.libs.cbadvertisement import CBAdvertisementDataKeys
+from pyobjus.consts.corebluetooth import CBAdvertisementDataKeys
 from plyer.utils import iprop
 
 from pyobjus.dylib_manager import load_framework
@@ -91,8 +91,11 @@ class BleCentralImpl(object):
             self.on_discover(device)
 
     def device_from_advertisement(self, peripheral, advertisementData, power):
-        uuid = iprop(peripheral.identifier).UUIDString().cString()
-        name = iprop(peripheral.name).cString()
+        try:
+            uuid = iprop(peripheral.identifier).UUIDString().cString()
+            name = iprop(peripheral.name).cString()
+        except Exception:
+            return
 
         data = advertisementData.objectForKey_(
             CBAdvertisementDataKeys.ManufacturerData)

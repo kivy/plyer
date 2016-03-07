@@ -1,6 +1,37 @@
 
 class BlePeripheralCharacteristic(object):
-    pass
+    property = type('BlePeripheralCharacteristic.property', (object,), {
+        'broadcast': 0x01,
+        'read': 0x02,
+        'write_without_response': 0x04,
+        'write': 0x08,
+        'notify': 0x10,
+        'indicate': 0x20,
+        'authenticated_signed_writes': 0x40,
+        'extended_properties': 0x80,
+        'notify_encryption_required': 0x100,
+        'indicate_encryption_required': 0x200
+    })
+
+    permission = type('BlePeripheralCharacteristic.permission', (object,), {
+        'readable': 0x01,
+        'writeable': 0x02,
+        'read_encryption_required': 0x04,
+        'write_encryption_required': 0x08,
+    })
+
+    def __init__(self, uuid, value=None, permissions=None, properties=None):
+        self.uuid = uuid
+        self.value = value
+        self.permissions = permissions
+        self.properties = properties
+        self.init()
+
+    def init(self):
+        raise NotImplementedError()
+
+    def set_value(self, value):
+        raise NotImplementedError()
 
 
 class BlePeripheralService(object):
@@ -10,6 +41,9 @@ class BlePeripheralService(object):
         self.init()
 
     def init(self):
+        raise NotImplementedError()
+
+    def add_characteristic(self, characteristic):
         raise NotImplementedError()
 
 
@@ -25,6 +59,8 @@ class BlePeripheral(object):
     on_service_error = None
     on_advertising_started = None
     on_advertising_error = None
+    on_characteristic_subscribed = None
+    on_characteristic_write = None
 
     def init(self):
         '''Initialize BLE framework.'''
@@ -46,7 +82,9 @@ class BlePeripheral(object):
 
     def set_callbacks(self, on_state=None, on_service_added=None,
                       on_service_error=None, on_advertising_started=None,
-                      on_advertising_error=None):
+                      on_advertising_error=None,
+                      on_characteristic_subscribed=None,
+                      on_characteristic_write=None):
         '''Set callback functions.
         '''
         if on_state:
@@ -59,6 +97,10 @@ class BlePeripheral(object):
             self.on_advertising_started = on_advertising_started
         if on_advertising_error:
             self.on_advertising_error = on_advertising_error
+        if on_characteristic_subscribed:
+            self.on_characteristic_subscribed = on_characteristic_subscribed
+        if on_characteristic_write:
+            self.on_characteristic_write = on_characteristic_write
 
     def add_service(self, service):
         assert isinstance(service, BlePeripheralService)

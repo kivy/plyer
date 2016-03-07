@@ -39,6 +39,7 @@ class BleTestApp(App):
     def __init__(self, **kwargs):
         super(BleTestApp, self).__init__(**kwargs)
         self.beacon = None
+        self.characteristic = None
         self.adapter = ListAdapter(data=[], cls=DeviceItem,
                                    args_converter=self.device_args_converter)
 
@@ -63,7 +64,9 @@ class BleTestApp(App):
                                      on_service_added=self.peripheral_service_added,
                                      on_service_error=self.peripheral_service_error,
                                      on_advertising_started=self.peripheral_adv,
-                                     on_advertising_error=self.peripheral_adv)
+                                     on_advertising_error=self.peripheral_adv,
+                                     on_characteristic_subscribed=self.char_sub,
+                                     on_characteristic_write=self.char_write)
         self.scanning = ble_central.is_scanning
         Clock.schedule_interval(self.update_list, 0.5)
 
@@ -84,12 +87,23 @@ class BleTestApp(App):
                 self.start_ble_service()
 
     def start_ble_service(self):
-        if not self.beacon:
-            uuid = UUID('DF3ED115-0CF8-4252-849B-1114FBDBF9CE')
-            self.beacon = ble_peripheral.Service(uuid)
-            ble_peripheral.add_service(self.beacon)
-        else:
-            ble_peripheral.start_advertising()
+        uuid = UUID('3F3ED115-0CF8-4252-849B-1114FBDBF9CE')
+        read_char_uuid = UUID('DE8F2A9F-CE35-47FD-BDF5-B6B4694202EE')
+        write_char_uuid = UUID('EAFB05B5-C27D-495B-B533-95DDC3B26457')
+        Char = ble_peripheral.Characteristic
+        perms = Char.permission.readable
+        props = Char.property.read
+        self.read_characteristic = Char(
+            read_char_uuid, value=b'a', permissions=Char.permission.readable,
+            properties=Char.property.read)
+        self.write_characteristic = Char(
+            write_char_uuid, permissions=Char.permission.writeable,
+            properties=Char.property.write)
+        self.beacon = ble_peripheral.Service(uuid)
+        self.beacon.add_characteristic(self.read_characteristic)
+        self.beacon.add_characteristic(self.write_characteristic)
+        ble_peripheral.add_service(self.beacon)
+        ble_peripheral.start_advertising()
 
     def central_state_changed(self, state):
         self.central_state = state
@@ -102,11 +116,11 @@ class BleTestApp(App):
         self.advertising = ble_peripheral.is_advertising
 
     def peripheral_service_added(self, service):
-        Logger.info('Peripheral: {}'.format(service))
-        ble_peripheral.start_advertising()
+        Logger.info('Peripheral: service added: {}'.format(service))
+        # ble_peripheral.start_advertising()
 
     def peripheral_service_error(self, service, error):
-        Logger.error('Peripheral: {}: {}'.format(error, service))
+        Logger.error('Peripheral: service error: {}: {}'.format(error, service))
 
     def peripheral_adv(self, error=None):
         if error:
@@ -114,6 +128,12 @@ class BleTestApp(App):
         else:
             Logger.info('Peripheral: advertising started')
         self.advertising = ble_peripheral.is_advertising
+
+    def char_sub(self, service, characteristic):
+        characteristic.set_value(b'boo')
+
+    def char_write(self, service, characteristic):
+        Logger.info('Peripheral: write to characteristic: {}'.format(characteristic.value))
 
     def discover(self, device):
         if device.age < 0.1:
