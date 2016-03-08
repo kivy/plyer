@@ -3,6 +3,12 @@ class GPS(object):
 
     .. versionadded:: 1.1
 
+    .. note::
+        On iOS `NSLocationWhenInUseUsageDescription` key is required for app to
+        display geolocation usage permission prompt. Key can be added in Xcode
+        target `info` section or in ``Resources/<YourApp>-info.plist``.
+        App background mode (`on_pause`) also must be supported.
+
     You need to set a `on_location` callback with the :meth:`configure` method.
     This callback will receive a couple of keywords / values, that might be
     different depending of their availability on the targeted platform.
