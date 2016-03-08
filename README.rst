@@ -21,22 +21,24 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
+Audio recording                    X
+Battery                            X       X   X       X    X
 Call                               X
 Camera (taking picture)            X       X
-GPS                                X       X
-Notifications                      X           X       X    X
-Text to speech                     X       X   X       X    X
-Email (open mail client)           X       X   X       X    X
-Vibrator                           X       X
-Sms (send messages)                X
 Compass                            X       X
-Unique ID                          X       X   X       X    X
-Gyroscope                          X       X
-Battery                            X       X   X       X    X
-Native file chooser                            X       X    X
-Orientation                        X
-Audio recording                    X
+Email (open mail client)           X       X   X       X    X
 Flash                              X       X
+GPS                                X       X
+Gyroscope                          X       X
+Native file chooser                            X       X    X
+Notifications                      X           X       X    X
+Orientation                        X
+Sms (send messages)                X
+Text to speech                     X       X   X       X    X
+Toast                              X
+Unique ID                          X       X   X       X    X
+Vibrator                           X       X
+
 ================================== ======= === ======= ==== =====
 
 Support
