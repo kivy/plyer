@@ -5,7 +5,7 @@ Linux file chooser
 
 from plyer.facades import FileChooser
 from distutils.spawn import find_executable as which
-import os
+import os, sys
 import subprocess as sp
 import time
 
@@ -63,7 +63,9 @@ class SubprocessFileChooser(object):
         '''This methods receives the output of the back-end and turns
         it into a list of paths.
         '''
-        return out.split(self.separator)
+        if sys.version_info[0] == 2: return out.split(self.separator)
+        else: return out.decode(sys.getfilesystemencoding()).split(self.separator)
+
 
     def _gen_cmdline(self):
         '''Returns the command line of the back-end, based on the current
