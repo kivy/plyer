@@ -6,6 +6,7 @@ from kivy.properties import StringProperty
 from plyer import call
 
 Builder.load_string('''
+#: import Platform kivy.utils.platform
 <CallInterface>:
     orientation: 'vertical'
     Label:
@@ -25,6 +26,7 @@ Builder.load_string('''
     DialCallButton:
         size_hint_y: None
         size: (400,100)
+        disabled: True if Platform == 'ios' else False
         text: "Dial call via  phone"
         on_release: self.dial()
     Label:
