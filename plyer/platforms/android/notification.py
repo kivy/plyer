@@ -21,6 +21,8 @@ class AndroidNotification(Notification):
             kwargs.get('title').encode('utf-8')))
         noti.setContentText(AndroidString(
             kwargs.get('message').encode('utf-8')))
+        noti.setTicker(AndroidString(
+            kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
         noti.setAutoCancel(True)
 
@@ -34,4 +36,3 @@ class AndroidNotification(Notification):
 
 def instance():
     return AndroidNotification()
-
