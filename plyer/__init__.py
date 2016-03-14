@@ -4,8 +4,8 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
+__all__ = ('accelerometer', 'audio', 'battery', 'bluetooth', 'call', 'camera',
+           'compass', 'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
            'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator')
 
 __version__ = '1.2.5dev'
@@ -22,6 +22,9 @@ audio = Proxy('audio', facades.Audio)
 
 #: Battery proxy to :class:`plyer.facades.Battery`
 battery = Proxy('battery', facades.Battery)
+
+#: Bluetooth proxy to :class:`plyer.facades.Bluetooth`
+bluetooth = Proxy('bluetooth', facades.Bluetooth)
 
 #: Call proxy to  :class `plyer.facades.Call`
 call = Proxy('call', facades.Call)
