@@ -21,12 +21,14 @@ class OSXNotification(Notification):
         notification.setSubtitle_(objc_str(app_name))
         notification.setInformativeText_(objc_str(message))
 
-        userNotificationCenter = NSUserNotificationCenter.defaultUserNotificationCenter()
+        userNotificationCenter = NSUserNotificationCenter\
+            .defaultUserNotificationCenter()
         userNotificationCenter.setDelegate_(self)
         userNotificationCenter.deliverNotification_(notification)
 
     @protocol('NSUserNotificationCenterDelegate')
-    def userNotificationCenter_shouldPresentNotification_(self, center, notification):
+    def userNotificationCenter_shouldPresentNotification_(
+            self, center, notification):
         return ObjcBOOL(True)
 
 
