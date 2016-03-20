@@ -169,6 +169,8 @@ class BlePeripheralImpl(object):
                         request.value = data
                         print 'respond to request'
                         peripheral.respondToRequest_withResult_(request, 0)
+                        if callable(char.on_read):
+                            char.on_read()
                         return
 
     @protocol('CBPeripheralManagerDelegate')

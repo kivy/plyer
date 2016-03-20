@@ -25,7 +25,18 @@ class BlePeripheralCharacteristic(object):
         self.value = value
         self.permissions = permissions
         self.properties = properties
+        self.on_read = None
+        self.on_write = None
+        self.on_subscribe = None
         self.init()
+
+    def set_callbacks(self, on_read=None, on_write=None, on_subscribe=None):
+        if on_read:
+            self.on_read = on_read
+        if on_write:
+            self.on_write = on_write
+        if on_subscribe:
+            self.on_subscribe = on_subscribe
 
     def init(self):
         raise NotImplementedError()
