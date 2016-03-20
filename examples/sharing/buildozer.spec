@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Share
+title = Plyer Share Example
 
 # (str) Package name
 package.name = sharingexample
@@ -33,14 +33,14 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy, pyjnius
+requirements = kivy, plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (list) Garden requirements
-#garden_requirements = filebrowser
+#garden_requirements = 
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
@@ -123,7 +123,7 @@ fullscreen = 0
 #android.ouya.icon.filename = %(source.dir)s/data/ouya_icon.png
 
 # (str) XML file to include as an intent filters in <activity> tag
-#android.manifest.intent_filters = AndroidManifest.xml
+#android.manifest.intent_filters = 
 
 # (list) Android additionnal libraries to copy into libs/armeabi
 #android.add_libs_armeabi = libs/android/*.so
