@@ -69,4 +69,5 @@ vibrator = Proxy('vibrator', facades.Vibrator)
 #: Flash proxy to :class:`plyer.facades.Flash`
 flash = Proxy('flash', facades.Flash)
 
+#: InAppBrowser proxy to :class:`plyer.facades.InAppBrowser'
 inappbrowser = Proxy('inappbrowser', facades.InAppBrowser)

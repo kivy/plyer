@@ -7,7 +7,7 @@ from plyer.facades import InAppBrowser
 from pyobjus import autoclass, objc_str
 from pyobjus.dylib_manager import load_framework
 
-# load_framework('/System/Library/Frameworks/UIKit.framework')
+load_framework('/System/Library/Frameworks/UIKit.framework')
 
 NSURL = autoclass('NSURL')
 NSString = autoclass('NSString')
