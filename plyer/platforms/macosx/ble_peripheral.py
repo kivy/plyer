@@ -50,14 +50,13 @@ class BlePeripheralService(BlePeripheral.Service):
         self.service = CBMutableService.alloc()
         self.service.initWithType_primary_(self.cbuuid, self.primary)
 
-    def add_characteristic(self, characteristic):
+    def _add_characteristic(self, characteristic):
         chars = self.characteristics or {}
         chars[characteristic.characteristic] = characteristic
         characteristic.service = self
         self.characteristics = chars
         self.service.characteristics = objc_arr(
             *self.characteristics.keys())
-        print 'characteristics:', self.characteristics.keys()
 
 
 class BlePeripheralCharacteristic(BlePeripheral.Characteristic):
@@ -73,7 +72,6 @@ class BlePeripheralCharacteristic(BlePeripheral.Characteristic):
         )
 
     def set_value(self, value):
-        print 'set value:', value
         self.value = value
         data = self.create_data(value)
         peripheral_manager.updateValue_forCharacteristic_onSubscribedCentrals_(
@@ -84,9 +82,8 @@ class BlePeripheralCharacteristic(BlePeripheral.Characteristic):
     def create_data(self, value):
         if value is None:
             return value
-        assert isinstance(value, bytes)
+        assert isinstance(value, (bytes, bytearray))
         data = NSData.dataWithBytes_length_(value, len(value))
-        print 'data', data.length()
         return data
 
 
@@ -128,7 +125,6 @@ class BlePeripheralImpl(object):
     def add_service(self, service):
         assert isinstance(service, BlePeripheralService)
         self.pending_services[service.uuid] = service
-        # self.peripheral.addService_(service.service)
 
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_didAddService_error_(self, peripheral, service,
@@ -156,53 +152,51 @@ class BlePeripheralImpl(object):
 
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_didReceiveReadRequest_(self, peripheral, request):
-        print 'did receive read request'
         uuid = iprop(request.characteristic.UUID)
         for service in self.services.values():
-            # print 'check service', service.uuid
             for char in service.characteristics.values():
-                # print 'check char', char.uuid, iprop(iprop(char.characteristic.UUID).UUIDString).cString(), uuid.UUIDString.cString()
                 if iprop(char.characteristic.UUID).isEqual_(uuid):
-                    # print 'matched char', char.uuid, char.value
                     if char.value:
+                        if callable(char.on_read_request):
+                            char.on_read_request(char)
                         data = char.create_data(char.value)
                         request.value = data
-                        print 'respond to request'
                         peripheral.respondToRequest_withResult_(request, 0)
                         if callable(char.on_read):
-                            char.on_read()
+                            char.on_read(char)
                         return
 
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_didReceiveWriteRequests_(self, peripheral, requests):
-        print 'did receive write requests'
         for i in range(requests.count()):
             request = requests.objectAtIndex_(i)
             uuid = iprop(request.characteristic.UUID)
             for service in self.services.values():
                 for char in service.characteristics.values():
                     if iprop(char.characteristic.UUID).isEqual_(uuid):
-                        print 'update char', char.uuid
                         value = request.value
                         length = value.length()
                         if length:
-                            char.value = c.get_from_ptr(iprop(value.bytes).arg_ref, 'C', length)
+                            char.value = bytearray(c.get_from_ptr(iprop(value.bytes).arg_ref, 'C', length))
                         else:
                             char.value = None
+                        if callable(char.on_write):
+                            char.on_write(char)
                         if callable(self.on_characteristic_write):
                             self.on_characteristic_write(service, char)
 
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_central_didSubscribeToCharacteristic_(self,
             peripheral, central, characteristic):
-        print 'did subscribe to characteristic'
         if callable(self.on_characteristic_subscribed):
             for service in self.services.values():
                 char = service.characteristics.get(characteristic)
                 if char:
-                    print 'char subscribed', service, char
-                    self.on_characteristic_subscribed(service, char)
-            print 'couldn\'t find char!'
+                    if callable(char.on_subscribe):
+                        char.on_subscribe(char)
+                    if callable(self.on_characteristic_subscribed):
+                        self.on_characteristic_subscribed(service, char)
+                    return
 
     def start_advertising(self, name):
         services = [iprop(s.service.UUID) for s in self.pending_services.values()]

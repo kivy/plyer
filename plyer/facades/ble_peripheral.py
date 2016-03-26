@@ -26,13 +26,17 @@ class BlePeripheralCharacteristic(object):
         self.permissions = permissions
         self.properties = properties
         self.on_read = None
+        self.on_read_request = None
         self.on_write = None
         self.on_subscribe = None
+        self.service = None
         self.init()
 
-    def set_callbacks(self, on_read=None, on_write=None, on_subscribe=None):
+    def set_callbacks(self, on_read=None, on_read_request=None, on_write=None, on_subscribe=None):
         if on_read:
             self.on_read = on_read
+        if on_read_request:
+            self.on_read_request = on_read_request
         if on_write:
             self.on_write = on_write
         if on_subscribe:
@@ -55,6 +59,10 @@ class BlePeripheralService(object):
         raise NotImplementedError()
 
     def add_characteristic(self, characteristic):
+        self._add_characteristic(characteristic)
+        characteristic.service = self
+
+    def _add_characteristic(self):
         raise NotImplementedError()
 
 
