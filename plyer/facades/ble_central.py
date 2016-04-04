@@ -129,7 +129,7 @@ class BleDevice(with_metaclass(BleDeviceMeta)):
                     self.type = 'AltBeacon'
 
         if services:
-            self.services = services
+            self.services = {UUID(s): None for s in services}
 
     def _update(self, new):
         self.rx_power = new.rx_power
@@ -178,8 +178,20 @@ class BleDevice(with_metaclass(BleDeviceMeta)):
                     self.company_hex, self.prefix_hex, self.beacon_uuid,
                     self.major, self.minor)
         if self.services:
-            devinfo += ' services={}'.format(len(self.services))
+            devinfo += ' services={}'.format(len(self.services.keys()))
         return '<{} {}{} {}>'.format(name, preamble, devinfo, txrx)
+
+    def connect(self, on_connect=None, on_disconnect=None):
+        self._connect(on_connect, on_disconnect)
+
+    def _connect(self, on_connect=None, on_disconnect=None):
+        raise NotImplementedError()
+
+    def disconnect(self, callback=None):
+        self._disconnect(callback)
+
+    def _disconnect(self, callback=None):
+        raise NotImplementedError()
 
 
 class BleCentral(object):
@@ -214,10 +226,10 @@ class BleCentral(object):
         '''
         return self._has_ble()
 
-    def start_scanning(self):
+    def start_scanning(self, allow_duplicates=True):
         '''Scan for BLE advertisements.
         '''
-        return self._start_scanning()
+        return self._start_scanning(allow_duplicates)
 
     def stop_scanning(self):
         '''Stop scanning for BLE advertisements.
@@ -246,7 +258,7 @@ class BleCentral(object):
     def _has_ble(self):
         raise NotImplementedError()
 
-    def _start_scanning(self):
+    def _start_scanning(self, allow_duplicates=True):
         raise NotImplementedError()
 
     def _stop_scanning(self):
