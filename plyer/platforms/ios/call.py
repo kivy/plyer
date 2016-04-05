@@ -16,8 +16,10 @@ class IOSCall(Call):
 
     def _makecall(self, **kwargs):
         tel = kwargs.get('tel')
-        url = NSURL("tel://" + tel)
-        UIApplication.SharedApplication.OpenUrl(url)
+        url = "tel://" + tel
+        nsurl = NSURL.alloc().URLWithString(objc_str(url))
+
+        UIApplication.SharedApplication().OpenUrl_(nsurl)
 
     def _dialcall(self, **kwargs):
         pass
