@@ -126,6 +126,17 @@ class BlePeripheralImpl(object):
         assert isinstance(service, BlePeripheralService)
         self.pending_services[service.uuid] = service
 
+    def remove_service(self, service):
+        uuid = service.uuid
+        if uuid in self.pending_services:
+            del self.pending_services[uuid]
+        if uuid in self.services:
+            del self.services[uuid]
+        peripheral_manager.removeService_(service.service)
+
+    def remove_all_services(self):
+        peripheral_manager.removeAllServices()
+
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_didAddService_error_(self, peripheral, service,
                                                error):
@@ -170,20 +181,29 @@ class BlePeripheralImpl(object):
     def peripheralManager_didReceiveWriteRequests_(self, peripheral, requests):
         for i in range(requests.count()):
             request = requests.objectAtIndex_(i)
-            uuid = iprop(request.characteristic.UUID)
-            for service in self.services.values():
-                for char in service.characteristics.values():
-                    if iprop(char.characteristic.UUID).isEqual_(uuid):
-                        value = request.value
-                        length = value.length()
-                        if length:
-                            char.value = bytearray(c.get_from_ptr(iprop(value.bytes).arg_ref, 'C', length))
-                        else:
-                            char.value = None
-                        if callable(char.on_write):
-                            char.on_write(char)
-                        if callable(self.on_characteristic_write):
-                            self.on_characteristic_write(service, char)
+            self.respond_to_write_request(peripheral, request)
+
+    def respond_to_write_request(self, peripheral, request):
+        uuid = iprop(request.characteristic.UUID)
+        for service in self.services.values():
+            for char in service.characteristics.values():
+                if iprop(char.characteristic.UUID).isEqual_(uuid):
+                    value = request.value
+                    length = value.length()
+                    if length:
+                        char.value = bytearray(c.get_from_ptr(iprop(value.bytes).arg_ref, 'C', length))
+                    else:
+                        char.value = None
+
+                    peripheral.respondToRequest_withResult_(request, 0)
+
+                    if callable(char.on_write):
+                        char.on_write(char)
+                    if callable(self.on_characteristic_write):
+                        self.on_characteristic_write(service, char)
+                    return
+
+        peripheral.respondToRequest_withResult_(request, 0x0a)  # attribute not found
 
     @protocol('CBPeripheralManagerDelegate')
     def peripheralManager_central_didSubscribeToCharacteristic_(self,
@@ -251,6 +271,12 @@ class OSXBlePeripheral(BlePeripheral):
 
     def _add_service(self, service):
         self.ble.add_service(service)
+
+    def _remove_service(self, service):
+        self.ble.remove_service(service)
+
+    def _remove_all_services(self):
+        self.ble.remove_all_services()
 
     def _start_advertising(self, name):
         self.ble.start_advertising(name)

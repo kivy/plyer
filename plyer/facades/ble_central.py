@@ -193,12 +193,65 @@ class BleDevice(with_metaclass(BleDeviceMeta)):
     def _disconnect(self, callback=None):
         raise NotImplementedError()
 
+    def discover_services(self, uuids=None, on_discover=None):
+        self._discover_services(uuids, on_discover)
+
+    def _discover_services(self, uuids=None, on_discover=None):
+        raise NotImplementedError()
+
+
+class BleService(object):
+    def __init__(self, uuid):
+        self.uuid = uuid
+        self.characteristics = {}
+
+    def discover_characteristics(self, uuids=None, on_discover=None):
+        self._discover_characteristics(uuids, on_discover)
+
+    def _discover_characteristics(self, uuids=None, on_discover=None):
+        raise NotImplementedError()
+
+
+class BleCharacteristic(object):
+    def __init__(self, uuid, service, properties):
+        self.uuid = uuid
+        self.service = service
+        self.properties = properties
+        self.value = None
+
+    property = type('BleCharacteristic.property', (object,), {
+        'broadcast': 0x01,
+        'read': 0x02,
+        'write_without_response': 0x04,
+        'write': 0x08,
+        'notify': 0x10,
+        'indicate': 0x20,
+        'authenticated_signed_writes': 0x40,
+        'extended_properties': 0x80,
+        'notify_encryption_required': 0x100,
+        'indicate_encryption_required': 0x200
+    })
+
+    def read(self, on_read=None):
+        self._read(on_read)
+
+    def write(self, value, on_write=None):
+        self._write(value, on_write)
+
+    def _read(self, on_read=None):
+        raise NotImplementedError()
+
+    def _write(self, value, on_write=None):
+        raise NotImplementedError()
+
 
 class BleCentral(object):
     '''Bluetooth low energy central facade.
     '''
 
     Device = BleDevice
+    Service = BleService
+    Characteristic = BleCharacteristic
 
     on_state = None
     on_discover = None

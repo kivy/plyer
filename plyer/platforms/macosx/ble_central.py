@@ -17,33 +17,34 @@ from plyer.utils import iprop
 
 from pyobjus.dylib_manager import load_framework, make_dylib, load_dylib, INCLUDE
 from pyobjus import (autoclass, protocol, symbol, dereference, ObjcString,
-                     CArray, objc_dict, objc_i)
+                     CArray, objc_dict, objc_i, objc_str)
 from pyobjus.objc_py_types import enum
 
-CBCentralManager = CBCentralManagerState = cb_central_manager_state_map = None
+global CBCentralManager, CBCentralManagerState, cb_central_manager_state_map
+load_framework('/System/Library/Frameworks/CoreBluetooth.framework')
+# load_framework(INCLUDE.IOBluetooth)
 
-def _init():
-    global CBCentralManager, CBCentralManagerState, cb_central_manager_state_map
-    load_framework('/System/Library/Frameworks/CoreBluetooth.framework')
-    # load_framework(INCLUDE.IOBluetooth)
+CBCentralManager = autoclass('CBCentralManager')
 
-    CBCentralManager = autoclass('CBCentralManager')
+CBCentralManagerState = enum('CBCentralManagerState',
+                             unknown=0,
+                             resetting=1,
+                             unsupported=2,
+                             unauthorized=3,
+                             powered_off=4,
+                             powered_on=5)
 
-    CBCentralManagerState = enum('CBCentralManagerState',
-                                 unknown=0,
-                                 resetting=1,
-                                 unsupported=2,
-                                 unauthorized=3,
-                                 powered_off=4,
-                                 powered_on=5)
+CBUUID = autoclass('CBUUID')
 
-    cb_central_manager_state_map = {v:k.replace('_', ' ') for k, v
-                                    in CBCentralManagerState.__dict__.items()
-                                    if not k.startswith('_')}
+cb_central_manager_state_map = {v:k.replace('_', ' ') for k, v
+                                in CBCentralManagerState.__dict__.items()
+                                if not k.startswith('_')}
 
 c = CArray()
 
 NSMutableArray = autoclass('NSMutableArray')
+NSData = autoclass('NSData')
+NSString = autoclass('NSString')
 
 central_manager = None
 central_impl = None
@@ -54,6 +55,57 @@ central_impl = None
 # cbcentral = autoclass('cbcentral')
 
 
+def uuid_to_cbuuid(uuid):
+    return CBUUID.UUIDWithString_(str(uuid))
+
+
+def cbuuid_to_uuid(cbuuid):
+    uuid_string = iprop(iprop(cbuuid).UUIDString).cString()
+    if len(uuid_string) == 4:
+        uuid_string = '0000' + uuid_string + '-0000-1000-8000-00805F9B34FB'
+    return UUID(uuid_string)
+
+
+class BleCharacteristic(BleCentral.Characteristic):
+    def __init__(self, uuid, service, characteristic):
+        properties = iprop(characteristic.properties)
+        super(BleCharacteristic, self).__init__(uuid, service, properties)
+        self.characteristic = characteristic
+        self.on_read = None
+
+    def _read(self, on_read=None):
+        self.on_read = on_read
+        self.service.service.peripheral.readValueForCharacteristic_(self.characteristic)
+
+    def _write(self, value, on_write=None):
+        self.on_write = on_write
+        # data = NSData.dataWithBytes_length_(value, len(value))
+        # ostr = objc_str(value)
+        # data = ostr.dataWithEncoding_(1)
+        # ostr = NSString.stringWithCString_encoding_(value, 1)
+        # data = ostr.dataUsingEncoding()
+        self.value = value
+        data = NSData.dataWithBytes_length_(value, len(value))
+        type_ = int(not bool(on_write))
+        # print('connected', iprop(self.service.service.peripheral.state))
+        print('write', self.uuid, 'value', repr(value), 'length', data.length(), 'type', type_)
+        self.service.service.peripheral.writeValue_forCharacteristic_type_(data, self.characteristic, type_)
+
+
+class BleService(BleCentral.Service):
+    def __init__(self, uuid, service):
+        super(BleService, self).__init__(uuid)
+        self.service = service
+        self.on_discover = None
+
+    def _discover_characteristics(self, uuids=None, on_discover=None):
+        print('discover characteristics', self.uuid, uuids)
+        if uuids:
+            uuids = [uuid_to_cbuuid(u) for u in uuids]
+        self.on_discover = on_discover
+        self.service.peripheral.discoverCharacteristics_forService_(uuids, self.service)
+
+
 class BleDevice(BleCentral.Device):
     def __init__(self, uuid, name, power, announcement=None, services=None,
                  peripheral=None):
@@ -61,6 +113,7 @@ class BleDevice(BleCentral.Device):
                                         announcement=announcement,
                                         services=services)
         self.peripheral = peripheral
+        self.on_discover = None
 
     @property
     def key(self):
@@ -68,21 +121,135 @@ class BleDevice(BleCentral.Device):
 
     def _update(self, new):
         self.peripheral = new.peripheral
-        self.uuid = UUID(iprop(self.peripheral.identifier).UUIDString().cString())
+        # self.uuid = UUID(iprop(self.peripheral.identifier).UUIDString().cString())
+        self.uuid = cbuuid_to_uuid(self.peripheral.identifier)
         self.name = iprop(self.peripheral.name).cString()
         super(BleDevice, self)._update(new)
 
     def _connect(self, on_connect=None, on_disconnect=None):
+        print('set delegate')
+        self.peripheral.setDelegate_(self)
         central_impl.connect(self, on_connect, on_disconnect)
 
     def _disconnect(self, callback=None):
         central_impl.disconnect(self, callback)
 
+    def _discover_services(self, uuids=None, on_discover=None):
+        print('discover services:', uuids)
+        if uuids:
+            # uuids = [CBUUID.UUIDWithString_(str(u)) for u in uuids]
+            uuids = [uuid_to_cbuuid(u) for u in uuids]
+        self.on_discover = on_discover
+        print('set delegate')
+        self.peripheral.setDelegate_(self)
+        print('call discoverServices_')
+        self.peripheral.discoverServices_(uuids)
+        print('done')
+
+    @protocol('CBPeripheralDelegate')
+    def peripheral_didDiscoverServices_(self, peripheral, error):
+        print('did discover services')
+        if peripheral == self.peripheral:
+            print(' is my peripheral')
+            services = {}
+            if not error:
+                iservices = iprop(peripheral.services)
+                count = iprop(iservices.count)
+                print(' found', count, 'services')
+                for i in range(count):
+                    iservice = iservices.objectAtIndex_(i)
+                    # uuid_string = iprop(iprop(iservice.UUID).UUIDString).cString()
+                    # if len(uuid_string) == 4:
+                    #     uuid_string = '0000' + uuid_string + '-0000-1000-8000-00805F9B34FB'
+                    # uuid = UUID(uuid_string)
+                    uuid = cbuuid_to_uuid(iservice.UUID)
+                    print('  ', uuid)
+                    service = BleService(uuid, iservice)
+                    self.services[uuid] = service
+                    services[uuid] = service
+            else:
+                error = iprop(error.localizedDescription)
+                print('error:', error)
+            if callable(self.on_discover):
+                self.on_discover(services, error)
+
+    @protocol('CBPeripheralDelegate')
+    def peripheral_didDiscoverCharacteristicsForService_error_(self, peripheral, iservice, error):
+        print('did discover characteristics')
+        if error:
+            error = iprop(error.localizedDescription)
+            print('error:', error)
+        if peripheral == self.peripheral:
+            print(' is my peripheral')
+            for service in self.services.values():
+                if service.service == iservice:
+                    print(' found service', service)
+                    characteristics = {}
+                    if not error:
+                        icharacteristics = iprop(iservice.characteristics)
+                        count = iprop(icharacteristics.count)
+                        print(' found', count, 'characteristics')
+                        for i in range(count):
+                            icharacteristic = icharacteristics.objectAtIndex_(i)
+                            uuid = cbuuid_to_uuid(icharacteristic.UUID)
+                            print('  ', uuid)
+                            characteristic = BleCharacteristic(uuid, service, icharacteristic)
+                            service.characteristics[uuid] = characteristic
+                            characteristics[uuid] = characteristic
+                    if callable(service.on_discover):
+                        service.on_discover(characteristics, error)
+                    return
+
+    @protocol('CBPeripheralDelegate')
+    def peripheral_didUpdateValueForCharacteristic_error_(self, peripheral, characteristic, error):
+        print('did update value for characteristic')
+        if error:
+            error = iprop(error.localizedDescription)
+            print('error:', error)
+        if peripheral == self.peripheral:
+            print(' is my peripheral')
+            for service in self.services.values():
+                if service.service == iprop(characteristic.service):
+                    print(' found service', service)
+                    for char in service.characteristics.values():
+                        if char.characteristic == characteristic:
+                            print(' found characteristic', char)
+                            if not error:
+                                value = iprop(characteristic.value)
+                                ref = iprop(value.bytes).arg_ref
+                                length = iprop(value.length)
+                                if length:
+                                    char.value = bytearray(c.get_from_ptr(ref, 'C', length))
+                                else:
+                                    char.value = None
+                            if callable(char.on_read):
+                                char.on_read(char, error)
+                            return
+                    return
+
+    @protocol('CBPeripheralDelegate')
+    def peripheral_didWriteValueForCharacteristic_error_(self, peripheral, characteristic, error):
+        print('did write value for characteristic')
+        if error:
+            error = iprop(error.localizedDescription)
+            print('error:', error)
+        if peripheral == self.peripheral:
+            print(' is my peripheral')
+            for service in self.services.values():
+                if service.service == iprop(characteristic.service):
+                    print(' found service', service)
+                    for char in service.characteristics.values():
+                        if char.characteristic == characteristic:
+                            print(' found characteristic', char)
+                            if callable(char.on_write):
+                                char.on_write(char, error)
+                            return
+                    return
+
 
 class BleCentralImpl(object):
     def __init__(self):
         global central_manager, central_impl
-        _init()
         central_impl = self
         self.state = 0
         self.scanning = False
@@ -143,7 +310,7 @@ class BleCentralImpl(object):
             central, peripheral, advertisementData, RSSI):
         power = RSSI.floatValue()
 
-        print('found peripheral:', peripheral)
+        # print('found peripheral:', peripheral)
         # peripheral.retain()
         # print('retained')
         # cbcentral.addPeripheral_(peripheral)
@@ -246,9 +413,14 @@ class BleCentralImpl(object):
     def centralManager_didConnectPeripheral_(self, central, peripheral):
         print('did connect peripheral')
         self.connecting = False
-        if self.connect_to and self.connect_to.peripheral == peripheral:
+        device = self.connect_to
+        if device and device.peripheral == peripheral:
+            print('set delegate')
+            peripheral.setDelegate_(device)
+            if iprop(peripheral.services):
+                device.peripheral_didDiscoverServices_(peripheral, None)
             if self.connect_callback:
-                self.connect_callback(self.connect_to)
+                self.connect_callback(device)
 
     @protocol('CBCentralManagerDelegate')
     def centralManager_didFailToConnectPeripheral_error_(self, central,

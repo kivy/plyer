@@ -125,6 +125,12 @@ class BlePeripheral(object):
         assert isinstance(service, BlePeripheralService)
         self._add_service(service)
 
+    def remove_service(self, service):
+        self._remove_service(service)
+
+    def remove_all_services(self):
+        self._remove_all_services()
+
     def start_advertising(self, name=None):
         if not name:
             name = 'plyer-ble'
@@ -145,6 +151,12 @@ class BlePeripheral(object):
         raise NotImplementedError()
 
     def _add_service(self, service):
+        raise NotImplementedError()
+
+    def _remove_service(self, service):
+        raise NotImplementedError()
+
+    def _remove_all_services(self):
         raise NotImplementedError()
 
     def _start_advertising(self, name):
