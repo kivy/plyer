@@ -5,7 +5,7 @@ Android Call
 
 from jnius import autoclass
 from plyer.facades import Call
-from plyer.platforms.android import activity
+from . import activity
 
 Intent = autoclass('android.content.Intent')
 uri = autoclass('android.net.Uri')

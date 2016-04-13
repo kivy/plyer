@@ -5,7 +5,7 @@ Android Compass
 
 from plyer.facades import Compass
 from jnius import PythonJavaClass, java_method, autoclass, cast
-from plyer.platforms.android import activity
+from . import activity
 
 Context = autoclass('android.content.Context')
 Sensor = autoclass('android.hardware.Sensor')

@@ -1,7 +1,7 @@
 from time import sleep
 from jnius import autoclass
 from plyer.facades import TTS
-from plyer.platforms.android import activity
+from . import activity
 
 Locale = autoclass('java.util.Locale')
 TextToSpeech = autoclass('android.speech.tts.TextToSpeech')

@@ -1,6 +1,6 @@
 from jnius import autoclass, cast
 from plyer.facades import Email
-from plyer.platforms.android import activity
+from . import activity
 
 Intent = autoclass('android.content.Intent')
 AndroidString = autoclass('java.lang.String')

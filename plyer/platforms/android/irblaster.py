@@ -1,7 +1,7 @@
 from jnius import autoclass
 
 from plyer.facades import IrBlaster
-from plyer.platforms.android import activity, SDK_INT, ANDROID_VERSION
+from . import activity, SDK_INT, ANDROID_VERSION
 
 if SDK_INT >= 19:
     Context = autoclass('android.content.Context')
