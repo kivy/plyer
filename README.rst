@@ -21,7 +21,7 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
-Call                               X
+Call                               X       X
 Camera (taking picture)            X       X
 GPS                                X       X
 Notifications                      X           X       X    X
