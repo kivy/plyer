@@ -1,6 +1,6 @@
 from jnius import autoclass
 from plyer.facades import Notification
-from plyer.platforms.android import activity, SDK_INT
+from . import activity, SDK_INT
 
 AndroidString = autoclass('java.lang.String')
 Context = autoclass('android.content.Context')

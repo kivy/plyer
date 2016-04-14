@@ -1,5 +1,5 @@
 from jnius import autoclass, cast
-from plyer.platforms.android import activity
+from . import activity
 from plyer.facades import Orientation
 
 ActivityInfo = autoclass('android.content.pm.ActivityInfo')

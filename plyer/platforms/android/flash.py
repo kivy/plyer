@@ -6,7 +6,7 @@ Flash
 
 from plyer.facades import Flash
 from jnius import autoclass
-from plyer.platforms.android import activity
+from . import activity
 
 Camera = autoclass("android.hardware.Camera")
 CameraParameters = autoclass("android.hardware.Camera$Parameters")

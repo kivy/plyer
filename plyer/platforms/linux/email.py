@@ -1,5 +1,4 @@
 import subprocess
-from urllib import quote
 try:
     from urllib.parse import quote
 except ImportError:

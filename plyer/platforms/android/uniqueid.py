@@ -1,5 +1,5 @@
 from jnius import autoclass
-from plyer.platforms.android import activity
+from . import activity
 from plyer.facades import UniqueID
 
 Secure = autoclass('android.provider.Settings$Secure')

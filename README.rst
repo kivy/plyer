@@ -27,8 +27,9 @@ GPS                                X       X
 Notifications                      X           X       X    X
 Text to speech                     X       X   X       X    X
 Email (open mail client)           X       X   X       X    X
+Browser (open browser client)      X                        X
 Vibrator                           X       X
-Sms (send messages)                X
+Sms (send messages or open client) X
 Compass                            X       X
 Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
