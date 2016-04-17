@@ -1,8 +1,7 @@
 class Brightness(object):
     ''' Brightness facade.
     .. note::
-        On Android your app needs the WRITE_SETTINGS permission in order to
-        make calls.
+        On Android your app needs the WRITE_SETTINGS permission.
     '''
 
     def set_brightness(self, value=50, time=200):
