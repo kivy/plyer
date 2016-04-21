@@ -4,15 +4,15 @@ from jnius import autoclass
 ANDROID_VERSION = autoclass('android.os.Build$VERSION')
 SDK_INT = ANDROID_VERSION.SDK_INT
 
+try:
+    from android import config
+    ns = config.JAVA_NAMESPACE
+except (ImportError, AttributeError):
+    ns = 'org.renpy.android'
+
 if 'PYTHON_SERVICE_ARGUMENT' in environ:
-    try:
-        PythonService = autoclass('org.kivy.android.PythonService')
-    except Exception:
-        PythonService = autoclass('org.renpy.android.PythonService')
+    PythonService = autoclass(ns + '.PythonService')
     activity = PythonService.mService
 else:
-    try:
-        PythonActivity = autoclass('org.kivy.android.PythonActivity')
-    except Exception:
-        PythonActivity = autoclass('org.renpy.android.PythonActivity')
+    PythonActivity = autoclass(ns + '.PythonActivity')
     activity = PythonActivity.mActivity
