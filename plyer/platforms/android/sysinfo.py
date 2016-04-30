@@ -9,8 +9,6 @@ from plyer.platforms.android import activity
 import platform
 Build = autoclass('android.os.Build')
 Settings = autoclass('android.provider.Settings')
-Intent = autoclass('android.content.Intent')
-uri = autoclass('android.net.Uri')
 
 
 class AndroidSysinfo(Call):
@@ -25,6 +23,7 @@ class AndroidSysinfo(Call):
         return platform.processor()
 
     def _version_info(self):
+        #not tested yet. just from docs.
         return Build.VERSION.INCREMENTAL
 
 def instance():
