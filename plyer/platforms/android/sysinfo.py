@@ -6,7 +6,6 @@ Android Sysinfo
 from jnius import autoclass
 from plyer.facades import Sysinfo
 from plyer.platforms.android import activity
-import platform
 Build = autoclass('android.os.Build')
 Settings = autoclass('android.provider.Settings')
 
@@ -14,13 +13,13 @@ Settings = autoclass('android.provider.Settings')
 class AndroidSysinfo(Call):
 
     def _system_info(self):
-        return platform.system()
+        pass
 
     def _platform_info(self):
-        return platform.platform()
+        pass
 
     def _processor_info(self):
-        return platform.processor()
+        pass
 
     def _version_info(self):
         #not tested yet. just from docs.
