@@ -13,12 +13,9 @@ class WindowsSysinfo(Sysinfo):
     def _processor_info(self):
         return platform.processor()
 
-    def _dist_info(self):
-        if platform.system() == "Windows": 
-            return platform.win32_ver()
-        else:
-            raise NotImplementedError()
-
+    def _version_info(self):
+        # includes release, version and ptype.
+        return platform.win32_ver()
 
 def instance():
     return WindowsSysinfo()

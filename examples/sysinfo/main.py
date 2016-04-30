@@ -22,9 +22,9 @@ Builder.load_string('''
         Label:
             text: root.processor_
         Label:
-            text: "Distribution"
+            text: "Version"
         Label:
-            text: root.dist_
+            text: root.version_
 
 
 ''')
@@ -35,7 +35,7 @@ class SysinfoInterface(BoxLayout):
     platform_ = StringProperty()
     system_ = StringProperty()
     processor_ = StringProperty()
-    dist_ = StringProperty()
+    version_ = StringProperty()
 
     def __init__(self, **kwargs):
         super(SysinfoInterface, self).__init__(**kwargs)
@@ -45,7 +45,7 @@ class SysinfoInterface(BoxLayout):
         self.get_platform()
         self.get_system()
         self.get_processor()
-        self.get_dist()
+        self.get_version()
 
     def get_platform(self):
         self.platform_ = sysinfo.platform_info()
@@ -56,9 +56,9 @@ class SysinfoInterface(BoxLayout):
     def get_processor(self):
         self.processor_ = sysinfo.processor_info()
 
-    def get_dist(self):
-        temp = sysinfo.dist_info()
-        self.dist_ = "{} {} {}".format(temp[0], temp[1], temp[2])
+    def get_version(self):
+        temp = sysinfo.version_info()
+        self.version_ = "{} {} {}".format(temp[0], temp[1], temp[2])
 
 
 class SysinfoApp(App):

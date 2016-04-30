@@ -11,7 +11,7 @@ class Sysinfo(object):
     def processor_info(self):
         return self._processor_info()
 
-    def dist_info(self):
+    def version_info(self):
         return self._dist_info()
 
     # private
@@ -25,5 +25,5 @@ class Sysinfo(object):
     def _processor_info(self):
         raise NotImplementedError()
 
-    def _dist_info(self):
+    def _version_info(self):
         raise NotImplementedError()

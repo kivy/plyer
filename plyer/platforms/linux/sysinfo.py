@@ -13,11 +13,9 @@ class LinuxSysinfo(Sysinfo):
     def _processor_info(self):
         return platform.processor()
 
-    def _dist_info(self):
-        if platform.system() == "Linux": 
-            return platform.dist()
-        else:
-            raise NotImplementedError()
+    def _version_info(self):
+        # includes Distro_name, version and name
+        return platform.dist()
 
 
 def instance():
