@@ -8,6 +8,7 @@ Surface = autoclass('android.view.Surface')
 
 class AndroidOrientation(Orientation):
 
+
     def _set_landscape(self, **kwargs):
         reverse = kwargs.get('reverse')
         if reverse:
@@ -53,6 +54,7 @@ class AndroidOrientation(Orientation):
                 return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
             elif screenOrientation == Configuration.ORIENTATION_LANDSCAPE:
                 return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+
 
 def instance():
     return AndroidOrientation()
