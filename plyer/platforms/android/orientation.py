@@ -6,8 +6,8 @@ ActivityInfo = autoclass('android.content.pm.ActivityInfo')
 Configuration = autoclass('android.content.res.Configuration')
 Surface = autoclass('android.view.Surface')
 
-class AndroidOrientation(Orientation):
 
+class AndroidOrientation(Orientation):
 
     def _set_landscape(self, **kwargs):
         reverse = kwargs.get('reverse')
