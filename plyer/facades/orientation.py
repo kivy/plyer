@@ -8,6 +8,7 @@ class Orientation(object):
 
     .. versionadded:: 1.2.4
     '''
+
     @property
     def orientation(self):
         '''Property that returns values of the current screen orientation,
