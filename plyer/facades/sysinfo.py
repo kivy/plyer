@@ -20,7 +20,7 @@ class Sysinfo(object):
 
     def architecture_info(self):
         # returns architecture of device.
-        return self.architecture_info()
+        return self._architecture_info()
 
     def device_name(self):
         # returns name of the device.
@@ -29,6 +29,10 @@ class Sysinfo(object):
     def manufacturer_name(self):
         # returns the manufacturer's name
         return self._manufacturer_name()
+
+    def kernel_version(self):
+        # returns the kernel name.
+        return self._kernel_version()
 
     # private
 
@@ -51,4 +55,7 @@ class Sysinfo(object):
         raise NotImplementedError()
 
     def _manufacturer_name(self):
+        raise NotImplementedError()
+
+    def _kernel_version(self):
         raise NotImplementedError()

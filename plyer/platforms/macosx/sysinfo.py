@@ -2,7 +2,7 @@ import platform
 from plyer.facades import Sysinfo
 
 
-class LinuxSysinfo(Sysinfo):
+class OSXSysinfo(Sysinfo):
 
     def _system_info(self):
         return platform.system()
@@ -14,7 +14,7 @@ class LinuxSysinfo(Sysinfo):
         return platform.processor()
 
     def _version_info(self):
-        return platform.dist()
+        return platform.mac_ver()
 
     def _architecture_info(self):
         return platform.architecture()
@@ -30,4 +30,4 @@ class LinuxSysinfo(Sysinfo):
 
 
 def instance():
-    return LinuxSysinfo()
+    return OSXSysinfo()

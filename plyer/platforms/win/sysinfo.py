@@ -25,6 +25,9 @@ class WindowsSysinfo(Sysinfo):
     def _manufacturer_name(self):
         pass
 
+    def _kernel_version(self):
+        pass
+
 
 def instance():
     return WindowsSysinfo()
