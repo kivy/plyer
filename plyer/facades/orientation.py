@@ -17,10 +17,10 @@ class Orientation(object):
         
     def get_orientation(self):
         return self._get_orientation()
-        
+
     def _get_orientation(self):
         raise NotImplementedError()
-        
+
     def set_landscape(self, reverse=False):
         '''Rotate the app to a landscape orientation.
 
