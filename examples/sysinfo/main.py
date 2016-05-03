@@ -37,6 +37,10 @@ Builder.load_string('''
             text: "Manufacturer"
         Label:
             text: root.manufacturer_
+        Label:
+            text: "Kernel"
+        Label:
+            text: root.kernel_
 
 ''')
 
@@ -50,6 +54,7 @@ class SysinfoInterface(BoxLayout):
     architecture_ = StringProperty()
     device_ = StringProperty()
     manufacturer_ = StringProperty()
+    kernel_ = StringProperty()
 
     def __init__(self, **kwargs):
         super(SysinfoInterface, self).__init__(**kwargs)
@@ -63,6 +68,7 @@ class SysinfoInterface(BoxLayout):
         self.get_architecture()
         self.get_device_name()
         self.get_manufacturer()
+        self.get_kernel_version()
 
     def get_platform(self):
         self.platform_ = sysinfo.platform_info()
@@ -86,6 +92,9 @@ class SysinfoInterface(BoxLayout):
     def get_manufacturer(self):
         self.manufacturer_ = sysinfo.manufacturer_name()
 
+    def get_kernel_version(self):
+        self.kernel_ = sysinfo.kernel_version()
+
 
 class SysinfoApp(App):
 
@@ -95,4 +104,3 @@ class SysinfoApp(App):
 if __name__ == "__main__":
     app = SysinfoApp()
     app.run()
-
