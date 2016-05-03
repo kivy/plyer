@@ -8,7 +8,19 @@ class Orientation(object):
 
     .. versionadded:: 1.2.4
     '''
-
+    @property
+    def orientation(self):
+        '''Property that returns values of the current screen orientation, 
+        relative to the natural orientation of the device (tablet or smartphone).
+        '''
+        return self.get_orientation()
+        
+    def get_orientation(self):
+        return self._get_orientation()
+        
+    def _get_orientation(self):
+        raise NotImplementedError()
+        
     def set_landscape(self, reverse=False):
         '''Rotate the app to a landscape orientation.
 
