@@ -2,6 +2,10 @@ class Sysinfo(object):
     ''' Sysinfo facade.
     '''
 
+    def model_info(self):
+        # returns the model name.
+        return self._model_info()
+
     def system_info(self):
         # returns the name of system.
         return self._system_info()
@@ -34,7 +38,18 @@ class Sysinfo(object):
         # returns the kernel name.
         return self._kernel_version()
 
+    def storage_info(self):
+        # returns the storage capacity o fthe system.
+        return self._storage_info()
+
+    def screen_dimension(self):
+        # returns the screen dimensiotn like 1200x980.
+        return self._screen_dimension()
+
     # private
+
+    def _model_info(self):
+        raise NotImplementedError()
 
     def _system_info(self):
         raise NotImplementedError()
@@ -58,4 +73,10 @@ class Sysinfo(object):
         raise NotImplementedError()
 
     def _kernel_version(self):
+        raise NotImplementedError()
+
+    def _storage_info(self):
+        raise NotImplementedError()
+
+    def _screen_dimension(self):
         raise NotImplementedError()

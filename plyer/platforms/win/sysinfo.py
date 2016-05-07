@@ -4,6 +4,9 @@ from plyer.facades import Sysinfo
 
 class WindowsSysinfo(Sysinfo):
 
+    def _model_info(self):
+        pass
+
     def _system_info(self):
         return platform.system()
 
@@ -26,6 +29,12 @@ class WindowsSysinfo(Sysinfo):
         pass
 
     def _kernel_version(self):
+        pass
+
+    def _storage_info(self):
+        pass
+
+    def _screen_dimension(self):
         pass
 
 
