@@ -10,6 +10,10 @@ Builder.load_string('''
     GridLayout:
         cols: 2
         Label:
+            text: "Model"
+        Label:
+            text: root.model_
+        Label:
             text: "Platform"
         Label:
             text: root.platform_
@@ -41,12 +45,21 @@ Builder.load_string('''
             text: "Kernel"
         Label:
             text: root.kernel_
+        Label:
+            text: "Storage"
+        Label:
+            text: root.storage_
+        Label:
+            text: "Screen"
+        Label:
+            text: root.screen_
 
 ''')
 
 
 class SysinfoInterface(BoxLayout):
 
+    model_ = StringProperty()
     platform_ = StringProperty()
     system_ = StringProperty()
     processor_ = StringProperty()
@@ -55,20 +68,29 @@ class SysinfoInterface(BoxLayout):
     device_ = StringProperty()
     manufacturer_ = StringProperty()
     kernel_ = StringProperty()
+    storage_ = StringProperty()
+    screen_ = StringProperty()
+    password = "qwerty"
 
     def __init__(self, **kwargs):
         super(SysinfoInterface, self).__init__(**kwargs)
         self.update()
 
     def update(self):
+        self.get_model(self.password)
         self.get_platform()
         self.get_system()
         self.get_processor()
         self.get_version()
         self.get_architecture()
         self.get_device_name()
-        self.get_manufacturer()
+        self.get_manufacturer(self.password)
         self.get_kernel_version()
+        self.get_storage_info()
+        self.get_screen_dimension()
+
+    def get_model(self, password):
+        self.model_ = sysinfo.model_info(password)
 
     def get_platform(self):
         self.platform_ = sysinfo.platform_info()
@@ -84,16 +106,22 @@ class SysinfoInterface(BoxLayout):
         self.version_ = "{} {} {}".format(temp[0], temp[1], temp[2])
 
     def get_architecture(self):
-        self.architecture_ = sysinfo.architecture_info()
+        self.architecture_ = str(sysinfo.architecture_info())
 
     def get_device_name(self):
-        self.device_ = sysinfo.device_info()
+        self.device_ = sysinfo.device_name()
 
-    def get_manufacturer(self):
-        self.manufacturer_ = sysinfo.manufacturer_name()
+    def get_manufacturer(self, password):
+        self.manufacturer_ = sysinfo.manufacturer_name(password)
 
     def get_kernel_version(self):
         self.kernel_ = sysinfo.kernel_version()
+
+    def get_storage_info(self):
+        self.storage_ = sysinfo.storage_info()
+
+    def get_screen_dimension(self):
+        self.screen_ = sysinfo.screen_dimension()
 
 
 class SysinfoApp(App):

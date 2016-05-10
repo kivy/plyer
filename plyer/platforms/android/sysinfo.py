@@ -18,8 +18,8 @@ System = autoclass('java.lang.System')
 
 class AndroidSysinfo(Sysinfo):
 
-    def _model_info(self):
-        pass
+    def _model_info(self, **kwargs):
+        return ""
 
     def _system_info(self):
         return BuildVersion.BASE_OS
@@ -89,17 +89,17 @@ class AndroidSysinfo(Sysinfo):
     def _device_name(self):
         return Build.MODEL
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, **kwargs):
         return Build.MANUFACTURER
 
     def _kernel_version(self):
-        System.getProperty("os.version")
+        return System.getProperty("os.version")
 
     def _storage_info(self):
-        pass
+        return ""
 
     def _screen_dimension(self):
-        pass
+        return ""
 
 
 def instance():

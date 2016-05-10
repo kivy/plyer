@@ -25,7 +25,7 @@ class WindowsSysinfo(Sysinfo):
     def _device_name(self):
         return platform.uname()[1]
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, password):
         pass
 
     def _kernel_version(self):

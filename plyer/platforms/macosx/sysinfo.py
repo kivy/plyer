@@ -4,8 +4,8 @@ from plyer.facades import Sysinfo
 
 class OSXSysinfo(Sysinfo):
 
-    def _model_info(self):
-        pass
+    def _model_info(self, **kwargs):
+        return ""
 
     def _system_info(self):
         return platform.system()
@@ -25,17 +25,17 @@ class OSXSysinfo(Sysinfo):
     def _device_name(self):
         return platform.uname()[1]
 
-    def _manufacturer_name(self):
-        pass
+    def _manufacturer_name(self, **kwargs):
+        return ""
 
     def _kernel_version(self):
-        pass
+        return platform.uname()[2]
 
     def _storage_info(self):
-        pass
+        return ""
 
     def _screen_dimension(self):
-        pass
+        return ""
 
 
 def instance():

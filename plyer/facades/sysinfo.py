@@ -2,9 +2,9 @@ class Sysinfo(object):
     ''' Sysinfo facade.
     '''
 
-    def model_info(self):
+    def model_info(self, password):
         # returns the model name.
-        return self._model_info()
+        return self._model_info(password=password)
 
     def system_info(self):
         # returns the name of system.
@@ -30,9 +30,9 @@ class Sysinfo(object):
         # returns name of the device.
         return self._device_name()
 
-    def manufacturer_name(self):
+    def manufacturer_name(self, password):
         # returns the manufacturer's name
-        return self._manufacturer_name()
+        return self._manufacturer_name(password=password)
 
     def kernel_version(self):
         # returns the kernel name.
@@ -43,12 +43,12 @@ class Sysinfo(object):
         return self._storage_info()
 
     def screen_dimension(self):
-        # returns the screen dimensiotn like 1200x980.
+        # returns the screen's dimension like 1200x980.
         return self._screen_dimension()
 
     # private
 
-    def _model_info(self):
+    def _model_info(self, **kwargs):
         raise NotImplementedError()
 
     def _system_info(self):
@@ -69,7 +69,7 @@ class Sysinfo(object):
     def _device_name(self):
         raise NotImplementedError()
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, **kwargs):
         raise NotImplementedError()
 
     def _kernel_version(self):
