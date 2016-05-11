@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from plyer import sysinfo
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ListProperty
 
 
 Builder.load_string('''
@@ -52,7 +52,7 @@ Builder.load_string('''
         Label:
             text: "Screen"
         Label:
-            text: root.screen_
+            text: str(root.screen_)
 
 ''')
 
@@ -69,7 +69,7 @@ class SysinfoInterface(BoxLayout):
     manufacturer_ = StringProperty()
     kernel_ = StringProperty()
     storage_ = StringProperty()
-    screen_ = StringProperty()
+    screen_ = ListProperty()
     password = "qwerty"
 
     def __init__(self, **kwargs):

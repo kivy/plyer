@@ -57,7 +57,9 @@ class LinuxSysinfo(Sysinfo):
                    shell=True,
                    stdout=PIPE).communicate()[0]
 
-        return sd
+        a = sd.split('x')[0]
+        b = sd.split('x')[1].split('\n')[0]
+        return (int(a), int(b))
 
 
 def instance():

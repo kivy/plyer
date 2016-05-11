@@ -1,11 +1,32 @@
 import platform
+import os
+import re
+from subprocess import Popen, PIPE
 from plyer.facades import Sysinfo
+from plyer.platforms.win.libs import screenmetric
 
 
 class WindowsSysinfo(Sysinfo):
 
-    def _model_info(self):
-        pass
+    values = {}
+
+    def __init__(self, **kwargs):
+        self.SysInfo()
+
+    def SysInfo(self):
+
+        cache = os.popen2("SYSTEMINFO")
+        source = cache[1].read()
+        sysOpts = ["System Manufacturer", "System Model",
+                   "Total Physical Memory"]
+
+        for opt in sysOpts:
+            self.values[opt] = [item.strip() for item in
+                                re.findall("%s:\w*(.*?)\n" % (opt),
+                                source, re.IGNORECASE)][0]
+
+    def _model_info(self, **kwargs):
+        return self.values['System Model']
 
     def _system_info(self):
         return platform.system()
@@ -25,17 +46,18 @@ class WindowsSysinfo(Sysinfo):
     def _device_name(self):
         return platform.uname()[1]
 
-    def _manufacturer_name(self, password):
-        pass
+    def _manufacturer_name(self, **kwargs):
+        return self.values['System Manufacturer']
 
     def _kernel_version(self):
-        pass
+        return platform.uname()[2]
 
     def _storage_info(self):
-        pass
+        return self.values['Total Physical Memory']
 
     def _screen_dimension(self):
-        pass
+        return (screenmetric.get_SystemMetrics(0),
+                screenmetric.get_SystemMetrics(1))
 
 
 def instance():

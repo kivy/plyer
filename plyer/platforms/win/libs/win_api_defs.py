@@ -6,13 +6,14 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
            'DefWindowProcW', 'get_WNDCLASSEXW', 'GetModuleHandleW',
            'RegisterClassExW', 'UpdateWindow', 'LoadImageW',
            'Shell_NotifyIconW', 'DestroyIcon', 'UnregisterClassW',
-           'DestroyWindow', 'LoadIconW')
+           'DestroyWindow', 'LoadIconW', 'GetSystemMetrics')
 
 import ctypes
 from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
 from ctypes.wintypes import (DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
-    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
-    HBRUSH, HMODULE, ATOM, BOOL, HANDLE)
+                             LPCWSTR, INT, LPVOID, HINSTANCE, HMENU,
+                             LPARAM, WPARAM, HBRUSH, HMODULE, ATOM,
+                             BOOL, HANDLE)
 LRESULT = LPARAM
 HRESULT = HANDLE
 HCURSOR = HICON
@@ -41,6 +42,10 @@ def get_DLLVERSIONINFO(*largs):
     version_info = DLLVERSIONINFO(*largs)
     version_info.cbSize = sizeof(DLLVERSIONINFO)
     return version_info
+
+
+def GetSystemMetrics(*largs):
+    return windll.User32.GetSystemMetrics(largs[0])
 
 
 def MAKEDLLVERULL(major, minor, build, sp):
