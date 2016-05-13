@@ -4,7 +4,7 @@ from plyer.facades import Sysinfo
 
 class OSXSysinfo(Sysinfo):
 
-    def _model_info(self, **kwargs):
+    def _model_info(self):
         return ""
 
     def _system_info(self):
@@ -25,7 +25,7 @@ class OSXSysinfo(Sysinfo):
     def _device_name(self):
         return platform.uname()[1]
 
-    def _manufacturer_name(self, **kwargs):
+    def _manufacturer_name(self):
         return ""
 
     def _kernel_version(self):

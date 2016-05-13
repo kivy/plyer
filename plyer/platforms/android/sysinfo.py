@@ -18,7 +18,7 @@ System = autoclass('java.lang.System')
 
 class AndroidSysinfo(Sysinfo):
 
-    def _model_info(self, **kwargs):
+    def _model_info(self):
         return ""
 
     def _system_info(self):
@@ -89,7 +89,7 @@ class AndroidSysinfo(Sysinfo):
     def _device_name(self):
         return Build.MODEL
 
-    def _manufacturer_name(self, **kwargs):
+    def _manufacturer_name(self):
         return Build.MANUFACTURER
 
     def _kernel_version(self):

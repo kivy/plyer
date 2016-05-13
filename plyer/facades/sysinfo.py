@@ -2,9 +2,9 @@ class Sysinfo(object):
     ''' Sysinfo facade.
     '''
 
-    def model_info(self, password):
+    def model_info(self):
         # returns the model name.
-        return self._model_info(password=password)
+        return self._model_info()
 
     def system_info(self):
         # returns the name of system.
@@ -30,9 +30,9 @@ class Sysinfo(object):
         # returns name of the device.
         return self._device_name()
 
-    def manufacturer_name(self, password):
+    def manufacturer_name(self):
         # returns the manufacturer's name
-        return self._manufacturer_name(password=password)
+        return self._manufacturer_name()
 
     def kernel_version(self):
         # returns the kernel name.

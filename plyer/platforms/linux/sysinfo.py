@@ -6,12 +6,10 @@ from plyer.facades import Sysinfo
 
 class LinuxSysinfo(Sysinfo):
 
-    def _model_info(self, **kwargs):
-        password = kwargs.get('password')
-        command = 'dmidecode -s baseboard-product-name'.split()
-        p = Popen(['sudo', '-S'] + command, stdin=PIPE, stderr=PIPE,
-                  stdout=PIPE, universal_newlines=True)
-        sp = p.communicate(password + '\n')[0]
+    def _model_info(self):
+        command = 'cat /sys/devices/virtual/dmi/id/product_name '.split()
+        p = Popen(command, stderr=PIPE, stdout=PIPE)
+        sp = p.communicate()[0]
         return sp
 
     def _system_info(self):
@@ -32,13 +30,10 @@ class LinuxSysinfo(Sysinfo):
     def _device_name(self):
         return platform.uname()[1]
 
-    def _manufacturer_name(self, **kwargs):
-
-        password = kwargs.get('password')
-        command = 'dmidecode -s system-manufacturer'.split()
-        p = Popen(['sudo', '-S'] + command, stdin=PIPE, stderr=PIPE,
-                  stdout=PIPE, universal_newlines=True)
-        sp = p.communicate(password + '\n')[0]
+    def _manufacturer_name(self):
+        command = 'cat /sys/devices/virtual/dmi/id/sys_vendor '.split()
+        p = Popen(command, stderr=PIPE, stdout=PIPE)
+        sp = p.communicate()[0]
         return sp
 
     def _kernel_version(self):

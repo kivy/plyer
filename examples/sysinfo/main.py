@@ -77,20 +77,20 @@ class SysinfoInterface(BoxLayout):
         self.update()
 
     def update(self):
-        self.get_model(self.password)
+        self.get_model()
         self.get_platform()
         self.get_system()
         self.get_processor()
         self.get_version()
         self.get_architecture()
         self.get_device_name()
-        self.get_manufacturer(self.password)
+        self.get_manufacturer()
         self.get_kernel_version()
         self.get_storage_info()
         self.get_screen_dimension()
 
-    def get_model(self, password):
-        self.model_ = sysinfo.model_info(password)
+    def get_model(self):
+        self.model_ = sysinfo.model_info()
 
     def get_platform(self):
         self.platform_ = sysinfo.platform_info()
@@ -111,8 +111,8 @@ class SysinfoInterface(BoxLayout):
     def get_device_name(self):
         self.device_ = sysinfo.device_name()
 
-    def get_manufacturer(self, password):
-        self.manufacturer_ = sysinfo.manufacturer_name(password)
+    def get_manufacturer(self):
+        self.manufacturer_ = sysinfo.manufacturer_name()
 
     def get_kernel_version(self):
         self.kernel_ = sysinfo.kernel_version()
