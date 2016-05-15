@@ -28,7 +28,7 @@ class AndroidEmail(Email):
             intent.putExtra(Intent.EXTRA_SUBJECT, android_subject)
         if text:
             android_text = cast('java.lang.CharSequence',
-                                AndroidString(text))
+                                   AndroidString(text))
             intent.putExtra(Intent.EXTRA_TEXT, android_text)
         if attachment:
             """
@@ -39,11 +39,11 @@ class AndroidEmail(Email):
             filename = AndroidString(attachment[1])
             filelocation = File(path, filename)
             android_attach = cast('java.lang.CharSequence',
-                                Uri.fromFile(attachment))
+                                   Uri.fromFile(attachment))
             intent.putExtra(Intent.EXTRA_STREAM, android_attach)
         if create_chooser:
             chooser_title = cast('java.lang.CharSequence',
-                                 AndroidString('Send message with:'))
+                                   AndroidString('Send message with:'))
             activity.startActivity(Intent.createChooser(intent,
                                                         chooser_title))
         else:
