@@ -9,6 +9,7 @@ File = autoclass('java.io.File')
 AndroidString = autoclass('java.lang.String')
 Environment = autoclass('android.os.Environment')
 
+
 class AndroidEmail(Email):
     def _send(self, **kwargs):
         intent = Intent(Intent.ACTION_SEND)
