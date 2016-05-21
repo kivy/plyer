@@ -6,14 +6,14 @@ class Keystore(object):
 
     '''
 
-    def set_password(self, servicename, username, password):
-        self._set_password(servicename, username, password)
+    def set_key(self, servicename, key, value, **kwargs):
+        self._set_password(servicename, key, value, **kwargs)
 
-    def _set_password(self, servicename, username, password):
+    def _set_key(self, servicename, key, value, **kwargs):
         raise NotImplementedError()
 
-    def get_password(self, servicename, username):
+    def get_key(self, servicename, key, **kwargs):
         return self._get_password(servicename, username)
 
-    def _get_password(self, servicename, username):
+    def _get_key(self, servicename, key, **kwargs):
         raise NotImplementedError()
