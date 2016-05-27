@@ -16,15 +16,18 @@ Context = autoclass('android.content.Context')
 Intent = autoclass('android.content.Intent')
 IntentFilter = autoclass('android.content.IntentFilter')
 uri = autoclass('android.net.Uri')
+Bundle =  autoclass('android.os.Bundle')
 PythonActivity = autoclass('org.renpy.android.PythonActivity')
 GenericBroadcastReceiver = autoclass(
     'org.renpy.android.GenericBroadcastReceiver'
 )
+SmsMessage = autoclass('android.telephony.SmsMessage')
 SmsManager = autoclass('android.telephony.SmsManager')
-phoneNumbers = autoclass('android.opreference.PreferenceManager')
 
 
 class AndroidSms(Sms):
+    phonenumber = 0
+    msgreceived = ''
 
     def _send(self, **kwargs):
         sms = SmsManager.getDefault()
@@ -48,8 +51,30 @@ class AndroidSms(Sms):
 
         @java_method('(Landroid/content/Context;Landroid/content/Intent;)V')
         def onReceive(self, context, intent):
-            phoneNumbers = PreferenceManager.getDefaultSharedPreferences(
-                           context).getString("phone_entries", "")
+            try:
+                Bundle = intent.getExtras()
+                _msgreceived = ''
+                if Bundle:
+                    # array of objects.
+                    pdus = Bundle.get('pdus')
+                    # SmsMessage is an array.
+                    msg = SmsMessage(len(pdus))
+                    for i in range(len(pdus)):
+                        msg[i] = SmsMessage.createFromPdu(pdus[i])
+                        _msgreceived += msg[i].getMessageBody().toString()
+                        _msgreceived += '\n'
+                        _phonenumber = msg[0].getOriginatingAddress()
+                        self.facade.phonenumber = _phonenumber
+                        self.facade.msgreceived = _msgreceived
+            except:
+                import traceback
+                traceback.print_exc()
+
+    def _get_message(self):
+        return self.msgreceived
+
+    def _get_phonenumber(self):
+        return self.phonenumber
 
 
 def instance():
