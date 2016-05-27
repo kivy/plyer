@@ -48,7 +48,7 @@ class Sysinfo(object):
 
     # private
 
-    def _model_info(self, **kwargs):
+    def _model_info(self):
         raise NotImplementedError()
 
     def _system_info(self):
@@ -69,7 +69,7 @@ class Sysinfo(object):
     def _device_name(self):
         raise NotImplementedError()
 
-    def _manufacturer_name(self, **kwargs):
+    def _manufacturer_name(self):
         raise NotImplementedError()
 
     def _kernel_version(self):
