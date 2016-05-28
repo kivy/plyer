@@ -29,7 +29,7 @@ Text to speech                     X       X   X       X    X
 Email (open mail client)           X       X   X       X    X
 Vibrator                           X       X
 Sms (send messages)                X       X
-Sysinfo                            X           X       X    X
+Sysinfo                            X       X   X       X    X
 Compass                            X       X
 Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
