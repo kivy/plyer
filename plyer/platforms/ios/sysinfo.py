@@ -29,7 +29,7 @@ class AndroidSysinfo(Sysinfo):
         return " "
 
     def _version_info(self):
-        return (self.device.systemVersion," "," ")
+        return (self.device.systemVersion, " ", " ")
 
     def _architecture_info(self):
         return (" ", " ")
