@@ -32,7 +32,7 @@ source.dir = .
 version = 1.0
 
 # (list) Application requirements
-requirements = kivy, plyer
+requirements = kivyz
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png

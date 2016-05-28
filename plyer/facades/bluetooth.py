@@ -3,52 +3,68 @@ class Bluetooth(object):
 
     '''
 
-    def start(self):
+    def enable(self):
         '''Start the Bluetooth.
         '''
-        self._start()
+        self._enable()
 
-    def stop(self):
+    def is_enabled(self):
+        ''' Return 'True' if Bluetooth is enabled.
+        '''
+        self._is_enabled()
+
+    def disable(self):
         '''Stop the Bluetooth.
         '''
-        self._stop()
+        self._disable()
 
     def visible(self):
         '''Turn on Bluetooth visiblity
         '''
         self._visible()
 
-    def on_resume(self):
-        '''onResume event handler for the Bluetooth.
-        '''
-        self._on_resume()
-
     def on_stop(self):
         '''onStop event handler the Bluetooth.
         '''
         self._on_stop()
 
-    def on_pause(self):
-        '''onPause event handler the Bluetooth.
+    def start_discovery(self):
+        ''' Start scanning for nearby bluetooth devices.
         '''
-        self._on_pause()
+        self._start_discovery()
+
+    def get_paired_devices(self):
+        ''' Get list of paired devices.
+        '''
+        self._get_paired_devices()
+
+    def get_scan_devices(self):
+        ''' Get the scanned devices.
+        '''
+        self._get_scan_devices()
 
     # private
 
-    def _start(self):
+    def _enable(self):
         raise NotImplementedError()
 
-    def _stop(self):
+    def _is_enabled(self):
+        raise NotImplementedError()
+
+    def _disable(self):
         raise NotImplementedError()
 
     def _visible(self):
         raise NotImplementedError()
 
-    def _on_pause(self):
-        raise NotImplementedError()
-
-    def _on_resume(self):
-        raise NotImplementedError()
-
     def _on_stop(self):
+        raise NotImplementedError()
+
+    def _start_discovery(self):
+        raise NotImplementedError()
+
+    def _get_paired_devices(self):
+        raise NotImplementedError()
+
+    def _get_scan_devices(self):
         raise NotImplementedError()
