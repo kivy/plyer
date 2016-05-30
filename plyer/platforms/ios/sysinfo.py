@@ -5,9 +5,15 @@ ios Sysinfo
 
 from plyer.facades import Sysinfo
 from pyobjus import autoclass
+from pyobjus.dylib_manager import load_dylib, make_dylib
+import sys
 load_framework('/System/Library/Frameworks/UIKit.framework')
+make_dylib('plyer/platforms/ios/libs/sysinfo.m', frameworks=['Foundation'],
+           out='sysinfo.dylib')
+load_dylib('sysinfo.dylib')
 UIDevice = autoclass('UIDevice')
 UIScreen = autoclass('UIScreen')
+NSProcessInfo = autoclass('NSProcessInfo')
 
 
 class AndroidSysinfo(Sysinfo):
@@ -23,7 +29,7 @@ class AndroidSysinfo(Sysinfo):
         return self.device.systemName
 
     def _platform_info(self):
-        return " "
+        return sys.platform
 
     def _processor_info(self):
         return " "
@@ -32,7 +38,10 @@ class AndroidSysinfo(Sysinfo):
         return (self.device.systemVersion, " ", " ")
 
     def _architecture_info(self):
-        return (" ", " ")
+        sizeClass = autoclass('SizeClass')
+        instance = sizeClass.alloc().init()
+        bit = instance.get_bit_size()
+        return ("{}".format(bit), " ")
 
     def _device_name(self):
         return self.device.name
@@ -41,10 +50,13 @@ class AndroidSysinfo(Sysinfo):
         return "Apple Inc."
 
     def _kernel_version(self):
-        return " "
+        processinfo = NSProcessInfo()
+        return processinfo.operatingSystemVersionString
 
     def _storage_info(self):
-        return " "
+        Storage = autoclass('StorageClass')
+        instance = Storage.alloc().init()
+        return str(instance.get_total_space())
 
     def _screen_dimension(self):
         screen = UIScreen.mainScreen().bounds
