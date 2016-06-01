@@ -16,10 +16,10 @@ UIScreen = autoclass('UIScreen')
 NSProcessInfo = autoclass('NSProcessInfo')
 
 
-class AndroidSysinfo(Sysinfo):
+class IosSysinfo(Sysinfo):
 
     def __init__(self, **kwargs):
-        super(AndroidSysinfo, self).__init__(**kwargs)
+        super(IosSysinfo, self).__init__(**kwargs)
         self.device = UIDevice.currentDevice()
 
     def _model_info(self):
@@ -66,4 +66,4 @@ class AndroidSysinfo(Sysinfo):
 
 
 def instance():
-    return AndroidSysinfo()
+    return IosSysinfo()
