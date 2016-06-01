@@ -8,13 +8,13 @@ class Sharing(object):
     def share_text(self, extra_subject='', extra_text=''):
         self._share_text(extra_subject=extra_subject, extra_text=extra_text)
 
-    def share_images(self, **kwargs):
-        self._share_images(**kwargs)
+    def share_images(self, images):
+        self._share_images(images=images)
 
     # private
 
     def _share_text(self, **kwargs):
         raise NotImplementedError()
 
-    def _share_images(self, *args, **kwargs):
+    def _share_images(self, **kwargs):
         raise NotImplementedError()
