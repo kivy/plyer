@@ -38,13 +38,12 @@ class AndroidSharing(Sharing):
         images = kwargs.get('images')
         imageUris = Arraylist()
         for i in range(len(images)):
-            imageUris.add(images[i])
-        file_ = File()
-        img_file = file_(images)
-        uri = Uri.fromFile(img_file)
+            photofile = File(images[i])
+            uri = Uri.fromFile(photofile)
+            imageUris.add(uri)
         intent = Intent()
         intent.setAction(Intent.ACTION_SEND_MULTIPLE)
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri)
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris)
         intent.setType("image/*")
 
         _Activity = cast('android.app.Activity', PythonActivity.mActivity)
