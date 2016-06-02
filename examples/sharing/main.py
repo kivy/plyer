@@ -47,11 +47,15 @@ Builder.load_string('''
 
 ''')
 
+
 class Content(BoxLayout):
+
     def selected(self, filename):
         ShareInterface.selected(filename)
+
     def close_chooser(self):
         self.parent.parent.parent.dismiss()
+
 
 class ShareInterface(BoxLayout):
 
