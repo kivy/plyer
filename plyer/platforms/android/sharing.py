@@ -49,6 +49,22 @@ class AndroidSharing(Sharing):
         _Activity = cast('android.app.Activity', PythonActivity.mActivity)
         _Activity.startActivity(intent)
 
+    def _share_files(self, **kwargs):
+
+        files = kwargs.get('files')
+        filesUris = Arraylist()
+        for i in range(len(files)):
+            share_file = File(files[i])
+            uri = Uri.fromFile(share_file)
+            filesUris.add(uri)
+        intent = Intent()
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE)
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filesUris)
+        intent.setType("*/*")
+
+        _Activity = cast('android.app.Activity', PythonActivity.mActivity)
+        _Activity.startActivity(intent)
+
 
 def instance():
     return AndroidSharing()

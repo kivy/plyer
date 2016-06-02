@@ -34,12 +34,33 @@ Builder.load_string('''
             on_release: root.share_img(root.images)
         Button:
             text: "Multiple File chooser"
-            on_press: root.create_popup()
-<Content>:
+            on_press: root.create_img_popup()
+    Label:
+        text: "File/s Sharing"
+    BoxLayout:
+        orientation: "horizontal"
+        Button:
+            text: "Share Files"
+            on_release: root.share_fls(root.files)
+        Button:
+            text: "Multiple File chooser"
+            on_press: root.create_fls_popup()
+
+<Content_img>:
     orientation: "vertical"
     FileChooserIconView:
-        id: filechooser
-        on_selection: root.selected(filechooser.selection)
+        id: filechooser_img
+        on_selection: root.selected_img(filechooser_img.selection)
+    Button:
+        size_hint: 1,.2
+        text: 'Close!'
+        on_release: root.close_chooser()
+
+<Content_fls>:
+    orientation: "vertical"
+    FileChooserIconView:
+        id: filechooser_fls
+        on_selection: root.selected_fls(filechooser_fls.selection)
     Button:
         size_hint: 1,.2
         text: 'Close!'
@@ -48,10 +69,19 @@ Builder.load_string('''
 ''')
 
 
-class Content(BoxLayout):
+class Content_img(BoxLayout):
 
-    def selected(self, filename):
-        ShareInterface.selected(filename)
+    def selected_img(self, filename):
+        ShareInterface.selected_img(filename)
+
+    def close_chooser(self):
+        self.parent.parent.parent.dismiss()
+
+
+class Content_fls(BoxLayout):
+
+    def selected_fls(self, filename):
+        ShareInterface.selected_fls(filename)
 
     def close_chooser(self):
         self.parent.parent.parent.dismiss()
@@ -60,6 +90,7 @@ class Content(BoxLayout):
 class ShareInterface(BoxLayout):
 
     images = []
+    files = []
 
     def share_txt(self, extra_subject, extra_text):
         sharing.share_text(extra_subject=extra_subject, extra_text=extra_text)
@@ -67,14 +98,25 @@ class ShareInterface(BoxLayout):
     def share_img(self, images):
         sharing.share_images(images=self.images)
 
+    def share_fls(self, files):
+        sharing.share_files(files=files)
+
     @classmethod
-    def selected(self, filename):
+    def selected_img(self, filename):
         self.images.append(filename[0])
 
-    def create_popup(self):
-        self.file_chooser = FileChooserIconView()
-        self.file_chooser.bind()
-        self.popup = Popup(title='File chooser', content=Content(),
+    @classmethod
+    def selected_fls(self, filename):
+        self.files.append(filename[0])
+
+    def create_img_popup(self):
+        self.popup = Popup(title='Image/s chooser', content=Content_img(),
+                           size_hint=(0.80, 0.80),
+                           auto_dismiss=True)
+        self.popup.open()
+
+    def create_fls_popup(self):
+        self.popup = Popup(title='Files chooser', content=Content_fls(),
                            size_hint=(0.80, 0.80),
                            auto_dismiss=True)
         self.popup.open()

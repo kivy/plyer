@@ -11,10 +11,16 @@ class Sharing(object):
     def share_images(self, images):
         self._share_images(images=images)
 
+    def share_files(self, files):
+        self._share_files(files=files)
+
     # private
 
     def _share_text(self, **kwargs):
         raise NotImplementedError()
 
     def _share_images(self, **kwargs):
+        raise NotImplementedError()
+
+    def _share_files(self, **kwargs):
         raise NotImplementedError()
