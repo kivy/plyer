@@ -23,10 +23,20 @@ class Bluetooth(object):
         '''
         self._visible()
 
-    def on_stop(self):
-        '''onStop event handler the Bluetooth.
+    def on_resume(self):
+        '''Called when app is resumed
         '''
-        self._on_stop()
+        self._on_resume()
+
+    def on_pause(self):
+        '''Called when app is paused
+        '''
+        self._on_pause()
+
+    def register_receiver(self):
+        ''' Register Receiver for bluetooth
+        '''
+        self._register_receiver()
 
     def start_discovery(self):
         ''' Start scanning for nearby bluetooth devices.
@@ -57,7 +67,13 @@ class Bluetooth(object):
     def _visible(self):
         raise NotImplementedError()
 
-    def _on_stop(self):
+    def _on_resume(self):
+        raise NotImplementedError()
+
+    def _on_pause(self):
+        raise NotImplementedError()
+
+    def _register_receiver(self):
         raise NotImplementedError()
 
     def _start_discovery(self):

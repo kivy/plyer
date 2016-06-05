@@ -52,29 +52,37 @@ class AndroidBluetooth(Bluetooth):
     def __init__(self, **kwargs):
         super(AndroidBluetooth, self).__init__(**kwargs)
         self.BA = BluetoothAdapter.getDefaultAdapter()
+        self._register_receiver()
 
-    def _on_stop(self):
-        activity.unregisterReceiver(self.bluetooth_reg)
+    def _on_resume(self):
+        self._register_receiver()
 
-    def _enable(self):
+    def _register_receiver(self):
         broadcast_receiver = AndroidBluetooth.BroadcastReceiver(self)
         self.bluetooth_reg = GenericBroadcastReceiver(broadcast_receiver)
 
-        intent_filter = IntentFilter()
-        intent_filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-        intent_filter.addAction(BluetoothDevice.ACTION_FOUND)
-        intent_filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
-        intent_filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
-        activity.registerReceiver(self.bluetooth_reg, intent_filter)
+        self.intent_filter = IntentFilter()
+        self.intent_filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
+        self.intent_filter.addAction(BluetoothDevice.ACTION_FOUND)
+        self.intent_filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
+        self.intent_filter.addAction(
+                           BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
+        activity.registerReceiver(self.bluetooth_reg, self.intent_filter)
 
-        intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-        activity.startActivityForResult(intent, 0)
+    def _on_pause(self):
+        activity.unregisterReceiver(self.bluetooth_reg)
+
+    def _enable(self):
+        if not self.BA.isEnabled():
+            intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            activity.startActivityForResult(intent, 0)
 
     def _is_enabled(self):
         return self.BA.isEnabled()
 
     def _disable(self):
-        self.BA.disable()
+        if self.BA.isEnabled():
+            self.BA.disable()
 
     def _visible(self):
         intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
