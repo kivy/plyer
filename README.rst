@@ -33,6 +33,7 @@ Compass                            X       X
 Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
 Battery                            X       X   X       X    X
+NFC                                X
 Native file chooser                            X       X    X
 Orientation                        X
 Audio recording                    X
