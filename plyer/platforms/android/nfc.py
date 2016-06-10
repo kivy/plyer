@@ -37,6 +37,7 @@ class AndroidNFC(NFC):
 
     tag_message = ''
 
+    ''' method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b` '''
     def nfc_init(self):
 
         self.j_context = context = PythonActivity.mActivity
@@ -50,8 +51,9 @@ class AndroidNFC(NFC):
         self.ndef_detected.addDataType('text/plain')
         self.ndef_exchange_filters = [self.ndef_detected]
 
+    ''' some methods based on android documentation
+        https://developer.android.com/guide/topics/connectivity/nfc/nfc.html'''
     def _on_new_intent(self, intent):
-        # print 'on_new_intent()', intent.getAction()
         if intent.getAction() == NfcAdapter.ACTION_NDEF_DISCOVERED:
 
             extra_msgs = intent.getParcelableArrayExtra(
@@ -173,22 +175,21 @@ class AndroidNFC(NFC):
     def _enable(self):
         activity.bind(on_new_intent=self._on_new_intent)
 
+
+    ''' method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b` '''
     @run_on_ui_thread
     def _nfc_enable_ndef_exchange(self, **kwargs):
-        print 'create record'
         ndef_record=NdefRecord(
                 NdefRecord.TNF_MIME_MEDIA,
                 'text/plain', '', 'hello world')
-        print 'create message'
         ndef_message=NdefMessage([ndef_record])
 
-        print 'enable ndef push'
         self.nfc_adapter.enableForegroundNdefPush(self.j_context, ndef_message)
 
-        print 'enable dispatch', self.j_context, self.nfc_pending_intent
         self.nfc_adapter.enableForegroundDispatch(self.j_context,
                 self.nfc_pending_intent, self.ndef_exchange_filters, [])
 
+    ''' method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b` '''
     @run_on_ui_thread
     def _nfc_disable_ndef_exchange(self):
         self.nfc_adapter.disableForegroundNdefPush(self.j_context)
