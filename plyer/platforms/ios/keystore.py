@@ -11,9 +11,12 @@ class IosKeystore(Keystore):
             objc_str(value), objc_str(key))
 
     def _get_key(self, servicename, key, **kwargs):
-        return NSUserDefaults.standardUserDefaults().stringForKey_(
+        ret = NSUserDefaults.standardUserDefaults().stringForKey_(
             objc_str(key))
-
+        if ret is not None:
+            return ret.UTF8String()
+        else:
+            return ret 
 
 def instance():
     return IosKeystore()
