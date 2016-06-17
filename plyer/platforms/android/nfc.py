@@ -9,6 +9,11 @@ Intent = autoclass('android.content.Intent')
 IntentFilter = autoclass('android.content.IntentFilter')
 PendingIntent = autoclass('android.app.PendingIntent')
 JavaString = autoclass('java.lang.String')
+# Imports for Beam #
+Arraylist = autoclass('java.util.ArrayList')
+Uri = autoclass('android.net.Uri')
+File = autoclass('java.io.File')
+# End Beam imports
 BUILDVERSION = autoclass('android.os.Build$VERSION').SDK_INT
 NdefRecord = autoclass('android.nfc.NdefRecord')
 # immutable NDEF Record.
@@ -192,9 +197,13 @@ class AndroidNFC(NFC):
     tag_message = ''
 
     '''
-    method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b`
+    some methods adapted from
+    `https://gist.github.com/tito/9e2308a4c942ddb2342b`
     and
     `https://gist.github.com/akshayaurora/b76dbcc69c9850bb3e318af4722a0b4f`
+
+    some methods inspired from
+    `https://developer.android.com/reference/android/nfc/package-summary.html`
     '''
     def nfc_init(self):
         '''
@@ -306,7 +315,7 @@ class AndroidNFC(NFC):
         if intent.getAction() == NfcAdapter.ACTION_NDEF_DISCOVERED:
 
             extra_msgs = intent.getParcelableArrayExtra(
-                         NfcAdapter.EXTRA_NDEF_MESSAGES)
+                                NfcAdapter.EXTRA_NDEF_MESSAGES)
             # An array of NDEF messages parsed from the tag.
             if not extra_msgs:
                 return
@@ -329,6 +338,20 @@ class AndroidNFC(NFC):
         elif intent.getAction() == NfcAdapter.ACTION_TAG_DISCOVERED:
             # If tag is discovered.
             self._get_tag_info(intent)
+
+    # P2P
+
+    def _nfc_beam(self, **kwargs):
+        files = kwargs.get('files')
+        filesUris = Arraylist()
+        for i in range(len(files)):
+            share_file = File(files[i])
+            uri = Uri.fromFile(share_file)
+            filesUris.add(uri)
+
+        self.nfc_adapter.setBeamPushUris(filesUris, self.j_context)
+
+    # TAG reading and writing.
 
     def _get_tag_info(self, intent):
         '''

@@ -110,6 +110,8 @@ class NFC(object):
     ''' NFC facade.
     .. note::
         On Android your app needs the NFC permission.
+
+        For Beam, you also need READ_EXTERNAL_SORAGE permission.
     '''
     NdefRecord = PyNdefRecord
 
@@ -161,6 +163,12 @@ class NFC(object):
         '''
         self._nfc_disable_exchange()
 
+    def nfc_beam(self, files):
+        '''
+        send files through beam.
+        '''
+        self._nfc_beam(files=files)
+
     def on_pause(self):
         '''
         Events called when application is paused.
@@ -197,6 +205,9 @@ class NFC(object):
         raise NotImplementedError()
 
     def _nfc_disable_exchange(self, **kwargs):
+        raise NotImplementedError()
+
+    def _nfc_beam(self, **kwargs):
         raise NotImplementedError()
 
     def _on_pause(self, **kwargs):
