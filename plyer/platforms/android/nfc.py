@@ -34,6 +34,11 @@ Ndef = autoclass('android.nfc.tech.Ndef')
 # formatted as NDEF.
 NdefFormatable = autoclass('android.nfc.tech.NdefFormatable')
 # Provides a format operations for the tags that may be NDEF formattable.
+NfcA = autoclass('android.nfc.tech.NfcA')
+NfcB = autoclass('android.nfc.tect.NfcB')
+NfcF = autoclass('android.nfc.tech.NfcF')
+NfcV = autoclass('android.nfc.tech.NfcV')
+NfcBarcode = autoclass('android.nfc.tech.NfcBarcode')
 NfcManager = autoclass('android.nfc.NfcManager')
 # Used to obtain an instance instance of NfcAdapter.
 NfcEvent = autoclass('android.nfc.NfcEvent')
@@ -214,9 +219,12 @@ class AndroidNFC(NFC):
         self.nfc_adapter = NfcAdapter.getDefaultAdapter(context)
         if not nfc_adapter:
             return
-        self.nfc_pending_intent = PendingIntent.getActivity(context, 0,
-                                  Intent(context, context.getClass()).addFlags(
-                                         Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
+        self.nfc_pending_intent = PendingIntent.getActivity(context,
+                                                            0,
+                                  Intent(context,
+                                         context.getClass()).addFlags(
+                                         Intent.FLAG_ACTIVITY_SINGLE_TOP),
+                                                            0)
 
         self.ndef_detected = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
         self.tech_detected = IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)
@@ -233,17 +241,17 @@ class AndroidNFC(NFC):
             ['android.nfc.tech.NfcF'],
             ['android.nfc.tech.NfcV'],
             ['android.nfc.tech.Ndef'],
+            ['android.nfc.tech.NfcBarcode'],
             ['android.nfc.tech.NdefFormattable'],
-            ['android.nfc.tech.MifareClassic']
-            ['android.nfc.tech.MifareUltralight'],
-            ]
+            ['android.nfc.tech.MifareClassic'],
+            ['android.nfc.tech.MifareUltralight']]
 
         self.ndef_exchange_filters = [
             self.ndef_detected,
             self.tech_detected,
-            self.tag_detected
-            ]
+            self.tag_detected]
 
+        self.tag_mode = 'read'
         self._enable()
         self._on_new_intent(PythonActivity.getIntent())
         return True
@@ -264,11 +272,29 @@ class AndroidNFC(NFC):
         record = PyNdefRecord()
         return record(ndef_type, payload)
 
-    def _read_record(self):
+    def _read_record(self, record):
         '''
         Reading android NdefRecords.
         '''
         return
+
+    def _read_ndef_message(self, messages):
+        '''
+        Reading android NdefMessage.
+        '''
+        if not messages:
+            return
+
+        for message in messages:
+            message = cast(NdefMessage, message)
+            payload = message.getRecords()[0].getPayload()
+        return payload
+
+    def _create_ndef_message(self, *records):
+        '''
+        NdefMessage that will be written on tag.
+        '''
+        return NdefMessage([record for record in records if record])
 
     '''
     method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b`
@@ -283,7 +309,9 @@ class AndroidNFC(NFC):
         self.nfc_adapter.enableForegroundNdefPush(self.j_context, ndef_message)
 
         self.nfc_adapter.enableForegroundDispatch(self.j_context,
-                self.nfc_pending_intent, self.ndef_exchange_filters, [])
+                                                  self.nfc_pending_intent,
+                                                  self.ndef_exchange_filters,
+                                                  [])
 
     '''
     method adapted from `https://gist.github.com/tito/9e2308a4c942ddb2342b`
@@ -317,12 +345,7 @@ class AndroidNFC(NFC):
             extra_msgs = intent.getParcelableArrayExtra(
                                 NfcAdapter.EXTRA_NDEF_MESSAGES)
             # An array of NDEF messages parsed from the tag.
-            if not extra_msgs:
-                return
-
-            for message in extra_msgs:
-                message = cast(NdefMessage, message)
-                payload = message.getRecords()[0].getPayload()
+            payload = self._read_ndef_message(extra_msgs)
 
             extra_tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
             # Tag object representing the scanned tag.
@@ -337,7 +360,7 @@ class AndroidNFC(NFC):
 
         elif intent.getAction() == NfcAdapter.ACTION_TAG_DISCOVERED:
             # If tag is discovered.
-            self._get_tag_info(intent)
+            return self._get_tag_info(intent)
 
     # P2P
 
@@ -353,118 +376,486 @@ class AndroidNFC(NFC):
 
     # TAG reading and writing.
 
+    def _set_tag_mode(self, mode):
+        '''
+        Set the Tag mode from two choices.
+        Read and right.
+        '''
+        self.tag_mode = mode
+
+    @property
+    def _get_tag_mode(self):
+        '''
+        Get the tag mode.
+        '''
+        return self.tag_mode
+
     def _get_tag_info(self, intent):
         '''
         Reading the tags of the type listed in the ndef_tech_list.
         '''
 
-        tag = intent.getParcableExtra(NfcAdapter.EXTRA_TAG)
+        extre_tag = intent.getParcableExtra(NfcAdapter.EXTRA_TAG)
+        tag = cast('android.nfc.Tag', extra_tag)
         taglist = tag.getTechList()
 
         for i in range(len(taglist)):
+
             if taglist[i] == MifareClassic.class.getName():
                 mctag = MifareClassic.get(tag)
-                mctag_type = mctag.getType()
 
-                if (mctag_type == MifareClassic.TYPE_CLASSIC):
-                    mfc = MifareClassic.get(tag)
-                    pass
-
-                elif (mctag_type == MifareClassic.TYPE_PLUS):
-                    pass
-
-                elif (mctag_type == MifareClassic.TYPE_PRO):
-                    pass
+                if self.tag_mode == 'read':
+                    self._read_classic_tag()
+                elif self.tag_mode == 'write':
+                    self._write_classic_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
 
             elif taglist[i] == MifareUltralight.class.getName():
-                mutag_type = mutag.getType()
-
-                if (mutag_type == MifareUltralight.TYPE_ULTRALIGHT):
+                if sef.tag_mode == 'read':
                     self._read_ultra_tag(tag)
-
-                elif (mutag_type == MifareUltralight.TYPE_ULTRALIGHT_C):
-                    pass
+                elif self.tag_mode == 'write':
+                    self._write_ultra_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
 
             elif taglist[i] == IsoDep.class.getName():
-                self._read_isodep_rag(tag)
+                if self.tag_mode == 'read':
+                    self._read_isodep_rag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_isodep_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
 
             elif taglist[i] == Ndef.class.getName():
-                self._read_ndef_tag(tag)
+                if self.tag_mode == 'read':
+                    self._read_ndef_tag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_ndef_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
 
             elif taglist[i] == NdefFormatable.class.getName():
-                self._read_ndef_formattable_tag(tag)
+                if self.tag_mode == 'read':
+                    raise Exception("Can't write for this format")
+                elif self.tag_mode == 'write':
+                    self._write_ndef_formattable_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            elif taglist[i] == NfcA.class.getName():
+                if self.tag_mode == 'read':
+                    self._read_ndef_formattable_tag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_ndef_formattable_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            elif taglist[i] == NfcB.class.getName():
+                if self.tag_mode == 'read':
+                    self._read_ndef_formattable_tag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_ndef_formattable_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            elif taglist[i] == NfcF.class.getName():
+                if self.tag_mode == 'read':
+                    self._read_ndef_formattable_tag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_ndef_formattable_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            elif taglist[i] == NcfV.class.getName():
+                if self.tag_mode == 'read':
+                    self._read_ndef_formattable_tag(tag)
+                elif self.tag_mode == 'write':
+                    self._write_ndef_formattable_tag(tag, details)
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            elif taglist[i] == NfcBarcode.class.getName():
+                if self.tag_mode == 'read':
+                    self._read_nfc_barcode_tag()
+                elif self.tag_mode == 'write':
+                    raise Exception('Writing this tag is not possible.')
+                else:
+                    raise ValueError('Wrong tag mode given, ' +
+                                     'modes: `read` or `write`)')
+
+            else:
+                raise Exception('Unknown Tag found.')
+
+    # Reading Tags.
 
     def _read_classic_tag(self, Tag):
-        return
+        tech_tag = cast('android.nfc.tech.MifareClassic',
+                        MifareClassic.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['BlockCount'] = tech_tag.getBlockCount()
+            details['BlockCountInSector'] = tech_tag.getBlockCountInSector()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['SectorCount'] = tech_tag.getSectorCount()
+            details['Size'] = tech_tag.getSize()
+            details['TimeOut'] = tech_tag.getTimeOut()
+            details['Type'] = tech_tag.getType()
+            details['Block'] = tech_tag.readBlock()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
 
     def _read_ultra_tag(self, Tag):
-        mifare = MifareUltralight.get(tag)
-
+        tech_tag = cast('android.nfc.tech.MifareUltralight',
+                        MifareUltralight.get(tag))
+        details = {}
+        payload = {}
         try:
-            mifare.connect()
-            payload = mifare.readPages(4)
-            self.tag_message = str(payload, Charset.forName("US-ASCII"))
-            return str(payload, Charset.forName("US-ASCII"))
-
+            tech_tag.connect()
+            details['Type'] = tech_tag.getType()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            for i in range(1, 17):
+                payload['{}'.format(i)] = tech_tag.readPages(i)
+            details['pages'] = payload
+            tech_tag.close()
         except:
-            return
-
+            raise Exception('Either Tag is lost or I/O failure.')
         finally:
-            mifare.close()
+            return details
 
-    def _read_iso_dep_tag(self):
-        return
+    def _read_iso_dep_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.IsoDep', IsoDep.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['HiLayerResponse'] = tech_tag.getHiLayerResponse()
+            details['HistoricalBytes'] = tech_tag.getHistoricalBytes()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['TimeOut'] = tech_tag.getTimeOut()
+            details['isExtendedLengthApduSupported'] = \
+                tech_tag.isExtendedLengthApduSupported()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
 
-    def _read_ndef_tag(self, Tag):
-        return
+    def _read_ndef_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.Ndef', Ndef.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['MaxSize'] = tech_tag.getMaxSize()
+            details['writable'] = tech_tag.isWritable()
+            details['Readonly'] = tech_tag.canMakeReadOnly()
 
-    def _read_iso_dep_tag(self, Tag):
-        return
+            ndefMesg = tech_tag.getCachedNdefMessage()
+            details['Type'] = tech_tag.getType()
+            if not ndefMesg:
+                details['Message'] = None
+                return details
 
-    def _read_ndef_formattable_tag(self, Tag):
-        return
+            ndefrecords = ndefMesg.getRecords()
+            recTypes = []
+            for record in ndefrecords:
+                recTypes.append({
+                    'type': ''.join(map(chr, record.getType())),
+                    'payload': ''.join(map(chr, record.getPayload()))
+                    })
 
-    def write_tag(self, Tag, tagText):
-        return
+            details['recTypes'] = recTypes
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
 
-    def _write_classic_tag(self, Tag, tagText):
-        return
+    def _read_nfcA_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.NfcA', NfcA.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['Atqa'] = tech_tag.getAtqa()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['Sak'] = tech_tag.getSak()
+            details['TimeOut'] = tech_tag.getTimeOut()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
 
-    def _write_ultra_tag(self, Tag, tagText):
-        ''' MifareUltralight tags contains 16 pages and each page contains
-        4 bytes. It's first four page contains manufacturer info, OTP and
-        locking bytes.
-        Page data must be equal 4 bytes and page number must be less than 16.
+    def _read_nfcB_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.NfcB', NfcB.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['ApplicationData'] = tech_tag.getApplicationData()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['ProtocolInfo'] = tech_tag.getProtocolInfo()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
+
+    def _read_nfcF_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.NfcF', NfcF.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['Manufacturer'] = tech_tag.getManufacturer()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['SystemCode'] = tech_tag.getSystemCode()
+            details['TimeOut'] = tech_tag.getTimeOut()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
+
+    def _read_nfcV_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.NfcV', NfcV.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['DsfId'] = tech_tag.getDsfId()
+            details['MaxTransceiveLength'] = tech_tag.getMaxTransceiveLength()
+            details['ResponseFlags'] = tech_tag.getResponseFlags()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
+
+    def _read_nfc_barcode_tag(self, tag):
+        tech_tag = cast('android.nfc.tech.NfcBarcode', NfcBarcode.get(tag))
+        details = {}
+        try:
+            tech_tag.connect()
+            details['Type'] = tech_tag.getType()
+            details['Barcode'] = tech_tag.getBarcode()
+            tech_tag.close()
+        except:
+            raise Exception('Either Tag is lost or I/O failure.')
+        finally:
+            return details
+
+    # Writing Tags.
+
+    def _write_classic_tag(self, tag, details):
         '''
-
-        ultralight = MifareUltralight.get(Tag)
+        Expects two parameters.
+            tag: Tag
+            details: dict
+                blockIndex: int
+                timeout: int
+                data: byte
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.IsoDep', IsoDep.get(tag))
         try:
-            ultralight.connect()
-            ultralight.writePage(4, tagText.encode())
-
+            tech_tag.connect()
+            block_index = details['blockIndex']
+            data = details['data']
+            if details['transceive']:
+                tech_tag.transceive(data)
+            timeout = details['timeout']
+            if timeout:
+                tech_tag.setTimeout(timeout)
+            if blockIndex:
+                if data:
+                    tech_tag.writeBlock(blockIndex, data)
+            tech_tag.close()
         except:
-            return
+            raise Exception('Unable to write tag')
 
-        finally:
-            ultralight.close()
+    def _write_ultra_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag
+            details: dict
+                timeout: int
+                transceive: boolean
+                data: byte
+                pageOffset: int
+        '''
+        tech_tag = cast('android.nfc.tech.IsoDep', IsoDep.get(tag))
+        try:
+            tech_tag.connect()
+            timeout = details['timeout']
+            if timeout:
+                tech_tag.setTimeout(timeout)
+            data = details['data']
+            if details['transceive']:
+                tech_tag.transceive(data)
+            page_off_set = details['pageOffset']
+            if page_off_set:
+                tech_tag.writePage(page_off_set, data)
+            tech_tag.close()
+        except:
+            raise Exception('unable to write tag.')
 
-    def _write_ndef_tag(self, Tag, tagText):
+    def _write_isodep_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                timeout: int
+                data: byte
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.IsoDep', IsoDep.get(tag))
+        try:
+            tech_tag.connect()
+            timeout = details['timeout']
+            if timeout:
+                tech_tag.setTimeout(timeout)
+            transceive = details['transceive']
+            data = details['data']
+            if transceive:
+                tech_tag.transceive(data)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
 
-        ndef_record = NdefRecord(
-                NdefRecord.TNF_WELL_KNOWN,
-                NdefRecord.RTD_TEXT,
-                tagText)
-        ndef_message = NdefMessage([ndef_record])
-        ndef = Ndef.get(Tag)
-        ndef.connect()
-        ndef.writeNdefMessage(tagText)
-        ndef.close()
+    def _write_ndef_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag
+            details: dict
+                makeReadOnly: boolean
+                ndef_message: NdefMessage
+        '''
+        tech_tag = cast('android.nfc.tech.Ndef', Ndef.get(tag))
+        try:
+            tech_tag.connect()
+            if details['makeReadOnly']:
+                tech_tag.makeReadOnly()
+            ndef_message = details['ndef_message']
+            tech_tag.writeNdefMessage(ndef_message)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
 
-    def _write_isodep_tag(self, Tag, tagText):
-        return
+    def _write_ndef_formattable_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                format: boolean
+                formatReadOnly: boolean
+                ndef_message: NdefMessage
+        '''
+        tech_tag = cast('android.nfc.tech.NdefFormatable',
+                        NdefFormatable.get(tag))
+        try:
+            tech_tag.connect()
+            ndef_message = details['ndef_message']
+            if details['format']:
+                tech_tag.format(ndef_message)
+            if details['formatReadOnly']:
+                tech_tag.formatReadOnly(ndef_message)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
 
-    def _write_ndef_formattable_tag(self, Tag, tagText):
-        return
+    def _write_nfcA_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                data: byte
+                timeout: int
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.NfcA', NfcA.get(tag))
+        try:
+            tech_tag.connect()
+            timeout = details['timeout']
+            if timeout:
+                tech_tag.setTimeout(timeout)
+            transceive = details['transceive']
+            data = details['data']
+            if transceive:
+                tech_tag.transceive(data)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
+
+    def _write_nfcB_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                data: byte
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.NfcB', NfcB.get(tag))
+        try:
+            tech_tag.connect()
+            transceive = details['transceive']
+            data = details['data']
+            if transceive:
+                tech_tag.transceive(data)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
+
+    def _write_nfcF_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                data: byte
+                timeout: int
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.NfcF', NfcF.get(tag))
+        try:
+            tech_tag.connect()
+            timeout = details['timeout']
+            if timeout:
+                tech_tag.setTimeout(timeout)
+            transceive = details['transceive']
+            data = details['data']
+            if transceive:
+                tech_tag.transceive(data)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
+
+    def _write_nfcV_tag(self, tag, details):
+        '''
+        Expects two parameters.
+            tag: Tag type.
+            details: dict type
+                data: byte
+                transceive: boolean
+        '''
+        tech_tag = cast('android.nfc.tech.NfcV', NfcV.get(tag))
+        try:
+            tech_tag.connect()
+            transceive = details['transceive']
+            data = details['data']
+            if transceive:
+                tech_tag.transceive(data)
+            tech_tag.close()
+        except:
+            raise Exception('Unable to write tag')
 
     def _on_pause(self):
         self._disable()

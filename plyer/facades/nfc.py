@@ -127,17 +127,42 @@ class NFC(object):
         '''
         self._disable()
 
-    def write_record(self, ):
+    def write_record(self, ndef_type, payload):
         '''
         Write Android NDefRecord.
         '''
         self._write_record()
 
-    def read_record(self, ndef_type, payload):
+    def read_record(self):
         '''
         Read Android NdefRecord.
         '''
         self._read_records()
+
+    def create_ndef_message(self, *records):
+        '''
+        NdefMessage that will be written on tag.
+        '''
+        self._create_ndef_message(records=records)
+
+    def read_ndef_message(self, messages):
+        '''
+        Reading the android NdefMessages.
+        '''
+        self._read_ndef_messages(messages=messages)
+
+    def set_tag_mode(self, mode):
+        '''
+        Set the tag mode.
+        Choices: `read` or `write`
+        '''
+        self._set_tag_mode()
+
+    def get_tag_mode(self):
+        '''
+        Get the tag mode.
+        '''
+        self._get_tag_mode()
 
     def read_tag(self):
         '''
@@ -193,6 +218,18 @@ class NFC(object):
         raise NotImplementedError()
 
     def _read_record(self, **kwargs):
+        raise NotImplementedError()
+
+    def _create_ndef_message(self, *args):
+        raise NotImplementedError()
+
+    def _read_ndef_message(self, **kwargs):
+        raise NotImplementedError()
+
+    def _set_tag_mode(self, **kwargs):
+        raise NotImplementedError()
+
+    def _get_tag_mode(self, **kwargs):
         raise NotImplementedError()
 
     def _read_tag(self, **kwargs):
