@@ -30,6 +30,7 @@ class CameraInterface(BoxLayout):
         self.ids.image.source = filename
         self.ids.image.reload()
 
+
 class CameraApp(App):
 
     def build(self):

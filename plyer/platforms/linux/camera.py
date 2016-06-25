@@ -56,6 +56,7 @@ class GenericCameraWidget(BoxLayout):
         self.ids.camera._camera.release()
         app.root_window.remove_widget(self)
 
+
 class GenericCamera(Camera):
     widget = None
 
@@ -64,7 +65,6 @@ class GenericCamera(Camera):
         widget = GenericCameraWidget(callback=on_complete,
                                      filename=filename)
         app.root_window.add_widget(widget)
-
 
 
 def instance():
