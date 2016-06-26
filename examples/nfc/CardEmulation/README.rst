@@ -1,3 +1,6 @@
+Card Emulation
+====
+
 Fully supported API for Card Emulation is not provided yet.
 
 For now, only the reference API is availabe.
@@ -16,5 +19,8 @@ Example.
 
 `self.j_context = PythonActivity.mActivity`
 
-Same goes for services, mainly OffHostApduService, HostNfcFService, HostApduService.
+Same goes for services:
 
+ - OffHostApduService
+ - HostNfcFService
+ - HostApduService.
