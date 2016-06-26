@@ -6,7 +6,6 @@ from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from plyer import nfc
-import os
 from kivy.uix.filechooser import FileChooserIconView
 
 
@@ -85,12 +84,17 @@ class BeamInterface(BoxLayout):
 class BeamApp(App):
 
     def on_pause(self):
+        nfc.on_pause()
         return True
 
     def on_resume(self):
-        pass
+        nfc._on_resume()
+        return True
 
     def build(self):
+        nfc.nfc_register(tech_list={'all'},
+                         action_list={'ndef', 'tech', 'tag'},
+                         data_type="*/*")
         return BeamInterface()
 
 if __name__ == "__main__":
