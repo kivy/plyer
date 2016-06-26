@@ -434,7 +434,7 @@ class AndroidNFC(NFC):
         else:
             for tech in self.tech_list:
                 self.ndef_tech_list.append(
-                     ['android.nfc.tech.{}'.format(tech)])
+                    ['android.nfc.tech.{}'.format(tech)])
 
         self._enable()
         self._on_new_intent(PythonActivity.getIntent())
@@ -882,8 +882,7 @@ class AndroidNFC(NFC):
             for record in ndefrecords:
                 recTypes.append({
                     'type': ''.join(map(chr, record.getType())),
-                    'payload': ''.join(map(chr, record.getPayload()))
-                    })
+                    'payload': ''.join(map(chr, record.getPayload()))})
 
             details['recTypes'] = recTypes
             tech_tag.close()
