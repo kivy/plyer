@@ -17,15 +17,20 @@ Builder.load_string('''
         cols: 2
         padding: 20
         spacing: 20
-        size_hint: 1,.3
+        size_hint: 1,.4
         Button:
             text: "Turn on"
-            disabled: False if root.is_enabled() else True
             on_release: root.enable_wifi()
         Button:
             text: "Turn off"
-            disabled: True if root.is_enabled() else False
             on_release: root.disable_wifi()
+        Button:
+            text: "Disconnect"
+            on_release: root.disconnect()
+        TextInput:
+            id: password
+            hint_text: "Password"
+            disabled: True
 
     Label:
         size_hint_y: None
@@ -64,6 +69,8 @@ Builder.load_string('''
 
 class WifiInterface(BoxLayout):
 
+    password = " "
+
     def _create_popup(self, title, content):
         return Popup(
             title=title,
@@ -87,6 +94,8 @@ class WifiInterface(BoxLayout):
         wifi.start_scanning()
         stop_wifi_button = self.ids['stop_wifi_button']
         stop_wifi_button.disabled = False
+        text_inpt = self.ids['password']
+        text_inpt.disabled = False
 
     def stop_wifi(self):
         stop_wifi_button = self.ids['stop_wifi_button']
@@ -98,6 +107,8 @@ class WifiInterface(BoxLayout):
 
         wifi.disable()
         self.ids['scan_layout'].clear_widgets()
+        text_inpt = self.ids['password']
+        text_inpt.disabled = False
 
     def start_scanning(self):
         wifi.start_scanning()
@@ -113,16 +124,30 @@ class WifiInterface(BoxLayout):
                 content += "{}:    {} \n".format(key, value)
 
             popup = self._create_popup(name, content)
+            boxl = BoxLayout(orientation='horizontal')
             button = Button(
                 text=name,
-                size_hint_y=None,
+                size_hint=(1, 1),
                 height='40dp',
                 on_release=popup.open,
             )
-            stack.add_widget(button)
+            button_connect = Button(
+                text="Connect",
+                size_hint_x=.2,
+                on_release=partial(self.connect, name))
+
+            boxl.add_widget(button)
+            boxl.add_widget(button_connect)
+            stack.add_widget(boxl)
 
     def is_enabled(self):
         return wifi.is_enabled()
+
+    def disconnect(self):
+        wifi.disconnect()
+
+    def connect(self, network_name, instance):
+        wifi.connect(network_name, self.ids['password'].text)
 
 
 class WifiApp(App):

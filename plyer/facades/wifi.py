@@ -45,6 +45,18 @@ class Wifi(object):
         '''
         self._get_available_wifi()
 
+    def connect(self, network_name, password):
+        '''
+        Method to connect to some network.
+        '''
+        self._connect(network_name=network_name, password=password)
+
+    def disconnect(self):
+        '''
+        To disconnect from some network.
+        '''
+        self._disconnect()
+
     # private
 
     def _enable(self):
@@ -66,4 +78,10 @@ class Wifi(object):
         raise NotImplementedError()
 
     def _get_available_wifi(self):
+        raise NotImplementedError()
+
+    def _connect(self, **kwargs):
+        raise NotImplementedError()
+
+    def _disconnect(self):
         raise NotImplementedError()

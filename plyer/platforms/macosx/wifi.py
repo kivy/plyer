@@ -5,15 +5,10 @@ load_framework(INCLUDE.Foundation)
 load_framework(INCLUDE.CoreWLAN)
 
 CWInterface = autoclass('CWInterface')
-CWConfiguration = autoclass('CWConfiguration')
 CWNetwork = autoclass('CWNetwork')
-NSMutableArray = autoclass('NSMutableArray')
-CWChannel = autoclass('CWChannel')
 CWWiFiClient = autoclass('CWWiFiClient')
-NSSortDescriptor = autoclass('NSSortDescriptor')
 NSArray = autoclass('NSArray')
 NSDictionary = autoclass('NSDictionary')
-NSNumber = autoclass('NSNumber')
 NSString = autoclass('NSString')
 
 
@@ -33,7 +28,7 @@ class OSXWifi(Wifi):
         '''
         CWInterface.interface().setPower_error_(True, None)
 
-    def _disabe(self):
+    def _disable(self):
         '''
         Method to turn off the Wi-Fi.
         '''
@@ -125,6 +120,24 @@ class OSXWifi(Wifi):
         Returns the name of available networks.
         '''
         return self.names.keys()
+
+    def _connect(self, network_name, password):
+        '''
+        Expects 2 parameters:
+            - name/ssid of the network.
+            - password
+        '''
+        network_object = self.names[network_name]
+        CWInterface.interface().associateToNetwork_password_error_(
+            network_object,
+            password,
+            None)
+
+    def _disconnect(self):
+        '''
+        Disconnect from network.
+        '''
+        CWInterface.interface().disassociate()
 
 
 def instance():
