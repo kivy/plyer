@@ -39,10 +39,11 @@ class Wifi(object):
         '''
         return self._get_access_points(name=name)
 
-    def available_wifi(self):
+    def get_available_wifi(self):
         '''
         Returns a list of all the available wifi.
         '''
+        self._get_available_wifi()
 
     # private
 
@@ -64,5 +65,5 @@ class Wifi(object):
     def _get_network_info(self, **kwargs):
         raise NotImplementedError()
 
-    def _available_wifi(self):
+    def _get_available_wifi(self):
         raise NotImplementedError()

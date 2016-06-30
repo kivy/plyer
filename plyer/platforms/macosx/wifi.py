@@ -120,7 +120,7 @@ class OSXWifi(Wifi):
         '''
         return
 
-    def _available_wifi(self):
+    def _get_available_wifi(self):
         '''
         Returns the name of available networks.
         '''
