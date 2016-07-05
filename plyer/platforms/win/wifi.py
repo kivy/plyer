@@ -38,25 +38,19 @@ class WindowWifi(Wifi):
         '''
         self.names = wifi_lib.start_scanning()
 
-    def _stop_scanning(self):
-        '''
-        Can't stop scanning, API not provided by Windows.
-        '''
-        wifi_lib.stop_scanning()
-
     def _get_available_wifi(self):
         '''
         Returns the name of available networks.
         '''
         return wifi_lib.get_available_wifi()
 
-    def _connect(self, network_name, password):
+    def _connect(self, network, parameters):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
             - password
         '''
-        wifi_lib.connect(network_name, password)
+        wifi_lib.connect(network, parameters)
 
     def _disconnect(self):
         '''

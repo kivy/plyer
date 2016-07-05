@@ -53,6 +53,7 @@ DOT11_MAC_ADDRESS = c_ubyte*6
 WLAN_MAX_PHY_TYPE_NUMBER = 0x8
 DOT11_SSID_MAX_LENGTH = 32
 WLAN_REASON_CODE = DWORD
+
 DOT11_BSS_TYPE = c_uint
 (dot11_BSS_type_infrastructure,
  dot11_BSS_type_independent,
@@ -220,9 +221,72 @@ _dict = {}
 
 # Private methods.
 
-def _open_handle():
+def _connect(network, parameters):
     '''
-    opens a connection to the server.
+    Attempts to connect to a specific network.
+    '''
+    print network
+    global _dict
+    wireless_interface = _dict[network]
+
+
+    c_params = parameters
+    wcp = WLAN_CONNECTION_PARAMETERS()
+    connection_mode = parameters['connection_mode']
+    wcp.wlanConnectionMode = WLAN_CONNECTION_MODE(connection_mode)
+
+    if connection_mode == 0 or connection_mode == 1:
+        wcp.strProfile = LPCWSTR(connection_params["profile"])
+    else:
+        cnxp.strProfile = None
+
+    dot11Ssid = DOT11_SSID()
+    dot11Ssid.SSID = parameters["ssid"]
+    dot11Ssid.SSIDLength = len(parameters["ssid"])
+    wcp.pDot11Ssid = pointer(dot11Ssid)
+
+    dot11bssid = DOT11_BSSID_LIST()
+    bssid = parameters["bssidList"]:
+    dot11bssid.Header = bssid['Header']
+    dot11bssid.uNumOfEntries = bssid['uNumOfEntries']
+    dot11bssid.uTotalNumOfEntries = bssid['uTotalNumOfEntries']
+    dot11bssid.BSSIDs = bssid['BSSIDs']
+
+    wcp.pDesiredBssidList = pointer(bssidList)
+
+    bssType = parameters["bssType"]
+    wcp.dot11BssType = DOT11_BSS_TYPE(bssType)
+
+    wcp.dwFlags = DWORD(parameters["flags"])
+
+    NegotiatedVersion = DWORD()
+    ClientHandle = HANDLE()
+
+    wlan = WlanOpenHandle(1,
+                         None,
+                         byref(NegotiatedVersion),
+                         byref(ClientHandle))
+    if wlan:
+       exit(FormatError(wlan))
+    pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
+    wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
+    if wlan:
+        exit(FormatError(wlan))
+    
+    try:
+        wlan = WlanConnect(ClientHandle,
+                           wireless_interface,
+                           wcp,
+                           None)
+        if wlan:
+            exit(FormatError(wlan))
+        WlanCloseHandle(ClientHandle)
+    finally:
+        WlanFreeMemory(pInterfaceList)
+
+def _disconnect():
+    '''
+    To disconnect an interface form the current network.
     '''
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
@@ -232,52 +296,35 @@ def _open_handle():
                          byref(NegotiatedVersion),
                          byref(ClientHandle))
     if wlan:
-        exit(FormatError(wlan))
-    return wlan
-
-def _close_handle(client_handle):
-    '''
-    The WlanCloseHandle method closes the connection to the server.
-    '''
-    wlan = WlanCloseHandle(client_handle,
-                            None)
+       exit(FormatError(wlan))
+    pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
+    
+    wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         exit(FormatError(wlan))
-    return wlan
-
-def _connect():
-    '''
-    Attempts to connect to a specific network.
-    '''
-    client_handle = open_handle()
-    ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
-                          pInterfaceList.contents.NumberOfItems)
-    wlan = WlanConnect()
-    '''
-    Work left to do.
-    '''
-    if wlan:
-        exit(FormatError(wlan))
-
-def _disconnect():
-    '''
-    To disconnect an interface form the current network.
-    '''
-    h_client_handle = open_handle()
-    #h_client_handle = HANDLE()
-    p_interface_guid = GUID()
-    wlan = WlanDisconnect(h_client_handle,
-                          byref(p_interface_guid),
-                          None)
-    if wlan:
-        exit(FormatError(wlan))
-    close_handle(h_client_handle)
+    try:
+        ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
+                              pInterfaceList.contents.NumberOfItems)
+        # find each available network for each interface
+        for iface in ifaces:
+            print iface.isState
+            wlan = WlanDisconnect(ClientHandle,
+                                  byref(iface.InterfaceGuid),
+                                  None)
+            if wlan:
+                exit(FormatError(wlan))
+            WlanCloseHandle(ClientHandle)
+    finally:
+        WlanFreeMemory(pInterfaceList)
+        
+        return get_available_wifi()
 
 def _start_scanning():
     '''
     Private method for scanning and returns the available devices.
     '''
     global available
+    global wireless_interfaces
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
@@ -296,6 +343,7 @@ def _start_scanning():
         ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
                               pInterfaceList.contents.NumberOfItems)
         # find each available network for each interface
+        wireless_interfaces = ifaces
         for iface in ifaces:
             pAvailableNetworkList = pointer(WLAN_AVAILABLE_NETWORK_LIST())
             wlan = WlanGetAvailableNetworkList(ClientHandle, 
@@ -311,16 +359,19 @@ def _start_scanning():
                                         avail_net_list.NumberOfItems)
                 # Assigning the value of networks to the global variable
                 # `available`, so it could be used in other methods.
-                available = networks
+                available = networks            
                 _make_dict()
+                wlan = WlanDisconnect(ClientHandle,
+                          byref(iface.InterfaceGuid),
+                          None)
+                if wlan:
+                    exit(FormatError(wlan))
+                WlanCloseHandle(ClientHandle)
             finally:
                 WlanFreeMemory(pAvailableNetworkList)
     finally:
         WlanFreeMemory(pInterfaceList)
         return get_available_wifi()
-
-def _stop_scanning():
-    return
 
 def _get_network_info(name):
     global available
@@ -368,29 +419,20 @@ def _disable():
 def is_enabled():
     return _is_enabled()
 
-def open_handle():
-    return _open_handle()
-
-def close_handle(client_handle):
-    return _close_handle(client_handle=client_handle)
-
 def enable():
     _enable()
 
 def disable():
     _disable()
 
-def connect():
-    _connect()
+def connect(network, parameters):
+    _connect(network=network, parameters=parameters)
 
 def disconnect():
     _disconnect()
 
 def start_scanning():
     return _start_scanning()
-
-def stop_scanning():
-    _stop_scanning()
 
 def get_network_info(name):
     return _get_network_info(name=name)

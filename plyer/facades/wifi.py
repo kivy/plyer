@@ -26,13 +26,6 @@ class Wifi(object):
         '''
         self._start_scanning()
 
-    def stop_scanning(self):
-        '''
-        Turn off scanning.
-            Note: Access not provided by Apple.
-        '''
-        self._stop_scanning()
-
     def get_network_info(self, name):
         '''
         Return a dictionary of secified network.
@@ -45,11 +38,11 @@ class Wifi(object):
         '''
         self._get_available_wifi()
 
-    def connect(self, network_name, password):
+    def connect(self, network, parameters):
         '''
         Method to connect to some network.
         '''
-        self._connect(network_name=network_name, password=password)
+        self._connect(network=network, parameters=parameters)
 
     def disconnect(self):
         '''
@@ -69,9 +62,6 @@ class Wifi(object):
         raise NotImplementedError()
 
     def _start_scanning(self):
-        raise NotImplementedError()
-
-    def _stop_scanning(self):
         raise NotImplementedError()
 
     def _get_network_info(self, **kwargs):

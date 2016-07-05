@@ -109,25 +109,20 @@ class OSXWifi(Wifi):
             self.names[scan.allObjects().objectAtIndex_(i).ssid.UTF8String()] \
                        = scan.allObjects().objectAtIndex_(i)
 
-    def _stop_scanning(self):
-        '''
-        Can't stop scanning, API not provided by Apple.
-        '''
-        return
-
     def _get_available_wifi(self):
         '''
         Returns the name of available networks.
         '''
         return self.names.keys()
 
-    def _connect(self, network_name, password):
+    def _connect(self, network, parameters):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
-            - password
+            - password: dict type
         '''
-        network_object = self.names[network_name]
+        password = parameters.get('password')
+        network_object = self.names[network]
         CWInterface.interface().associateToNetwork_password_error_(
             network_object,
             password,
