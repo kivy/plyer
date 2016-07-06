@@ -109,18 +109,20 @@ class OSXWifi(Wifi):
             - name/ssid of the network.
             - password: dict type
         '''
-        password = parameters.get('password')
+        password = parameters['password']
         network_object = self.names[network]
         CWInterface.interface().associateToNetwork_password_error_(
             network_object,
             password,
             None)
+        return
 
     def _disconnect(self):
         '''
         Disconnect from network.
         '''
         CWInterface.interface().disassociate()
+        return
 
 
 def instance():

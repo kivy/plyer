@@ -5,15 +5,16 @@ try:
     import wifi
 except ImportError:
     sys.stderr.write("python-wifi not installed. try:"
-                         "`sudo pip install wifi`.")
+                     "`sudo pip install wifi`.")
     return Wifi()
+
 
 class LinuxWifi(Wifi):
     names = {}
 
     def _is_enabled():
         '''
-        TODO: Inplement this in future.
+        TODO: Implement this in future.
         '''
         return
 
@@ -24,8 +25,7 @@ class LinuxWifi(Wifi):
         list_ = wifi.Cell.all('wlan0')
         for i in range(len(list_)):
             self.names[list_[i].ssid] = list_[i]
-        return self.names.keys()
-              
+
     def _get_network_info(self, name):
         '''
         Starts scanning for available Wi-Fi networks and returns the available,
@@ -71,6 +71,7 @@ class LinuxWifi(Wifi):
         Disconnect all the networks managed by Network manager.
         '''
         return call(['nmcli', 'nm', 'enable', 'false'])
+
 
 def instance():
     return LinuxWifi()

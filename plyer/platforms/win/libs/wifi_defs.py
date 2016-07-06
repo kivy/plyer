@@ -9,6 +9,7 @@ from ctypes import *
 from ctypes.wintypes import *
 from sys import exit
 
+
 def customresize(array, new_size):
     return (array._type_*new_size).from_address(addressof(array))
 
@@ -71,44 +72,44 @@ DOT11_BSS_TYPE = c_uint
 
 # The DOT11_PHY_TYPE enumeration defines an 802.11 PHY and media type.
 DOT11_PHY_TYPE = c_uint
-dot11_phy_type_unknown      = 0
-dot11_phy_type_any          = 0
-dot11_phy_type_fhss         = 1
-dot11_phy_type_dsss         = 2
-dot11_phy_type_irbaseband   = 3
-dot11_phy_type_ofdm         = 4
-dot11_phy_type_hrdsss       = 5
-dot11_phy_type_erp          = 6
-dot11_phy_type_ht           = 7
-dot11_phy_type_IHV_start    = 0x80000000
-dot11_phy_type_IHV_end      = 0xffffffff 
+dot11_phy_type_unknown = 0
+dot11_phy_type_any = 0
+dot11_phy_type_fhss = 1
+dot11_phy_type_dsss = 2
+dot11_phy_type_irbaseband = 3
+dot11_phy_type_ofdm = 4
+dot11_phy_type_hrdsss = 5
+dot11_phy_type_erp = 6
+dot11_phy_type_ht = 7
+dot11_phy_type_IHV_start = 0x80000000
+dot11_phy_type_IHV_end = 0xffffffff
 
 # The DOT11_AUTH_ALGORITHM enumerated type defines a wireless
-# LAN authentication algorithm. 
+# LAN authentication algorithm.
 DOT11_AUTH_ALGORITHM = c_uint
-DOT11_AUTH_ALGO_80211_OPEN         = 1
-DOT11_AUTH_ALGO_80211_SHARED_KEY   = 2
-DOT11_AUTH_ALGO_WPA                = 3
-DOT11_AUTH_ALGO_WPA_PSK            = 4
-DOT11_AUTH_ALGO_WPA_NONE           = 5
-DOT11_AUTH_ALGO_RSNA               = 6
-DOT11_AUTH_ALGO_RSNA_PSK           = 7
-DOT11_AUTH_ALGO_IHV_START          = 0x80000000
-DOT11_AUTH_ALGO_IHV_END            = 0xffffffff
+DOT11_AUTH_ALGO_80211_OPEN = 1
+DOT11_AUTH_ALGO_80211_SHARED_KEY = 2
+DOT11_AUTH_ALGO_WPA = 3
+DOT11_AUTH_ALGO_WPA_PSK = 4
+DOT11_AUTH_ALGO_WPA_NONE = 5
+DOT11_AUTH_ALGO_RSNA = 6
+DOT11_AUTH_ALGO_RSNA_PSK = 7
+DOT11_AUTH_ALGO_IHV_START = 0x80000000
+DOT11_AUTH_ALGO_IHV_END = 0xffffffff
 
 # The DOT11_CIPHER_ALGORITHM enumerated type defines a cipher
 # algorithm for data encryption and decryption.
 DOT11_CIPHER_ALGORITHM = c_uint
-DOT11_CIPHER_ALGO_NONE            = 0x00
-DOT11_CIPHER_ALGO_WEP40           = 0x01
-DOT11_CIPHER_ALGO_TKIP            = 0x02
-DOT11_CIPHER_ALGO_CCMP            = 0x04
-DOT11_CIPHER_ALGO_WEP104          = 0x05
-DOT11_CIPHER_ALGO_WPA_USE_GROUP   = 0x100
-DOT11_CIPHER_ALGO_RSN_USE_GROUP   = 0x100
-DOT11_CIPHER_ALGO_WEP             = 0x101
-DOT11_CIPHER_ALGO_IHV_START       = 0x80000000
-DOT11_CIPHER_ALGO_IHV_END         = 0xffffffff 
+DOT11_CIPHER_ALGO_NONE = 0x00
+DOT11_CIPHER_ALGO_WEP40 = 0x01
+DOT11_CIPHER_ALGO_TKIP = 0x02
+DOT11_CIPHER_ALGO_CCMP = 0x04
+DOT11_CIPHER_ALGO_WEP104 = 0x05
+DOT11_CIPHER_ALGO_WPA_USE_GROUP = 0x100
+DOT11_CIPHER_ALGO_RSN_USE_GROUP = 0x100
+DOT11_CIPHER_ALGO_WEP = 0x101
+DOT11_CIPHER_ALGO_IHV_START = 0x80000000
+DOT11_CIPHER_ALGO_IHV_END = 0xffffffff
 
 
 class DOT11_SSID(Structure):
@@ -127,7 +128,7 @@ WLAN_CONNECTION_MODE = c_uint
  wlan_connection_mode_discovery_secure,
  wlan_connection_mode_discovery_unsecure,
  wlan_connection_mode_auto,
- wlan_connection_mode_invalid) = map(WLAN_CONNECTION_MODE, xrange(0,6))
+ wlan_connection_mode_invalid) = map(WLAN_CONNECTION_MODE, xrange(0, 6))
 
 
 class NDIS_OBJECT_HEADER(Structure):
@@ -172,7 +173,7 @@ WlanConnect = wlanapi.WlanConnect
 WlanConnect.argtypes = (HANDLE,
                         POINTER(GUID),
                         POINTER(WLAN_CONNECTION_PARAMETERS),
-                        c_void_p) 
+                        c_void_p)
 WlanConnect.restype = DWORD
 
 # The `WlanDisconnect` method disconnects an interface from its
@@ -231,7 +232,7 @@ class WLAN_AVAILABLE_NETWORK_LIST(Structure):
 # currently enabled on the local computer.
 WlanEnumInterfaces = wlanapi.WlanEnumInterfaces
 WlanEnumInterfaces.argtypes = (HANDLE,
-                               c_void_p, 
+                               c_void_p,
                                POINTER(POINTER(WLAN_INTERFACE_INFO_LIST)))
 WlanEnumInterfaces.restype = DWORD
 
@@ -241,7 +242,7 @@ WlanGetAvailableNetworkList = wlanapi.WlanGetAvailableNetworkList
 WlanGetAvailableNetworkList.argtypes = (HANDLE,
                                         POINTER(GUID),
                                         DWORD,
-                                        c_void_p, 
+                                        c_void_p,
                                         POINTER(POINTER(
                                             WLAN_AVAILABLE_NETWORK_LIST)))
 WlanGetAvailableNetworkList.restype = DWORD
@@ -256,6 +257,7 @@ _dict = {}
 
 # Private methods.
 
+
 def _connect(network, parameters):
     '''
     Attempts to connect to a specific network.
@@ -263,7 +265,6 @@ def _connect(network, parameters):
     print network
     global _dict
     wireless_interface = _dict[network]
-
 
     c_params = parameters
     wcp = WLAN_CONNECTION_PARAMETERS()
@@ -298,16 +299,16 @@ def _connect(network, parameters):
     ClientHandle = HANDLE()
 
     wlan = WlanOpenHandle(1,
-                         None,
-                         byref(NegotiatedVersion),
-                         byref(ClientHandle))
+                          None,
+                          byref(NegotiatedVersion),
+                          byref(ClientHandle))
     if wlan:
-       exit(FormatError(wlan))
+        exit(FormatError(wlan))
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         exit(FormatError(wlan))
-    
+
     try:
         wlan = WlanConnect(ClientHandle,
                            wireless_interface,
@@ -319,6 +320,7 @@ def _connect(network, parameters):
     finally:
         WlanFreeMemory(pInterfaceList)
 
+
 def _disconnect():
     '''
     To disconnect an interface form the current network.
@@ -327,13 +329,13 @@ def _disconnect():
     ClientHandle = HANDLE()
 
     wlan = WlanOpenHandle(1,
-                         None,
-                         byref(NegotiatedVersion),
-                         byref(ClientHandle))
+                          None,
+                          byref(NegotiatedVersion),
+                          byref(ClientHandle))
     if wlan:
-       exit(FormatError(wlan))
+        exit(FormatError(wlan))
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
-    
+
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         exit(FormatError(wlan))
@@ -351,8 +353,9 @@ def _disconnect():
             WlanCloseHandle(ClientHandle)
     finally:
         WlanFreeMemory(pInterfaceList)
-        
+
         return get_available_wifi()
+
 
 def _start_scanning():
     '''
@@ -364,11 +367,11 @@ def _start_scanning():
     ClientHandle = HANDLE()
 
     wlan = WlanOpenHandle(1,
-                         None,
-                         byref(NegotiatedVersion),
-                         byref(ClientHandle))
+                          None,
+                          byref(NegotiatedVersion),
+                          byref(ClientHandle))
     if wlan:
-       exit(FormatError(wlan))
+        exit(FormatError(wlan))
     # find all wireless network interfaces
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
@@ -381,24 +384,24 @@ def _start_scanning():
         wireless_interfaces = ifaces
         for iface in ifaces:
             pAvailableNetworkList = pointer(WLAN_AVAILABLE_NETWORK_LIST())
-            wlan = WlanGetAvailableNetworkList(ClientHandle, 
-                                        byref(iface.InterfaceGuid),
-                                        0,
-                                        None,
-                                        byref(pAvailableNetworkList))
+            wlan = WlanGetAvailableNetworkList(ClientHandle,
+                                               byref(iface.InterfaceGuid),
+                                               0,
+                                               None,
+                                               byref(pAvailableNetworkList))
             if wlan:
                 exit(FormatError(wlan))
             try:
                 avail_net_list = pAvailableNetworkList.contents
-                networks = customresize(avail_net_list.Network, 
+                networks = customresize(avail_net_list.Network,
                                         avail_net_list.NumberOfItems)
                 # Assigning the value of networks to the global variable
                 # `available`, so it could be used in other methods.
-                available = networks            
+                available = networks
                 _make_dict()
                 wlan = WlanDisconnect(ClientHandle,
-                          byref(iface.InterfaceGuid),
-                          None)
+                                      byref(iface.InterfaceGuid),
+                                      None)
                 if wlan:
                     exit(FormatError(wlan))
                 WlanCloseHandle(ClientHandle)
@@ -407,6 +410,7 @@ def _start_scanning():
     finally:
         WlanFreeMemory(pInterfaceList)
         return get_available_wifi()
+
 
 def _get_network_info(name):
     global available
@@ -429,6 +433,7 @@ def _get_network_info(name):
             "wlanNotConnectableReason": wlanNotConnectableReason,
             "wlanSignalQuality": wlanSignalQuality}
 
+
 def _make_dict():
     global available
     global _dict
@@ -436,29 +441,37 @@ def _make_dict():
     for network in available:
         _dict[str(network.dot11Ssid.SSID)] = network
 
+
 def _get_available_wifi():
     global _dict
     return _dict
+
 
 def _is_enabled():
     return
 
 # public methods.
 
+
 def is_enabled():
     return _is_enabled()
+
 
 def connect(network, parameters):
     _connect(network=network, parameters=parameters)
 
+
 def disconnect():
     _disconnect()
+
 
 def start_scanning():
     return _start_scanning()
 
+
 def get_network_info(name):
     return _get_network_info(name=name)
+
 
 def get_available_wifi():
     return _get_available_wifi()

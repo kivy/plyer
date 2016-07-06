@@ -1,6 +1,6 @@
 import plyer.platforms.win.libs.wifi_defs as wifi_lib
-#import libs.wifi_defs as wifi_lib
 from plyer.facades import Wifi
+
 
 class WindowWifi(Wifi):
 
@@ -8,10 +8,9 @@ class WindowWifi(Wifi):
 
     def _is_enabled(self):
         '''
-        Returns `True`if the Wifi is enables else `False`.
+        TODO: Implement this in future
         '''
-        return True
-        #return wifi_lib.is_enabled()
+        return
 
     def _get_network_info(self, name):
         '''
@@ -39,12 +38,15 @@ class WindowWifi(Wifi):
             - password
         '''
         wifi_lib.connect(network, parameters)
+        return
 
     def _disconnect(self):
         '''
         Disconnect from network.
         '''
         wifi_lib.disconnect()
+        return
+
 
 def instance():
     return WindowWifi()
