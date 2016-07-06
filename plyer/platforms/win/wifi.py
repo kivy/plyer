@@ -13,18 +13,6 @@ class WindowWifi(Wifi):
         return True
         #return wifi_lib.is_enabled()
 
-    def _enable(self):
-        '''
-        Method to turn on the Wi-Fi.
-        '''
-        wifi_lib.enable()
-
-    def _disable(self):
-        '''
-        Method to turn off the Wi-Fi.
-        '''
-        wifi_lib.disable()
-
     def _get_network_info(self, name):
         '''
         Returns all the network information.
@@ -57,7 +45,6 @@ class WindowWifi(Wifi):
         Disconnect from network.
         '''
         wifi_lib.disconnect()
-
 
 def instance():
     return WindowWifi()

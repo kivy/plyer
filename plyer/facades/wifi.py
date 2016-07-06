@@ -2,23 +2,11 @@ class Wifi(object):
     '''Wifi Facade.
     '''
 
-    def enable(self):
-        '''
-        Turn on wifi.
-        '''
-        self._enable()
-
     def is_enabled(self):
         '''
         Returns `True`if the Wifi is enables else `False`.
         '''
         return self._is_enabled()
-
-    def disable(self):
-        '''
-        Turn off wifi.
-        '''
-        self._disable()
 
     def start_scanning(self):
         '''
@@ -52,13 +40,7 @@ class Wifi(object):
 
     # private
 
-    def _enable(self):
-        raise NotImplementedError()
-
     def _is_enabled(self):
-        raise NotImplementedError()
-
-    def _disable(self):
         raise NotImplementedError()
 
     def _start_scanning(self):

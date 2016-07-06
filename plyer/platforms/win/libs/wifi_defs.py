@@ -23,6 +23,7 @@ class GUID(Structure):
         ('Data4', c_ubyte*8),
         ]
 
+# The WLAN_INTERFACE_STATE enumerated type indicates the state of an interface.
 WLAN_INTERFACE_STATE = c_uint
 (wlan_interface_state_not_ready,
  wlan_interface_state_connected,
@@ -34,20 +35,29 @@ WLAN_INTERFACE_STATE = c_uint
  wlan_interface_state_authenticating) = map(WLAN_INTERFACE_STATE,
                                             xrange(0, 8))
 
+
 class WLAN_INTERFACE_INFO(Structure):
+    '''
+    The WLAN_INTERFACE_STATE enumerated type indicates the state of an
+    interface.
+    '''
     _fields_ = [
         ("InterfaceGuid", GUID),
         ("strInterfaceDescription", c_wchar * 256),
         ("isState", WLAN_INTERFACE_STATE)
         ]
 
+
 class WLAN_INTERFACE_INFO_LIST(Structure):
+    '''
+    The WLAN_INTERFACE_INFO_LIST structure contains an array of NIC interface
+    information.
+    '''
     _fields_ = [
         ("NumberOfItems", DWORD),
         ("Index", DWORD),
         ("InterfaceInfo", WLAN_INTERFACE_INFO * 1)
         ]
-
 
 DOT11_MAC_ADDRESS = c_ubyte*6
 WLAN_MAX_PHY_TYPE_NUMBER = 0x8
@@ -102,6 +112,9 @@ DOT11_CIPHER_ALGO_IHV_END         = 0xffffffff
 
 
 class DOT11_SSID(Structure):
+    '''
+    A DOT11_SSID structure contains the SSID of an interface
+    '''
     _fields_ = [
         ("SSIDLength", c_ulong),
         ("SSID", c_char * DOT11_SSID_MAX_LENGTH)
@@ -116,6 +129,7 @@ WLAN_CONNECTION_MODE = c_uint
  wlan_connection_mode_auto,
  wlan_connection_mode_invalid) = map(WLAN_CONNECTION_MODE, xrange(0,6))
 
+
 class NDIS_OBJECT_HEADER(Structure):
     '''
     This Structure packages the object type, version, and size information
@@ -129,13 +143,22 @@ class NDIS_OBJECT_HEADER(Structure):
 
 
 class DOT11_BSSID_LIST(Structure):
+    '''
+    The DOT11_BSSID_LIST structure contains a list of basic service set (BSS)
+    identifiers.
+    '''
     _fields_ = [
         ("Header", NDIS_OBJECT_HEADER),
         ("uNumOfEntries", ULONG),
         ("uTotalNumOfEntries", ULONG),
         ("BSSIDs", DOT11_MAC_ADDRESS*1)]
 
+
 class WLAN_CONNECTION_PARAMETERS(Structure):
+    '''
+    The WLAN_CONNECTION_PARAMETERS structure specifies the parameters used when
+    using the WlanConnect function.
+    '''
     _fields_ = [
         ("wlanConnectionMode", WLAN_CONNECTION_MODE),
         ("strProfile", LPCWSTR),
@@ -143,7 +166,6 @@ class WLAN_CONNECTION_PARAMETERS(Structure):
         ("pDesiredBssidList", POINTER(DOT11_BSSID_LIST)),
         ("dot11BssType", DOT11_BSS_TYPE),
         ("dwFlags", DWORD)]
-
 
 # The `WlanConnect` attempts to connect to a specific network.
 WlanConnect = wlanapi.WlanConnect
@@ -173,6 +195,10 @@ WlanCloseHandle.restype = DWORD
 
 
 class WLAN_AVAILABLE_NETWORK(Structure):
+    '''
+    The WLAN_INTERFACE_INFO structure contains information about a wireless
+    LAN interface.
+    '''
     _fields_ = [
         ("ProfileName", c_wchar * 256),
         ("dot11Ssid", DOT11_SSID),
@@ -190,7 +216,12 @@ class WLAN_AVAILABLE_NETWORK(Structure):
         ("Flags", DWORD),
         ("Reserved", DWORD)]
 
+
 class WLAN_AVAILABLE_NETWORK_LIST(Structure):
+    '''
+    The WLAN_INTERFACE_INFO_LIST structure contains an array of NIC
+    interface information.
+    '''
     _fields_ = [
         ("NumberOfItems", DWORD),
         ("Index", DWORD),
@@ -204,6 +235,8 @@ WlanEnumInterfaces.argtypes = (HANDLE,
                                POINTER(POINTER(WLAN_INTERFACE_INFO_LIST)))
 WlanEnumInterfaces.restype = DWORD
 
+# The WlanGetAvailableNetworkList function retrieves the list of available
+# networks on a wireless LAN interface.
 WlanGetAvailableNetworkList = wlanapi.WlanGetAvailableNetworkList
 WlanGetAvailableNetworkList.argtypes = (HANDLE,
                                         POINTER(GUID),
@@ -213,6 +246,8 @@ WlanGetAvailableNetworkList.argtypes = (HANDLE,
                                             WLAN_AVAILABLE_NETWORK_LIST)))
 WlanGetAvailableNetworkList.restype = DWORD
 
+# The WlanFreeMemory function frees memory. Any memory returned from Native
+# Wifi functions must be freed.
 WlanFreeMemory = wlanapi.WlanFreeMemory
 WlanFreeMemory.argtypes = [c_void_p]
 
@@ -246,7 +281,7 @@ def _connect(network, parameters):
     wcp.pDot11Ssid = pointer(dot11Ssid)
 
     dot11bssid = DOT11_BSSID_LIST()
-    bssid = parameters["bssidList"]:
+    bssid = parameters["bssidList"]
     dot11bssid.Header = bssid['Header']
     dot11bssid.uNumOfEntries = bssid['uNumOfEntries']
     dot11bssid.uTotalNumOfEntries = bssid['uTotalNumOfEntries']
@@ -406,24 +441,12 @@ def _get_available_wifi():
     return _dict
 
 def _is_enabled():
-    return True
-
-def _enable():
-    pass
-
-def _disable():
-    pass
+    return
 
 # public methods.
 
 def is_enabled():
     return _is_enabled()
-
-def enable():
-    _enable()
-
-def disable():
-    _disable()
 
 def connect(network, parameters):
     _connect(network=network, parameters=parameters)

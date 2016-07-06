@@ -19,12 +19,6 @@ Builder.load_string('''
         spacing: 20
         size_hint: 1,.4
         Button:
-            text: "Turn on"
-            on_release: root.enable_wifi()
-        Button:
-            text: "Turn off"
-            on_release: root.disable_wifi()
-        Button:
             text: "Disconnect"
             on_release: root.disconnect()
         TextInput:
@@ -78,12 +72,6 @@ class WifiInterface(BoxLayout):
             size_hint=(.8, 1),
             auto_dismiss=True
         )
-
-    def enable_wifi(self):
-        wifi.enable()
-
-    def disable_wifi(self):
-        wifi.disable()
 
     def start_wifi(self):
         wifi_button = self.ids['wifi_button']

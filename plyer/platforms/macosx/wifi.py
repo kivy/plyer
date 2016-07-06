@@ -22,18 +22,6 @@ class OSXWifi(Wifi):
         '''
         return CWWiFiClient.sharedWiFiClient().interface().powerOn()
 
-    def _enable(self):
-        '''
-        Method to turn on the Wi-Fi.
-        '''
-        CWInterface.interface().setPower_error_(True, None)
-
-    def _disable(self):
-        '''
-        Method to turn off the Wi-Fi.
-        '''
-        CWInterface.interface().setPower_error_(False, None)
-
     def _get_network_info(self, name):
         '''
         Returns all the network information.
