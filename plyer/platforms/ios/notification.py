@@ -4,6 +4,10 @@ iOS Notification
 
 from plyer.facades import Notification
 from pyobjus import autoclass
+from pyobjus.dylib_manager import load_framework, INCLUDE
+
+load_framework(INCLUDE.Foundation)
+# load_framework('/System/Library/Frameworks/Foundation.framework')
 
 UILocalNotification = autoclass('UILocalNotification')
 UIUserNotificationSettings = autoclass('UIUserNotificationSettings')
@@ -34,23 +38,16 @@ class IosNotification(Notification):
         local_noti.applicationIconBadgeNumber = 10
 
         if UIDevice.currentDevice().systemVersion.floatValue < 8.0:
-            UIApplication.sharedApplication() \
-                .scheduleLocalNotification_(local_noti)
-            return
+            return UIApplication.sharedApplication().scheduleLocalNotification_(local_noti)
 
         # settings = UIUserNotificationSettings.settingsForTypes_categories_(0 | 1 << 0 | 1 << 1 | 1 << 2,
         #                                                                    None)
-        settings = UIUserNotificationSettings \
-            .settingsForUserNotificationTypes_userNotificationActionSettings_(0 | 1 << 0 | 1 << 1 | 1 << 2,
-                                                                              None)
-        UIApplication.sharedApplication() \
-            .registerUserNotificationSettings_(settings)
-        UIApplication.sharedApplication() \
-            .registerForRemoteNotifications(settings)
-        # UIApplication.sharedApplication() \
-        #    .presentLocalNotificationNow_(local_noti)
-        UIApplication.sharedApplication() \
-            .scheduleLocalNotification_(local_noti)
+        settings = UIUserNotificationSettings.settingsForUserNotificationTypes_userNotificationActionSettings_(0 | 1 << 0 | 1 << 1 | 1 << 2,
+                                                                                                               None)
+        UIApplication.sharedApplication().registerUserNotificationSettings_(settings)
+        UIApplication.sharedApplication().registerForRemoteNotifications(settings)
+        # UIApplication.sharedApplication().presentLocalNotificationNow_(local_noti)
+        return UIApplication.sharedApplication().scheduleLocalNotification_(local_noti)
 
 
 def instance():
