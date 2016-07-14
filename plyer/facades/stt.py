@@ -177,6 +177,21 @@ class STT(object):
 
         return self._exist()
 
+    def set_commands(self):
+        '''
+        '''
+        self._set_commands()
+
+    def display_commands_title(self):
+        '''
+        '''
+        self._display_commands_title()
+
+    def display_commands(self):
+        '''
+        '''
+        self._display_commands()
+
     # private methods
     def _start(self):
         raise NotImplementedError
@@ -186,3 +201,12 @@ class STT(object):
 
     def _exist(self):
         raise NotImplementedError
+
+    def _set_commands(self, **kwargs):
+        raise NotImplementedError()
+
+    def _display_commands_title(self, **kwargs):
+        raise NotImplementedError()
+
+    def _display_commands(self, **kwargs):
+        raise NotImplementedError()
