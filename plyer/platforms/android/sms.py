@@ -16,7 +16,7 @@ Context = autoclass('android.content.Context')
 Intent = autoclass('android.content.Intent')
 IntentFilter = autoclass('android.content.IntentFilter')
 uri = autoclass('android.net.Uri')
-Bundle =  autoclass('android.os.Bundle')
+Bundle = autoclass('android.os.Bundle')
 PythonActivity = autoclass('org.renpy.android.PythonActivity')
 GenericBroadcastReceiver = autoclass(
     'org.renpy.android.GenericBroadcastReceiver'
@@ -26,8 +26,8 @@ SmsManager = autoclass('android.telephony.SmsManager')
 
 
 class AndroidSms(Sms):
-    phonenumber = 0
-    msgreceived = ''
+    phonenumber = None
+    msgreceived = None
 
     def _send(self, **kwargs):
         sms = SmsManager.getDefault()
@@ -39,7 +39,7 @@ class AndroidSms(Sms):
             sms.sendTextMessage(recipient, None, message, None, None)
 
     class BroadcastReceiver(PythonJavaClass):
-        '''Private class for receiving results from wifi manager.'''
+        '''Private class for receiving results from Sms manager.'''
         __javainterfaces__ = [
             'org/renpy/android/GenericBroadcastReceiverCallback'
         ]
@@ -71,6 +71,7 @@ class AndroidSms(Sms):
                 traceback.print_exc()
 
     def _get_message(self):
+        return "sdfsdfsd"
         return self.msgreceived
 
     def _get_phonenumber(self):

@@ -3,7 +3,8 @@ class Sms(object):
 
     .. note::
 
-        On Android your app needs the following permission to achieve desired task.
+        On Android your app needs the following permission to achieve desired
+        task.
 
         - SEND_SMS: permission in order to send sms messages.
 
@@ -16,8 +17,22 @@ class Sms(object):
     def send(self, recipient, message):
         self._send(recipient=recipient, message=message)
 
+    @property
+    def phonenumber(self):
+        '''
+        Get the number of the sender.
+        '''
+        return self.get_phonenumber()
+
     def get_phonenumber(self):
         self._get_phonenumber()
+
+    @property
+    def message(self):
+        '''
+        Get the Number of the sender.
+        '''
+        return self.get_message()
 
     def get_message(self):
         self._get_message()

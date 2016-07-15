@@ -27,8 +27,11 @@ class SmsInterface(BoxLayout):
 
     def __init__(self, **kwargs):
         super(SmsInterface, self).__init__(**kwargs)
-        self.sms_message = sms.get_message()
-        self.sms_phonenumber = str(sms.get_phonenumber())
+        try:
+            self.sms_message = sms.message
+            self.sms_phonenumber = str(sms.phonenumber)
+        except:
+            pass
 
 
 class SmsApp(App):
