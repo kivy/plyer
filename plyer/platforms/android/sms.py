@@ -6,7 +6,6 @@ Android SMS
 from jnius import autoclass
 from plyer.facades import Sms
 from jnius import autoclass, cast
-from plyer.facades import Sharing
 from plyer.platforms.android import activity
 from jnius import PythonJavaClass
 from jnius import java_method
