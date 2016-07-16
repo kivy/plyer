@@ -1,6 +1,6 @@
 from jnius import autoclass
 
-from plyer.facades.audio import Audio
+from plyer.facades import Audio
 
 # Recorder Classes
 MediaRecorder = autoclass('android.media.MediaRecorder')
@@ -52,6 +52,9 @@ class AndroidAudio(Audio):
         self._player.setDataSource(self.file_path)
         self._player.prepare()
         self._player.start()
+
+    def _pause(self):
+        pass
 
 
 def instance():
