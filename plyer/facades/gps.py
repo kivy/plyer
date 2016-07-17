@@ -45,10 +45,14 @@ class GPS(object):
         self.on_status = on_status
         self._configure()
 
-    def start(self):
-        '''Start the GPS location updates.
+    def start(self, minTime=1000, minDistance=1):
         '''
-        self._start()
+        Start the GPS location updates.
+        Expects 2 parameters:
+            minTime: milliseconds.  (float)
+            minDistance: meters. (float)
+        '''
+        self._start(minTime=minTime, minDistance=minDistance)
 
     def stop(self):
         '''Stop the GPS location updates.
@@ -60,7 +64,7 @@ class GPS(object):
     def _configure(self):
         raise NotImplementedError()
 
-    def _start(self):
+    def _start(self, **kwargs):
         raise NotImplementedError()
 
     def _stop(self):

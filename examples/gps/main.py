@@ -22,7 +22,8 @@ BoxLayout:
         ToggleButton:
             text: 'Start' if self.state == 'normal' else 'Stop'
             on_state:
-                app.gps.start() if self.state == 'down' else app.gps.stop()
+                app.gps.start(1000, 0) if self.state == 'down' else \
+                app.gps.stop()
 '''
 
 
