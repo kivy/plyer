@@ -1,18 +1,20 @@
-from pyobjus import autoclass, objc_arr, objc_str, protocol, selector
 from pyobjus.dylib_manager import load_framework, INCLUDE
 from plyer.facades import Audio
+from pyobjus import *
+from pyobjus.objc_py_types import enum
 load_framework(INCLUDE.AVFoundation)
+load_framework(INCLUDE.CoreAudio)
 AVAudioRecorder = autoclass('AVAudioRecorder')
 NSURL = autoclass('NSURL')
 NSMutableDictionary = autoclass('NSMutableDictionary')
 NSString = autoclass('NSString')
 
 
-class IosAudio(Audio):
+class OSXAudio(Audio):
 
     def __init__(self, file_path=None):
-        default_path = './testrecorder.3gp'
-        super(IosAudio, self).__init__(file_path or default_path)
+        default_path = '/Users/kuldeepsingh/Documents/plyer_audio/'
+        super(OSXAudio, self).__init__(file_path or default_path)
 
     def _start(self):
         url = NSURL.alloc().initWithString_(objc_str(self.file_path))
@@ -103,4 +105,4 @@ class IosAudio(Audio):
 
 
 def instance():
-    return IosAudio()
+    return OSXAudio()
