@@ -64,13 +64,12 @@ class AndroidGPS(GPS):
     def _start(self, **kwargs):
         min_time = kwargs.get('minTime')
         min_distance = kwargs.get('minDistance')
-        # XXX defaults should be configurable by the user, later
         providers = self._location_manager.getProviders(False).toArray()
         for provider in providers:
             self._location_manager.requestLocationUpdates(
                 provider,
                 1000,  # minTime, in milliseconds
-                0,  # minDistance, in meters
+                1,  # minDistance, in meters
                 self._location_listener,
                 Looper.getMainLooper())
 
