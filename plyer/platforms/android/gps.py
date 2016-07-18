@@ -68,8 +68,8 @@ class AndroidGPS(GPS):
         for provider in providers:
             self._location_manager.requestLocationUpdates(
                 provider,
-                1000,  # minTime, in milliseconds
-                1,  # minDistance, in meters
+                min_time,  # minTime, in milliseconds
+                min_distance,  # minDistance, in meters
                 self._location_listener,
                 Looper.getMainLooper())
 
