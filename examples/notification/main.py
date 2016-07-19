@@ -2,9 +2,6 @@ from os.path import dirname
 from os.path import join
 from os.path import realpath
 
-import kivy
-kivy.require('1.8.0')
-
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
@@ -39,6 +36,12 @@ class NotificationDemo(BoxLayout):
 class NotificationDemoApp(App):
     def build(self):
         return NotificationDemo()
+
+    def on_resume(self):
+        pass
+
+    def on_pause(self):
+        return True
 
 
 if __name__ == '__main__':
