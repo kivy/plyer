@@ -39,7 +39,7 @@ class GpsTest(App):
         except NotImplementedError:
             import traceback
             traceback.print_exc()
-            gps_status = 'GPS is not implemented for your platform'
+            self.gps_status = 'GPS is not implemented for your platform'
 
         return Builder.load_string(kv)
 
@@ -51,12 +51,12 @@ class GpsTest(App):
 
     @mainthread
     def on_location(self, **kwargs):
-        gps_location = '\n'.join([
+        self.gps_location = '\n'.join([
             '{}={}'.format(k, v) for k, v in kwargs.items()])
 
     @mainthread
     def on_status(self, stype, status):
-        gps_status = 'type={}\n{}'.format(stype, status)
+        self.gps_status = 'type={}\n{}'.format(stype, status)
 
     def on_pause(self):
         gps.stop()
