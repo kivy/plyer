@@ -26,21 +26,21 @@ class AndroidNotification(Notification):
 
         self.j_context = context = PythonActivity.mActivity
 
-        stack_builder = StackBuilder.create(context)
-        stack_builder.addParentStack(activity.class)
+        #stack_builder = StackBuilder.create(context)
+        #stack_builder.addParentStack(activity.class)
 
         ring_tone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         result_intent = Intent(context, context.getClass()).addFlags(
                 Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        stack_builder.addNextIntent(result_intent)
+        #stack_builder.addNextIntent(result_intent)
 
         self._pending_intent = PendingIntent.getActivity(
             context, request_id,
             result_intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        self.lol = stack_builder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        #self._result_pending_intent = stack_builder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
         icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
 
@@ -52,9 +52,10 @@ class AndroidNotification(Notification):
         noti.setTicker(AndroidString(
             kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
-        noti.setAutoCancel(True)
+        #noti.setAutoCancel(True)
         noti.sound = ring_tone
         noti.setContentIntent(self._pending_intent)
+        # noti.setContentIntent(self._result_pending_intent)
 
 
         if SDK_INT >= 16:
