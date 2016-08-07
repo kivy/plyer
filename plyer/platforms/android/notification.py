@@ -28,14 +28,17 @@ class AndroidNotification(Notification):
         Generate Notification.
         '''
         try:
-            request_id = int(System.curretTimeMillis())
+            # request_id = int(System.curretTimeMillis())
+            request_id = 100
             # get a requestid for pending indent
         except Exception as e:
             raise Exception('Unable to get id', str(e))
 
         service = PythonService.mService
         # python service
-        intent = Intent(intent.ACTION_PROVIDER_CHANGED)
+        intent = Intent(Intent.ACTION_PROVIDER_CHANGED)
+
+        # org.test.notiexample.ACTION_SPEAK
         # Broadcast Action
 
         icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
@@ -53,7 +56,10 @@ class AndroidNotification(Notification):
             raise Exception('', str(e))
 
         if SDK_INT >= 16:
-            for name, icon in kwargs['buttons'].items():
+            print "buttons"
+            print kwargs['buttons']
+            for action, name, icon, callback in kwargs['buttons']:
+                action, name, icon, callback
                 pending_intent = PendingIntent.getBroadcast(service,
                                                             request_id,
                                                             intent,

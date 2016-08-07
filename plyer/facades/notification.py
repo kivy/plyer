@@ -3,7 +3,7 @@ class Notification(object):
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
-               timeout=10, ticker='', buttons={}):
+               timeout=10, ticker='', buttons=[]):
         '''Send a notification.
 
         :param title: Title of the notification
