@@ -70,7 +70,6 @@ class SysinfoInterface(BoxLayout):
     kernel_ = StringProperty()
     storage_ = StringProperty()
     screen_ = ListProperty()
-    password = "qwerty"
 
     def __init__(self, **kwargs):
         super(SysinfoInterface, self).__init__(**kwargs)
@@ -87,7 +86,7 @@ class SysinfoInterface(BoxLayout):
         self.get_manufacturer()
         self.get_kernel_version()
         self.get_storage_info()
-        self.get_screen_dimension()
+        self.get_screen_resolution()
 
     def get_model(self):
         self.model_ = sysinfo.model_info()
@@ -96,7 +95,7 @@ class SysinfoInterface(BoxLayout):
         self.platform_ = sysinfo.platform_info()
 
     def get_system(self):
-        self.system_ = sysinfo.system_info()
+        self.system_ = sysinfo.system_name()
 
     def get_processor(self):
         self.processor_ = sysinfo.processor_info()
@@ -120,8 +119,8 @@ class SysinfoInterface(BoxLayout):
     def get_storage_info(self):
         self.storage_ = sysinfo.storage_info()
 
-    def get_screen_dimension(self):
-        self.screen_ = sysinfo.screen_dimension()
+    def get_screen_resolution(self):
+        self.screen_ = sysinfo.screen_resolution()
 
 
 class SysinfoApp(App):

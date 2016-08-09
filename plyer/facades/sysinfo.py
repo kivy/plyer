@@ -6,9 +6,9 @@ class Sysinfo(object):
         # returns the model name.
         return self._model_info()
 
-    def system_info(self):
+    def system_name(self):
         # returns the name of system.
-        return self._system_info()
+        return self._system_name()
 
     def platform_info(self):
         # returns platform name including version.
@@ -42,16 +42,16 @@ class Sysinfo(object):
         # returns the storage capacity o fthe system.
         return self._storage_info()
 
-    def screen_dimension(self):
-        # returns the screen's dimension like 1200x980.
-        return self._screen_dimension()
+    def screen_resolution(self):
+        # returns the screen's resolution like 1200x980.
+        return self._screen_resolution()
 
     # private
 
     def _model_info(self):
         raise NotImplementedError()
 
-    def _system_info(self):
+    def _system_name(self):
         raise NotImplementedError()
 
     def _platform_info(self):
@@ -78,5 +78,5 @@ class Sysinfo(object):
     def _storage_info(self):
         raise NotImplementedError()
 
-    def _screen_dimension(self):
+    def _screen_resolution(self):
         raise NotImplementedError()
