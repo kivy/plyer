@@ -17,7 +17,12 @@ PythonActivity = autoclass('org.renpy.android.PythonActivity')
 class AndroidSharing(Sharing):
 
     def _share_text(self, **kwargs):
-
+        '''
+        This method is used to share text among applications.
+        Expects 2 parameters in kwargs:
+            - extra_subject: String
+            - extra_text: String
+        '''
         String = autoclass('java.lang.String')
         extra_text = kwargs.get('extra_text')
         extra_subject = kwargs.get('extra_subject')
@@ -34,7 +39,11 @@ class AndroidSharing(Sharing):
         _Activity.startActivity(intent)
 
     def _share_images(self, **kwargs):
-
+        '''
+        This metho is used to share one or multiple images.
+        Expects 1 parameter in kwargs:
+            - images: list
+        '''
         images = kwargs.get('images')
         imageUris = Arraylist()
         for i in range(len(images)):
@@ -50,7 +59,11 @@ class AndroidSharing(Sharing):
         _Activity.startActivity(intent)
 
     def _share_files(self, **kwargs):
-
+        '''
+        This method is used to share single or multiple files.
+        Expects 1 parameter in kwargs:
+            - files: list
+        '''
         files = kwargs.get('files')
         filesUris = Arraylist()
         for i in range(len(files)):
