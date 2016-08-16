@@ -15,3 +15,9 @@ venv
 .project
 .pydevproject
 .settings/
+
+# pycharm
+.idea/
+
+# osx
+*.dylib

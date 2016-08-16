@@ -1,0 +1,72 @@
+<DLabel@Label>:
+	size_hint: None, None
+	width: self.texture_size[0] + dp(12)
+	height: self.texture_size[1] + dp(10)
+
+<DeviceItem>:
+    orientation: 'lr-tb'
+    opacity: 1.0 - (max(0, root.seen - 10.) / 55.)
+    size_hint_y: None
+    height: self.minimum_height
+
+	canvas.before:
+		Color:
+			rgba: 0.2, 0, 0.6, (0.4 if self.odd else 0)
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+    DLabel:
+        text: 'Name: ' + root.name
+    DLabel:
+        text: 'UUID: ' + root.uuid
+    DLabel:
+        text: 'Beacon: ' + root.beacon
+	DLabel:
+		text: 'Services: ' + root.services
+    DLabel:
+        text: 'Type: ' + root.beacon_type
+    DLabel:
+        text: 'Distance: {:.2f}m'.format(root.distance)
+    DLabel:
+        text: 'Seen: {:d}s'.format(root.seen)
+    DLabel:
+        text: 'Age: {:d}s'.format(root.age)
+
+
+BoxLayout:
+    orientation: 'vertical'
+
+    Label:
+        size_hint_y: None
+        height: self.texture_size[1] + dp(8)
+        font_size: sp(48)
+        text: 'BLE Scanner'
+
+	BoxLayout:
+		size_hint_y: None
+		height: dp(48)
+
+		Label:
+			text: 'Peripheral State: {}'.format(app.peripheral_state)
+
+		Button:
+			text: 'Stop' if app.advertising else 'Advertise'
+			on_release: app.toggle_beacon()
+			disabled: not app.ble_peripheral_available
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(48)
+
+        Label:
+            text: 'Central State: {}'.format(app.central_state)
+
+        Button:
+            text: 'Stop' if app.scanning else 'Scan'
+            on_release: app.toggle_scan()
+            disabled: not app.ble_central_available
+
+    ListView:
+        id: listview
+        adapter: app.adapter
