@@ -57,7 +57,8 @@ class LinuxWifi(Wifi):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
-            - password
+            - parameters:
+                - password: dict type
         '''
         try:
             call(['nmcli', 'nm', 'enable', 'true'])

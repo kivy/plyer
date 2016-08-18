@@ -262,7 +262,6 @@ def _connect(network, parameters):
     '''
     Attempts to connect to a specific network.
     '''
-    print network
     global _dict
     wireless_interface = _dict[network]
 
@@ -344,7 +343,6 @@ def _disconnect():
                               pInterfaceList.contents.NumberOfItems)
         # find each available network for each interface
         for iface in ifaces:
-            print iface.isState
             wlan = WlanDisconnect(ClientHandle,
                                   byref(iface.InterfaceGuid),
                                   None)

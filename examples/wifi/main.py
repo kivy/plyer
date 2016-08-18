@@ -63,8 +63,6 @@ Builder.load_string('''
 
 class WifiInterface(BoxLayout):
 
-    password = " "
-
     def _create_popup(self, title, content):
         return Popup(
             title=title,

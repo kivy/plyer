@@ -35,7 +35,15 @@ class WindowWifi(Wifi):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
-            - password
+            - parameters: dict type
+                - bssidList
+                - Header
+                - uNumOfEntries
+                - uTotalNumOfEntries
+                - BSSIDs
+                - bssType
+                - flags
+                - password
         '''
         wifi_lib.connect(network, parameters)
         return
