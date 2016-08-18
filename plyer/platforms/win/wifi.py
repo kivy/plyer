@@ -20,7 +20,7 @@ class WindowWifi(Wifi):
             if item.NetworkAdapterId == adapter_id:
                 is_wifi_enabled = True
         return True/False
-         
+
         Returning True for now to make it work.
         '''
         return True
@@ -75,7 +75,8 @@ class WindowWifi(Wifi):
               `https://msdn.microsoft.com/en-us/library/windows/desktop/
               ms705996(v=vs.85).aspx`
               - Header
-                structure that contains the type, version, and, size information
+                structure that contains the type, version, and, size
+                information
                 of an NDIS structure.
                 - Type: NDSI_OBJECT_TYPE_DEFAULT
                 - Revision: DOT11_BSSID_LIST_REVISION_1
