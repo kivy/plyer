@@ -133,7 +133,8 @@ class WifiInterface(BoxLayout):
         wifi.disconnect()
 
     def connect(self, network_name, instance):
-        wifi.connect(network_name, self.ids['password'].text)
+        self.param['password'] = self.ids['password'].text
+        wifi.connect(network_name, self.param)
 
 
 class WifiApp(App):

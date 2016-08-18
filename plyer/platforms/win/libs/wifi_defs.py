@@ -276,8 +276,12 @@ def _connect(network, parameters):
         cnxp.strProfile = None
 
     dot11Ssid = DOT11_SSID()
-    dot11Ssid.SSID = parameters["ssid"]
-    dot11Ssid.SSIDLength = len(parameters["ssid"])
+    try:
+        dot11Ssid.SSID = parameters["ssid"]
+        dot11Ssid.SSIDLength = len(parameters["ssid"])
+    except:
+        dot11Ssid.SSID = network
+        dot11Ssid.SSIDLength = len(network)
     wcp.pDot11Ssid = pointer(dot11Ssid)
 
     dot11bssid = DOT11_BSSID_LIST()
@@ -411,6 +415,9 @@ def _start_scanning():
 
 
 def _get_network_info(name):
+    '''
+    returns the list of the network selected in a dict.
+    '''
     global available
     global _dict
 
@@ -433,6 +440,9 @@ def _get_network_info(name):
 
 
 def _make_dict():
+    '''
+    Prepares a dict so it could store network information.
+    '''
     global available
     global _dict
     _dict = {}
@@ -441,35 +451,60 @@ def _make_dict():
 
 
 def _get_available_wifi():
+    '''
+    returns the available wifi networks.
+    '''
     global _dict
     return _dict
 
 
 def _is_enabled():
-    return
+    '''
+    Reason for returning true is explained in widi facade.
+    /plyer/facades/wifi.py
+    '''
+    return True
 
 # public methods.
 
 
 def is_enabled():
+    '''
+    calls private method `_is_enabled` and returns the result.
+    '''
     return _is_enabled()
 
 
 def connect(network, parameters):
+    '''
+    Connect to a network with following parameters.
+    '''
     _connect(network=network, parameters=parameters)
 
 
 def disconnect():
+    '''
+    Disconnect from a network.
+    '''
     _disconnect()
 
 
 def start_scanning():
+    '''
+    Start scanning for available wifi networks available.
+    '''
     return _start_scanning()
 
 
 def get_network_info(name):
+    '''
+    return the wifi network info.
+    '''
     return _get_network_info(name=name)
 
 
 def get_available_wifi():
+    '''
+    return the available wifi networks available
+    '''
     return _get_available_wifi()
