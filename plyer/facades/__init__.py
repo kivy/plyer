@@ -30,3 +30,4 @@ from plyer.facades.tts import TTS
 from plyer.facades.uniqueid import UniqueID
 from plyer.facades.vibrator import Vibrator
 from plyer.facades.flash import Flash
+from plyer.facades.wifi import Wifi

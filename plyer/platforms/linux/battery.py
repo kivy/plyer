@@ -23,15 +23,15 @@ class LinuxBattery(Battery):
         if not output:
             return status
 
-        power_supply = percentage = None
+        state = percentage = None
         for l in output.splitlines():
-            if 'power supply' in l:
-                power_supply = l.rpartition(':')[-1].strip()
+            if 'state' in l:
+                state = l.rpartition(':')[-1].strip()
             if 'percentage' in l:
                 percentage = float(l.rpartition(':')[-1].strip()[:-1])
 
-        if(power_supply):
-            status['isCharging'] = power_supply != "yes"
+        if(state):
+            status['isCharging'] = state == "charging"
 
         status['percentage'] = percentage
 

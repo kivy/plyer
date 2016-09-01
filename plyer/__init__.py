@@ -71,3 +71,6 @@ vibrator = Proxy('vibrator', facades.Vibrator)
 
 #: Flash proxy to :class:`plyer.facades.Flash`
 flash = Proxy('flash', facades.Flash)
+
+#: Wifi proxy to :class:`plyer.facades.Wifi`
+wifi = Proxy('wifi', facades.Wifi)
