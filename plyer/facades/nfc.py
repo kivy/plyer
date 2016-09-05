@@ -1,6 +1,87 @@
+''' NFC facade.
+
+..  note::
+
+    Android:
+        NFC is supported by android for versions 4.0.x and above.
+        For NFC to work you need to make sure that NFC and Android Beam
+        (If available) is enabled on both devices and the screen is unlocked.
+
+        On Android your app needs the NFC permission.
+        For Beam, you also need READ_EXTERNAL_SORAGE permission.
+
+        Supported modes are:
+
+        - Reader/writer mode: This mode allows the NFC devices to read and/or
+            write passive NFC tags or stikers.
+
+        - P2P mode: This mode allows the NFC devices to exchange data with
+            other NFC peers, used by Android Beam.
+
+        - Card Emulation mode: This mode allows the NFC device itself to act
+            as an NFC card. The emulated NFC card can then be accessed by
+            external NFC reader, such as an NFC point-of-sale terminal.
+
+
+    OSX, iOS, Windows, Linux:
+        To be done in future.
+
+    - How to use?
+
+    One needs to register nfc modes by passing the following parameters in
+    nfc_register method.
+        - action_list: dict
+            {ndef, tech, tag, card, f-card}
+            ndef: ACTION_NDEF_DISCOVERED
+            tech: ACTION_TECH_DISCOVERED
+            tag: ACTION_TAG_DISCOVERED
+            card, f-card: for card emulation modes.
+
+            default value: {'ndef', 'tech', 'tag'}
+
+        - tech_list: dict
+            {all, IsoDep, NfcA, NfcB, NfcF, NfcV, Ndef, NfcBarcode,
+            NdefFormattable, Mifareclassic, MifareUltralight}
+
+            default value: {'all'}
+
+        - data_type: String
+            'text/plain'
+            'image/jpeg'
+            'image/*'
+            '*/*'
+            etc...
+
+            default value: '*/*'
+
+    - Records.
+
+        methods: create_record, read_record,
+
+    - Messages.
+
+        methods: read_ndef_message, enable_foreground_ndef_push,
+                 disable_foreground_ndef_push, create_ndef_message_bundle,
+                 get_message, set_message.
+
+    - Tag read and write mode.
+
+        methods: get_tag_mode, set_tag_mode.
+        property: tag_mode
+
+    - Beam mode.
+
+        methods: invoke_beam, nfc_beam, enable_reader_mode, disable_reader_mode
+
+'''
+
+
 class PyNdefRecord(object):
     '''
     Python implemetation of andriod NDefRecords.
+    There are 2 major uses when working with NDEF data and android.
+    - Reading NDEF data from an NFC tag.
+    - Beaming NDEF messages from 1 device to another using android beam.
     '''
 
     def create_application_record(self, payload):
@@ -116,12 +197,7 @@ class PyNdefRecord(object):
 
 
 class NFC(object):
-    ''' NFC facade.
-    .. note::
-        On Android your app needs the NFC permission.
 
-        For Beam, you also need READ_EXTERNAL_SORAGE permission.
-    '''
     NdefRecord = PyNdefRecord
 
     def nfc_register(self, tech_list, action_list, data_type):
@@ -149,7 +225,7 @@ class NFC(object):
         '''
         self._disable_foreground_dispatch(self)
 
-    def enable_foregroung_dispatch(self):
+    def enable_foreground_dispatch(self):
         '''
         enable foreground dispatch to the given activity.
         '''
@@ -183,7 +259,7 @@ class NFC(object):
         '''
         Write Android NDefRecord.
         '''
-        self._create_record()
+        self._create_record(ndef_type=ndef_type, payload=payload)
 
     def read_record(self):
         '''

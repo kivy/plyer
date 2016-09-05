@@ -15,7 +15,6 @@ JavaString = autoclass('java.lang.String')
 Arraylist = autoclass('java.util.ArrayList')
 Uri = autoclass('android.net.Uri')
 File = autoclass('java.io.File')
-# End Beam imports
 NdefRecord = autoclass('android.nfc.NdefRecord')
 NdefMessage = autoclass('android.nfc.NdefMessage')
 Tag = autoclass('android.nfc.Tag')
@@ -44,7 +43,7 @@ NfcFCardEmulation = autoclass('android.nfc.cardemulation.NfcFCardEmulation')
 class PyNdefRecord(NFC.NdefRecord):
     '''
     This class is to hide the details of how the NDefRecord is created.
-    User just needs to pass the payload and the ndef_type after creating
+    one just needs to pass the payload and the ndef_type after creating
     an instance and pass the expected parameters while calling the instance.
     '''
 
@@ -96,10 +95,14 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type
         '''
-        payload = kwargs.get('payload')
-        package_name = payload.get('package_name')
-        record = NdefRecord.createApplicationRecord(JavaString(package_name))
-        return record
+        try:
+            payload = kwargs.get('payload')
+            package_name = payload.get('package_name')
+            record = NdefRecord.createApplicationRecord(JavaString(
+                                                        package_name))
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_external(self, **kwargs):
         '''
@@ -112,26 +115,26 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        domain = payload.get('domain')
-        external_type = payload.get('external_type')
-        data = kwargs.get('data')
-        if BUILDVERSION > 16:
-            try:
+        try:
+            payload = kwargs.get('payload')
+            domain = payload.get('domain')
+            external_type = payload.get('external_type')
+            data = kwargs.get('data')
+            if BUILDVERSION > 16:
                 return NdefRecord.createExternal(JavaString(domain),
                                                  JavaString(external_type),
                                                  data)
-            except:
-                raise Exception('Either domain or type are empty or invaild.')
-        record = NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE,
-                            "{} + ':' + {}".format(JavaString(domain),
-                                                   JavaString(external_type)),
-                            '',
-                            payload)
-        try:
+            record = NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE,
+                                "{} + ':' + {}".format(JavaString(domain),
+                                                       JavaString(
+                                                        external_type)),
+                                '',
+                                payload)
+
             return record
-        except:
-            raise Exception('Either domain or type are empty or invaild.')
+        except Exception as e:
+            raise Exception('Either domain or type are empty or invaild.',
+                            str(e))
 
     def _create_mime(self, **kwargs):
         '''
@@ -143,17 +146,20 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        mime_type = payload.get('mime_type')
-        mime_data = payload.get('mime_data')
-        if BUILDVERSION > 16:
-            return NdefRecord.createMime(JavaString(mime_type),
-                                         mime_data)
-        record = NdefRecord(NdefRecord.TNF_MIME_MEDIA,
-                            JavaString(mime_type),
-                            '',
-                            mime_data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            mime_type = payload.get('mime_type')
+            mime_data = payload.get('mime_data')
+            if BUILDVERSION > 16:
+                return NdefRecord.createMime(JavaString(mime_type),
+                                             mime_data)
+            record = NdefRecord(NdefRecord.TNF_MIME_MEDIA,
+                                JavaString(mime_type),
+                                '',
+                                mime_data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_text_record(self, **kwargs):
         '''
@@ -165,23 +171,20 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        language_code = payload.get('language_code')
-        text = kwargs.get('text')
-        if BUILDVERSION > 21:
-            try:
+        try:
+            payload = kwargs.get('payload')
+            language_code = payload.get('language_code')
+            text = kwargs.get('text')
+            if BUILDVERSION > 21:
                 return NdefRecord.createTextRecord(JavaString(language_code),
                                                    JavaString(text))
-            except:
-                raise Exception('Either MIME type is empty or invalid.')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            language_code,
-                            '',
-                            text)
-        try:
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                language_code,
+                                '',
+                                text)
             return record
-        except:
-            raise Exception('Either MIME type is empty or invalid.')
+        except Exception as e:
+            raise Exception('Either MIME type is empty or invalid.', str(e))
 
     def _create_uri(self, **kwargs):
         '''
@@ -192,25 +195,26 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        uri = payload.get('uri')
-        if BUILDVERSION > 14:
-            try:
-                return NdefRecord.createUri(JavaString(uri))
-            except:
-                try:
-                    return NdefRecord.createUri(uri)
-                except:
-                    raise Exception('Either uri is empty or invalid.')
-
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_URI,
-                            '',
-                            uri)
         try:
+            payload = kwargs.get('payload')
+            uri = payload.get('uri')
+            if BUILDVERSION > 14:
+                try:
+                    return NdefRecord.createUri(JavaString(uri))
+                except:
+                    try:
+                        return NdefRecord.createUri(uri)
+                    except Exception as e:
+                        raise Exception('Either uri is empty or invalid.',
+                                        str(e))
+
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_URI,
+                                '',
+                                uri)
             return record
-        except:
-            raise Exception('Either uri is empty or invalid.')
+        except Exception as e:
+            raise Exception('Either uri is empty or invalid.', str(e))
 
     def _create_custom_record(self, **kwargs):
         '''
@@ -227,21 +231,21 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NdefRecord type.
         '''
-        payload = kwargs.get('payload')
-        tnf = payload.get('tnf')
-        record_type = payload.get('record_type')
-        record_id = payload.get('record_id')
-        data = payload.get('payload')
-
-        record = NdefRecord(tnf,
-                            record_type,
-                            record_id,
-                            data)
-
         try:
+            payload = kwargs.get('payload')
+            tnf = payload.get('tnf')
+            record_type = payload.get('record_type')
+            record_id = payload.get('record_id')
+            data = payload.get('payload')
+
+            record = NdefRecord(tnf,
+                                record_type,
+                                record_id,
+                                data)
+
             return record
-        except:
-            raise Exception('Either data is empty or Invalid.')
+        except Exception as e:
+            raise Exception('Either data is empty or Invalid.', str(e))
 
     def _create_RTD_ALTERNATIVE_CARRIER(self, **kwargs):
         '''
@@ -252,13 +256,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('alterative_carrier')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_ALTERNATIVE_CARRIER,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('alterative_carrier')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_ALTERNATIVE_CARRIER,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_RTD_HANDOVER_CARRIER(self, **kwargs):
         '''
@@ -269,13 +276,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('handover_carrier')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_HANDOVER_CARRIER,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('handover_carrier')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_HANDOVER_CARRIER,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_RTD_HANDOVER_REQUEST(self, **kwargs):
         '''
@@ -286,13 +296,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('handover_request')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_HANDOVER_REQUEST,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('handover_request')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_HANDOVER_REQUEST,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_RTD_HANDOVER_SELECT(self, **kwargs):
         '''
@@ -303,13 +316,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('handover_select')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_HANDOVER_SELECT,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('handover_select')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_HANDOVER_SELECT,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_RTD_SMART_POSTER(self, **kwargs):
         '''
@@ -320,13 +336,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('smart_poster')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_SMART_POSTER,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('smart_poster')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_SMART_POSTER,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
     def _create_RTD_TEXT(self, **kwargs):
         '''
@@ -337,13 +356,16 @@ class PyNdefRecord(NFC.NdefRecord):
 
         returns a NDefRecord type.
         '''
-        payload = kwargs.get('payload')
-        data = payload.get('text')
-        record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_TEXT,
-                            '',
-                            data)
-        return record
+        try:
+            payload = kwargs.get('payload')
+            data = payload.get('text')
+            record = NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_TEXT,
+                                '',
+                                data)
+            return record
+        except Exception as e:
+            raise Exception(str(e))
 
 
 class AndroidNFC(NFC):
@@ -383,42 +405,69 @@ class AndroidNFC(NFC):
             Intent(context, context.getClass()).addFlags(
                 Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
 
-        self.tech_list = kwargs.get('tech_list')
-        self.action_list = kwargs.get('action_list')
-        self.data_type = kwargs.get('data_type')
+        try:
+            self.tech_list = kwargs.get('tech_list')
+        except Exception as e:
+            raise Exception('Tech list error during nfc_register: ', str(e))
 
+        try:
+            self.action_list = kwargs.get('action_list')
+
+        except Exception as e:
+            raise Exception('Action list error during nfc register: ', str(e))
+
+        try:
+            self.data_type = kwargs.get('data_type')
+        except:
+            # Set the default value of self.data_type
+            if not self.data_type:
+                self.data_type = '*/*'
+
+        # Used for tag read and write.
         self.message = None
         self.tag_mode = 'read'
         self.tag_id = None
 
         self.ndef_exchange_filters = []
-        if 'ndef' in action_list:
-            self.ndef_detected = IntentFilter(
-                NfcAdapter.ACTION_NDEF_DISCOVERED)
-            self.ndef_detected.addDataType(self.data_type)
-            self.ndef_exchange_filters.append(self.ndef_detected)
+        try:
 
-        if 'tech' in action_list:
-            self.tech_detected = IntentFilter(
-                NfcAdapter.ACTION_TECH_DISCOVERED)
-            self.tech_detected.addDataType(self.data_type)
-            self.ndef_exchange_filters.append(self.tech_detected)
+            if not self.action_list:
+                # Set the default value of self.action_list
+                self.action_list = {'ndef', 'tech', 'tag'}
 
-        if 'tag' in action_list:
-            self.tag_detected = IntentFilter(
-                NfcAdapter.ACTION_TAG_DISCOVERED)
-            self.tag_detected.addDataType(self.data_type)
-            self.ndef_exchange_filters.append(self.tag_detected)
+            if 'ndef' in self.action_list:
+                self.ndef_detected = IntentFilter(
+                    NfcAdapter.ACTION_NDEF_DISCOVERED)
+                self.ndef_detected.addDataType(self.data_type)
+                self.ndef_exchange_filters.append(self.ndef_detected)
 
-        if 'card' in action_list:
-            self.card = NfcFCardEmulation.getInstance(self.nfc_adapter)
+            if 'tech' in self.action_list:
+                self.tech_detected = IntentFilter(
+                    NfcAdapter.ACTION_TECH_DISCOVERED)
+                self.tech_detected.addDataType(self.data_type)
+                self.ndef_exchange_filters.append(self.tech_detected)
 
-        if 'f-card' in action_list:
-            self.nfcf_card = NfcFCardEmulation.getInstance(self.nfc_adapter)
+            if 'tag' in self.action_list:
+                self.tag_detected = IntentFilter(
+                    NfcAdapter.ACTION_TAG_DISCOVERED)
+                self.tag_detected.addDataType(self.data_type)
+                self.ndef_exchange_filters.append(self.tag_detected)
+
+            if 'card' in self.action_list:
+                self.card = NfcFCardEmulation.getInstance(self.nfc_adapter)
+
+            if 'f-card' in self.action_list:
+                self.nfcf_card = NfcFCardEmulation.getInstance(
+                                                         self.nfc_adapter)
+
+        except Exception as e:
+            raise Exception('Invalid action given during nfc register.',
+                            str(e))
 
         self.ndef_tech_list = []
 
-        if 'all' in self.tech_list:
+        if 'all' in self.tech_list or not self.tech_list:
+            # Set the default value of self.tech_list if not given
             self.ndef_tech_list = [
                 ['android.nfc.tech.IsoDep'],
                 ['android.nfc.tech.NfcA'],
@@ -430,7 +479,6 @@ class AndroidNFC(NFC):
                 ['android.nfc.tech.NdefFormattable'],
                 ['android.nfc.tech.MifareClassic'],
                 ['android.nfc.tech.MifareUltralight']]
-
         else:
             for tech in self.tech_list:
                 self.ndef_tech_list.append(
