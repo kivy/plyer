@@ -7,7 +7,10 @@ class Flash(object):
     .. versionadded:: 1.2.5
 
     This can be used to activate the flash of your camera on
-    Android and iOS
+    Android and iOS.
+
+    Note: In android you need CAMERA, FLASHLIGHT permissions
+          to access flash.
     """
 
     def on(self):
@@ -21,7 +24,8 @@ class Flash(object):
         self._off()
 
     def release(self):
-        """Release any access to the Flash / Camera.
+        """
+        Release any access to the Flash / Camera.
         Call this when you're done using the Flash.
         This will release the Camera, and stop any process.
 

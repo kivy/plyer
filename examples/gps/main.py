@@ -22,7 +22,8 @@ BoxLayout:
         ToggleButton:
             text: 'Start' if self.state == 'normal' else 'Stop'
             on_state:
-                app.gps.start() if self.state == 'down' else app.gps.stop()
+                app.start(1000, 0) if self.state == 'down' else \
+                app.stop()
 '''
 
 
@@ -32,16 +33,21 @@ class GpsTest(App):
     gps_status = StringProperty('Click Start to get GPS location updates')
 
     def build(self):
-        self.gps = gps
         try:
-            self.gps.configure(on_location=self.on_location,
-                               on_status=self.on_status)
+            gps.configure(on_location=self.on_location,
+                          on_status=self.on_status)
         except NotImplementedError:
             import traceback
             traceback.print_exc()
             self.gps_status = 'GPS is not implemented for your platform'
 
         return Builder.load_string(kv)
+
+    def start(self, minTime, minDistance):
+        gps.start(minTime, minDistance)
+
+    def stop(self):
+        gps.stop()
 
     @mainthread
     def on_location(self, **kwargs):
@@ -51,6 +57,14 @@ class GpsTest(App):
     @mainthread
     def on_status(self, stype, status):
         self.gps_status = 'type={}\n{}'.format(stype, status)
+
+    def on_pause(self):
+        gps.stop()
+        return True
+
+    def on_resume(self):
+        gps.start(1000, 0)
+        pass
 
 if __name__ == '__main__':
     GpsTest().run()
