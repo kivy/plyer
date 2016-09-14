@@ -1,22 +1,18 @@
 from plyer.facades import Wifi
 from subprocess import Popen, PIPE, call, STDOUT
 
-try:
-    import wifi
-except ImportError:
-    sys.stderr.write("python-wifi not installed. try:"
-                     "`sudo pip install wifi`.")
-    return Wifi()
-
 
 class LinuxWifi(Wifi):
     names = {}
 
-    def _is_enabled():
+    def _is_enabled(self):
         '''
-        TODO: Implement this in future.
+        Returns `True` if wifi is enabled else `False`.
         '''
-        return
+        enbl = Popen(["nmcli", "radio", "wifi"], stdout=PIPE, stderr=PIPE)
+        if enbl.communicate()[0].split()[0] == "enabled":
+            return True
+        return False
 
     def _start_scanning(self):
         '''
@@ -75,4 +71,12 @@ class LinuxWifi(Wifi):
 
 
 def instance():
-    return LinuxWifi()
+    import sys
+    try:
+        import wifi
+        return LinuxWifi()
+    except ImportError:
+        sys.stderr.write("python-wifi not installed. try:"
+                         "`sudo pip install wifi`.")
+
+    return Wifi()
