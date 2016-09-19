@@ -16,7 +16,11 @@ class OSXUniqueID(UniqueID):
         ioreg_process.stdout.close()
         output = grep_process.communicate()[0]
 
-        environ['LANG'] = old_lang
+        if old_lang is None:
+            environ.pop('LANG')
+        else:
+            environ['LANG'] = old_lang
+
 
         if output:
             return output.split()[3][1:-1]
