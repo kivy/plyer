@@ -21,7 +21,6 @@ class OSXUniqueID(UniqueID):
         else:
             environ['LANG'] = old_lang
 
-
         if output:
             return output.split()[3][1:-1]
         else:
