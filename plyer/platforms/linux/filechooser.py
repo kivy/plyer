@@ -53,6 +53,8 @@ class SubprocessFileChooser(object):
             if ret is not None:
                 if ret == self.successretcode:
                     out = self._process.communicate()[0].strip()
+                    if isinstance(out, bytes):
+                        out = out.decode(encoding='utf_8', errors='strict')
                     self.selection = self._split_output(out)
                     return self.selection
                 else:
