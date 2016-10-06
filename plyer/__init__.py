@@ -7,7 +7,7 @@ Plyer
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
            'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
            'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'keystore')
+           'keystore', 'wifi')
 
 __version__ = '1.2.5dev'
 
@@ -71,3 +71,6 @@ vibrator = Proxy('vibrator', facades.Vibrator)
 
 #: Flash proxy to :class:`plyer.facades.Flash`
 flash = Proxy('flash', facades.Flash)
+
+#: Wifi proxy to :class:`plyer.facades.Wifi`
+wifi = Proxy('wifi', facades.Wifi)

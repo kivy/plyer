@@ -16,7 +16,7 @@ class IosGPS(GPS):
         if not hasattr(self, '_location_manager'):
             self._location_manager = CLLocationManager.alloc().init()
 
-    def _start(self):
+    def _start(self, **kwargs):
         self._location_manager.delegate = self
 
         self._location_manager.requestWhenInUseAuthorization()
