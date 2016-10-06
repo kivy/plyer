@@ -1,3 +1,16 @@
+'''
+    Note::
+        This facade depends on:
+        - nmcli (Network Manager command line tool)
+            It is found in most of the popular distros. Support for other
+            managers is not provided yet.
+
+        - python-wifi module
+            `https://wifi.readthedocs.io/en/latest/`
+            `https://github.com/rockymeza/wifi`
+
+'''
+
 from plyer.facades import Wifi
 from subprocess import Popen, PIPE, call, STDOUT
 
@@ -18,9 +31,12 @@ class LinuxWifi(Wifi):
         '''
         Returns all the network information.
         '''
-        list_ = wifi.Cell.all('wlan0')
-        for i in range(len(list_)):
-            self.names[list_[i].ssid] = list_[i]
+        if self._is_enabled():
+            list_ = wifi.Cell.all('wlan0')
+            for i in range(len(list_)):
+                self.names[list_[i].ssid] = list_[i]
+        else:
+            raise Exception('Wifi not enabled.')
 
     def _get_network_info(self, name):
         '''
@@ -77,6 +93,6 @@ def instance():
         return LinuxWifi()
     except ImportError:
         sys.stderr.write("python-wifi not installed. try:"
-                         "`sudo pip install wifi`.")
+                         "`pip install --user wifi`.")
 
     return Wifi()

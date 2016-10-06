@@ -18,7 +18,7 @@ class OSXWifi(Wifi):
 
     def _is_enabled(self):
         '''
-        Returns `True`if the Wifi is enables else `False`.
+        Returns `True` if the Wifi is enabled else  returns `False`.
         '''
         return CWWiFiClient.sharedWiFiClient().interface().powerOn()
 
@@ -89,13 +89,16 @@ class OSXWifi(Wifi):
         '''
         Starts scanning for available Wi-Fi networks.
         '''
-        self.names = {}
-        c = CWInterface.interface()
-        scan = c.scanForNetworksWithName_error_(None, None)
-        cnt = scan.allObjects().count()
-        for i in range(cnt):
-            self.names[scan.allObjects().objectAtIndex_(i).ssid.UTF8String()] \
-                       = scan.allObjects().objectAtIndex_(i)
+        if self._is_enabled():
+            self.names = {}
+            c = CWInterface.interface()
+            scan = c.scanForNetworksWithName_error_(None, None)
+            cnt = scan.allObjects().count()
+            for i in range(cnt):
+                self.names[scan.allObjects().objectAtIndex_(i).ssid.UTF8String()] \
+                           = scan.allObjects().objectAtIndex_(i)
+        else:
+            raise Exception("Wifi not enabled.")
 
     def _get_available_wifi(self):
         '''
