@@ -59,11 +59,28 @@ To get available wifi networks::
     >>> return wifi.get_available_wifi()
 
 This returns all the available wifi networks near the device.
+
+Ex: 6
+----------
+
+from plyer import wifi
+wifi.enable()
+
+This enables wifi device.
+
+Ex: 7
+----------
+
+from plyer import wifi
+wifi.disable()
+
+This disable wifi device
 '''
 
 
 class Wifi(object):
-    '''Wifi Facade.
+    '''
+    Wifi Facade.
     '''
 
     def is_enabled(self):
@@ -82,13 +99,13 @@ class Wifi(object):
         '''
         Return a dictionary of secified network.
         '''
-        return self._get_access_points(name=name)
+        return self._get_network_info(name=name)
 
     def get_available_wifi(self):
         '''
         Returns a list of all the available wifi.
         '''
-        self._get_available_wifi()
+        return self._get_available_wifi()
 
     def connect(self, network, parameters):
         '''
@@ -101,6 +118,18 @@ class Wifi(object):
         To disconnect from some network.
         '''
         self._disconnect()
+
+    def enable(self):
+        '''
+        Wifi interface power state is set to "ON".
+        '''
+        self._enable()
+
+    def disable(self):
+        '''
+        Wifi interface power state is set to "OFF".
+        '''
+        self._disable()
 
     # private
 
@@ -120,4 +149,10 @@ class Wifi(object):
         raise NotImplementedError()
 
     def _disconnect(self):
+        raise NotImplementedError()
+
+    def _enable(self):
+        raise NotImplementedError()
+
+    def _disable(self):
         raise NotImplementedError()
