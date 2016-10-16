@@ -73,7 +73,7 @@ class LinuxWifi(Wifi):
                 - password: dict type
         '''
         try:
-            call(['nmcli', 'nm', 'enable', 'true'])
+            self._enable()
         finally:
             password = parameters['password']
             cell = self.names[network]
@@ -83,16 +83,28 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'nm', 'enable', 'false'])
+        return call(['nmcli', 'dev', 'disconnect', 'wifi'])
+
+    def _enable(self):
+        '''
+        Wifi interface power state is set to "ON".
+        '''
+        return call(['nmcli', 'radio', 'wifi', 'on'])
+
+    def _disable(self):
+        '''
+        Wifi interface power state is set to "OFF".
+        '''
+        return call(['nmcli', 'radio', 'wifi', 'off'])
 
 
 def instance():
     import sys
+
     try:
         import wifi
-        return LinuxWifi()
     except ImportError:
         sys.stderr.write("python-wifi not installed. try:"
                          "`pip install --user wifi`.")
-
-    return Wifi()
+        return Wifi()
+    return LinuxWifi()
