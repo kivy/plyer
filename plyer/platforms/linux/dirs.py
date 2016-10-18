@@ -5,8 +5,9 @@ Linux Dirs Manager
 
 from plyer.facades import Dirs
 # NOTE named imports
-from os.path import expanduser, join as path_join 
+from os.path import expanduser, join as path_join
 from os import getenv
+
 
 class LinuxDirs(Dirs):
 
