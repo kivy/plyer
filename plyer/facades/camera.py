@@ -1,5 +1,27 @@
+'''
+Camera
+======
+
+The :class:`Camera` is to capture pictures and make videos.
+
+Simple Examples
+---------------
+
+To take picture::
+
+    >>> from plyer import camera
+    >>> camera.take_picture(filename, on_complete)
+
+Ta take a video::
+
+    >>> camera.take_video(filename, on_complete)
+
+'''
+
+
 class Camera(object):
-    '''Camera facade.
+    '''
+    Camera facade.
     '''
 
     def take_picture(self, filename, on_complete):

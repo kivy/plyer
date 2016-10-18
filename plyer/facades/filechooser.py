@@ -31,9 +31,6 @@ class FileChooser(object):
     Use threads or you will stop the mainloop if your app has one.
     '''
 
-    def _file_selection_dialog(self, **kwargs):
-        raise NotImplementedError()
-
     def open_file(self, *args, **kwargs):
         """Open the file chooser in "open" mode.
         """
@@ -51,3 +48,8 @@ class FileChooser(object):
         platform and are planning on using unsupported features.
         """
         return self._file_selection_dialog(mode="dir", *args, **kwargs)
+
+    # private
+
+    def _file_selection_dialog(self, **kwargs):
+        raise NotImplementedError()

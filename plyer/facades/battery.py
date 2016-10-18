@@ -1,5 +1,24 @@
+'''
+Battery
+=======
+
+The :class:`Battery` provides information about the battery of your device.
+
+Simple Example
+---------------
+
+To get battery status::
+
+    >>> from plyer import battery
+    >>> battery.status
+
+'''
+
+
 class Battery(object):
-    '''Battery info facade.'''
+    '''
+    Battery info facade.
+    '''
 
     @property
     def status(self):
@@ -16,7 +35,7 @@ class Battery(object):
     def get_state(self):
         return self._get_state()
 
-    #private
+    # private
 
     def _get_state(self):
         raise NotImplementedError()

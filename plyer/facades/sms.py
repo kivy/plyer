@@ -1,3 +1,22 @@
+'''
+Sms
+====
+
+The :class:`Sms` provides access to sending Sms from your device.
+
+Simple Examples
+---------------
+
+To send sms::
+
+    >>> from plyer import sms
+    >>> recipient = 9999222299
+    >>> message = 'This is an example.'
+    >>> sms.send(recipient=recipient, message=message)
+
+'''
+
+
 class Sms(object):
     '''Sms facade.
 

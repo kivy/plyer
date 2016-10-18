@@ -1,16 +1,49 @@
-class Audio(object):
-    '''Audio Facade.
+'''
+Audio
+=====
 
-    Used for recording audio.
-    Use method `start` to start record and `stop` for stop recording.
-    To hear what you have just recorded, use method `play`.
+The :class:`Audio` is used for recording audio.
 
-    `status` will tell you about current job of the Audio.
+Default path for recording is set in platform implementation.
 
-    Default path for recording is set in platform implementation.
-
-    .. note::
+.. note::
         On Android the `RECORD_AUDIO` permission is needed.
+
+Simple Examples
+---------------
+
+To start recording::
+
+    >>> from plyer import audio
+    >>> audio.start()
+
+To stop recording::
+
+    >>> audio.stop()
+
+To play recording::
+
+    >>> audio.play()
+
+To get status of current job of Audio::
+
+    >>> audio.status
+
+To get the file path::
+
+    >>> audio.file_path
+
+Te set the file path::
+
+    >>> file_path = path/to/folder
+    >>> audio.file_path = file_path
+
+'''
+
+
+class Audio(object):
+    '''
+    Audio facade.
     '''
 
     state = 'ready'
@@ -21,28 +54,25 @@ class Audio(object):
         self._file_path = file_path
 
     def start(self):
-        '''Start record.'''
+        '''
+        Start record.
+        '''
         self._start()
         self.state = 'recording'
 
-    def _start(self):
-        raise NotImplementedError()
-
     def stop(self):
-        '''Stop record.'''
+        '''
+        Stop record.
+        '''
         self._stop()
         self.state = 'ready'
 
-    def _stop(self):
-        raise NotImplementedError()
-
     def play(self):
-        '''Play current recording.'''
+        '''
+        Play current recording.
+        '''
         self._play()
         self.state = 'playing'
-
-    def _play(self):
-        raise NotImplementedError()
 
     @property
     def file_path(self):
@@ -54,3 +84,14 @@ class Audio(object):
         assert isinstance(location, (basestring, unicode)), \
             'Location must be string or unicode'
         self._file_path = location
+
+    # private
+
+    def _start(self):
+        raise NotImplementedError()
+
+    def _stop(self):
+        raise NotImplementedError()
+
+    def _play(self):
+        raise NotImplementedError()

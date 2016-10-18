@@ -1,5 +1,36 @@
+'''
+Accelerometer
+============
+
+The accelerometer is a motion sensor that detects the change (delta) in
+movement relative to the current device orientation, in three dimensions
+along the x, y, and z axis.
+
+The :class:`Accelerometer` provides access to public methods to
+use accelerometer of your device.
+
+Simple Examples
+---------------
+
+To enable accelerometer::
+
+    >>> from plyer import accelerometer
+    >>> accelerometer.enable()
+
+To disable acceletometer::
+
+    >>> accelerometer.disable()
+
+To get the acceleration::
+
+    >>> accelerometer.acceleration
+
+'''
+
+
 class Accelerometer(object):
-    '''Accelerometer facade.
+    '''
+    Accelerometer facade.
     '''
 
     @property

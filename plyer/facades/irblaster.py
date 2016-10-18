@@ -30,9 +30,6 @@ class IrBlaster(object):
     def get_frequencies(self):
         return self._get_frequencies()
 
-    def _get_frequencies(self):
-        raise NotImplementedError()
-
     def transmit(self, frequency, pattern, mode='period'):
         '''Transmit an IR sequence.
 
@@ -47,13 +44,18 @@ class IrBlaster(object):
         '''
         return self._transmit(frequency, pattern, mode)
 
-    def _transmit(self, frequency, pattern, mode):
-        raise NotImplementedError()
-
     def exists(self):
         '''Check if the device has an infrared emitter.
         '''
         return self._exists()
+
+    # private
+
+    def _get_frequencies(self):
+        raise NotImplementedError()
+
+    def _transmit(self, frequency, pattern, mode):
+        raise NotImplementedError()
 
     def _exists(self):
         raise NotImplementedError()

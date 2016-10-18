@@ -15,8 +15,8 @@ The following examples explains the use case of Wifi class::
 Ex:1
 --------
 
-from plyer import wifi
-wifi.start_scanning()
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
 
 Once the wifi is enabled/ turned on, then this command starts to scan
 all the nearby available wifi networks.
@@ -25,9 +25,9 @@ all the nearby available wifi networks.
 Ex:2
 ---------
 
-from plyer import wifi
-wifi.start_scanning()
-return wifi.get_network_info(name)
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> return wifi.get_network_info(name)
 
 Returns network details of the network who's name/ssid is provided in the
 `name` parameter.
@@ -36,9 +36,9 @@ Returns network details of the network who's name/ssid is provided in the
 Ex: 3
 ----------
 
-from plyer import wifi
-wifi.start_scanning()
-wifi.connect(network, parameters)
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> wifi.connect(network, parameters)
 
 This connects to the network who's name/ssid is provided under `network`
 parameter and along with other necessary methods for connection
@@ -54,8 +54,8 @@ plyer/platforms/win/wifi.py
 Ex: 4
 ----------
 
-from plyer import wifi
-wifi.disconnect()
+    >>> from plyer import wifi
+    >>> wifi.disconnect()
 
 This disconnects your device from any wifi network.
 
@@ -63,9 +63,9 @@ This disconnects your device from any wifi network.
 Ex: 5
 ----------
 
-from plyer import wifi
-wifi.start_scanning()
-return wifi.get_available_wifi()
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> return wifi.get_available_wifi()
 
 This returns all the available wifi networks near the device.
 '''

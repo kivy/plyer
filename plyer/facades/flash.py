@@ -1,4 +1,28 @@
 # coding=utf-8
+'''
+Flash
+=====
+
+The :class:`Flash` provides access to public methods to use flash of your
+device.
+
+Simple Examples
+---------------
+
+To turn on flash::
+
+    >>> from plyer import flash
+    >>> flash.on()
+
+To turn off flash::
+
+    >>> flash.off()
+
+To release flash::
+
+    >>> flash.release()
+
+'''
 
 
 class Flash(object):

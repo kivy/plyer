@@ -1,3 +1,26 @@
+'''
+Email
+=====
+
+The :class:`Email` provides access to public methods to use email of your
+device.
+
+Simple Examples
+---------------
+
+To send an e-mail::
+
+    >>> from plyer import email
+    >>> recipient = 'abc@gmail.com'
+    >>> subject = 'Hi'
+    >>> text = 'This is an example.'
+    >>> create_chooser = False
+    >>> email.send(recipient=recipient, subject=subject, text=text,
+                   create_chooser=create_chooser)
+
+'''
+
+
 class Email(object):
     '''Email facade.'''
 
