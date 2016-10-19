@@ -1,6 +1,6 @@
 ''' NFC facade.
 
-..  note::
+.. note::
 
     Android:
         NFC is supported by android for versions 4.0.x and above.
@@ -22,6 +22,8 @@
             as an NFC card. The emulated NFC card can then be accessed by
             external NFC reader, such as an NFC point-of-sale terminal.
 
+            (Not yet supported)
+
 
     OSX, iOS, Windows, Linux:
         To be done in future.
@@ -31,11 +33,10 @@
     One needs to register nfc modes by passing the following parameters in
     nfc_register method.
         - action_list: dict
-            {ndef, tech, tag, card, f-card}
+            {ndef, tech, tag}
             ndef: ACTION_NDEF_DISCOVERED
             tech: ACTION_TECH_DISCOVERED
             tag: ACTION_TAG_DISCOVERED
-            card, f-card: for card emulation modes.
 
             default value: {'ndef', 'tech', 'tag'}
 
@@ -331,115 +332,6 @@ class NFC(object):
         '''
         self._nfc_beam(files=files, ndef_message=ndef_message)
 
-    # Card Emulation
-
-    def category_allows_foreground_preference(self, category):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._category_allows_foreground_preference(category=category)
-
-    def get_aids_for_service(self, service, category):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._category_allows_foreground_preference(service=service,
-                                                    category=category)
-
-    def get_selection_mode_for_category(self, category):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._get_selection_mode_for_category(category=category)
-
-    def is_default_service_for_aid(self, service, aid):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._is_default_service_for_aid(service=service, aid=aid)
-
-    def is_default_service_for_category(self, service, category):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._is_default_service_for_category(service, category)
-
-    def register_aids_for_service(self, service, category, aids):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._register_aids_for_service(service=service, category=category,
-                                        aids=aids)
-
-    def remove_aids_for_service(self, service, category):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._remove_aids_for_service(service=service, category=category)
-
-    def set_preferred_service(self, activity, service):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self.set_preferred_service(activity=activity, service=service)
-
-    def unset_preferred_service(self, activity):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._unset_preferred_service(activity=activity)
-
-    def support_aid_prefix_registration(self):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._support_aid_prefix_registration()
-
-    # NfcF Card
-
-    def disable_service(self, activity):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._disable_service(activity=activity)
-
-    def enable_service(self, activity, service):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._enable_service(activity=activity, service=service)
-
-    def set_nfcid2_for_service(self, service, nfcid2):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._set_nfcid2_for_service(service=service, nfcid2=nfcid2)
-
-    def get_nfcid2_for_service(self, service):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._get_nfcid2_for_service(service=service)
-
-    def get_system_code_for_service(self, service):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._get_system_code_for_service(service=service)
-
-    def register_system_code_for_service(self, service, system_code):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._register_system_code_for_service(service=service,
-                                               system_code=system_code)
-
-    def unregister_system_code_for_service(self, service):
-        '''
-        Method well documented in plyer/platform/android/nfc.py
-        '''
-        self._unregister_system_code_for_service(service=service)
-
     def on_pause(self):
         '''
         Events called when application is paused.
@@ -512,61 +404,6 @@ class NFC(object):
         raise NotImplementedError()
 
     def _nfc_beam(self, **kwargs):
-        raise NotImplementedError()
-
-    # Card Emulation
-
-    def _category_allows_foreground_preference(self, **kwargs):
-        raise NotImplementedError()
-
-    def _get_aids_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _get_selection_mode_for_category(self, **kwargs):
-        raise NotImplementedError()
-
-    def _is_default_service_for_aid(self, **kwargs):
-        raise NotImplementedError()
-
-    def _is_default_service_for_category(self, **kwargs):
-        raise NotImplementedError()
-
-    def _register_aids_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _remove_aids_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _set_preferred_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _unset_preferred_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _support_aid_prefix_registration(self, **kwargs):
-        raise NotImplementedError()
-
-    # NfcF Card
-
-    def _disable_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _enable_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _set_nfcid2_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _get_nfcid2_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _get_system_code_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _register_system_code_for_service(self, **kwargs):
-        raise NotImplementedError()
-
-    def _unregister_system_code_for_service(self, **kwargs):
         raise NotImplementedError()
 
     # Events for pause and resume of application.

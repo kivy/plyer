@@ -35,10 +35,6 @@ NfcManager = autoclass('android.nfc.NfcManager')
 NfcEvent = autoclass('android.nfc.NfcEvent')
 # Information associated with NFC events
 
-# Card Emulation imports.
-CardEmulation = autoclass('android.nfc.cardemulation.CardEmulation')
-NfcFCardEmulation = autoclass('android.nfc.cardemulation.NfcFCardEmulation')
-
 
 class PyNdefRecord(NFC.NdefRecord):
     '''
@@ -53,10 +49,15 @@ class PyNdefRecord(NFC.NdefRecord):
         the ndef_type given.
         '''
 
-        payload = kwargs.get("payload")
-        # Dictionary type
-        ndef_type = kwargs.get("ndef_type")
-        # String type
+        payload = kwargs.get("payload")  # Dictionary type
+        if payload is None:
+            # handeling this exception so won't need to handle it in all
+            # the methods
+            raise Exception('No payload given while creating record.')
+
+        ndef_type = kwargs.get("ndef_type")  # String type
+        if ndef_type is None:
+            raise Exception('No ndef_type given while creating record.')
 
         if ndef_type == "application":
             return self._create_application_record(payload)
@@ -73,17 +74,17 @@ class PyNdefRecord(NFC.NdefRecord):
         elif ndef_type == "alternative_carrier":
             return self._create_RTD_ALTERNATIVE_CARRIER(payload)
         elif ndef_type == "handover_carrier":
-            return self._create_uri(payload)
+            return self._create_RTD_HANDOVER_CARRIER(payload)
         elif ndef_type == "handover_request":
-            return self._create_uri(payload)
+            return self._create_RTD_HANDOVER_REQUEST(payload)
         elif ndef_type == "handover_select":
-            return self._create_uri(payload)
+            return self._create_RTD_HANDOVER_SELECT(payload)
         elif ndef_type == "smart_poster":
-            return self._create_uri(payload)
+            return self._create_RTD_SMART_POSTER(payload)
         elif ndef_type == "text":
             return self._create_RTD_TEXT(payload)
         else:
-            return False
+            raise Exception('Invalid ndef_type given.')
 
     def _create_application_record(self, **kwargs):
         '''
@@ -127,7 +128,7 @@ class PyNdefRecord(NFC.NdefRecord):
             record = NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE,
                                 "{} + ':' + {}".format(JavaString(domain),
                                                        JavaString(
-                                                        external_type)),
+                                                       external_type)),
                                 '',
                                 payload)
 
@@ -384,7 +385,7 @@ class AndroidNFC(NFC):
         Initializing NFC adapter and listing the techs available.
         Expects three parameters.
             action_list: dict
-                {ndef, tech, tag, card, f-card}
+                {ndef, tech, tag}
             tech_list: dict
                 {all, IsoDep, NfcA, NfcB, NfcF, NfcV, Ndef, NfcBarcode,
                  NdefFormattable, Mifareclassic, MifareUltralight}
@@ -427,8 +428,8 @@ class AndroidNFC(NFC):
         self.message = None
         self.tag_mode = 'read'
         self.tag_id = None
-
         self.ndef_exchange_filters = []
+
         try:
 
             if not self.action_list:
@@ -452,13 +453,6 @@ class AndroidNFC(NFC):
                     NfcAdapter.ACTION_TAG_DISCOVERED)
                 self.tag_detected.addDataType(self.data_type)
                 self.ndef_exchange_filters.append(self.tag_detected)
-
-            if 'card' in self.action_list:
-                self.card = NfcFCardEmulation.getInstance(self.nfc_adapter)
-
-            if 'f-card' in self.action_list:
-                self.nfcf_card = NfcFCardEmulation.getInstance(
-                                                         self.nfc_adapter)
 
         except Exception as e:
             raise Exception('Invalid action given during nfc register.',
@@ -501,9 +495,8 @@ class AndroidNFC(NFC):
     def _disable_reader_mode(self):
         '''
         Restore the NFC adapter to normal mode of operation: supporting
-        peer-to-peer (Android Beam),
-        card emulation, and
-        polling for all supported tag technologies.
+        peer-to-peer (Android Beam), card emulation, and polling for all
+        supported tag technologies.
         '''
         self.nfc_adapter.disableReaderMode(self.j_context)
 
@@ -1277,289 +1270,8 @@ class AndroidNFC(NFC):
         except:
             raise Exception('Unable to write tag')
 
-    # card emulation part.
-
-    # -------------------------------------------
-    # Reference API for CardEmulation class.
-    # -------------------------------------------
-
-    def _category_allows_foreground_preference(self, **kwargs):
-        '''
-        Expects 1 parameters:
-
-            - category: String, e.g: CATEGORY_PAYMENT
-
-        Returns whether the user has allowed AIDs registered in the specified
-        category to be handled by a service that is preferred by the foreground
-        application, instead of by a pre-configured default.
-        To set preferences use `_set_preferred_service` method.
-
-        returns boolean value.
-        '''
-        category = kwargs.get('category')
-        return self.card.categoryAllowsForegroundPreference(category)
-
-    def _get_aids_for_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - services: componentName
-            - category: String, e.g CATEGORY_PAYMENT
-
-        Retrieves the currently registered AIDs for the specified category
-        for a service.
-        '''
-        service = kwargs.get('service')
-        category = kwargs.get('category')
-        return self.card.getAidsForService(service, category)
-
-    def _get_selection_mode_for_category(self, **kwargs):
-        '''
-        Expects 1 parameters:
-            - category: String, e.g: CATEGORY_PAYMENT
-
-        Returns the service selection mode for the passed in category.
-        Valid return values are:
-            - SELECTION_MODE_PREFER_DEFAULT
-            - SELECTION_MODE_ALWAYS_ASK
-            - SELECTION_MODE_ASK_IF_CONFLICT
-
-        returns int value.
-        '''
-        category = kwargs.get('category')
-        return self.card.getSelectionModeForCategory(category)
-
-    def _is_default_service_for_aid(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - services: componentName
-            - aid: String, e.g: The ISO7816-4 Application ID
-
-        Allows an application to query whether a service is currently the
-        default handler for a specified ISO7816-4 Application ID.
-
-        returns boolean value.
-
-        '''
-        service = kwargs.get('service')
-        aid = kwargs.get('aid')
-        return self.card.isDefaultServiceForAid(service, aid)
-
-    def _is_default_service_for_category(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - services: componentName
-            - category: String
-
-        Allows an application to query whether a service is currently the
-        default service to handle a card emulation category.
-
-        returns boolean value.
-
-        '''
-        service = kwargs.get('service')
-        category = kwargs.get('category')
-        return self.card.isDefaultServiceForCategory(service, category)
-
-    def _register_aids_for_service(self, **kwargs):
-        '''
-        Expects 3 parameters:
-            - services: componentName
-            - category: String
-            - aids: List, containing the AIDs to be registered.
-
-
-        Note that you can only register AIDs for a service that is running
-        under the same UID as the caller of this API.
-
-        returns boolean value.
-
-        '''
-        service = kwargs.get('service')
-        category = kwargs.get('category')
-        aids = kwargs.get('aids')
-        return self.card.registerAidsForService(service, category, aids)
-
-    def _remove_aids_for_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - services: componentName
-            - category: String
-
-        Note that this will only remove AIDs that were dynamically registered
-        using the registerAidsForService(ComponentName, String, List) method.
-
-        returns boolean value.
-
-        '''
-        service = kwargs.get('service')
-        category = kwargs.get('category')
-        return self.card.removeAidsForService(service, category)
-
-    def _set_preferred_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - activity: Activity
-            - services: componentName
-
-        Allows a foreground application to specify which card emulation service
-        should be preferred while a specific Activity is in the foreground.
-
-        preferred to be called in the `on_resume` method.
-
-        returns boolean value.
-
-        '''
-        service = kwargs.get('service')
-        activity = kwargs.get('activity')
-        return self.card.setPreferredService(activity, service)
-
-    def _unset_preferred_service(self, **kwargs):
-        '''
-        Expects 1 parameters:
-            - activity: Activity
-
-        Unsets the preferred service for the specified Activity.
-
-        preferred to be called in the `on_pause` method.
-
-        returns boolean value.
-
-        '''
-        activity = kwargs.get('activity')
-        return self.card.unsetPreferredService(activity)
-
-    def _support_aid_prefix_registration(self):
-        '''
-        Expects 0 parameters:
-
-        Some devices may allow an application to register all AIDs
-        that starts with a certain prefix.
-        e.g. "A000000004*" to register all MasterCard AIDs.
-
-        returns boolean value.
-        '''
-        return self.card.supportsAidPrefixRegistration()
-
-    # -------------------------------------------
-    # Reference API for NfcFCardEmulation class.
-    # -------------------------------------------
-
-    def _disable_service(self, **kwargs):
-        '''
-        Expects 1 parameters:
-            - activity: Activity
-
-        Disables the service for the specified Activity.
-
-        preferred to be called in `on_pause` method.
-
-        returns boolean value.
-        '''
-        try:
-            activity = kwargs.get('activity')
-            return self.nfcf_card.disableService(activity)
-        except:
-            raise RuntimeError('Unable to disable service.')
-
-    def _enable_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - activity: Activity
-            - services: componentName
-
-        Allows a foreground application to specify which card emulation service
-        should be enabled while a specific Activity is in the foreground.
-
-        preferred to be called in `on_resume method`
-
-        returns boolean value.
-        '''
-        try:
-            activity = kwargs.get('activity')
-            service = kwargs.get('service')
-            return self.nfcf_card.enableService(activity, service)
-        except:
-            raise RuntimeError('Unable to enable service.')
-
-    def _set_nfcid2_for_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - services: componentName
-            - nfcid2: String
-
-        NFCID2 must be in range from "02FE000000000000" to "02FEFFFFFFFFFFFF".
-
-        returns boolean value
-        '''
-        try:
-            service = kwargs.get('service')
-            nfcid2 = kwargs.get('nfcid2')
-            self.nfcf_card.setNfcid2ForService(service, nfcid2)
-        except:
-            raise RuntimeError('Unable to set Nfcid2 for service.')
-
-    def _get_nfcid2_for_service(self, **kwargs):
-        '''
-        Expects 1 parameters:
-            - services: componentName
-
-        Retrieves the current NFCID2 for the specified service.
-
-        returns String value.
-        '''
-        try:
-            service = kwargs.get('service')
-            return self.nfcf_card.getNfcid2ForService()
-        except:
-            raise RuntimeError('Unable to get Nfcid2 for Service.')
-
-    def _get_system_code_for_service(self, **kwargs):
-        '''
-        Expects 1 parameter:
-            - service: componentName
-
-        Retrieves the current System Code for the specified service.
-
-        returns string value.
-        '''
-        try:
-            self.nfcf_card.getSystemCodeForService(service)
-        except:
-            raise RuntimeError('Unable to get system code for service.')
-
-    def _register_system_code_for_service(self, **kwargs):
-        '''
-        Expects 2 parameters:
-            - service: componentName
-            - system_code: String
-
-        Registers a System Code for the specified service.
-        The System Code must be in range from "4000" to "4FFF"
-        (excluding "4*FF").
-
-        returns boolean value.
-        '''
-        try:
-            service = kwargs.get('service')
-            system_code = kwargs.get('system_code')
-            self.nfcf_card.registerSystemCodeForService(service, system_code)
-        except:
-            raise RuntimeError('Unable to register system code for service.')
-
-    def _unregister_system_code_for_service(self, **kwargs):
-        '''
-        Expects 1 parameter:
-            - service: componentName
-
-        Removes a registered System Code for the specified service.
-
-        returns boolean value.
-        '''
-        try:
-            service = kwargs.get('service')
-            self.nfcf_card.unregisterSystemCodeForService(service)
-        except:
-            raise RuntimeError('Unable to unregister system code for service.')
+    # TODO::
+        # Card emulation
 
     def _on_pause(self):
         '''
