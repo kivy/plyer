@@ -11,6 +11,7 @@ To get battery status::
 
     >>> from plyer import battery
     >>> battery.status
+    {'percentage': 82.0, 'isCharging': False}
 
 '''
 

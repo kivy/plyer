@@ -23,6 +23,7 @@ To disable gyroscope::
 To get the orientation::
 
     >>> gyroscope.orientation
+    (-0.0034587313421070576, -0.0073830625042319298, 0.0046892408281564713)
 
 '''
 

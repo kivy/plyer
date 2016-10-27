@@ -25,13 +25,10 @@ To play recording::
 
     >>> audio.play()
 
-To get status of current job of Audio::
-
-    >>> audio.status
-
 To get the file path::
 
     >>> audio.file_path
+    '/sdcard/testrecorder.3gp'
 
 Te set the file path::
 

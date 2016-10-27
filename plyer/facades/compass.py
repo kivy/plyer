@@ -20,6 +20,7 @@ To disable compass::
 To get the orientation::
 
     >>> compass.orientation
+    (-23.721826553344727, -5.7114701271057129, -36.749668121337891)
 
 '''
 

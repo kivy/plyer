@@ -8,6 +8,15 @@ class UniqueID(object):
     * **Linux**: Serial number using lshw
     * **Windows**: MachineGUID from regkey
 
+    Simple Example
+    --------------
+
+    To get the unique ID::
+
+        >>> from plyer import uiqueid
+        >>> uniqueid.id
+        '1b1a7a4958e2a845'
+
     .. versionadded:: 1.2.0
 
     .. versionchanged:: 1.2.4

@@ -24,6 +24,7 @@ To disable acceletometer::
 To get the acceleration::
 
     >>> accelerometer.acceleration
+    (-10.048464775085449, 6.825869083404541, 7.7260890007019043)
 
 '''
 
