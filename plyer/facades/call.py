@@ -5,8 +5,8 @@ Call
 The :class:`Call` provides access to calling feature of your device.
 
 .. note::
-    - On Android your app needs the CALL_PHONE permission in order to
-    make calls.
+    - On Android your app needs the `CALL_PHONE` or `CALL_PRIVILEGED`
+    permission in order to make calls.
 
     - Dialing call feature in not supported yet in iOS devices.
 

@@ -4,6 +4,9 @@ Battery
 
 The :class:`Battery` provides information about the battery of your device.
 
+.. note::
+        On Android the `BATTERY_STATS` permission is needed.
+
 Simple Example
 ---------------
 

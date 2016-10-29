@@ -1,6 +1,6 @@
 '''
 Notification
-=====
+===========
 
 The :class:`Notification` provides access to public methods to create
 notifications.

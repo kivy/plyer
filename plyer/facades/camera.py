@@ -4,17 +4,36 @@ Camera
 
 The :class:`Camera` is to capture pictures and make videos.
 
+.. note::
+        - On Android the `CAMERA` , `WRITE_EXTERNAL_STORAGE`,
+          `READ_EXTERNAL_STORAGE` permissions are needed.
+
 Simple Examples
 ---------------
 
+Setup callback function.
+
+    >>> from os.path import exists, join
+    >>> from plyer import camera
+    >>> def camera_callback(filepath):
+    >>>     if(exists(filepath)):
+    >>>         print "saved"
+    >>>     else:
+    >>>         print "unable to save."
+    >>> filepath = 'path/to/your/file'
+    >>> # e.g: filepath = join(App.get_running_app().user_data_dir, file_name)
+
 To take picture::
 
-    >>> from plyer import camera
-    >>> camera.take_picture(filename, on_complete)
+    >>> file_name = "test.jpg"
+    >>> camera.take_picture(filename=file_name,
+    >>>                     on_complete=camera_callback)
 
 Ta take a video::
 
-    >>> camera.take_video(filename, on_complete)
+    >>> file_name = "test.mp4"
+    >>> camera.take_video(filename=file_name,
+    >>>                   on_complete=camera_callback)
 
 '''
 

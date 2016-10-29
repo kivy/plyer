@@ -4,6 +4,13 @@ Sms
 
 The :class:`Sms` provides access to sending Sms from your device.
 
+.. note::
+
+    On Android your app needs the SEND_SMS permission in order to
+    send sms messages.
+
+.. versionadded:: 1.2.0
+
 Simple Examples
 ---------------
 
@@ -19,14 +26,6 @@ To send sms::
 
 class Sms(object):
     '''Sms facade.
-
-    .. note::
-
-        On Android your app needs the SEND_SMS permission in order to
-        send sms messages.
-
-    .. versionadded:: 1.2.0
-
     '''
 
     def send(self, recipient, message):

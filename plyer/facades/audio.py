@@ -7,10 +7,24 @@ The :class:`Audio` is used for recording audio.
 Default path for recording is set in platform implementation.
 
 .. note::
-        On Android the `RECORD_AUDIO` permission is needed.
+        On Android the `RECORD_AUDIO`, `WAKE_LOCK` permissions are needed.
 
 Simple Examples
 ---------------
+
+To get the file path::
+
+    >>> audio.file_path
+    '/sdcard/testrecorder.3gp'
+
+To set the file path::
+
+    >>> import os
+    >>> current_list = os.listdir('.')
+    ['/sdcard/testrecorder.3gp', '/sdcard/testrecorder1.3gp',
+    '/sdcard/testrecorder2.3gp', '/sdcard/testrecorder3.3gp']
+    >>> file_path = current_list[2]
+    >>> audio.file_path = file_path
 
 To start recording::
 
@@ -24,16 +38,6 @@ To stop recording::
 To play recording::
 
     >>> audio.play()
-
-To get the file path::
-
-    >>> audio.file_path
-    '/sdcard/testrecorder.3gp'
-
-Te set the file path::
-
-    >>> file_path = path/to/folder
-    >>> audio.file_path = file_path
 
 '''
 
@@ -51,25 +55,28 @@ class Audio(object):
         self._file_path = file_path
 
     def start(self):
-        '''
-        Start record.
-        '''
+        '''Start record.'''
         self._start()
         self.state = 'recording'
 
+    def _start(self):
+        raise NotImplementedError()
+
     def stop(self):
-        '''
-        Stop record.
-        '''
+        '''Stop record.'''
         self._stop()
         self.state = 'ready'
 
+    def _stop(self):
+        raise NotImplementedError()
+
     def play(self):
-        '''
-        Play current recording.
-        '''
+        '''Play current recording.'''
         self._play()
         self.state = 'playing'
+
+    def _play(self):
+        raise NotImplementedError()
 
     @property
     def file_path(self):
@@ -81,14 +88,3 @@ class Audio(object):
         assert isinstance(location, (basestring, unicode)), \
             'Location must be string or unicode'
         self._file_path = location
-
-    # private
-
-    def _start(self):
-        raise NotImplementedError()
-
-    def _stop(self):
-        raise NotImplementedError()
-
-    def _play(self):
-        raise NotImplementedError()

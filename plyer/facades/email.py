@@ -5,6 +5,9 @@ Email
 The :class:`Email` provides access to public methods to use email of your
 device.
 
+.. note::
+    On Android `INTERNET` permission is needed.
+
 Simple Examples
 ---------------
 
@@ -17,6 +20,8 @@ To send an e-mail::
     >>> create_chooser = False
     >>> email.send(recipient=recipient, subject=subject, text=text,
                    create_chooser=create_chooser)
+
+    >>> # opens email interface where user can change the content.
 
 '''
 
