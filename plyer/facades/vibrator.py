@@ -1,9 +1,40 @@
+'''
+Vibrator
+=======
+
+The :class:`Vibrator` provides access to public methods to use vibrator of your
+device.
+
+.. note::
+    On Android your app needs the VIBRATE permission to
+    access the vibrator.
+
+Simple Examples
+---------------
+
+To vibrate your device::
+
+    >>> from plyer import vibrator
+    >>> time=2
+    >>> vibrator.vibrate(time=time)
+
+To set a pattern::
+
+    >>> vibrator.pattern(pattern=pattern, repeat=repeat)
+
+To know whether vibrator exists or not::
+
+    >>> vibrator.exists()
+
+To cancel vibration::
+
+    >>> vibrator.cancel()
+
+'''
+
+
 class Vibrator(object):
     '''Vibration facade.
-
-    .. note::
-        On Android your app needs the VIBRATE permission to
-        access the vibrator.
     '''
 
     def vibrate(self, time=1):

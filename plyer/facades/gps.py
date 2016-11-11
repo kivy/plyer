@@ -1,36 +1,47 @@
+'''
+GPS
+====
+
+.. versionadded:: 1.1
+
+.. note::
+    On Android `INTERNET`, `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`
+    permissions are needed.
+
+
+.. note::
+    On iOS `NSLocationWhenInUseUsageDescription` key is required for app to
+    display geolocation usage permission prompt. Key can be added in Xcode
+    target `info` section or in ``Resources/<YourApp>-info.plist``.
+    App background mode (`on_pause`) also must be supported.
+
+You need to set a `on_location` callback with the :meth:`configure` method.
+This callback will receive a couple of keywords / values, that might be
+different depending of their availability on the targeted platform.
+Lat and lon are always available.
+
+- lat: latitude of the last location, in degrees
+- lon: longitude of the last location, in degrees
+- speed: speed of the user, in meters/second over ground
+- bearing: bearing in degrees
+- altitude: altitude in meters above the sea level
+
+Here is an example of the usage of gps::
+
+    from plyer import gps
+
+    def print_locations(**kwargs):
+        print 'lat: {lat}, lon: {lon}'.format(**kwargs)
+
+    gps.configure(on_location=print_locations)
+    gps.start()
+    # later
+    gps.stop()
+'''
+
+
 class GPS(object):
     '''GPS facade.
-
-    .. versionadded:: 1.1
-
-    .. note::
-        On iOS `NSLocationWhenInUseUsageDescription` key is required for app to
-        display geolocation usage permission prompt. Key can be added in Xcode
-        target `info` section or in ``Resources/<YourApp>-info.plist``.
-        App background mode (`on_pause`) also must be supported.
-
-    You need to set a `on_location` callback with the :meth:`configure` method.
-    This callback will receive a couple of keywords / values, that might be
-    different depending of their availability on the targeted platform.
-    Lat and lon are always available.
-
-    - lat: latitude of the last location, in degrees
-    - lon: longitude of the last location, in degrees
-    - speed: speed of the user, in meters/second over ground
-    - bearing: bearing in degrees
-    - altitude: altitude in meters above the sea level
-
-    Here is an example of the usage of gps::
-
-        from plyer import gps
-
-        def print_locations(**kwargs):
-            print 'lat: {lat}, lon: {lon}'.format(**kwargs)
-
-        gps.configure(on_location=print_locations)
-        gps.start()
-        # later
-        gps.stop()
     '''
 
     def configure(self, on_location, on_status=None):

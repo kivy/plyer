@@ -1,3 +1,33 @@
+'''
+Gyroscope
+============
+
+The gyroscope measures the rate of rotation in rad/s around a device's x, y,
+and z axis.
+
+The :class:`Gyroscope` provides access to public methods to
+use gyroscope of your device.
+
+Simple Examples
+---------------
+
+To enable gyroscope::
+
+    >>> from plyer import gyroscope
+    >>> gyroscope.enable()
+
+To disable gyroscope::
+
+    >>> gyroscope.disable()
+
+To get the orientation::
+
+    >>> gyroscope.orientation
+    (-0.0034587313421070576, -0.0073830625042319298, 0.0046892408281564713)
+
+'''
+
+
 class Gyroscope(object):
     '''Gyroscope facade.
 
