@@ -722,7 +722,7 @@ class AndroidNFC(NFC):
 
         for i in range(len(taglist)):
 
-            if taglist[i] == MifareClassic.class.getName():
+            if taglist[i] == MifareClassic.getClass().getName():
                 mctag = MifareClassic.get(tag)
 
                 if self.tag_mode == 'read':
@@ -733,7 +733,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == MifareUltralight.class.getName():
+            elif taglist[i] == MifareUltralight.getClass().getName():
                 if sef.tag_mode == 'read':
                     self._read_ultra_tag(tag)
                 elif self.tag_mode == 'write':
@@ -742,7 +742,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == IsoDep.class.getName():
+            elif taglist[i] == IsoDep.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_isodep_rag(tag)
                 elif self.tag_mode == 'write':
@@ -751,7 +751,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == Ndef.class.getName():
+            elif taglist[i] == Ndef.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_ndef_tag(tag)
                 elif self.tag_mode == 'write':
@@ -760,7 +760,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NdefFormatable.class.getName():
+            elif taglist[i] == NdefFormatable.getClass().getName():
                 if self.tag_mode == 'read':
                     raise Exception("Can't write for this format")
                 elif self.tag_mode == 'write':
@@ -769,7 +769,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NfcA.class.getName():
+            elif taglist[i] == NfcA.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_ndef_formattable_tag(tag)
                 elif self.tag_mode == 'write':
@@ -778,7 +778,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NfcB.class.getName():
+            elif taglist[i] == NfcB.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_ndef_formattable_tag(tag)
                 elif self.tag_mode == 'write':
@@ -787,7 +787,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NfcF.class.getName():
+            elif taglist[i] == NfcF.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_ndef_formattable_tag(tag)
                 elif self.tag_mode == 'write':
@@ -796,7 +796,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NcfV.class.getName():
+            elif taglist[i] == NcfV.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_ndef_formattable_tag(tag)
                 elif self.tag_mode == 'write':
@@ -805,7 +805,7 @@ class AndroidNFC(NFC):
                     raise ValueError('Wrong tag mode given, ' +
                                      'modes: `read` or `write`)')
 
-            elif taglist[i] == NfcBarcode.class.getName():
+            elif taglist[i] == NfcBarcode.getClass().getName():
                 if self.tag_mode == 'read':
                     self._read_nfc_barcode_tag()
                 elif self.tag_mode == 'write':
