@@ -10,18 +10,18 @@ class OSXNotification(Notification):
         NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
         notification = NSUserNotification.alloc().init()
         notification.setTitle_(kwargs.get('title').encode('utf-8'))
-        #notification.setSubtitle_(str(subtitle))
+        # notification.setSubtitle_(str(subtitle))
         notification.setInformativeText_(kwargs.get('message').encode('utf-8'))
         notification.setSoundName_("NSUserNotificationDefaultSoundName")
-        #notification.setHasActionButton_(False)
-        #notification.setOtherButtonTitle_("View")
-        #notification.setUserInfo_({"action":"open_url", "value":url})
-        NSUserNotificationCenter.defaultUserNotificationCenter() \
-                            .setDelegate_(self)
-        NSUserNotificationCenter.defaultUserNotificationCenter() \
-                            .scheduleNotification_(notification)
+        # notification.setHasActionButton_(False)
+        # notification.setOtherButtonTitle_("View")
+        # notification.setUserInfo_({"action":"open_url", "value":url})
+        NSUserNotificationCenter \
+            .defaultUserNotificationCenter().setDelegate_(self)
+        NSUserNotificationCenter \
+            .defaultUserNotificationCenter() \
+            .scheduleNotification_(notification)
 
 
 def instance():
     return OSXNotification()
-
