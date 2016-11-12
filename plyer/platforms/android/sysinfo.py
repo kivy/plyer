@@ -63,7 +63,6 @@ class AndroidSysinfo(Sysinfo):
         '''
         Returns the architecture in a tuple,
         for example: ('armeabi-v7a', 'armeabi')
-
         '''
         return (Build.CPU_ABI, Build.CPU_ABI2)
 
