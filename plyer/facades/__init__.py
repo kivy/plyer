@@ -9,7 +9,7 @@ Interface of all the features available.
 __all__ = ('Accelerometer', 'Audio', 'Battery', 'Call', 'Camera', 'Compass',
            'Email', 'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster',
            'Orientation', 'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator',
-           'Wifi', 'Flash')
+           'Wifi', 'Flash', 'Dirs')
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.audio import Audio
