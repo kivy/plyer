@@ -1,3 +1,30 @@
+'''
+Compass
+=======
+
+The :class:`Compass` provides access to public methods to use compass of your
+device.
+
+Simple Examples
+---------------
+
+To enable compass::
+
+    >>> from plyer import compass
+    >>> compass.enable()
+
+To disable compass::
+
+    >>> compass.disable()
+
+To get the orientation::
+
+    >>> compass.orientation
+    (-23.721826553344727, -5.7114701271057129, -36.749668121337891)
+
+'''
+
+
 class Compass(object):
     '''Compass facade.
 

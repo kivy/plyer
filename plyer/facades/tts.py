@@ -1,5 +1,24 @@
+'''
+TTS
+====
+
+The :class:`TTS` provides provides access to public methods to
+use text to speech of your device.
+
+Simple Examples
+---------------
+
+To speak::
+
+    >>> from plyer import tts
+    >>> tts.speak(message=message)
+
+'''
+
+
 class TTS(object):
-    '''TextToSpeech facade.
+    '''
+    TextToSpeech facade.
     '''
 
     def speak(self, message=''):

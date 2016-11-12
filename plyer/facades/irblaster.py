@@ -1,3 +1,35 @@
+'''
+IrBlaster
+============
+
+The :class:`IrBlaster` provides access to public methods by which your device
+can act as a remote and could be used to control your TV, AC, Music Player,
+Projectors, Set top box or anything that can be controlled by a remote.
+
+.. note::
+    - On Android your app needs the TRANSMIT_IR permission which allows an
+    application to use the device's IR transmitter, If available.
+
+Simple Examples
+---------------
+
+To get transmit an IR sequence::
+
+    >>> from plyer import irblaster
+    >>> irblaster.transmit(frequency, pattern, mode)
+
+To get frequencies::
+
+    >>> irblaster.frequencies
+
+To check if IrBlaster exists::
+
+    >>> irblaster.exists()
+    True/False
+
+'''
+
+
 class IrBlaster(object):
     '''Infrared blaster facade.'''
 
