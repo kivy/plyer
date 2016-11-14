@@ -38,6 +38,7 @@ Orientation                        X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
+Application Dirs                   X       X                X
 ================================== ======= === ======= ==== =====
 
 Support
