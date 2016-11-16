@@ -3,12 +3,11 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
+from plyer import audio
 
 
 Builder.load_string('''
-#:import audio_player plyer.audio
 <AudioInterface>:
-    audio: audio_player
     orientation: 'vertical'
     padding: '50dp'
     spacing: '20dp'
@@ -16,12 +15,12 @@ Builder.load_string('''
         id: state_label
         size_hint_y: None
         height: sp(40)
-        text: 'AudioPlayer State: ' + str(root.audio.state)
+        text: 'AudioPlayer State: ' + str(root.state)
     Label:
         id: location_label
         size_hint_y: None
         height: sp(40)
-        text: 'Recording Location: ' + str(root.audio.file_path)
+        text: 'Recording Location: ' + str(root.file_path)
 
     Button:
         id: record_button
@@ -37,30 +36,30 @@ Builder.load_string('''
 
 
 class AudioInterface(BoxLayout):
-    '''Root Widget.'''
 
-    audio = ObjectProperty()
+    state = audio.state
+    file_path = audio.file_path
     time = NumericProperty(0)
 
     has_record = False
 
     def start_recording(self):
-        state = self.audio.state
+        state = audio.state
         if state == 'ready':
-            self.audio.start()
+            audio.start()
 
         if state == 'recording':
-            self.audio.stop()
+            audio.stop()
             self.has_record = True
 
         self.update_labels()
 
     def play_recording(self):
-        state = self.audio.state
+        state = audio.state
         if state == 'playing':
-            self.audio.stop()
+            audio.stop()
         else:
-            self.audio.play()
+            audio.play()
 
         self.update_labels()
 
@@ -69,7 +68,7 @@ class AudioInterface(BoxLayout):
         play_button = self.ids['play_button']
         state_label = self.ids['state_label']
 
-        state = self.audio.state
+        state = audio.state
         state_label.text = 'AudioPlayer State: ' + state
 
         play_button.disabled = not self.has_record
