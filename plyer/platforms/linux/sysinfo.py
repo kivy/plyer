@@ -1,3 +1,4 @@
+import re
 import platform
 import subprocess
 from subprocess import Popen, PIPE
@@ -10,7 +11,7 @@ class LinuxSysinfo(Sysinfo):
         '''
         Returns the model info for example: "VirtualBox"
         '''
-        command = 'cat /sys/devices/virtual/dmi/id/product_name '.split()
+        command = ('cat', '/sys/devices/virtual/dmi/id/product_name')
         p = Popen(command, stderr=PIPE, stdout=PIPE)
         sp = p.communicate()[0]
         return sp
@@ -30,9 +31,42 @@ class LinuxSysinfo(Sysinfo):
 
     def _processor_info(self):
         '''
-        Returns the type of processor for example: "x86_64"
+        Returns the model and type of processor, for example:
+        "GenuineIntel, Intel(R) Core(TM) i7 CPU 860 @ 2.80GHz, 4 cores, x86_64"
         '''
-        return platform.processor()
+        info = platform.processor()
+        try:
+            command = ('cat', '/proc/cpuinfo')
+            p = Popen(command, stderr=PIPE, stdout=PIPE)
+            cat = p.communicate()[0]
+        except:
+            pass
+        else:
+            if cat:
+                l = []
+                data_ptrn = "[\t ]*:[\t ](?P<data>[^\t\n ]+" \
+                            "(?:[\t ]+[^\n\t ]+)*)"
+                vendor_ptrn = "vendor_id" + data_ptrn
+                model_ptrn = "model name" + data_ptrn
+                core_ptrn = "cpu cores\D*(?P<cores>\d+)[\t ]*\n"
+                strip_ptrn = "(?:\t+|[ ]{2,})"
+                m = re.search(vendor_ptrn, cat, re.IGNORECASE)
+                if m:
+                    l.append(m.group('data'))
+                m = re.search(model_ptrn, cat, re.IGNORECASE)
+                if m:
+                    l.append(m.group('data'))
+                m = re.search(core_ptrn, cat, re.IGNORECASE)
+                if m:
+                    cores = int(m.group('cores'))
+                    if cores <= 1:
+                        l.append("1 core")
+                    else:
+                        l.append("{0} cores".format(cores))
+                l.append(info)
+                info = ", ".join(l)
+                info = re.sub(strip_ptrn, ' ', info)
+        return info
 
     def _version_info(self):
         '''
@@ -57,9 +91,17 @@ class LinuxSysinfo(Sysinfo):
         '''
         Returns the manufacturer's name for example: "innotek GmnH"
         '''
-        command = 'cat /sys/devices/virtual/dmi/id/sys_vendor '.split()
+        command = ('cat', '/sys/devices/virtual/dmi/id/sys_vendor')
         p = Popen(command, stderr=PIPE, stdout=PIPE)
         sp = p.communicate()[0]
+
+        # if system manufacturer is not set, return system board manufacturer
+        if sp.strip().lower() in ('system manufacturer', ''):
+            command = ('cat', '/sys/devices/virtual/dmi/id/board_vendor')
+            p = Popen(command, stderr=PIPE, stdout=PIPE)
+            board = p.communicate()[0]
+            if board:
+                return board
         return sp
 
     def _kernel_version(self):
@@ -90,14 +132,17 @@ class LinuxSysinfo(Sysinfo):
 
     def _screen_resolution(self):
         '''
-        Returns the screen resolution for example: "[1920, 975]"
+        Returns the screen resolution as tuple for example: "(1920, 975)"
         '''
         sd = Popen('xrandr | grep "\*" | cut -d" " -f4',
                    shell=True,
                    stdout=PIPE).communicate()[0]
 
-        a = sd.split('x')[0]
-        b = sd.split('x')[1].split('\n')[0]
+        try:
+            a = sd.split('x')[0]
+            b = sd.split('x')[1].split('\n')[0]
+        except:
+            a, b = (0, 0)  # if parsing failed return something at leasts
         return (int(a), int(b))
 
 
