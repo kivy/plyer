@@ -95,8 +95,13 @@ class Sysinfo(object):
         return self._kernel_version()
 
     def storage_info(self):
-        # returns the storage capacity o fthe system.
+        # returns the storage capacity of the system.
+        # NOTE now returns available disk/flash space in different format
         return self._storage_info()
+
+    def memory_info(self):
+        # return total device system memory (RAM) in bytes (integer)
+        return self._memory_info()
 
     def screen_resolution(self):
         # returns the screen's resolution like 1200x980.
@@ -132,6 +137,9 @@ class Sysinfo(object):
         raise NotImplementedError()
 
     def _storage_info(self):
+        raise NotImplementedError()
+
+    def _memory_info(self):
         raise NotImplementedError()
 
     def _screen_resolution(self):

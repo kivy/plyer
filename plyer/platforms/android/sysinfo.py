@@ -7,9 +7,10 @@ BuildVersion = autoclass('android.os.Build$VERSION')
 BuildVersionCodes = autoclass('android.os.Build$VERSION_CODES')
 System = autoclass('java.lang.System')
 Environment = autoclass('android.os.Environment')
-StatsFs = autoclass('android.os.StatFs')
+StatFs = autoclass('android.os.StatFs')
 DisplayMetrics = autoclass('android.util.DisplayMetrics')
 Context = autoclass('android.content.Context')
+MemoryInfo = autoclass('android.app.ActivityManager$MemoryInfo')
 
 
 class AndroidSysinfo(Sysinfo):
@@ -35,9 +36,10 @@ class AndroidSysinfo(Sysinfo):
 
     def _processor_info(self):
         '''
-        Returns the type of processor for example: armeabi-v7a
+        Returns the manufacturer and type of processor
+        for example: "qcom, armeabi-v7a"
         '''
-        return Build.CPU_ABI
+        return "{0}, {1}".format(Build.HARDWARE, Build.CPU_ABI)
 
     def _version_info(self):
         '''
@@ -86,14 +88,23 @@ class AndroidSysinfo(Sysinfo):
 
     def _storage_info(self):
         '''
-        Returns the amount of storage (RAM) in GB. for example:
-        NOTE WARNING this doesn't seem to return GBs of RAM.
-        My phone reports 10610. Fuyou.
+        Returns the amount of available disk storage in bytes (int).
         '''
-        stat = StatsFs(Environment.getDataDirectory().getPath())
-        bytesAvailable = stat.getBlockSize() * stat.getBlockCount()
-        megAvailable = bytesAvailable / 1048576
-        return str(megAvailable)
+
+        stat = StatFs(Environment.getDataDirectory().getPath())
+        bytes_vailable = stat.getBlockSize() * stat.getBlockCount()
+
+        return int(bytes_vailable)
+
+    def _memory_info(self):
+        '''
+        Return total system memory (RAM) in bytes (integer)
+        '''
+        context = activity.getApplicationContext()
+        activity_manager = context.getSystemService(Context.ACTIVITY_SERVICE)
+        mem_info = MemoryInfo()
+        activity_manager.getMemoryInfo(mem_info)
+        return int(mem_info.totalMem)
 
     def _screen_resolution(self):
         '''

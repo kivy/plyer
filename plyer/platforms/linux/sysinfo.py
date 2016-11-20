@@ -1,4 +1,5 @@
 import re
+import os
 import platform
 import subprocess
 from subprocess import Popen, PIPE
@@ -111,8 +112,17 @@ class LinuxSysinfo(Sysinfo):
         return platform.uname()[2]
 
     def _storage_info(self):
+        # Return available storage space in bytes (integer)
+        # On Linux stats for ~/ (user's home) as making more sense if app
+        # is to store data there. Notice that Linux installations often
+        # have separate /home partition
+        stat = os.statvfs(os.path.expanduser('~/'))
+        free_bytes = stat.f_bavail * stat.f_frsize
+        return int(free_bytes)
+
+    def _memory_info(self):
         '''
-        Returns the amount of storage (RAM) in GB. for example: "1.43 GB"
+        Returns the total amount of memory (RAM) in bytes.
         '''
         meminfo = {}
 
@@ -121,14 +131,17 @@ class LinuxSysinfo(Sysinfo):
                 meminfo[line.split(':')[0]] = line.split(':')[1].strip()
         try:
             memory, unit = meminfo['MemTotal'].split(' ')
+            memory = int(memory)
             if (unit.lower() == "kb"):
-                return str(round(int(memory) / (1024.0 * 1024.0), 2)) + " GB"
+                memory = memory * 1024
             elif (unit.lower() == "mb"):
-                return str(round(int(memory) / (1024.0), 2)) + " GB"
+                memory = memory * (1024 ** 2)
             elif (unit.lower() == "gb"):
-                return str(int(memory)) + " GB"
-        except:
+                memory *= memory * (1024 ** 3)
+        except Exception as ex:
+            print('Exception with memory parsing: {0}'.format(ex))
             return str(meminfo['MemTotal'])
+        return memory
 
     def _screen_resolution(self):
         '''
