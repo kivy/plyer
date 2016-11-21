@@ -24,9 +24,15 @@ class AndroidSysinfo(Sysinfo):
 
     def _system_name(self):
         '''
-        Returns the system's OS name for example: Linux
+        Returns the system's OS name.
+        Since Android would show 'Linux' as system OS name usually,
+        return "Android (Linux)" to avoid confusion with pure Linux platforms
+        for example: Android (Linux)
         '''
-        return System.getProperty("os.name")
+        name = System.getProperty("os.name")
+        if name.lower() == 'linux':
+            name = "Android (Linux)"
+        return name
 
     def _platform_info(self):
         '''
@@ -43,23 +49,31 @@ class AndroidSysinfo(Sysinfo):
 
     def _version_info(self):
         '''
-        Returns the version of OS in a tuple for example:
+        Returns the version of OS in a tuple,
+        for example: (Android, 21, LOLLIPOP)
+
+        There are multiple codenames for some SDK values
+        e.g (21 L, 21 LOLLIPOP), so we will try to check
+        for longer value, and break loop only then
         '''
         sdkint = BuildVersion.SDK_INT
         version = BuildVersion.RELEASE
+        codename = ''
         try:
-            fields = BuildVersionCodes.getClass().getFields()
-            for field in fields:
-                fieldName = field.getName()
-                fieldValue = field.getInt()
-
-                if (fieldValue == sdkint):
-                    return ('Android', str(sdkint), fieldName)
+            codes = BuildVersionCodes()
+            for field_name in dir(codes):
+                field_value = getattr(BuildVersionCodes, field_name, '')
+                # following type check may except on some fields
+                # (codename is already aquired in tests on this poit)
+                # may consider using try-except here too
+                if (type(field_value) == int) and (field_value == sdkint):
+                    codename = field_name
+                    if len(codename) > 2:
+                        break
         except Exception as ex:
-            # WARNING TEST
-            # from kivy.logger import Logger
-            # Logger.error('plyer: could not get version code: {0}'.format(ex))
-            return ('Android', str(sdkint), "UNKNOWN")
+            if not codename:
+                codename = "UNKNOWN"
+        return ('Android', str(sdkint), codename)
 
     def _architecture_info(self):
         '''

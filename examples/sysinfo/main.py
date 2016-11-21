@@ -3,7 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from plyer import sysinfo
 from kivy.properties import StringProperty, ListProperty
-
+from kivy.logger import Logger
 
 Builder.load_string('''
 <SysinfoInterface>:
@@ -25,6 +25,9 @@ Builder.load_string('''
             text: "Processor"
         Label:
             text: root.processor_
+            text_size: self.size
+            halign: "center"
+            valign: "middle"
         Label:
             text: "Version"
         Label:
@@ -50,6 +53,10 @@ Builder.load_string('''
         Label:
             text: root.storage_
         Label:
+            text: "Memory"
+        Label:
+            text: root.memory_
+        Label:
             text: "Screen"
         Label:
             text: str(root.screen_)
@@ -70,12 +77,13 @@ class SysinfoInterface(BoxLayout):
     kernel_ = StringProperty()
     storage_ = StringProperty()
     screen_ = ListProperty()
+    memory_ = StringProperty()
 
     def __init__(self, **kwargs):
         super(SysinfoInterface, self).__init__(**kwargs)
-        self.update()
 
     def update(self):
+        Logger.info('plyer: update sysinfo data')
         self.get_model()
         self.get_platform()
         self.get_system()
@@ -86,6 +94,7 @@ class SysinfoInterface(BoxLayout):
         self.get_manufacturer()
         self.get_kernel_version()
         self.get_storage_info()
+        self.get_memory_info()
         self.get_screen_resolution()
 
     def get_model(self):
@@ -99,6 +108,7 @@ class SysinfoInterface(BoxLayout):
 
     def get_processor(self):
         self.processor_ = sysinfo.processor_info()
+        print(self.processor_)
 
     def get_version(self):
         temp = sysinfo.version_info()
@@ -117,7 +127,17 @@ class SysinfoInterface(BoxLayout):
         self.kernel_ = sysinfo.kernel_version()
 
     def get_storage_info(self):
-        self.storage_ = sysinfo.storage_info()
+        free_bytes = sysinfo.storage_info()
+        if free_bytes > 1073741824:  # 1GB
+            self.storage_ = "{0:.2f} GB".format(free_bytes / 1024.0**3)
+        else:
+            self.storage_ = "{0} MB".format(free_bytes / 1024**2)
+
+    def get_memory_info(self):
+        try:
+            self.memory_ = "{0:.2f} GB".format(sysinfo.memory_info() / 1024.0**3)
+        except NotImplementedError:
+            self.memory_ = '<Not Implemented>'
 
     def get_screen_resolution(self):
         self.screen_ = sysinfo.screen_resolution()
@@ -127,6 +147,9 @@ class SysinfoApp(App):
 
     def build(self):
         return SysinfoInterface()
+
+    def on_start(self):
+        self.root.update()
 
 if __name__ == "__main__":
     app = SysinfoApp()
