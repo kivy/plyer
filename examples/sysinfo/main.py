@@ -112,8 +112,11 @@ class SysinfoInterface(BoxLayout):
 
     def get_version(self):
         temp = sysinfo.version_info()
-        self.version_ = "{} {} {}".format(temp[0], temp[1], temp[2])
-
+        if type(temp) in (tuple, list):
+            self.version_ = "{} {} {}".format(temp[0], temp[1], temp[2])
+        else:
+            self.version_ = temp
+            
     def get_architecture(self):
         self.architecture_ = str(sysinfo.architecture_info())
 
