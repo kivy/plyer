@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 import platform
 import subprocess
 from subprocess import Popen, PIPE
@@ -8,13 +9,20 @@ from plyer.facades import Sysinfo
 
 class LinuxSysinfo(Sysinfo):
 
-    def _model_info(self):
+    def _model_info(self, alias=True):
         '''
         Returns the model info for example: "VirtualBox"
         '''
         command = ('cat', '/sys/devices/virtual/dmi/id/product_name')
         p = Popen(command, stderr=PIPE, stdout=PIPE)
-        sp = p.communicate()[0]
+        sp = p.communicate()[0].strip()
+
+        if alias and sp.lower().strip() in ('system product name', ''):
+            command = ('cat', '/sys/devices/virtual/dmi/id/board_name')
+            p = Popen(command, stderr=PIPE, stdout=PIPE)
+            board = p.communicate()[0].strip()
+            if board:
+                return "{0} ({1})".format(self._device_name(), board)
         return sp
 
     def _system_name(self):
@@ -31,48 +39,58 @@ class LinuxSysinfo(Sysinfo):
         return platform.platform()
 
     def _processor_info(self):
-        '''
-        Returns the model and type of processor, for example:
-        "GenuineIntel, Intel(R) Core(TM) i7 CPU 860 @ 2.80GHz, 4 cores, x86_64"
-        '''
-        info = platform.processor()
+        """Returns the information of processor as tuple-like object of
+        * **model** *(str)*: CPU model name or '' (not implemented)
+        * **manufacturer** *(str)*: manufacturer name
+        * **arch** *(str)*: architecture info
+        * **cores** *(int)*: number of physical cores or None (not implemented)
+        for example:
+        cpu_namedtuple(model='', manufacturer='qcom',
+                       cores=None, arch='armeabi-v7a')
+        """
         try:
             command = ('cat', '/proc/cpuinfo')
             p = Popen(command, stderr=PIPE, stdout=PIPE)
             cat = p.communicate()[0]
         except:
-            pass
+            return self.CpuNamedTuple(model=platform.processor(),
+                                      manufacturer='',
+                                      cores=None,
+                                      arch=platform.machine())
         else:
-            if cat:
-                l = []
-                data_ptrn = "[\t ]*:[\t ](?P<data>[^\t\n ]+" \
-                            "(?:[\t ]+[^\n\t ]+)*)"
-                vendor_ptrn = "vendor_id" + data_ptrn
-                model_ptrn = "model name" + data_ptrn
-                core_ptrn = "cpu cores\D*(?P<cores>\d+)[\t ]*\n"
-                strip_ptrn = "(?:\t+|[ ]{2,})"
-                m = re.search(vendor_ptrn, cat, re.IGNORECASE)
-                if m:
-                    l.append(m.group('data'))
-                m = re.search(model_ptrn, cat, re.IGNORECASE)
-                if m:
-                    l.append(m.group('data'))
-                m = re.search(core_ptrn, cat, re.IGNORECASE)
-                if m:
-                    cores = int(m.group('cores'))
-                    if cores <= 1:
-                        l.append("1 core")
-                    else:
-                        l.append("{0} cores".format(cores))
-                l.append(info)
-                info = ", ".join(l)
-                info = re.sub(strip_ptrn, ' ', info)
-        return info
+            l = []
+            data_ptrn = "[\t ]*:[\t ](?P<data>[^\t\n ]+" \
+                        "(?:[\t ]+[^\n\t ]+)*)"
+            vendor_ptrn = "vendor_id" + data_ptrn
+            model_ptrn = "model name" + data_ptrn
+            core_ptrn = "cpu cores\D*(?P<cores>\d+)[\t ]*\n"
+            strip_ptrn = "(?:\t+|[ ]{2,})"
+            m = re.search(vendor_ptrn, cat, re.IGNORECASE)
+            if m:
+                manf = m.group('data')
+            else:
+                manf = ''
+
+            m = re.search(model_ptrn, cat, re.IGNORECASE)
+            if m:
+                model = m.group('data')
+                model = re.sub(strip_ptrn, ' ', model)
+            else:
+                model = ''
+
+            m = re.search(core_ptrn, cat, re.IGNORECASE)
+            if m:
+                cores = int(m.group('cores'))
+            else:
+                cores = None
+
+            return self.CpuNamedTuple(model=model, manufacturer=manf,
+                                      cores=cores, arch=platform.machine())
 
     def _version_info(self):
         '''
         Returns the version of OS in a tuple for example:
-        "Ubuntu 15.10 wily"
+        ("Ubuntu", "15.10", "wily")
         '''
         return platform.dist()
 
@@ -88,19 +106,19 @@ class LinuxSysinfo(Sysinfo):
         '''
         return platform.uname()[1]
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, alias=True):
         '''
         Returns the manufacturer's name for example: "innotek GmnH"
         '''
         command = ('cat', '/sys/devices/virtual/dmi/id/sys_vendor')
         p = Popen(command, stderr=PIPE, stdout=PIPE)
-        sp = p.communicate()[0]
+        sp = p.communicate()[0].strip()
 
         # if system manufacturer is not set, return system board manufacturer
-        if sp.strip().lower() in ('system manufacturer', ''):
+        if alias and sp.lower() in ('system manufacturer', ''):
             command = ('cat', '/sys/devices/virtual/dmi/id/board_vendor')
             p = Popen(command, stderr=PIPE, stdout=PIPE)
-            board = p.communicate()[0]
+            board = p.communicate()[0].strip()
             if board:
                 return board
         return sp
@@ -111,18 +129,32 @@ class LinuxSysinfo(Sysinfo):
         '''
         return platform.uname()[2]
 
-    def _storage_info(self):
-        # Return available storage space in bytes (integer)
-        # On Linux stats for ~/ (user's home) as making more sense if app
-        # is to store data there. Notice that Linux installations often
-        # have separate /home partition
-        stat = os.statvfs(os.path.expanduser('~/'))
+    def _storage_info(self, path=None):
+        """ Return available storage space in bytes (int).
+        default path is user's home, expand user is performed on path
+        * NOTE that Linux installations often have separate /home partition
+        """
+        if path:
+            path = os.path.expanduser(path)
+        else:
+            path = os.path.expanduser('~/')
+
+        if sys.version_info >= (3, 3):
+            try:
+                from shutil import disk_usage
+            except ImportError:
+                pass
+            else:
+                return disk_usage(path).free
+
+        # if python version is below 3.3 or import failure
+        stat = os.statvfs(path)
         free_bytes = stat.f_bavail * stat.f_frsize
         return int(free_bytes)
 
     def _memory_info(self):
         '''
-        Returns the total amount of memory (RAM) in bytes.
+        Returns the total amount of memory (RAM) in bytes (int).
         '''
         meminfo = {}
 
@@ -152,8 +184,9 @@ class LinuxSysinfo(Sysinfo):
                    stdout=PIPE).communicate()[0]
 
         try:
-            a = sd.split('x')[0]
-            b = sd.split('x')[1].split('\n')[0]
+            splits = sd.split('x')
+            a = splits[0]
+            b = splits[1].split('\n')[0]
         except:
             a, b = (0, 0)  # if parsing failed return something at leasts
         return (int(a), int(b))

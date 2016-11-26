@@ -15,10 +15,11 @@ MemoryInfo = autoclass('android.app.ActivityManager$MemoryInfo')
 
 class AndroidSysinfo(Sysinfo):
 
-    def _model_info(self):
+    def _model_info(self, alias=False):
         '''
         Returns the model info for example: ASUS_Z00ED
         Examples are given for Asus Zenphone 2 laser 5"
+        * alias is ignored on android platform
         '''
         return Build.MODEL
 
@@ -41,16 +42,22 @@ class AndroidSysinfo(Sysinfo):
         return Build.DEVICE
 
     def _processor_info(self):
-        '''
-        Returns the manufacturer and type of processor
-        for example: "qcom, armeabi-v7a"
-        '''
-        return "{0}, {1}".format(Build.HARDWARE, Build.CPU_ABI)
+        """Returns the information of processor as tuple-like object of
+        * **model** *(str)*: CPU model name or '' (not implemented)
+        * **manufacturer** *(str)*: manufacturer name
+        * **arch** *(str)*: architecture info
+        * **cores** *(int)*: number of physical cores or None (not implemented)
+        for example:
+        cpu_namedtuple(model='', manufacturer='qcom',
+                       cores=None, arch='armeabi-v7a')
+        """
+        return self.CpuNamedTuple(model='', manufacturer=Build.HARDWARE,
+                                  cores=None, arch=Build.CPU_ABI)
 
     def _version_info(self):
         '''
         Returns the version of OS in a tuple,
-        for example: (Android, 21, LOLLIPOP)
+        for example: ('Android', '21', 'LOLLIPOP')
 
         There are multiple codenames for some SDK values
         e.g (21 L, 21 LOLLIPOP), so we will try to check
@@ -64,7 +71,7 @@ class AndroidSysinfo(Sysinfo):
             for field_name in dir(codes):
                 field_value = getattr(BuildVersionCodes, field_name, '')
                 # following type check may except on some fields
-                # (codename is already aquired in tests on this poit)
+                # (codename is already aquired in tests on this point)
                 # may consider using try-except here too
                 if (type(field_value) == int) and (field_value == sdkint):
                     codename = field_name
@@ -84,25 +91,27 @@ class AndroidSysinfo(Sysinfo):
 
     def _device_name(self):
         '''
-        Returns the device name for example: asus ASUS_Z00ED
+        Returns the device name, for example: asus ASUS_Z00ED
         '''
-        return str(Build.MANUFACTURER) + " " + str(Build.MODEL)
+        return "{0} {1}".format(Build.MANUFACTURER, Build.MODEL)
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, alias=False):
         '''
-        Returns the manufacturer's name for example: asus
+        Returns the manufacturer's name, for example: asus
+        * alias is ignored on android platform
         '''
         return Build.MANUFACTURER
 
     def _kernel_version(self):
         '''
-        Returns the kernel version for example: 3.10.49-perf-g4186cc1
+        Returns the kernel version, for example: 3.10.49-perf-g4186cc1
         '''
         return System.getProperty("os.version")
 
-    def _storage_info(self):
+    def _storage_info(self, path=None):
         '''
-        Returns the amount of available disk storage in bytes (int).
+        Returns the amount of available disk storage in bytes (int)
+        * **path** is not implemented on this platform
         '''
 
         stat = StatFs(Environment.getDataDirectory().getPath())
@@ -112,7 +121,7 @@ class AndroidSysinfo(Sysinfo):
 
     def _memory_info(self):
         '''
-        Return total system memory (RAM) in bytes (integer)
+        Return total system memory (RAM) in bytes (int)
         '''
         context = activity.getApplicationContext()
         activity_manager = context.getSystemService(Context.ACTIVITY_SERVICE)
@@ -122,7 +131,7 @@ class AndroidSysinfo(Sysinfo):
 
     def _screen_resolution(self):
         '''
-        Returns the screen resolution as list, for example: [720,1280]
+        Returns the screen resolution as 2-tuple, for example: (720,1280)
         '''
         dm = DisplayMetrics()
         context = activity.getApplicationContext()

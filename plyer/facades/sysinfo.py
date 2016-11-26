@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 '''
 Sysinfo Facade.
  =============
@@ -57,10 +59,17 @@ Implementing the UI in kivy language:
 class Sysinfo(object):
     ''' Sysinfo facade.
     '''
+    CpuNamedTuple = namedtuple('cpu_namedtuple',
+                               ('model', 'manufacturer', 'cores', 'arch'))
 
-    def model_info(self):
-        # returns the model name.
-        return self._model_info()
+    def model_info(self, alias=True):
+        """ returns device model name.
+        * **alias** *(boolean)*: on desktop platforms if True allows
+        replacing default 'System Product Name' value with
+        '<device_name> (<Main Board name>)'. Particularly useful for
+        self-assembled machines.
+        """
+        return self._model_info(alias)
 
     def system_name(self):
         # returns the name of system.
@@ -71,11 +80,16 @@ class Sysinfo(object):
         return self._platform_info()
 
     def processor_info(self):
-        # returns the processor details
+        """returns the processor details as tuple-like object with fields:
+        * **model** *(str)*: CPU model name or ''
+        * **manufacturer** *(str)*: manufacturer name
+        * **arch** *(str)*: architecture info
+        * **cores** *(int)*: number of physical cores or None
+        """
         return self._processor_info()
 
     def version_info(self):
-        # returns release, version and ptype.
+        # returns tuple with information of OS name, version and type
         return self._version_info()
 
     def architecture_info(self):
@@ -86,30 +100,39 @@ class Sysinfo(object):
         # returns name of the device.
         return self._device_name()
 
-    def manufacturer_name(self):
-        # returns the manufacturer's name
-        return self._manufacturer_name()
+    def manufacturer_name(self, alias=True):
+        """ returns device manufacturer name.
+        * **alias** *(boolean)*: on desktop platforms if True allows
+        replacing default 'System Manufacturer' value with
+        main board manufacturer name instead. Particularly useful for
+        self-assembled machines.
+        """
+        return self._manufacturer_name(alias)
 
     def kernel_version(self):
         # returns the kernel name.
         return self._kernel_version()
 
-    def storage_info(self):
-        # returns the storage capacity of the system.
-        # NOTE now returns available disk/flash space in different format
-        return self._storage_info()
+    def storage_info(self, path=None):
+        """returns the available storage capacity
+        on desktop platforms use *path* argument, which defaults
+        *'~/' on Linux and Mac
+        *'C:' on Windows
+        ignored on iOS and Android
+        """
+        return self._storage_info(path)
 
     def memory_info(self):
         # return total device system memory (RAM) in bytes (integer)
         return self._memory_info()
 
     def screen_resolution(self):
-        # returns the screen's resolution like 1200x980.
+        # returns the screen's resolution as 2-tuple, e.g.: (1200,980)
         return self._screen_resolution()
 
     # private
 
-    def _model_info(self):
+    def _model_info(self, alias):
         raise NotImplementedError()
 
     def _system_name(self):
@@ -130,13 +153,13 @@ class Sysinfo(object):
     def _device_name(self):
         raise NotImplementedError()
 
-    def _manufacturer_name(self):
+    def _manufacturer_name(self, alias):
         raise NotImplementedError()
 
     def _kernel_version(self):
         raise NotImplementedError()
 
-    def _storage_info(self):
+    def _storage_info(self, path):
         raise NotImplementedError()
 
     def _memory_info(self):

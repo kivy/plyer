@@ -1,8 +1,6 @@
 import platform
-import os
 import re
 import sys
-import ctypes
 from subprocess import Popen, PIPE
 from plyer.facades import Sysinfo
 from plyer.platforms.win.libs import win_api_defs
@@ -10,8 +8,13 @@ from plyer.platforms.win.libs import win_api_defs
 
 class WindowsSysinfo(Sysinfo):
 
-    def _call_wmic(self, subcmd):
-        cmd = ['wmic', ] + subcmd
+    def _call_wmic(self, args, as_list=False):
+        """Helper method to read output of Windows wmic utility
+        * **args** *(list)*: list of 3 arguments to wmic
+        * **as_list** *(boolean)*: returns list of output instead of
+            default first element only.
+        """
+        cmd = ['args', ] + args
         print(cmd)
         p = Popen(cmd, stderr=PIPE, stdout=PIPE)
         data = p.communicate()[0]
@@ -19,18 +22,23 @@ class WindowsSysinfo(Sysinfo):
         clean_list = []
         for split in splits:
             i = split.strip()
-            if i != '' and i.lower() != subcmd[-1].lower():
+            if i != '' and i.lower() != args[-1].lower():
                 clean_list.append(i)
-        return clean_list
 
-    def _model_info(self):
-        '''
-        Returns Model information for example: "HP 2000 Notebook PC"
-        '''
-        model = self._call_wmic(['computersystem', 'get', 'model'])[0]
-        if model.lower() == 'system product name':
-            model = self._call_wmic(['baseboard', 'get', 'product'])[0]
-            name = self._call_wmic(['computersystem', 'get', 'caption'])[0]
+        if as_list:
+            return clean_list
+        else:
+            return clean_list[0]
+
+    def _model_info(self, alias=True):
+        """Returns Model information for example: "HP 2000 Notebook PC"
+        * if *alias* is True, try replacing default value of
+        'System Product Name' with '<PC name> (<Main Board model name>')
+        """
+        model = self._call_wmic(['computersystem', 'get', 'model'])
+        if alias and model.lower() in ('system product name', ''):
+            model = self._call_wmic(['baseboard', 'get', 'product'])
+            name = self._call_wmic(['computersystem', 'get', 'caption'])
             model = "{0} ({1})".format(name, model)
 
         return model
@@ -48,32 +56,34 @@ class WindowsSysinfo(Sysinfo):
         return platform.platform()
 
     def _processor_info(self):
-        '''
-        Returns the type of processor for example:
-        "Intel64 Family 6 Model 42 Stepping 7, GenuineIntel"
-        '''
-        l = []
-        l.append(self._call_wmic(['cpu', 'get', 'name'])[0])
-        cores = int(self._call_wmic(['cpu', 'get', 'numberofcores'])[0])
-        if cores == 1:
-            l.append("1 core")
-        else:
-            l.append("{0} cores".format(cores))
-        l.append(self._call_wmic(['cpu', 'get', 'manufacturer'])[0])
+        """Returns the information of processor as tuple-like object of
+        * **model** *(str)*: CPU model name or ''
+        * **manufacturer** *(str)*: manufacturer name
+        * **arch** *(str)*: architecture info
+        * **cores** *(int)*: number of physical cores or None
+        NOTE add example
+        """
+        model = self._call_wmic(['cpu', 'get', 'name'])
+        cores = int(self._call_wmic(['cpu', 'get', 'numberofcores']))
+        manf = self._call_wmic(['cpu', 'get', 'manufacturer'])
         # return platform.processor()
-        info = re.sub("(?:\t+|[ ]{2,})", ' ', ", ".join(l))
-        return info
+        model = re.sub("(?:\t+|[ ]{2,})", ' ', model)
+        return self.CpuNamedTuple(model=model, manufacturer=manf,
+                                  cores=cores, arch=platform.machine())
 
     def _version_info(self):
         '''
         Returns the version of OS in a tuple for example:
-        "8 6.2.9200 "
+        ('Microsoft Windows 8.1 Pro', '6.3.9600', '')
+        (release, version, csd, ptype)
         '''
+        ver_win32 = platform.win32_ver()
         try:
-            v = self._call_wmic(['os', 'get', 'caption'])[0]
-            return v  # WARNING use tuple
+            ver = self._call_wmic(['os', 'get', 'caption'])
         except:
-            return platform.win32_ver()
+            return ver_win32
+        else:
+            return (ver, ver_win32[1], ver_win32[2])
 
     def _architecture_info(self):
         '''
@@ -88,13 +98,14 @@ class WindowsSysinfo(Sysinfo):
         '''
         return platform.uname()[1]
 
-    def _manufacturer_name(self, **kwargs):
-        '''
-        Returns manufacturer's name, for example: "Hewlett-Packard"
-        '''
-        name = self._call_wmic(['computersystem', 'get', 'manufacturer'])[0]
-        if name.lower() == 'system manufacturer':
-            name = self._call_wmic(['baseboard', 'get', 'manufacturer'])[0]
+    def _manufacturer_name(self, alias=True, **kwargs):
+        """Returns manufacturer's name, for example: "Hewlett-Packard"
+        * if *alias* is True, try replacing default value of
+        'System Manufacturer' with Main Board vendor
+        """
+        name = self._call_wmic(['computersystem', 'get', 'manufacturer'])
+        if alias and name.lower() in ('system manufacturer', ''):
+            name = self._call_wmic(['baseboard', 'get', 'manufacturer'])
         return name
 
     def _kernel_version(self):
@@ -105,9 +116,21 @@ class WindowsSysinfo(Sysinfo):
 
     def _storage_info(self, path='c:'):
         '''
-        Returns the amount of storage (RAM) in GB for example: "3.9 GB"
+        Returns the amount of free space for given drive in bytes (int)
         '''
-        drive = path.split(':')[0] + ":"
+        if not path:
+            path = "c:"  # WARNING check if it's valid for disk_usage()
+
+        if sys.version_info >= (3, 3):
+            try:
+                from shutil import disk_usage
+            except ImportError:
+                pass
+            else:
+                return disk_usage(path).free
+
+        # if python version is below 3.3 or shutil import failed
+        drive = path.split(':')[0] + ":"  # ensure only drive letter
         cmd = ['fsutil', 'volume', 'diskfree', drive]
         p = Popen(cmd, stderr=PIPE, stdout=PIPE)
         data = p.communicate()[0]
@@ -116,12 +139,14 @@ class WindowsSysinfo(Sysinfo):
         return int(free_bytes)
 
     def _memory_info(self):
-        return int(self._call_wmic(['computersystem', 'get',
-                                    'TotalPhysicalMemory'])[0])
+        """Return total system memory (RAM) in bytes (int)
+        """
+        b = self._call_wmic(['computersystem', 'get', 'TotalPhysicalMemory'])
+        return int(b)
 
     def _screen_resolution(self):
         '''
-        Returns the screen resolution for example: "[1366, 768]"
+        Returns the screen resolution for example: "(1366, 768)"
         '''
         return (win_api_defs.GetSystemMetrics(0),
                 win_api_defs.GetSystemMetrics(1))

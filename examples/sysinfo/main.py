@@ -5,6 +5,9 @@ from plyer import sysinfo
 from kivy.properties import StringProperty, ListProperty
 from kivy.logger import Logger
 
+
+__version__ = '1.2'
+
 Builder.load_string('''
 <SysinfoInterface>:
     GridLayout:
@@ -107,16 +110,17 @@ class SysinfoInterface(BoxLayout):
         self.system_ = sysinfo.system_name()
 
     def get_processor(self):
-        self.processor_ = sysinfo.processor_info()
-        print(self.processor_)
+        tpl = sysinfo.processor_info()
+        l = []
+        for i in tpl:
+            if i:
+                l.append(str(i))
+        self.processor_ = ', '.join(l)
 
     def get_version(self):
-        temp = sysinfo.version_info()
-        if type(temp) in (tuple, list):
-            self.version_ = "{} {} {}".format(temp[0], temp[1], temp[2])
-        else:
-            self.version_ = temp
-            
+        tpl = sysinfo.version_info()
+        self.version_ = "{0[0]} {0[1]} {0[2]}".format(tpl)
+
     def get_architecture(self):
         self.architecture_ = str(sysinfo.architecture_info())
 
@@ -138,7 +142,8 @@ class SysinfoInterface(BoxLayout):
 
     def get_memory_info(self):
         try:
-            self.memory_ = "{0:.2f} GB".format(sysinfo.memory_info() / 1024.0**3)
+            b = sysinfo.memory_info()
+            self.memory_ = "{0:.2f} GB".format(b / 1024.0**3)
         except NotImplementedError:
             self.memory_ = '<Not Implemented>'
 
@@ -149,6 +154,7 @@ class SysinfoInterface(BoxLayout):
 class SysinfoApp(App):
 
     def build(self):
+        self.title = "Sysinfo v.{0}".format(__version__)
         return SysinfoInterface()
 
     def on_start(self):
