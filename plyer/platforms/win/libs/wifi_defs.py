@@ -448,7 +448,7 @@ def _make_dict():
     global _dict
     _dict = {}
     for network in available:
-        _dict[str(network.dot11Ssid.SSID)] = network
+        _dict[network.dot11Ssid.SSID] = network
 
 
 def _get_available_wifi():
