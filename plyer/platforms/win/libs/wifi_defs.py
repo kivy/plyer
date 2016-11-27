@@ -8,6 +8,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop \
 from ctypes import *
 from ctypes.wintypes import *
 from sys import exit
+from plyer.compat import xrange
 
 
 def customresize(array, new_size):
