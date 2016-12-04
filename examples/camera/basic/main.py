@@ -1,6 +1,7 @@
 '''
 Basic camera example
-Default picture is saved as /sdcard/org.test.cameraexample/enter_file_name_here.jpg
+Default picture is saved as
+    /sdcard/org.test.cameraexample/enter_file_name_here.jpg
 '''
 
 from os import getcwd
@@ -18,10 +19,11 @@ from kivy.logger import Logger
 
 from plyer import camera
 
+
 class CameraDemo(FloatLayout):
     def __init__(self):
         super(CameraDemo, self).__init__()
-        self.cwd = getcwd() + "/"            
+        self.cwd = getcwd() + "/"
         self.ids.path_label.text = self.cwd
 
     def do_capture(self):
@@ -34,10 +36,11 @@ class CameraDemo(FloatLayout):
             return False
 
         try:
-            camera.take_picture(filename=filepath, 
+            camera.take_picture(filename=filepath,
                                 on_complete=self.camera_callback)
         except NotImplementedError:
-            popup = MsgPopup(msg="This feature has not yet been implemented for this platform.")
+            msg = "This feature has not yet been implemented for this platform."
+            popup = MsgPopup(msg=msg)
             popup.open()
 
     def camera_callback(self, filepath):
@@ -47,6 +50,7 @@ class CameraDemo(FloatLayout):
         else:
             popup = MsgPopup(msg="Could not save your picture!")
             popup.open()
+
 
 class CameraDemoApp(App):
     def __init__(self):
@@ -63,11 +67,12 @@ class CameraDemoApp(App):
     def on_resume(self):
         pass
 
+
 class MsgPopup(Popup):
     def __init__(self, msg):
         super(MsgPopup, self).__init__()
         self.ids.message_label.text = msg
 
+
 if __name__ == '__main__':
     CameraDemoApp().run()
-    
