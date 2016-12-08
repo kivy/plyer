@@ -25,10 +25,20 @@ To send sms::
 
 
 class Sms(object):
-    '''Sms facade.
+    '''
+    Sms facade.
     '''
 
     def send(self, recipient, message):
+        '''
+        Send SMS or open SMS interface.
+
+        :param recipient: The reveiver
+        :param message: the message
+
+        :type recipient: number
+        :type message: str
+        '''
         self._send(recipient=recipient, message=message)
 
     # private

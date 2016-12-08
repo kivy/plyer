@@ -34,6 +34,9 @@ class Call(object):
     def makecall(self, tel):
         '''
         Make calls using your device.
+
+        :param tel: The reciever
+        :type tel: number
         '''
         self._makecall(tel=tel)
 

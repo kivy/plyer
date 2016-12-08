@@ -27,11 +27,14 @@ To send an e-mail::
 
 
 class Email(object):
-    '''Email facade.'''
+    '''
+    Email facade.
+    '''
 
     def send(self, recipient=None, subject=None, text=None,
              create_chooser=None):
-        '''Open an email client message send window, prepopulated with the
+        '''
+        Open an email client message send window, prepopulated with the
         given arguments.
 
         :param recipient: Recipient of the message (str)
