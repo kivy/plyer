@@ -33,19 +33,22 @@ class Compass(object):
 
     @property
     def orientation(self):
-        '''Property that returns values of the current compass
+        '''
+        Property that returns values of the current compass
         (magnetic field) sensors, as a (x, y, z) tuple.
         Returns (None, None, None) if no data is currently available.
         '''
         return self.get_orientation()
 
     def enable(self):
-        '''Activate the compass sensor.
+        '''
+        Activate the compass sensor.
         '''
         self._enable()
 
     def disable(self):
-        '''Disable the compass sensor.
+        '''
+        Disable the compass sensor.
         '''
         self._disable()
 

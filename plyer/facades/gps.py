@@ -41,11 +41,13 @@ Here is an example of the usage of gps::
 
 
 class GPS(object):
-    '''GPS facade.
+    '''
+    GPS facade.
     '''
 
     def configure(self, on_location, on_status=None):
-        '''Configure the GPS object. This method should be called before
+        '''
+        Configure the GPS object. This method should be called before
         :meth:`start`.
 
         :param on_location: Function to call when receiving a new location
@@ -72,7 +74,8 @@ class GPS(object):
         self._start(minTime=minTime, minDistance=minDistance)
 
     def stop(self):
-        '''Stop the GPS location updates.
+        '''
+        Stop the GPS location updates.
         '''
         self._stop()
 

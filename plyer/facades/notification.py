@@ -19,12 +19,14 @@ To send notification::
 
 
 class Notification(object):
-    '''Notification facade.
+    '''
+    Notification facade.
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
                timeout=10, ticker=''):
-        '''Send a notification.
+        '''
+        Send a notification.
 
         :param title: Title of the notification
         :param message: Message of the notification

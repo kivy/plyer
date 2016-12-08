@@ -36,20 +36,23 @@ class Accelerometer(object):
 
     @property
     def acceleration(self):
-        '''Property that returns values of the current acceleration
+        '''
+        Property that returns values of the current acceleration
         sensors, as a (x, y, z) tuple. Returns (None, None, None)
         if no data is currently available.
         '''
         return self.get_acceleration()
 
     def enable(self):
-        '''Activate the accelerometer sensor. Throws an error if the
+        '''
+        Activate the accelerometer sensor. Throws an error if the
         hardware is not available or not implemented on.
         '''
         self._enable()
 
     def disable(self):
-        '''Disable the accelerometer sensor.
+        '''
+        Disable the accelerometer sensor.
         '''
         self._disable()
 

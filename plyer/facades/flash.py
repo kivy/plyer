@@ -35,16 +35,19 @@ To release flash::
 
 
 class Flash(object):
-    """Flash facade.
+    """
+    Flash facade.
     """
 
     def on(self):
-        """Activate the flash
+        """
+        Activate the flash
         """
         self._on()
 
     def off(self):
-        """Deactiavte the flash
+        """
+        Deactiavte the flash
         """
         self._off()
 

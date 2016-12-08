@@ -26,7 +26,8 @@ class Battery(object):
 
     @property
     def status(self):
-        '''Property that contains a dict with the following fields:
+        '''
+        Property that contains a dict with the following fields:
              * **isCharging** *(bool)*: Battery is charging
              * **percentage** *(float)*: Battery charge remaining
 

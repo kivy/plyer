@@ -38,23 +38,28 @@ class FileChooser(object):
     File Chooser facade.
     '''
 
-    def _file_selection_dialog(self, **kwargs):
-        raise NotImplementedError()
-
     def open_file(self, *args, **kwargs):
-        """Open the file chooser in "open" mode.
+        """
+        Open the file chooser in "open" mode.
         """
         return self._file_selection_dialog(mode="open", *args, **kwargs)
 
     def save_file(self, *args, **kwargs):
-        """Open the file chooser in "save" mode. Confirmation will be asked
+        """
+        Open the file chooser in "save" mode. Confirmation will be asked
         when a file with the same name already exists.
         """
         return self._file_selection_dialog(mode="save", *args, **kwargs)
 
     def choose_dir(self, *args, **kwargs):
-        """Open the directory chooser. Note that on Windows this is very
+        """
+        Open the directory chooser. Note that on Windows this is very
         limited. Consider writing your own chooser if you target that
         platform and are planning on using unsupported features.
         """
         return self._file_selection_dialog(mode="dir", *args, **kwargs)
+
+    # private
+
+    def _file_selection_dialog(self, **kwargs):
+        raise NotImplementedError()

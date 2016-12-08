@@ -24,12 +24,14 @@ To get the unique ID::
 
 
 class UniqueID(object):
-    '''UniqueID facade.
+    '''
+    UniqueID facade.
     '''
 
     @property
     def id(self):
-        '''Property that returns the unique id of the platform.
+        '''
+        Property that returns the unique id of the platform.
         '''
         return self.get_uid()
 
