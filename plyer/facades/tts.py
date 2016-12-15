@@ -16,20 +16,39 @@ To speak::
 '''
 
 
-class TTS(object):
-    '''
-    TextToSpeech facade.
-    '''
+class LanguageNotFound(Exception):
+    """Raise when a specific language not found"""
 
-    def speak(self, message=''):
-        '''Use text to speech capabilities to speak the message.
+    def __init__(self, message):
+        self.message = message
+        super(LanguageNotFound, self).__init__(message)
+
+
+class TTS(object):
+    """TextToSpeech facade."""
+
+    def speak(self, message='', language=''):
+        """Use text to speech capabilities to speak the message.
 
         :param message: What to speak
         :type message: str
-        '''
-        self._speak(message=message)
+
+        :param language: In which language to speak
+        :type language: str
+        """
+        self._speak(message=message, language=language)
+
+    def language(self):
+        """Get all the language for text to speech capabilities
+
+        :rtype: language: List of language in which can speak
+        """
+        return self._language()
 
     # private
 
     def _speak(self, **kwargs):
+        raise NotImplementedError()
+
+    def _language(self, **kwargs):
         raise NotImplementedError()
