@@ -11,7 +11,12 @@ Simple Examples
 To speak::
 
     >>> from plyer import tts
-    >>> tts.speak(message=message)
+    >>> tts.speak(message='Put message here', language='')
+
+To get language::
+
+    >>> from plyer import tts
+    >>> tts.language()
 
 '''
 
