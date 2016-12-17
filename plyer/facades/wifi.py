@@ -4,41 +4,35 @@ Wifi Facade.
 
 The :class:`Wifi` is to provide access to the wifi of your mobile/ desktop
 devices.
-It currently supports connecting, disconnecting, scanning, getting available
-wifi network list and getting network information.
 
-Usage examples
--------------
-The following examples explains the use case of Wifi class::
+It currently supports `connecting`, `disconnecting`, `scanning`, `getting
+available wifi network list` and `getting network information`.
 
+Simple examples
+---------------
 
-Ex:1
---------
+To enable/ turn on wifi scanning::
 
-from plyer import wifi
-wifi.start_scanning()
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
 
 Once the wifi is enabled/ turned on, then this command starts to scan
 all the nearby available wifi networks.
 
+To get network info::
 
-Ex:2
----------
-
-from plyer import wifi
-wifi.start_scanning()
-return wifi.get_network_info(name)
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> return wifi.get_network_info(name)
 
 Returns network details of the network who's name/ssid is provided in the
 `name` parameter.
 
+To connect to a network::
 
-Ex: 3
-----------
-
-from plyer import wifi
-wifi.start_scanning()
-wifi.connect(network, parameters)
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> wifi.connect(network, parameters)
 
 This connects to the network who's name/ssid is provided under `network`
 parameter and along with other necessary methods for connection
@@ -46,26 +40,23 @@ which depends upon platform to platform.
 
 please visit following files for more details about requirements of
 `paramaters` argument in `connect` method:
-plyer/platforms/win/wifi.py
-plyer/platforms/macosx/wifi.py
-plyer/platforms/win/wifi.py
 
+    plyer/platforms/win/wifi.py
+    plyer/platforms/macosx/wifi.py
+    plyer/platforms/win/wifi.py
 
-Ex: 4
-----------
+To disconnect from wifi::
 
-from plyer import wifi
-wifi.disconnect()
+    >>> from plyer import wifi
+    >>> wifi.disconnect()
 
 This disconnects your device from any wifi network.
 
+To get available wifi networks::
 
-Ex: 5
-----------
-
-from plyer import wifi
-wifi.start_scanning()
-return wifi.get_available_wifi()
+    >>> from plyer import wifi
+    >>> wifi.start_scanning()
+    >>> return wifi.get_available_wifi()
 
 This returns all the available wifi networks near the device.
 '''

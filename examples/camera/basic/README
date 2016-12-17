@@ -1,0 +1,18 @@
+Basic camera example.
+Default picture is saved as /sdcard/org.test.cameraexample/enter_file_name_here.jpg
+
+
+Python-for-android compilation:
+
+	./distribute.sh -m 'kivy plyer'
+	cd dist/default
+	./build.py --org.test.cameraexample --name "Kivy Camera Example" \
+		--dir /path/to/plyer/examples/camera/basic --version 1.0 \
+		debug installd 
+
+
+Buildozer:
+
+	cd /path/to/plyer/examples/camera/basic
+	# edit the buildozer.spec if required, then
+	buildozer android debug deploy run

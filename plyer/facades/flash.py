@@ -1,25 +1,53 @@
 # coding=utf-8
+'''
+Flash
+=====
+
+The :class:`Flash` provides access to public methods to use flash of your
+device.
+
+.. note::
+    In android you need CAMERA, FLASHLIGHT permissions
+    to access flash.
+
+.. versionadded:: 1.2.5
+
+This can be used to activate the flash of your camera on
+Android and iOS.
+
+Simple Examples
+---------------
+
+To turn on flash::
+
+    >>> from plyer import flash
+    >>> flash.on()
+
+To turn off flash::
+
+    >>> flash.off()
+
+To release flash::
+
+    >>> flash.release()
+
+'''
 
 
 class Flash(object):
-    """Flash facade.
-
-    .. versionadded:: 1.2.5
-
-    This can be used to activate the flash of your camera on
-    Android and iOS.
-
-    Note: In android you need CAMERA, FLASHLIGHT permissions
-          to access flash.
+    """
+    Flash facade.
     """
 
     def on(self):
-        """Activate the flash
+        """
+        Activate the flash
         """
         self._on()
 
     def off(self):
-        """Deactiavte the flash
+        """
+        Deactiavte the flash
         """
         self._off()
 
