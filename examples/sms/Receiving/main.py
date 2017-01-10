@@ -13,8 +13,6 @@ Builder.load_string(
 		
 	BroadcastButton:
 		text: "Press to start service"
-		size_hint_y: None
-		height: 200
 		on_release: self.start()
 
 '''
