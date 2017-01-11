@@ -6,8 +6,8 @@ Plyer
 
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
            'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'sms', 'smsreceive', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
+           'orientation', 'notification', 'sms', 'smsreceive', 'tts',
+           'uniqueid', 'vibrator', 'wifi')
 
 __version__ = '1.2.5dev'
 
