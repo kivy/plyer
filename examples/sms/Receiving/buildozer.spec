@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy, plyer, python2
+requirements = kivy, plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -69,10 +69,10 @@ orientation = portrait
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 1
+fullscreen = 0
 
 # (list) Permissions
-android.permissions = RECEIVE_SMS, READ_SMS
+android.permissions = RECEIVE_SMS
 
 # (int) Android API to use
 #android.api = 19

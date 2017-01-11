@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.lang import Builder
-from plyer.facades import sms_receive
+from plyer.facades import SmsReceive
 
 Builder.load_string(
 '''
@@ -25,7 +25,7 @@ class ReceiveSmsInterface(BoxLayout):
 
 class BroadcastButton(Button):
 	def start(self):
-		sms_receive.receive()
+		SmsReceive.receive()
 
 class ReceiveSmsApp(App):
 	def build(self):
