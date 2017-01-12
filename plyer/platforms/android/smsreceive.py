@@ -32,7 +32,9 @@ class BroadcastReceiver(PythonJavaClass):
         bundle = intent.getExtras()
         messages = None
         string = ""
-        if bundle:
+        if not bundle:
+            raise ReceiveError()
+        else:
             pdus = bundle.get('pdus')
             messages = SmsMessage[len(pdus)]
             for i in range(0, len(messages)):
