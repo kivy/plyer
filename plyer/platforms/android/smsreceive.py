@@ -37,7 +37,7 @@ class BroadcastReceiver(PythonJavaClass):
         else:
             pdus = bundle.get('pdus')
             messages = SmsMessage[len(pdus)]
-            for i in range(0, len(messages)):
+            for i in range(len(messages)):
                 messages[i] = SmsMessage.createFromPdu(
                     list(bytearray(pdus[i])))
                 string += "Message from " + messages[i].getOriginatingAddress()
