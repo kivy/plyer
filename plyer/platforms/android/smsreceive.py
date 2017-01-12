@@ -12,7 +12,7 @@ from jnius import java_method
 Intent = autoclass('android.content.Intent')
 Bundle = autoclass('android.os.Bundle')
 GenericBroadcastReceiver = autoclass(
-    'org.renpy.android.GenericBroadcastReceiver'
+    'org.kivy.android.GenericBroadcastReceiver'
 )
 SmsMessage = autoclass('android.telephony.SmsMessage')
 Toast = autoclass('android.widget.Toast')
@@ -20,7 +20,7 @@ Toast = autoclass('android.widget.Toast')
 
 class BroadcastReceiver(PythonJavaClass):
     __javainterfaces__ = [
-        'org/renpy/android/GenericBroadcastReceiverCallback']
+        'org/kivy/android/GenericBroadcastReceiverCallback']
     __javacontext__ = 'app'
 
     def __init__(self, *args, **kwargs):
