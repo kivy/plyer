@@ -69,7 +69,7 @@ android.permissions = RECORD_AUDIO,WAKE_LOCK
 #android.minapi = 8
 
 # (int) Android SDK version to use
-#android.sdk = 21
+android.sdk = 24
 
 # (str) Android NDK version to use
 #android.ndk = 9c

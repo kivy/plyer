@@ -12,16 +12,19 @@ Builder.load_string('''
     orientation: 'vertical'
     padding: '50dp'
     spacing: '20dp'
+
     Label:
         id: state_label
         size_hint_y: None
         height: sp(40)
         text: 'AudioPlayer State: ' + str(root.audio.state)
+
     Label:
         id: location_label
         size_hint_y: None
         height: sp(40)
         text: 'Recording Location: ' + str(root.audio.file_path)
+
     Button:
         id: record_button
         text: 'Start Recording'
@@ -30,7 +33,8 @@ Builder.load_string('''
     Button:
         id: pause_button
         text: 'Pause'
-        on_release: root.pause_activity()     
+        on_release: root.pause_current()
+
     Button:
         id: play_button
         text: 'Play'
@@ -57,11 +61,11 @@ class AudioInterface(BoxLayout):
 
         self.update_labels()
 
-    def pause_activity():
+    def pause_current():
         state = self.audio.state()
         if state == 'recording' or state == 'playing' or state == 'resumed':
             self.audio.pause()
-        if state == 'paused'
+        if state == 'paused':
             self.audio.resume()
 
     def play_recording(self):
@@ -72,7 +76,6 @@ class AudioInterface(BoxLayout):
             self.audio.play()
 
         self.update_labels()
-
 
     def update_labels(self):
         record_button = self.ids['record_button']
