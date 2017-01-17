@@ -55,7 +55,7 @@ class App:
         message = self.text.get()
         if(message != ""):
             qr = pyqrcode.create(message)
-            qr.png("code" + message[0]+".png", scale=6)
+            qr.png("code" + message[0] + ".png", scale=6)
 
 
 class AndroidQrBarcodeReader(QrBarcodeReader):
