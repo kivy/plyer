@@ -18,8 +18,9 @@ Builder.load_string('''
         lc: getlocation.text
         text: 'Go to location'
         on_release: self.findlocation()
-        
+
 ''')
+
 
 class MapsInterface(BoxLayout):
     pass
@@ -27,13 +28,15 @@ class MapsInterface(BoxLayout):
 
 class GetLocationButton(Button):
     lc = StringProperty()
+
     def findlocation(self, *args):
         maps.locate(lc=self.lc)
+
 
 class MapSampleApp(App):
 
     def build(self):
         return MapsInterface()
 
-if __name__ ==  "__main__":
+if __name__ == "__main__":
     MapSampleApp().run()

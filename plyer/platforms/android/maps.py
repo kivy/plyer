@@ -13,7 +13,7 @@ class AndroidMaps(Maps):
         lc = kwargs.get('lc')
         mapintent = Intent()
         mapintent.setAction(Intent.ACTION_VIEW)
-        mapintent.setData(Uri.parse("geo:0,0?q="+lc))
+        mapintent.setData(Uri.parse("geo:0,0?q=" + lc))
         currActivity = cast('android.app.Activity', PythonActivity.mActivity)
         currActivity.startActivity(mapintent)
 
