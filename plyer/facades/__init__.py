@@ -7,15 +7,9 @@ Interface of all the features available.
 '''
 
 __all__ = ('Accelerometer', 'Audio', 'Battery', 'Call', 'Camera', 'Compass',
-<<<<<<< HEAD
-           'Email', 'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster',
-           'Orientation', 'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator',
-           'Wifi', 'Flash')
-=======
            'Email', 'FileChooser', 'Fingerprint', 'GPS',
            'Gyroscope', 'IrBlaster', 'Orientation', 'Maps', 'Notification',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash')
->>>>>>> 9d1904c... map feature android for plyer
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.audio import Audio

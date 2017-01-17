@@ -5,15 +5,9 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-<<<<<<< HEAD
-           'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
-=======
            'email', 'filechooser', 'fingerprint', 'gps', 'gyroscope',
            'irblaster', 'orientation', 'maps', 'notification', 'sms', 'tts',
            'uniqueid', 'vibrator', 'wifi')
->>>>>>> 9d1904c... map feature android for plyer
 
 __version__ = '1.2.5dev'
 
