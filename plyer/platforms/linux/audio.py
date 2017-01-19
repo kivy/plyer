@@ -27,7 +27,7 @@ frames = []
 class LinuxAudio(Audio):
 
     def __init__(self, file_path=None):
-        default_path = '/sdcard/testrecorder.3gp'
+        default_path = '/home/recording.wav'
         super(LinuxAudio, self).__init__(file_path or default_path)
 
     def _start(self):
@@ -57,10 +57,10 @@ class LinuxAudio(Audio):
     def _play(self):
         wf = wave.open("recording.wav", 'rb')
         p_stream = play_audio.open(
-                   format=play_audio.get_format_from_width(wf.getsampwidth()),
-                   channels=wf.getnchannels(),
-                   rate=wf.getframerate(),
-                   output=True)
+                     format=play_audio.get_format_from_width(wf.getsampwidth()),
+                     channels=wf.getnchannels(),
+                     rate=wf.getframerate(),
+                     output=True)
         data = wf.readframes(CHUNK)
         while data != '':
             p_stream.write(data)
