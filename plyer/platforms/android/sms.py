@@ -7,7 +7,7 @@ from jnius import autoclass
 from jnius import cast
 from plyer.facades import Sms
 
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
+PythonActivity = autoclass('org.kivy.android.PythonActivity')
 Intent = autoclass('android.content.Intent')
 
 
