@@ -18,6 +18,7 @@ Builder.load_string('''
             id: recipient
             multiline: False
             on_text_validate: message.focus = True
+            input_filter: 'int'
     BoxLayout:
         Label:
             text: 'Message:'
