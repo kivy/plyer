@@ -25,7 +25,8 @@ class QRCodeDemo(BoxLayout):
 
     def open_filepopup(self):
         from os.path import expanduser
-        XFileOpen(on_dismiss=self._filepopup_callback, path=expanduser(u'~/Downloads'))
+        XFileOpen(on_dismiss=self._filepopup_callback,
+                  path=expanduser(u'~/'))
 
     def open_webcam(self):
         print qrcode.scan_code()
@@ -35,9 +36,13 @@ class QRCodeDemo(BoxLayout):
             'text': lambda: self.ids.qr_text.text,
             'url': lambda: self.ids.qr_url.text,
             'email': lambda: self.ids.qr_email.text,
-            'emailmessage': lambda: [self.ids.qr_email_to.text, self.ids.qr_email_sub.text, self.ids.qr_email_body.text],
-            'bookmark': lambda: [self.ids.qr_bookmark_title.text, self.ids.qr_bookmark_url.text],
-            'geo': lambda: [self.ids.qr_get_lat.text, self.ids.qr_get_lon.text],
+            'emailmessage': lambda: [self.ids.qr_email_to.text,
+                                     self.ids.qr_email_sub.text,
+                                     self.ids.qr_email_body.text],
+            'bookmark': lambda: [self.ids.qr_bookmark_title.text,
+                                 self.ids.qr_bookmark_url.text],
+            'geo': lambda: [self.ids.qr_get_lat.text,
+                            self.ids.qr_get_lon.text],
         }[self.manager.current]()
         file_location = qrcode.encode_qr(data, self.manager.current)
         self.file_location = file_location
