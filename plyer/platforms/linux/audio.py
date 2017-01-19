@@ -1,8 +1,8 @@
-import pyaudio
-import wave
-import sys
+from __future__ import print_function
 import select
-import os
+import sys
+import wave
+import pyaudio
 from plyer.facades.audio import Audio
 
 FORMAT = pyaudio.paInt16
@@ -24,6 +24,11 @@ r_stream = record_audio.open(format=FORMAT, channels=CHANNELS,
 frames = []
 
 
+if sys.version_info.major == 3:
+    def raw_input(*args, **kwargs):
+        return input(*args, **kwargs)
+
+
 class LinuxAudio(Audio):
 
     def __init__(self, file_path=None):
@@ -32,7 +37,7 @@ class LinuxAudio(Audio):
 
     def _start(self):
 
-        print "recording started ... press Enter to stop recording"
+        print("recording started ... press Enter to stop recording")
 
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = r_stream.read(CHUNK)
@@ -52,15 +57,15 @@ class LinuxAudio(Audio):
         waveFile.setframerate(RATE)
         waveFile.writeframes(b''.join(frames))
         waveFile.close()
-        print "recording stopped"
+        print("recording stopped")
 
     def _play(self):
         wf = wave.open("recording.wav", 'rb')
-        p_stream = play_audio.open(
-                     format=play_audio.get_format_from_width(wf.getsampwidth()),
-                     channels=wf.getnchannels(),
-                     rate=wf.getframerate(),
-                     output=True)
+        audio_format = play_audio.get_format_from_width(wf.getsampwidth())
+        p_stream = play_audio.open(format=audio_format,
+                                   channels=wf.getnchannels(),
+                                   rate=wf.getframerate(),
+                                   output=True)
         data = wf.readframes(CHUNK)
         while data != '':
             p_stream.write(data)
