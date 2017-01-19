@@ -38,7 +38,8 @@ class EspeakTextToSpeech(TTS):
     '''
 
     def _language(self, **kwargs):
-        ioreg_process = subprocess.Popen(["espeak", "--voices"])
+        ioreg_process = subprocess.Popen(["espeak", "--voices"],
+                                         stdout=subprocess.PIPE)
         output = ioreg_process.communicate()[0]
 
         language = []

@@ -5,13 +5,20 @@
         padding: 20
 
         TextInput:
-            id: notification_text
+            id: speak_text
             text: 'Put message here'
-        
-        Button:
-            text: 'Read'
+        BoxLayout:
+            orientation: 'horizontal'
             size_hint_y: 0.2
-            on_press: root.do_read()
+            Button:
+                text: 'Read'
+                on_press: root.do_read()
+
+            Spinner:
+                id: lang_select
+                text: ''
+                values: root.lang_list
+                pos_hint: {'center_x': .5, 'center_y': .5}
 
 <ErrorPopup>:
     size_hint: .7, .4
@@ -29,4 +36,5 @@
             text: 'Dismiss'
             size_hint_y: 0.4
             on_press: root.dismiss()
+
             
