@@ -51,6 +51,9 @@ irblaster = Proxy('irblaster', facades.IrBlaster)
 #: Orientation proxy to :class:`plyer.facades.Orientation`
 orientation = Proxy('orientation', facades.Orientation)
 
+#: Orientation proxy to :class:`plyer.facades.Orientation`
+qrcode = Proxy('qrcode', facades.QRCode)
+
 #: Notification proxy to :class:`plyer.facades.Notification`
 notification = Proxy('notification', facades.Notification)
 
