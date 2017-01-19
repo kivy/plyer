@@ -35,7 +35,7 @@ Gyroscope                          X       X
 Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
 Orientation                        X
-QR Code
+QR Code                                                X    X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X

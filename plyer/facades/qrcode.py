@@ -2,10 +2,16 @@
 QRCode Facade.
 =============
 
-The :class:`QRCode` is to provide suite of tools for handling QR codes in your desktop
-devices.
-It currently supports scanning code, reading file, encode qr and getting available
-qr data type list.
+The :class:`QRCode` is to provide suite of tools for handling QR codes
+in your desktop devices.
+It currently supports scanning code, reading file, encode qr and
+getting available qr data type list.
+
+
+Custom Requirements
+-------------------
+OSX: qrtools, zbar, pypng
+Linux: qrtools, zbar, pypng
 
 Usage examples
 -------------
@@ -52,6 +58,6 @@ class QRCode(object):
     def _scan_file(self, filelocation):
         raise NotImplementedError()
 
-    def _encode_qr(self, **kwargs):
+    def _encode_qr(self, data, data_type, filename):
         raise NotImplementedError()
 
