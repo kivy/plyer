@@ -1,8 +1,8 @@
-import pyaudio
-import wave
-import sys
+from __future__ import print_function
 import select
-import os
+import sys
+import wave
+import pyaudio
 from plyer.facades.audio import Audio
 
 FORMAT = pyaudio.paInt16
@@ -24,21 +24,25 @@ r_stream = record_audio.open(format=FORMAT, channels=CHANNELS,
 frames = []
 
 
-class LinuxAudio(Audio):
+if sys.version_info.major == 3:
+    def raw_input(*args, **kwargs):
+        return input(*args, **kwargs)
 
+
+class LinuxAudio(Audio):
     def __init__(self, file_path=None):
         default_path = '/home/recording.wav'
         super(LinuxAudio, self).__init__(file_path or default_path)
 
     def _start(self):
 
-        print "recording started ... press Enter to stop recording"
+        print("recording started ... press Enter to stop recording")
 
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = r_stream.read(CHUNK)
             frames.append(data)
             if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                line = raw_input()
+                raw_input()  # Wait for stop
                 self._stop()
                 break
 
@@ -46,21 +50,21 @@ class LinuxAudio(Audio):
         r_stream.stop_stream()
         r_stream.close()
         record_audio.terminate()
-        waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-        waveFile.setnchannels(CHANNELS)
-        waveFile.setsampwidth(record_audio.get_sample_size(FORMAT))
-        waveFile.setframerate(RATE)
-        waveFile.writeframes(b''.join(frames))
-        waveFile.close()
-        print "recording stopped"
+        wave_file = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+        wave_file.setnchannels(CHANNELS)
+        wave_file.setsampwidth(record_audio.get_sample_size(FORMAT))
+        wave_file.setframerate(RATE)
+        wave_file.writeframes(b''.join(frames))
+        wave_file.close()
+        print("recording stopped")
 
     def _play(self):
         wf = wave.open("recording.wav", 'rb')
-        p_stream = play_audio.open(
-                     format=play_audio.get_format_from_width(wf.getsampwidth()),
-                     channels=wf.getnchannels(),
-                     rate=wf.getframerate(),
-                     output=True)
+        audio_format = play_audio.get_format_from_width(wf.getsampwidth())
+        p_stream = play_audio.open(format=audio_format,
+                                   channels=wf.getnchannels(),
+                                   rate=wf.getframerate(),
+                                   output=True)
         data = wf.readframes(CHUNK)
         while data != '':
             p_stream.write(data)
