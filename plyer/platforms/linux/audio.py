@@ -30,7 +30,6 @@ if sys.version_info.major == 3:
 
 
 class LinuxAudio(Audio):
-
     def __init__(self, file_path=None):
         default_path = '/home/recording.wav'
         super(LinuxAudio, self).__init__(file_path or default_path)
@@ -43,7 +42,7 @@ class LinuxAudio(Audio):
             data = r_stream.read(CHUNK)
             frames.append(data)
             if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                line = raw_input()
+                raw_input()  # Wait for stop
                 self._stop()
                 break
 
@@ -51,12 +50,12 @@ class LinuxAudio(Audio):
         r_stream.stop_stream()
         r_stream.close()
         record_audio.terminate()
-        waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-        waveFile.setnchannels(CHANNELS)
-        waveFile.setsampwidth(record_audio.get_sample_size(FORMAT))
-        waveFile.setframerate(RATE)
-        waveFile.writeframes(b''.join(frames))
-        waveFile.close()
+        wave_file = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+        wave_file.setnchannels(CHANNELS)
+        wave_file.setsampwidth(record_audio.get_sample_size(FORMAT))
+        wave_file.setframerate(RATE)
+        wave_file.writeframes(b''.join(frames))
+        wave_file.close()
         print("recording stopped")
 
     def _play(self):
