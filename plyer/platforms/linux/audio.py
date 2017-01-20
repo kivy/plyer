@@ -10,7 +10,6 @@ CHANNELS = 2
 RATE = 44100
 CHUNK = 1024
 RECORD_SECONDS = 600
-WAVE_OUTPUT_FILENAME = "recording.wav"
 
 record_audio = pyaudio.PyAudio()
 
@@ -50,7 +49,7 @@ class LinuxAudio(Audio):
         r_stream.stop_stream()
         r_stream.close()
         record_audio.terminate()
-        wave_file = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+        wave_file = wave.open(self.file_path, 'wb')
         wave_file.setnchannels(CHANNELS)
         wave_file.setsampwidth(record_audio.get_sample_size(FORMAT))
         wave_file.setframerate(RATE)
@@ -59,7 +58,7 @@ class LinuxAudio(Audio):
         print("recording stopped")
 
     def _play(self):
-        wf = wave.open("recording.wav", 'rb')
+        wf = wave.open(self.file_path, 'rb')
         audio_format = play_audio.get_format_from_width(wf.getsampwidth())
         p_stream = play_audio.open(format=audio_format,
                                    channels=wf.getnchannels(),
