@@ -60,6 +60,9 @@ sms = Proxy('sms', facades.Sms)
 #: TTS proxy to :class:`plyer.facades.TTS`
 tts = Proxy('tts', facades.TTS)
 
+#: TTS proxy to :class:`plyer.facades.STT`
+stt = Proxy('stt', facades.STT)
+
 #: UniqueID proxy to :class:`plyer.facades.UniqueID`
 uniqueid = Proxy('uniqueid', facades.UniqueID)
 
