@@ -6,8 +6,7 @@ from plyer.facades import STT
 
 
 class LinuxSpeechToText(STT):
-    """Speaks using the native OSX 'say' command
-    """
+    """SpeechToText"""
     __language__ = {'af-ZA': 'Afrikaans (South Africa)',
                     'id-ID': 'Indonesian (Indonesia)',
                     'ms-MY': 'Malay (Malaysia)', 'ca-ES': 'Catalan (Spain)',
@@ -68,8 +67,8 @@ class LinuxSpeechToText(STT):
                     }
     recognizer = sr.Recognizer()
 
-    def _recognize_microphone(self, language, filename, key):
-        """Recognize speech using Google Speech Recognition
+    def _recognize_microphone(self, language, filename):
+        """Recognize speech using CMUSphinx
 
         The Google Speech Recognition API key is specified by ``key``.
         If not specified, it uses a generic key that works out of the box.
@@ -87,9 +86,8 @@ class LinuxSpeechToText(STT):
          valid, or if there is no internet connection.
          """
         with sr.Microphone() as source:
-            self.recognizer.adjust_for_ambient_noise(source)
             audio = self.recognizer.listen(source)
-
+            print audio
         if filename:
             if not filename.endswith('.wav'):
                 filename += '.wav'
@@ -98,8 +96,7 @@ class LinuxSpeechToText(STT):
                 f.write(audio.get_wav_data())
 
         try:
-            return self.recognizer.recognize_google(
-                audio, key=key, language=language)
+            return self.recognizer.recognize_sphinx(audio)
         except sr.UnknownValueError:
             raise STT.UnknownValueError
         except sr.RequestError as e:
@@ -109,10 +106,11 @@ class LinuxSpeechToText(STT):
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
 
-    def _listen_in_background(self, callback):
+    def _listen_in_background(self, callback, language):
         def background_callback(recognizer, audio):
             try:
-                transcribe_text = recognizer.recognize_google(audio)
+                transcribe_text = recognizer.recognize_sphinx(
+                    audio, language=language)
                 callback(transcribe_text)
             except sr.UnknownValueError:
                 raise STT.UnknownValueError
@@ -122,7 +120,7 @@ class LinuxSpeechToText(STT):
         return self.recognizer.listen_in_background(
             sr.Microphone(), background_callback)
 
-    def _transcribe_audio(self, filename, language, key):
+    def _transcribe_audio(self, filename, language):
         """
         WAV files must be in PCM/LPCM format; WAVE_FORMAT_EXTENSIBLE and
         compressed WAV are not supported and may result in undefined behaviour.
@@ -136,7 +134,7 @@ class LinuxSpeechToText(STT):
             audio = self.recognizer.record(source)
 
         try:
-            return self.recognizer.recognize_google(audio)
+            return self.recognizer.recognize_sphinx(audio, language=language)
         except sr.UnknownValueError:
             raise STT.UnknownValueError
         except sr.RequestError as e:

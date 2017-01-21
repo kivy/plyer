@@ -41,26 +41,26 @@ class STT(object):
     class UnknownValueError(Exception):
         pass
 
-    """SpeechToText facade."""
+    """SpeechToText Facade."""
 
-    def recognize_microphone(self, language='en-US', filename=None, key=None):
+    def recognize_microphone(self, language='en-US', filename=None):
         """Tells the speech recognition engine to begin listening."""
 
-        return self._recognize_microphone(language, filename, key)
+        return self._recognize_microphone(language, filename)
 
-    def transcribe_audio(self, filename=None, language='en-US', key=None):
+    def transcribe_audio(self, filename, language='en-US'):
         """
         """
-        self._transcribe_audio(filename, language, key)
+        self._transcribe_audio(filename, language)
 
     def callibrate(self):
         """Calibrate the energy threshold for ambient noise levels"""
         self._callibrate()
 
-    def listen_in_background(self, callback):
+    def listen_in_background(self, callback, language='en-US'):
         """Tells the speech recognition engine to begin
         listening in background"""
-        return self._listen_in_background(callback)
+        return self._listen_in_background(callback, language)
 
     def language(self):
         """Return all language supported"""
@@ -68,11 +68,11 @@ class STT(object):
 
     # private
 
-    def _recognize_microphone(self, language, filename, credentials_json):
+    def _recognize_microphone(self, language, filename):
         """"""
         raise NotImplementedError()
 
-    def _transcribe_audio(self, filename, language, key):
+    def _transcribe_audio(self, filename, language):
         """"""
         raise NotImplementedError()
 
@@ -80,7 +80,7 @@ class STT(object):
         """"""
         raise NotImplementedError()
 
-    def _listen_in_background(self, callback):
+    def _listen_in_background(self, callback, language):
         """"""
         raise NotImplementedError()
 
