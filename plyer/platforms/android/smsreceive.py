@@ -1,8 +1,10 @@
 '''
-Android Recieve SMS
+Android Receive SMS
 -----------
 '''
 
+from builtins import str
+from builtins import range
 from jnius import autoclass
 from plyer.facades import SmsReceive
 from jnius import PythonJavaClass
@@ -40,10 +42,9 @@ class BroadcastReceiver(PythonJavaClass):
             for i in range(len(messages)):
                 messages[i] = SmsMessage.createFromPdu(
                     list(bytearray(pdus[i])))
-                string += "Message from " + messages[i].getOriginatingAddress()
-                string += " :"
-                string += str(messages[i].getMessageBody())
-                string += "\n"
+                string += "Message from " +\
+                    messages[i].getOriginatingAddress() +\
+                    " :" + str(messages[i].getMessageBody()) + "\n"
             Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
 
 
