@@ -5,7 +5,7 @@ import speech_recognition as sr
 from plyer.facades import STT
 
 
-class OSXSpeechToText(STT):
+class WindowsSpeechToText(STT):
     """Speaks using the native OSX 'say' command
     """
     __language__ = {'af-ZA': 'Afrikaans (South Africa)',
@@ -87,8 +87,8 @@ class OSXSpeechToText(STT):
          valid, or if there is no internet connection.
          """
         with sr.Microphone() as source:
+            self.recognizer.adjust_for_ambient_noise(source)
             audio = self.recognizer.listen(source)
-            print audio
 
         if filename:
             if not filename.endswith('.wav'):
@@ -147,4 +147,4 @@ class OSXSpeechToText(STT):
 
 
 def instance():
-    return OSXSpeechToText()
+    return WindowsSpeechToText()
