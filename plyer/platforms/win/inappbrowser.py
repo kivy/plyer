@@ -3,7 +3,7 @@ from plyer.facades.inappbrowser import InAppBrowser
 import webbrowser
 
 
-class LinuxAppBrowser():
+class WinBrowser():
 
     def _open_url(self, **kwargs):
         try:
@@ -17,4 +17,4 @@ class LinuxAppBrowser():
 
 
 def instance():
-    return LinuxAppBrowser()
+    return WinBrowser()
