@@ -15,7 +15,7 @@ UIApplication = autoclass('UIApplication')
 
 
 class iOSInAppBrowser(InAppBrowser):
-    def _access_url(self, **kwargs):
+    def _open_url(self, **kwargs):
         url = kwargs.get('url', '')
 
         nsurl = NSURL.alloc().initWithString_(objc_str(str(url)))

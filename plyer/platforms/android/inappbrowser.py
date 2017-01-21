@@ -9,7 +9,7 @@ Uri = autoclass('android.net.Uri')
 
 class AndroidInAppBrowser():
 
-    def _access_url(self, **kwargs):
+    def _open_url(self, **kwargs):
         uri = kwargs.get('url', '')
 
         intent = Intent()
@@ -21,4 +21,4 @@ class AndroidInAppBrowser():
 
 
 def instance():
-    return AndroidTnAppBrowser()
+    return AndroidInAppBrowser()

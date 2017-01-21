@@ -18,7 +18,7 @@ Builder.load_string('''
         url_input: entered_url.text
         text: 'Enter'
         size_hint_y: None
-        on_release: self.open_url()
+        on_release: self.openurl()
 ''')
 
 
@@ -29,8 +29,8 @@ class InAppBrowserInterface(BoxLayout):
 class URLfireButton(Button):
     url_input = StringProperty()
 
-    def open_url(self, *args):
-        inappbrowser.access_url(url=self.url_input)
+    def openurl(self, *args):
+        inappbrowser.open_url(url=self.url_input)
 
 
 class InAppBrowserSampleApp(App):
