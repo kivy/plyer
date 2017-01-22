@@ -55,18 +55,20 @@ class AudioInterface(BoxLayout):
         if state == 'ready':
             self.audio.start()
 
-        if state == 'recording' or state == 'resumed':
+        if state == 'recording' or state == 'resumed' or state == 'paused':
             self.audio.stop()
             self.has_record = True
 
         self.update_labels()
 
-    def pause_current():
-        state = self.audio.state()
+    def pause_current(self):
+        state = self.audio.state
         if state == 'recording' or state == 'playing' or state == 'resumed':
             self.audio.pause()
         if state == 'paused':
             self.audio.resume()
+
+        self.update_labels()
 
     def play_recording(self):
         state = self.audio.state
