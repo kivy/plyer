@@ -3,31 +3,37 @@ Android SMS
 -----------
 '''
 
+
 from jnius import autoclass
-from jnius import cast
 from plyer.facades import Sms
+from plyer.platforms.android import activity
 
-PythonActivity = autoclass('org.renpy.android.PythonActivity')
 Intent = autoclass('android.content.Intent')
-
+Uri = autoclass('android.net.Uri')
 
 class AndroidSms(Sms):
 
     def _send(self, **kwargs):
+        '''
+        This method provides sending messages to recipients.
+
+        Expects 2 parameters in kwargs:
+            - recipient: String type
+            - message: String type
+
+        Opens a mesage interface with recipient and message information.
+        '''
         recipient = kwargs.get('recipient')
         message = kwargs.get('message')
 
-        sendIntent = Intent()
-        sendIntent.setAction(Intent.ACTION_VIEW)
-        sendIntent.setType('vnd.android-dir/mms-sms')
-        sendIntent.putExtra('address', recipient)
-        sendIntent.putExtra('sms_body', message)
-
-        currentActivity = cast(
-                                'android.app.Activity',
-                                PythonActivity.mActivity)
-        currentActivity.startActivity(sendIntent)
-
-
+        uri = Uri.parse('sms:' + str(recipient))
+        intent = Intent(Intent.ACTION_VIEW, uri)
+        
+        if message:
+            #not yet supported by android
+            pass
+         
+        activity.startActivity(intent)
+        
 def instance():
     return AndroidSms()
