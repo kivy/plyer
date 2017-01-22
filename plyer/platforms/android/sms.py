@@ -11,6 +11,7 @@ from plyer.platforms.android import activity
 Intent = autoclass('android.content.Intent')
 Uri = autoclass('android.net.Uri')
 
+
 class AndroidSms(Sms):
 
     def _send(self, **kwargs):
@@ -28,12 +29,13 @@ class AndroidSms(Sms):
 
         uri = Uri.parse('sms:' + str(recipient))
         intent = Intent(Intent.ACTION_VIEW, uri)
-        
+
         if message:
             #not yet supported by android
             pass
-         
+
         activity.startActivity(intent)
-        
+
+
 def instance():
     return AndroidSms()
