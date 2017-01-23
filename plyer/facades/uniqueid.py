@@ -12,7 +12,7 @@ Simple Example
 
 To get the unique ID::
 
-    >>> from plyer import uiqueid
+    >>> from plyer import uniqueid
     >>> uniqueid.id
     '1b1a7a4958e2a845'
 

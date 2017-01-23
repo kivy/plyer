@@ -18,3 +18,4 @@ venv
 
 bin
 .buildozer
+.idea
