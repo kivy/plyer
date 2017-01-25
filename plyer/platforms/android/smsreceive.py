@@ -51,6 +51,7 @@ class BroadcastReceiver(PythonJavaClass):
             import traceback
             traceback.print_exc()
 
+
 class AndroidReceiveSms(SmsReceive):
 
     def _startreceiver(self):
