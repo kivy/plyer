@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Plyer receive sms example
+title = Plyer Receive SMS 
 
 # (str) Package name
 package.name = plyerreceivesms
@@ -36,11 +36,11 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy, plyer
+requirements = kivy,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
-# requirements.source.kivy = ../../kivy
+requirements.source.plyer = /home/sumit/Documents/plyer-master
 
 # (list) Garden requirements
 #garden_requirements =
@@ -90,7 +90,7 @@ android.permissions = RECEIVE_SMS
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-#android.ndk_path =
+#android.ndk_path = /home/sumit/Documents/crystax-ndk-10.3.2
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
 #android.sdk_path =
@@ -113,7 +113,7 @@ android.permissions = RECEIVE_SMS
 # android.skip_update = False
 
 # (str) Bootstrap to use for android builds (android_new only)
-# android.bootstrap = sdl2
+#android.bootstrap = sdl2
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
@@ -186,7 +186,7 @@ android.manifest.intent_filters = AndroidManifest.xml
 log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_on_root = 1
+warn_on_root = 0
 
 # (str) Path to build artifact storage, absolute or relative to spec file
 # build_dir = ./.buildozer

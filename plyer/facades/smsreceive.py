@@ -5,8 +5,10 @@ class SmsReceive(object):
         task.
         - RECEIVE_SMS: Permission to reveive SMS.
     '''
-    def receive(self):
-        return self._receive()
+    def startreceiver(self):
+        return self._startreceiver()
 
-    def _receive(self):
+#private
+
+    def _startreceiver(self):
         raise NotImplementedError()

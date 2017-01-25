@@ -1,18 +1,18 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.lang import Builder
-from plyer.facades import SmsReceive
+from plyer import smsreceive
 
 Builder.load_string('''
-<ReceiveSmsInteface>:
+<ReceiveSmsInterface>:
     orientation: 'vertical'
     Label:
-        text: Receive SMS Interface
+        text: 'Receive SMS Interface'
 
     BroadcastButton:
         text: "Press to start service"
-        on_release: self.start()
+        on_press: self.start()
 
 ''')
 
@@ -21,14 +21,18 @@ class ReceiveSmsInterface(BoxLayout):
     pass
 
 
-class BroadcastButton(Button):
+class BroadcastButton(ToggleButton):
     def start(self):
-        SmsReceive.receive()
+        print "starting service"
+        smsreceive.startreceiver()
 
 
 class ReceiveSmsApp(App):
     def build(self):
         return ReceiveSmsInterface()
+
+    def on_pause(self):
+        return True
 
 if __name__ == '__main__':
     ReceiveSmsApp().run()
