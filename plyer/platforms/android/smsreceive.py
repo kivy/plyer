@@ -31,26 +31,22 @@ class BroadcastReceiver(PythonJavaClass):
         '(Landroid/content/Context;Landroid/content/Intent;)V')
     def onReceive(self, context, intent):
         print "reached onReceive method"
-        try:
-            bundle = intent.getExtras()
-            messages = None
-            string = ""
-            if not bundle:
-                raise ReceiveError()
-            else:
-                pdus = bundle.get('pdus')
-                messages = SmsMessage[len(pdus)]
-                for i in range(len(messages)):
-                    messages[i] = SmsMessage.createFromPdu(
-                        list(bytearray(pdus[i])))
-                    string += "Message from " +\
-                        messages[i].getOriginatingAddress() +\
-                        " :" + str(messages[i].getMessageBody()) + "\n"
-                Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
-        except:
-            import traceback
-            traceback.print_exc()
-
+        
+        bundle = intent.getExtras()
+        messages = None
+        string = ""
+        if not bundle:
+            raise ReceiveError()
+        else:
+            pdus = bundle.get('pdus')
+            messages = SmsMessage[len(pdus)]
+            for i in range(len(messages)):
+                messages[i] = SmsMessage.createFromPdu(
+                    list(bytearray(pdus[i])))
+                string += "Message from " +\
+                    messages[i].getOriginatingAddress() +\
+                    " :" + str(messages[i].getMessageBody()) + "\n"
+            Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
 
 class AndroidReceiveSms(SmsReceive):
 
