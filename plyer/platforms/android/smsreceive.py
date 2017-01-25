@@ -25,12 +25,10 @@ class BroadcastReceiver(PythonJavaClass):
 
     def __init__(self, *args, **kwargs):
         super(BroadcastReceiver, self).__init__(self, *args, **kwargs)
-        print "reached Broadcast Receiver class"
 
     @java_method(
         '(Landroid/content/Context;Landroid/content/Intent;)V')
     def onReceive(self, context, intent):
-        print "reached onReceive method"
 
         bundle = intent.getExtras()
         messages = None

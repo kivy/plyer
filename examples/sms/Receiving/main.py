@@ -23,7 +23,6 @@ class ReceiveSmsInterface(BoxLayout):
 
 class BroadcastButton(ToggleButton):
     def start(self):
-        print "starting service"
         smsreceive.startreceiver()
 
 

@@ -40,7 +40,7 @@ requirements = kivy,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
-requirements.source.plyer = /home/sumit/Documents/plyer-master
+#requirements.source.plyer = /home/sumit/Documents/plyer-master
 
 # (list) Garden requirements
 #garden_requirements =
@@ -186,7 +186,7 @@ android.manifest.intent_filters = AndroidManifest.xml
 log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_on_root = 0
+warn_on_root = 1
 
 # (str) Path to build artifact storage, absolute or relative to spec file
 # build_dir = ./.buildozer
