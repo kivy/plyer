@@ -2,7 +2,7 @@ import subprocess as sb
 from plyer.facades import Orientation
 
 
-class AndroidOrientation(Orientation):
+class LinuxOrientation(Orientation):
 
     def _set_landscape(self, **kwargs):
         self.rotate = 'normal'
@@ -20,4 +20,4 @@ class AndroidOrientation(Orientation):
 
 
 def instance():
-    return AndroidOrientation()
+    return LinuxOrientation()
