@@ -38,6 +38,9 @@ class FlashApp(App):
     def build(self):
         return FlashInterface()
 
+    def on_pause(self):
+        return True
+
 if __name__ == "__main__":
     app = FlashApp()
     app.run()

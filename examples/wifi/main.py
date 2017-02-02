@@ -142,6 +142,8 @@ class WifiApp(App):
     def build(self):
         return WifiInterface()
 
+    def on_pause(self):
+        return True
 
 if __name__ == "__main__":
     WifiApp().run()

@@ -47,6 +47,9 @@ class BatteryApp(App):
     def build(self):
         return BatteryInterface()
 
+    def on_pause(self):
+        return True
+
 if __name__ == "__main__":
     app = BatteryApp()
     app.run()
