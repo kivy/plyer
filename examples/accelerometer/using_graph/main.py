@@ -87,7 +87,8 @@ class AccelerometerDemoApp(App):
 
     def on_pause(self):
         return True
-        
+
+
 class ErrorPopup(Popup):
     pass
 
