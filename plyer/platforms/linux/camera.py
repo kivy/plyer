@@ -10,7 +10,7 @@ class LinuxCamera(Camera):
         self.filename = filename
         sp.call(["gst-launch", "v4l2src", "num-buffers=1",
                  "!", "jpegenc", "!", "filesink",
-                 "location=" +self.filename +".jpg"])
+                 "location=" + self.filename + ".jpg"])
         self.on_complete()
 
     def _take_video(self, on_complete, filename=None):
@@ -19,7 +19,7 @@ class LinuxCamera(Camera):
         self.filename = filename
         sp.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
                  "!", "jpegenc", "!", "avimux", "!", "filesink",
-                 "location=" +self.filename +".avi"])
+                 "location=" + self.filename + ".avi"])
         self.on_complete()
 
 
