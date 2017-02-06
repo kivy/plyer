@@ -3,6 +3,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import StringProperty
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 from plyer import sms
 
@@ -42,7 +44,14 @@ class IntentButton(Button):
     sms_message = StringProperty()
 
     def send_sms(self, *args):
-        sms.send(recipient=self.sms_recipient, message=self.sms_message)
+        try:
+            sms.send(recipient=self.sms_recipient, message=self.sms_message)
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
 
 class SmsApp(App):

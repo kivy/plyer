@@ -4,6 +4,8 @@ from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 from plyer import call
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 Builder.load_string('''
 #: import Platform kivy.utils.platform
@@ -41,14 +43,28 @@ class CallInterface(BoxLayout):
 class DialCallButton(Button):
 
     def dial(self, *args):
-        call.dialcall()
+        try:
+            call.dialcall()
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
 
 class MakeCallButton(Button):
     tel = StringProperty()
 
     def call(self, *args):
-        call.makecall(tel=self.tel)
+        try:
+            call.makecall(tel=self.tel)
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
 
 class CallApp(App):

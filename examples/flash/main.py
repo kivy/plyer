@@ -2,6 +2,8 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.lang import Builder
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 from plyer import flash
 
 Builder.load_string('''
@@ -24,13 +26,34 @@ Builder.load_string('''
 class FlashInterface(BoxLayout):
 
     def turn_on(self):
-        flash.on()
+        try:
+            flash.on()
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
     def turn_off(self):
-        flash.off()
+        try:
+            flash.off()
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
     def release(self):
-        flash.release()
+        try:
+            flash.release()
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = Popup(title="Error!",
+                          content=Label(text=self.ErMsg),
+                          size_hint=(None, None), size=(350, 350))
+            popup.open()
 
 
 class FlashApp(App):
