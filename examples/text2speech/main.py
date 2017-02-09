@@ -21,6 +21,9 @@ class Text2SpeechDemoApp(App):
     def build(self):
         return Text2SpeechDemo()
 
+    def on_pause(self):
+        return True
+
 
 class ErrorPopup(Popup):
     pass
