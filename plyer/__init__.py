@@ -5,9 +5,9 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
+           'email', 'filechooser', 'gps', 'gyroscope', 'inappbrowser',
+           'irblaster', 'orientation', 'notification', 'sms', 'tts',
+           'uniqueid', 'vibrator', 'wifi')
 
 __version__ = '1.2.5dev'
 
@@ -44,6 +44,9 @@ gps = Proxy('gps', facades.GPS)
 
 #: Gyroscope proxy to :class:`plyer.facades.Gyroscope`
 gyroscope = Proxy('gyroscope', facades.Gyroscope)
+
+#: InAppBrowser proxy to :class:`plyer.facades.InAppBrowser'
+inappbrowser = Proxy('inappbrowser', facades.InAppBrowser)
 
 #: IrBlaster proxy to :class:`plyer.facades.IrBlaster`
 irblaster = Proxy('irblaster', facades.IrBlaster)
