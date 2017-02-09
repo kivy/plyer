@@ -6,7 +6,6 @@ Interface of all the features available.
 
 '''
 
-<<<<<<< 29ef6aac5f5927ef5e267b4166d6e534b5146ca0
 __all__ = ('Accelerometer', 'Audio', 'Battery', 'Call', 'Camera', 'Compass',
            'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope', 'IrBlaster',
            'Orientation', 'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator',

@@ -9,33 +9,26 @@ from plyer import gravity
 Builder.load_string('''
 <GravityInterface>:
     orientation: 'vertical'
-
     Label:
         id: x_label
         text: 'X: '
-
     Label:
         id: y_label
         text: 'Y: '
-
     Label:
         id: z_label
         text: 'Z: '
-
     Label:
         id: status
         text: ''
-
     BoxLayout:
         size_hint_y: None
         height: '48dp'
         padding: '4dp'
-
         ToggleButton:
             id: toggle_button
             text: 'Start Gravity Sensor'
             on_press: root.do_toggle()
-
 ''')
 
 
@@ -49,7 +42,6 @@ class GravityInterface(BoxLayout):
             if not self.sensorEnabled:
                 gravity.enable()
                 Clock.schedule_interval(self.get_gravity, 1 / 20.)
-
                 self.sensorEnabled = True
                 self.ids.toggle_button.text = "Stop Gravity Sensor"
             else:
@@ -67,7 +59,6 @@ class GravityInterface(BoxLayout):
 
     def get_gravity(self, dt):
         val = gravity.gravity[:3]
-
         if not val == (None, None, None):
             self.ids.x_label.text = "X: " + str(val[0])
             self.ids.y_label.text = "Y: " + str(val[1])

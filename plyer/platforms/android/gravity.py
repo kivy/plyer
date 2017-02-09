@@ -52,26 +52,30 @@ class GravitySensorListener(PythonJavaClass):
 
 class AndroidGravity(Gravity):
 
-    listener = None
+    def __init__(self):
+        super(AndroidGravity, self).__init__()
+        self.state = False
 
     def _enable(self):
-        if not self.listener:
+        if (not self.state):
             self.listener = GravitySensorListener()
             self.listener.enable()
+            self.state = True
 
     def _disable(self):
-        if self.listener:
+        if (self.state):
+            self.state = False
             self.listener.disable()
             del self.listener
 
     def _get_gravity(self):
-        if self.listener:
+        if (self.state):
             return tuple(self.listener.values)
         else:
             return (None, None, None)
 
     def __del__(self):
-        if self.listener:
+        if (self.state):
             self._disable()
         super(self.__class__, self).__del__()
 
