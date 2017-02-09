@@ -42,7 +42,6 @@ class GravityInterface(BoxLayout):
             if not self.sensorEnabled:
                 gravity.enable()
                 Clock.schedule_interval(self.get_gravity, 1 / 20.)
-
                 self.sensorEnabled = True
                 self.ids.toggle_button.text = "Stop Gravity Sensor"
             else:
@@ -60,7 +59,6 @@ class GravityInterface(BoxLayout):
 
     def get_gravity(self, dt):
         val = gravity.gravity[:3]
-
         if not val == (None, None, None):
             self.ids.x_label.text = "X: " + str(val[0])
             self.ids.y_label.text = "Y: " + str(val[1])
@@ -73,4 +71,4 @@ class GravityApp(App):
 
 
 if __name__ == '__main__':
-GravityApp().run()
+    GravityApp().run()

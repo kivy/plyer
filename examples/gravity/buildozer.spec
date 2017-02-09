@@ -40,7 +40,7 @@ requirements = kivy,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
-requirements.source.plyer = /home/sumit/SUMIT/git/plyer 
+#requirements.source.plyer = /path/to/plyer 
 
 # (list) Garden requirements
 #garden_requirements =
@@ -90,10 +90,10 @@ fullscreen = 0
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-android.ndk_path = /home/sumit/Documents/android-ndk-r9c
+#android.ndk_path = 
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-android.sdk_path = /home/sumit/Documents/android-sdk-21
+#android.sdk_path = 
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
