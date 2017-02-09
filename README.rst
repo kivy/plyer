@@ -44,7 +44,6 @@ Wifi                                           X       X    X
 Support
 -------
 
-<<<<<<< 882a7ca7209318c9f9b5f4684e4f8c5add8754f1
 If you need assistance, you can ask for help on our mailing list:
 
 * User Group : https://groups.google.com/group/kivy-users
