@@ -5,9 +5,9 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
+           'email', 'filechooser', 'fingerprint', 'gps', 'gyroscope',
+           'irblaster', 'orientation', 'notification', 'sms', 'tts',
+           'uniqueid', 'vibrator', 'wifi')
 
 __version__ = '1.2.5dev'
 
@@ -38,6 +38,9 @@ email = Proxy('email', facades.Email)
 
 #: FileChooser proxy to :class:`plyer.facades.FileChooser`
 filechooser = Proxy('filechooser', facades.FileChooser)
+
+#: Fingerprint proxy to :class:'plyer.facades.Fingerprint'
+fingerprint = Proxy('fingerprint', facades.Fingerprint)
 
 #: GPS proxy to :class:`plyer.facades.GPS`
 gps = Proxy('gps', facades.GPS)
