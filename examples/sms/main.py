@@ -32,10 +32,21 @@ Builder.load_string('''
         size_hint_y: None
         height: sp(40)
         on_release: self.send_sms()
+
+<ErrorPopup>:
+    title: "Error!"
+    size_hint: .5, .5
+    Label:
+        text: "Feature not available for this platform !"
+
 ''')
 
 
 class SmsInterface(BoxLayout):
+    pass
+
+
+class ErrorPopup(Popup):
     pass
 
 
@@ -48,9 +59,7 @@ class IntentButton(Button):
             sms.send(recipient=self.sms_recipient, message=self.sms_message)
         except NotImplementedError:
             self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
 

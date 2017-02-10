@@ -20,7 +20,17 @@ Builder.load_string('''
         text: "Release"
         on_release: root.release()
 
+<ErrorPopup>:
+    title: "Error!"
+    size_hint: .5, .5
+    Label:
+        text: "Feature not available for this platform !"
+
 ''')
+
+
+class ErrorPopup(Popup):
+    pass
 
 
 class FlashInterface(BoxLayout):
@@ -29,30 +39,21 @@ class FlashInterface(BoxLayout):
         try:
             flash.on()
         except NotImplementedError:
-            self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
     def turn_off(self):
         try:
             flash.off()
         except NotImplementedError:
-            self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
     def release(self):
         try:
             flash.release()
         except NotImplementedError:
-            self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
 

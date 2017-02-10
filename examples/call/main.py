@@ -33,10 +33,20 @@ Builder.load_string('''
         on_release: self.dial()
     Label:
 
+<ErrorPopup>:
+    title: "Error!"
+    size_hint: .5, .5
+    Label:
+        text: "Feature not available for this platform !"
+
 ''')
 
 
 class CallInterface(BoxLayout):
+    pass
+
+
+class ErrorPopup(Popup):
     pass
 
 
@@ -46,10 +56,7 @@ class DialCallButton(Button):
         try:
             call.dialcall()
         except NotImplementedError:
-            self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
 
@@ -60,10 +67,7 @@ class MakeCallButton(Button):
         try:
             call.makecall(tel=self.tel)
         except NotImplementedError:
-            self.ErMsg = "Feature under development for this platform!"
-            popup = Popup(title="Error!",
-                          content=Label(text=self.ErMsg),
-                          size_hint=(None, None), size=(350, 350))
+            popup = ErrorPopup()
             popup.open()
 
 
