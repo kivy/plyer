@@ -61,13 +61,13 @@ class AndroidGravity(Gravity):
             self.listener = GravitySensorListener()
             self.listener.enable()
             self.state = True
-            
+
     def _disable(self):
         if self.state:
             self.state = False
             self.listener.disable()
             del self.listener
-            
+
     def _get_gravity(self):
         if self.state:
             return tuple(self.listener.values)
