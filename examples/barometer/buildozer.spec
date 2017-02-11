@@ -40,7 +40,7 @@ requirements = kivy, plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
-requirements.source.plyer = /home/sumit/Documents/plyer-master
+#requirements.source.plyer = 
 
 # (list) Garden requirements
 #garden_requirements =
@@ -99,7 +99,7 @@ fullscreen = 0
 #android.ant_path =
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-android.p4a_dir = /home/sumit/Documents/python-for-android-old_toolchain
+#android.p4a_dir = 
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes = 
