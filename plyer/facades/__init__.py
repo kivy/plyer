@@ -6,8 +6,8 @@ Interface of all the features available.
 
 '''
 
-__all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera', 'Compass',
-           'Email', 'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster',
+__all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
+           'Compass', 'Email', 'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster',
            'Orientation', 'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator',
            'Wifi', 'Flash')
 
