@@ -55,11 +55,12 @@ class AndroidProximity(Proximity):
             delattr(self, 'listener')
 
     def _get_proximity(self):
-        if self.listener and self.listener.value:
+        if self.listener:
             value = self.listener.value
-            # value is None when proxime sensor is covered. In other case
-            # it returns some value.
-            return not value or value < 5.0
+            # value is 0.0 when proxime sensor is covered. In other case
+            # value is 5.0 because in smartphone, optical proximity sensors
+            # are used.
+            return value < 5.0
 
 
 def instance():

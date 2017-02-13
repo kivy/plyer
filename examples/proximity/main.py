@@ -35,7 +35,7 @@ Builder.load_string('''
                 button_enable.disabled = not button_enable.disabled
 
     Label:
-        text: 'Does Proximity Sensor see something?'
+        text: 'Does Proximity Sensor detect something?'
     Label:
         text: 'Yes' if root.is_near else 'No'
 
@@ -62,7 +62,7 @@ class ProximityInterface(BoxLayout):
         Clock.unschedule(self.get_proxime)
 
     def get_proxime(self, dt):
-        self.is_near = self.proximity.proximity or self.is_near
+        self.is_near = self.proximity.proximity
 
 
 class ProximityApp(App):
