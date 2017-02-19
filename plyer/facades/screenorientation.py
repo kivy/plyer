@@ -1,9 +1,9 @@
 '''
-Orientation
+Screen Orientation
 ==========
 
-The :class:`Orientation` provides access to public methods to set orientation
-of your device.
+The :class:`ScreenOrientation` provides access to public methods to set
+screen orientation of your device.
 
 .. note::
     These settings are generally guidelines, the operating
@@ -17,23 +17,23 @@ Simple Examples
 
 To set landscape::
 
-    >>> from plyer import orientation
-    >>> orientation.set_landscape()
+    >>> from plyer import screenorientation
+    >>> screenorientation.set_landscape()
 
 To set portrait::
 
-    >>> orientation.set_portrait()
+    >>> screenorientation.set_portrait()
 
 To set sensor::
 
-    >>> orientation.set_sensor()
+    >>> screenorientation.set_sensor()
 
 '''
 
 
-class Orientation(object):
+class ScreenOrientation(object):
     '''
-    Orientation facade.
+    ScreenOrientation facade.
     '''
 
     def set_landscape(self, reverse=False):
