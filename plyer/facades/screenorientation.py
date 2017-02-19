@@ -33,7 +33,7 @@ To set sensor::
 
 class ScreenOrientation(object):
     '''
-    ScrrenOrientation facade.
+    ScreenOrientation facade.
     '''
 
     def set_landscape(self, reverse=False):
