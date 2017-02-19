@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Plyer orientation test
+title = Plyer screen orientation test
 
 # (str) Package name
-package.name = plyerorientation
+package.name = plyerscreenorientation
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

@@ -1,11 +1,11 @@
 from jnius import autoclass, cast
 from plyer.platforms.android import activity
-from plyer.facades import Orientation
+from plyer.facades import ScreenOrientation
 
 ActivityInfo = autoclass('android.content.pm.ActivityInfo')
 
 
-class AndroidOrientation(Orientation):
+class AndroidScreenOrientation(ScreenOrientation):
 
     def _set_landscape(self, **kwargs):
         reverse = kwargs.get('reverse')
@@ -40,4 +40,4 @@ class AndroidOrientation(Orientation):
 
 
 def instance():
-    return AndroidOrientation()
+    return AndroidScreenOrientation()
