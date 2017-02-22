@@ -8,10 +8,6 @@ from kivy.uix.boxlayout import BoxLayout
 
 interface = Builder.load_string('''
 #:import facade plyer.spatialorientation
-<WrapButton@Button>:
-    text_size: self.size
-    valign: 'middle'
-    halign: 'center'
 
 <OrientationInterface>:
     facade: facade
@@ -48,30 +44,6 @@ interface = Builder.load_string('''
             Label:
                 text: 'Roll: ' + str(root.roll)
 
-    GridLayout:
-        cols: 2
-        WrapButton:
-            text: 'portrait'
-            on_release: root.facade.set_portrait()
-        WrapButton:
-            text: 'portrait reverse'
-            on_release: root.facade.set_portrait(reverse=True)
-        WrapButton:
-            text: 'landscape'
-            on_release: root.facade.set_landscape()
-        WrapButton:
-            text: 'landscape reverse'
-            on_release: root.facade.set_landscape(reverse=True)
-        WrapButton:
-            text: 'free sensor'
-            on_release: root.facade.set_sensor(mode='any')
-        Widget:
-        WrapButton:
-            text: 'landscape sensor'
-            on_release: root.facade.set_sensor(mode='landscape')
-        WrapButton:
-            text: 'portrait sensor'
-            on_release: root.facade.set_sensor(mode='portrait')
 ''')
 
 
