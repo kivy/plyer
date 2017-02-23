@@ -1,7 +1,7 @@
 from jnius import autoclass
 from jnius import cast
 from jnius import java_method
-from jniud import PythonJavaClass
+from jnius import PythonJavaClass
 
 from plyer.facades import Light
 from plyer.platforms.android import activity
