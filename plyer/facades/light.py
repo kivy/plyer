@@ -1,36 +1,36 @@
 class Light(object):
-	'''Light facade.
+    '''Light facade.
 
-	Light sensor measures the ambient light level(illumination) in lx.
-	Common uses include controlling screen brightness.
+    Light sensor measures the ambient light level(illumination) in lx.
+    Common uses include controlling screen brightness.
 
-	With method `enable` you can turn on the sensor and
-	`disable` method stops the sensor.
+    With method `enable` you can turn on the sensor and
+    `disable` method stops the sensor.
 
-	Use property `illumination` to get current illumination in lx.
+    Use property `illumination` to get current illumination in lx.
 
-	'''
+    '''
 
-	@property
-	def illumination(self):
-		'''Current illumination in lx.'''
-		return self._get_illumination()
+    @property
+    def illumination(self):
+        '''Current illumination in lx.'''
+        return self._get_illumination()
 
-	def enable(self):
-		'''Enable light sensor.'''
-		self._enable()
+    def enable(self):
+        '''Enable light sensor.'''
+        self._enable()
 
-	def disable(self):
-		'''Disable light sensor.'''
-		self._disable()
+    def disable(self):
+        '''Disable light sensor.'''
+        self._disable()
 
-	#private
+    #private
 
-	def _get_illumination(self, **kwargs):
-		raise NotImplementedError()
+    def _get_illumination(self, **kwargs):
+        raise NotImplementedError()
 
-	def _enable(self, **kwargs):
-		raise NotImplementedError()
+    def _enable(self, **kwargs):
+        raise NotImplementedError()
 
-	def _disable(self, **kwargs):
-		raise NotImplementedError()
+    def _disable(self, **kwargs):
+        raise NotImplementedError()
