@@ -1,9 +1,9 @@
 class Barometer(object):
     '''Barometer facade.
 
-    Barometer sensor is used to measure air pressure.
+    Barometer sensor is used to measure the ambient air pressure in hPa.
 
-    With method `enable` you turns on step sensor and respectively 'disable'
+    With method `enable` you can turn on pressure sensor and 'disable'
     method stops the sensor.
 
     Use property `pressure` to get current air pressure in hPa.
