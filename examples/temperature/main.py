@@ -33,7 +33,7 @@ Builder.load_string('''
                 button_disable.disabled = not button_disable.disabled
                 button_enable.disabled = not button_enable.disabled
     Label:
-        text: 'Current air temperature: ' + str(root.temp) + ' degree C.'
+        text: 'Current air temperature: ' + str(root.temp) + ' degrees C.'
 ''')
 
 
