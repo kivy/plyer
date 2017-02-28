@@ -20,7 +20,8 @@ class TemperatureSensorListener(PythonJavaClass):
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
-        self.sensor = self.SensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        self.sensor = self.SensorManager.getDefaultSensor(
+            Sensor.TYPE_AMBIENT_TEMPERATURE)
         self.value = None
 
     def enable(self):
