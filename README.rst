@@ -26,7 +26,8 @@ Camera (taking picture)            X       X
 GPS                                X       X
 IR Blaster                         X
 Notifications                      X           X       X    X
-Text to speech                     X       X   X       X    X
+Text to Speech                     X       X   X       X    X
+Speech to Text                                 X       X    X
 Email (open mail client)           X       X   X       X    X
 Vibrator                           X       X
 Sms (send messages)                X       X
