@@ -34,7 +34,6 @@ Builder.load_string('''
                 button_enable.disabled = not button_enable.disabled
     Label:
         text: 'Steps: ' + str(root.steps)
-        
 ''')
 
 
@@ -52,8 +51,8 @@ class StepCounterInterface(BoxLayout):
         Clock.unschedule(self.get_count)
 
     def get_count(self, dt):
-        if self.facade.count != None:
-        self.steps = self.facade.count
+        if self.facade.count is not None:
+            self.steps = self.facade.count
 
 
 class StepCounterApp(App):
