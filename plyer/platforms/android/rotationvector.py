@@ -45,7 +45,7 @@ class AndroidRotationVector(RotationVector):
     listener = None
 
     def _get_vector(self):
-        if self.listener and self.listener.value:
+        if self.listener and self.listener.values:
             values = self.listener.values
             along_x, along_y, along_z, scalar = values[:4]
             return along_x, along_y, along_z, scalar
