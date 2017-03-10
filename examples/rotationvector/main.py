@@ -42,18 +42,16 @@ Builder.load_string('''
             text: 'Along_z: ' + str(root.along_z)
         Label:
             text: 'Scalar: ' + str(root.scalar)
-        
 ''')
 
 
 class RotationVectorInterface(BoxLayout):
     '''Root Widget.'''
-        along_x = NumericProperty(0)
-        along_y = NumericProperty(0)
-        along_z = NumericProperty(0)
-        scalar = NumericProperty(0)
- 
-        facade = ObjectProperty()
+    along_x = NumericProperty(0)
+    along_y = NumericProperty(0)
+    along_z = NumericProperty(0)
+    scalar = NumericProperty(0)
+    facade = ObjectProperty()
 
     def enable(self):
         self.facade.enable()
@@ -65,11 +63,11 @@ class RotationVectorInterface(BoxLayout):
 
     def get_vector(self, dt):
         if self.facade.vector != (None, None, None, None):
-        self.along_x, self.along_y, self.along_z, self.scalar = self.facade.vector
+            self.along_x, self.along_y, self.along_z, \
+                          self.scalar = self.facade.vector
 
 
 class RotationVectorApp(App):
-
     def build(self):
         return RotationVectorInterface()
 

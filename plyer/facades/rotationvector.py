@@ -24,7 +24,6 @@ class RotationVector(object):
         self._disable()
 
     #private
-        
     def _get_vector(self, **kwargs):
         raise NotImplementedError()
 
