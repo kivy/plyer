@@ -38,6 +38,7 @@ Orientation                        X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
+Magnetic Field                     X
 ================================== ======= === ======= ==== =====
 
 Support
