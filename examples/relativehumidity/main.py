@@ -33,7 +33,7 @@ Builder.load_string('''
                 button_disable.disabled = not button_disable.disabled
                 button_enable.disabled = not button_enable.disabled
     Label:
-        text: 'Humidity: ' + str(root.humidity) 
+        text: 'Humidity: ' + str(root.humidity)
 ''')
 
 

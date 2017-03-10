@@ -19,7 +19,7 @@ class RelativeHumidity(object):
         '''Disable Relative Humidity sensor.'''
         self._disable()
 
-    #private   
+    #private
     def _get_humidity(self, **kwargs):
         raise NotImplementedError()
 
