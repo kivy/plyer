@@ -37,7 +37,8 @@ Native file chooser                            X       X    X
 Orientation                        X
 Audio recording                    X
 Flash                              X       X
-Wifi                                           X       X    X
+Wifi                                           X       X    X           
+Step Counter                       X
 ================================== ======= === ======= ==== =====
 
 Support
