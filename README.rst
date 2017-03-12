@@ -25,6 +25,7 @@ Barometer                          X
 Call                               X       X
 Camera (taking picture)            X       X
 GPS                                X       X
+IR Blaster                         X
 Notifications                      X           X       X    X
 Text to speech                     X       X   X       X    X
 Email (open mail client)           X       X   X       X    X
