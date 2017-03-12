@@ -39,6 +39,7 @@ Orientation                        X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
+Game Rotation Vector               X
 ================================== ======= === ======= ==== =====
 
 Support
