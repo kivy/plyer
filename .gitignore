@@ -15,3 +15,7 @@ venv
 .project
 .pydevproject
 .settings/
+
+bin
+.buildozer
+.idea
