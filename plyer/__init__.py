@@ -5,7 +5,7 @@ Plyer
 '''
 
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'gps', 'gyroscope', 'irblaster',
+           'email', 'filechooser', 'flash', 'gps', 'gyroscope', 'irblaster',
            'orientation', 'notification', 'proximity', 'sms', 'tts', 'uniqueid',
            'vibrator', 'wifi')
 
