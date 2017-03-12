@@ -25,6 +25,7 @@ Audio recording                    X
 Battery                            X       X   X       X    X
 Call                               X       X
 Camera (taking picture)            X       X
+IR Blaster                         X
 Compass                            X       X
 Email (open mail client)           X       X   X       X    X
 Flash                              X       X
