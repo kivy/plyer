@@ -7,7 +7,7 @@ Plyer
 __all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
            'email', 'filechooser', 'flash', 'gps', 'gyroscope', 'irblaster',
            'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
+           'wifi', 'geomagneticrotation')
 
 __version__ = '1.2.5dev'
 
@@ -71,3 +71,6 @@ flash = Proxy('flash', facades.Flash)
 
 #: Wifi proxy to :class:`plyer.facades.Wifi`
 wifi = Proxy('wifi', facades.Wifi)
+
+#: GeomagneticRotation proxy to :class:'plyer.facades.GeomagneticRotation'
+geomagneticrotation = Proxy('geomagneticrotation', facades.GeomagneticRotation)
