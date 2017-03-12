@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 class GameRotation(object):
     '''
     Game Rotation vector facade.
