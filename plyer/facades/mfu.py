@@ -23,7 +23,7 @@ class MFU(object):
     @property
     def field(self):
         '''
-        Property that returns the current value of Uncaliberated Magnetic Field
+        Property that returns the current value of Uncalibrated Magnetic Field
 
         In addition to the magnetic field, the uncalibrated magnetometer also
         provides the estimated hard iron bias in each axis.
