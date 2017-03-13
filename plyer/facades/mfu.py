@@ -42,7 +42,7 @@ class MFU(object):
         Returns (None, None, None, None, None, None) if no data is currently
         available.
         '''
-        return self._get_vector() or (None, None, None, None, None, None)
+        return self._get_field() or (None, None, None, None, None, None)
 
     def enable_listener(self):
         '''
@@ -58,7 +58,7 @@ class MFU(object):
 
     #private
 
-    def _get_vector(self):
+    def _get_field(self):
         raise  NotImplementedError()
 
     def _enable_listener(self, **kwargs):

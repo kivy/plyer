@@ -38,7 +38,9 @@ interface = Builder.load_string('''
         BoxLayout:
             orientation: 'vertical'
             Label:
-                text: 'GeomagneticFieldStrength(without hard iron calibration)'
+                text: 'Geomagnetic Field Strength'
+            Label:
+                text: '(without hard iron calibration)'
             Label:
                 text: 'Along X-axis: ' + str(root.along_x) + 'μT'
             Label:
@@ -69,16 +71,16 @@ class MFUInterface(BoxLayout):
 
     def enable_listener(self):
         self.facade.enable_listener()
-        Clock.schedule_interval(self.get_vector, 1 / 20.)
+        Clock.schedule_interval(self.get_field, 1 / 20.)
 
     def disable_listener(self):
         self.facade.disable_listener()
-        Clock.unschedule(self.get_vector)
+        Clock.unschedule(self.get_field)
 
-    def get_vector(self, dt):
-        if self.facade.vector != (None, None, None, None, None, None):
+    def get_field(self, dt):
+        if self.facade.field != (None, None, None, None, None, None):
             self.along_x, self.along_y, self.along_z, self.along_x1,\
-                self.along_y1, self.along_z1 = self.facade.vector
+                self.along_y1, self.along_z1 = self.facade.field
 
 
 class MFUTestApp(App):
