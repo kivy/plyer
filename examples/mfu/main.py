@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
@@ -35,22 +38,21 @@ interface = Builder.load_string('''
         BoxLayout:
             orientation: 'vertical'
             Label:
-                text: 'Geomagnetic field strength (without hard iron
-                calibration)'
+                text: 'GeomagneticFieldStrength(without hard iron calibration)'
             Label:
-                text: 'Along X-axis: ' + str(root.along_x)
+                text: 'Along X-axis: ' + str(root.along_x) + 'μT'
             Label:
-                text: 'Along Y-axis: ' + str(root.along_y)
+                text: 'Along Y-axis: ' + str(root.along_y) + 'μT'
             Label:
-                text: 'Along Z-axis: ' + str(root.along_z)
+                text: 'Along Z-axis: ' + str(root.along_z) + 'μT'
             Label:
-                text: 'Iron bias estimation'
+                text: 'Iron Bias Estimation'
             Label:
-                text: 'Along X-axis: ' + str(root.along_x1)
+                text: 'Along X-axis: ' + str(root.along_x1) + 'μT'
             Label:
-                text: 'Along Y-axis: ' + str(root.along_y1)
+                text: 'Along Y-axis: ' + str(root.along_y1) + 'μT'
             Label:
-                text: 'Along Z-axis: ' + str(root.along_z1)
+                text: 'Along Z-axis: ' + str(root.along_z1) + 'μT'
 ''')
 
 
