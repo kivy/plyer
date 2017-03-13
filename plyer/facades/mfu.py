@@ -46,13 +46,13 @@ class MFU(object):
 
     def enable_listener(self):
         '''
-        Enable the Magnetic Field Uncaliberated sensor.
+        Enable the Magnetic Field Uncalibrated sensor.
         '''
         self._enable_listener()
 
     def disable_listener(self):
         '''
-        Disable the Magnetic Field Uncaliberated sensor.
+        Disable the Magnetic Field Uncalibrated sensor.
         '''
         self._disable_listener()
 
