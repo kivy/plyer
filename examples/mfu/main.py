@@ -42,30 +42,30 @@ interface = Builder.load_string('''
             Label:
                 text: '(without hard iron calibration)'
             Label:
-                text: 'Along X-axis: ' + str(root.along_x) + 'μT'
+                text: 'Along X-axis: ' + str(root.x_uncalib) + 'μT'
             Label:
-                text: 'Along Y-axis: ' + str(root.along_y) + 'μT'
+                text: 'Along Y-axis: ' + str(root.y_uncalib) + 'μT'
             Label:
-                text: 'Along Z-axis: ' + str(root.along_z) + 'μT'
+                text: 'Along Z-axis: ' + str(root.z_uncalib) + 'μT'
             Label:
                 text: 'Iron Bias Estimation'
             Label:
-                text: 'Along X-axis: ' + str(root.along_x1) + 'μT'
+                text: 'Along X-axis: ' + str(root.x_bias) + 'μT'
             Label:
-                text: 'Along Y-axis: ' + str(root.along_y1) + 'μT'
+                text: 'Along Y-axis: ' + str(root.y_bias) + 'μT'
             Label:
-                text: 'Along Z-axis: ' + str(root.along_z1) + 'μT'
+                text: 'Along Z-axis: ' + str(root.z_bias) + 'μT'
 ''')
 
 
 class MFUInterface(BoxLayout):
 
-    along_x = NumericProperty(0)
-    along_y = NumericProperty(0)
-    along_z = NumericProperty(0)
-    along_x1 = NumericProperty(0)
-    along_y1 = NumericProperty(0)
-    along_z1 = NumericProperty(0)
+    x_uncalib = NumericProperty(0)
+    y_uncalib = NumericProperty(0)
+    z_uncalib = NumericProperty(0)
+    x_bias = NumericProperty(0)
+    y_bias = NumericProperty(0)
+    z_bias = NumericProperty(0)
 
     facade = ObjectProperty()
 
@@ -79,8 +79,8 @@ class MFUInterface(BoxLayout):
 
     def get_field(self, dt):
         if self.facade.field != (None, None, None, None, None, None):
-            self.along_x, self.along_y, self.along_z, self.along_x1,\
-                self.along_y1, self.along_z1 = self.facade.field
+            self.x_uncalib, self.y_uncalib, self.z_uncalib, self.x_bias,\
+                self.y_bias, self.z_bias = self.facade.field
 
 
 class MFUTestApp(App):

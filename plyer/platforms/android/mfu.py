@@ -32,7 +32,7 @@ class MFUSensorListener(PythonJavaClass):
 
     @java_method('(Landroid/hardware/SensorEvent;)V')
     def onSensorChanged(self, event):
-        self.values = event.values[:3]
+        self.values = event.values[:6]
 
     @java_method('(Landroid/hardware/Sensor;I)V')
     def onAccuracyChanged(self, sensor, accuracy):
@@ -46,9 +46,9 @@ class AndroidMFU(MFU):
     def _get_field(self):
         if self.listener and self.listener.values:
             values = self.listener.values
-            along_x, along_y, along_z, \
-                along_x1, along_y1, along_z1 = values[:6]
-            return along_x, along_y, along_z, along_x1, along_y1, along_z1
+            x_uncalib, y_uncalib, z_uncalib,\
+                x_bias, y_bias, z_bias = values[:6]
+            return x_uncalib, y_uncalib, z_uncalib, x_bias, y_bias, z_bias
 
     def _enable_listener(self, **kwargs):
         if not self.listener:
