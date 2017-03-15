@@ -10,7 +10,7 @@ class GyroUncalibrated(object):
     Factory calibration and temperature compensation is still applied to the
     rate of rotation (angular speeds).
 
-    Constant Value: 16 (0x00000010) 
+    Constant Value: 16 (0x00000010)
     '''
 
     @property
@@ -26,15 +26,15 @@ class GyroUncalibrated(object):
         counter clockwise.
 
         Along x-axis: angular speed (w/o drift compensation) around the X axis
-                      in rad/s 
+                      in rad/s
         Along y-axis: angular speed (w/o drift compensation) around the Y axis
-                      in rad/s 
+                      in rad/s
         Along z-axis: angular speed (w/o drift compensation) around the Z axis
-                      in rad/s 
+                      in rad/s
 
-        Along x-axis: estimated drift around X axis in rad/s 
-        Along y-axis: estimated drift around Y axis in rad/s 
-        Along z-axis: estimated drift around Z axis in rad/s 
+        Along x-axis: estimated drift around X axis in rad/s
+        Along y-axis: estimated drift around Y axis in rad/s
+        Along z-axis: estimated drift around Z axis in rad/s
 
         Returns (None, None, None, None, None, None) if no data is currently
         available.
