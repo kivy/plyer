@@ -39,19 +39,31 @@ interface = Builder.load_string('''
             Label:
                 text: '(without drift compensation)'
             Label:
-                text: 'Along X-axis: ' + str(root.x_speed) + 'rad/s'
+                text: 'Along X-axis:'
             Label:
-                text: 'Along Y-axis: ' + str(root.y_speed) + 'rad/s'
+                text: str(root.x_speed) + 'rad/s'
             Label:
-                text: 'Along Z-axis: ' + str(root.z_speed) + 'rad/s'
+                text: 'Along Y-axis:'
+            Label:
+                text: str(root.y_speed) + 'rad/s'                
+            Label:
+                text: 'Along Z-axis:'
+            Label:
+                text: str(root.z_speed) + 'rad/s'
             Label:
                 text: 'Estimated Drift'
             Label:
-                text: 'Along X-axis: ' + str(root.x_drift) + 'rad/s'
+                text: 'Along X-axis:'
             Label:
-                text: 'Along Y-axis: ' + str(root.y_drift) + 'rad/s'
+                text: str(root.x_drift) + 'rad/s'
             Label:
-                text: 'Along Z-axis: ' + str(root.z_drift) + 'rad/s'
+                text: 'Along Y-axis:'
+            Label:
+                text: str(root.y_drift) + 'rad/s'
+            Label:
+                text: 'Along Z-axis:'
+            Label:
+                text: str(root.z_drift) + 'rad/s'
 ''')
 
 
