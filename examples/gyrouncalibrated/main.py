@@ -45,7 +45,7 @@ interface = Builder.load_string('''
             Label:
                 text: 'Along Y-axis:'
             Label:
-                text: str(root.y_speed) + 'rad/s'                
+                text: str(root.y_speed) + 'rad/s'
             Label:
                 text: 'Along Z-axis:'
             Label:
