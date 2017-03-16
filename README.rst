@@ -21,6 +21,7 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
+Barometer                          X
 Call                               X       X
 Camera (taking picture)            X       X
 GPS                                X       X
@@ -37,6 +38,7 @@ Gyroscope                          X       X
 Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
 Orientation                        X
+Proximity                          X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
