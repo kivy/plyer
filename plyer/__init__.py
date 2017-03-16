@@ -4,10 +4,10 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'flash', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'proximity', 'sms', 'tts', 'uniqueid',
-           'vibrator', 'wifi')
+__all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
+           'compass', 'email', 'filechooser', 'flash', 'gps', 'gyroscope',
+           'irblaster', 'orientation', 'notification', 'proximity', 'sms', 'tts',
+           'uniqueid', 'vibrator', 'wifi')
 
 __version__ = '1.2.5dev'
 
@@ -20,6 +20,9 @@ accelerometer = Proxy('accelerometer', facades.Accelerometer)
 
 #: Audio proxy to :class:`plyer.facades.Audio`
 audio = Proxy('audio', facades.Audio)
+
+#: Barometer proxy to :class:`plyer.facades.Barometer`
+barometer = Proxy('barometer', facades.Barometer)
 
 #: Battery proxy to :class:`plyer.facades.Battery`
 battery = Proxy('battery', facades.Battery)
