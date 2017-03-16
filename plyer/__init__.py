@@ -7,7 +7,8 @@ Plyer
 __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
-           'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi')
+           'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
+           'temperature')
 
 __version__ = '1.2.5dev'
 
@@ -83,3 +84,6 @@ flash = Proxy('flash', facades.Flash)
 
 #: Wifi proxy to :class:`plyer.facades.Wifi`
 wifi = Proxy('wifi', facades.Wifi)
+
+#: Temperature proxy to :class:`plyer.facades.Temperature`
+temperature = Proxy('temperature', facades.Temperature)
