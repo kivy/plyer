@@ -66,7 +66,7 @@ class GravityInterface(BoxLayout):
             self.ids.status.text = status
 
     def get_gravity(self, dt):
-        val = gravity.gravity[:3]
+        val = gravity.gravity
 
         if not val == (None, None, None):
             self.ids.x_label.text = "X: " + str(val[0])
