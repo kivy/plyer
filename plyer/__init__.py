@@ -4,10 +4,10 @@ Plyer
 
 '''
 
-__all__ = ('accelerometer', 'audio', 'battery', 'call', 'camera', 'compass',
-           'email', 'filechooser', 'flash', 'gps', 'gyroscope', 'irblaster',
-           'orientation', 'notification', 'sms', 'tts', 'uniqueid', 'vibrator',
-           'wifi')
+__all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
+           'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
+           'gyroscope', 'irblaster', 'orientation', 'notification', 'proximity',
+           'sms', 'tts', 'uniqueid', 'vibrator', 'wifi')
 
 __version__ = '1.2.5dev'
 
@@ -20,6 +20,9 @@ accelerometer = Proxy('accelerometer', facades.Accelerometer)
 
 #: Audio proxy to :class:`plyer.facades.Audio`
 audio = Proxy('audio', facades.Audio)
+
+#: Barometer proxy to :class:`plyer.facades.Barometer`
+barometer = Proxy('barometer', facades.Barometer)
 
 #: Battery proxy to :class:`plyer.facades.Battery`
 battery = Proxy('battery', facades.Battery)
@@ -42,6 +45,9 @@ filechooser = Proxy('filechooser', facades.FileChooser)
 #: GPS proxy to :class:`plyer.facades.GPS`
 gps = Proxy('gps', facades.GPS)
 
+#: Gravity proxy to :class:`plyer.facades.Gravity`
+gravity = Proxy('gravity', facades.Gravity)
+
 #: Gyroscope proxy to :class:`plyer.facades.Gyroscope`
 gyroscope = Proxy('gyroscope', facades.Gyroscope)
 
@@ -53,6 +59,9 @@ orientation = Proxy('orientation', facades.Orientation)
 
 #: Notification proxy to :class:`plyer.facades.Notification`
 notification = Proxy('notification', facades.Notification)
+
+#: Proximity proxy to :class:`plyer.facades.Proximity`
+proximity = Proxy('proximity', facades.Proximity)
 
 #: Sms proxy to :class:`plyer.facades.Sms`
 sms = Proxy('sms', facades.Sms)
