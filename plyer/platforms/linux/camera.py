@@ -1,4 +1,4 @@
-import subprocess 
+import subprocess
 from plyer.facades import Camera
 
 
@@ -13,14 +13,17 @@ class LinuxCamera(Camera):
         except:
             extension = None
         if extension = "jpg":
-            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1", \
-                     "!", "jpegenc", "!", "filesink", "location=" + self.filename])
+            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1", "!",
+                             "jpegenc", "!", "filesink",
+                             "location=" + self.filename])
         elif extension = "png":
-            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1", \
-                     "!", "pngenc", "!", "filesink", "location=" + self.filename])
+            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1",
+                             "!", "pngenc", "!", "filesink",
+                             "location=" + self.filename])
         elif extension = None:
-            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1", \
-                     "!", "jpegenc", "!", "filesink", "location=" + self.filename + ".jpg"])
+            subprocess.call(["gst-launch", "v4l2src", "num-buffers=1", "!",
+                             "jpegenc", "!", "filesink",
+                             "location=" + self.filename + ".jpg"])
         else:
             pass
         self.on_complete()
@@ -34,17 +37,17 @@ class LinuxCamera(Camera):
         except:
             extension = None
         if extension in ["mp4", "avi"]:
-            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",\
-                     "!", "jpegenc", "!", "avimux", "!", "filesink",\
-                     "location=" + self.filename])
+            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
+                             "!", "jpegenc", "!", "avimux", "!", "filesink",
+                             "location=" + self.filename])
         elif extension = None:
-            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",\
-                     "!", "jpegenc", "!", "avimux", "!", "filesink",\
-                     "location=" + self.filename + ".avi"])
+            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
+                             "!", "jpegenc", "!", "avimux", "!", "filesink",
+                             "location=" + self.filename + ".avi"])
         else:
             pass
         self.on_complete()
 
 
 def instance():
-return LinuxCamera()
+    return LinuxCamera()
