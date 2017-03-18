@@ -36,16 +36,14 @@ class LinuxCamera(Camera):
             name, extension = filename.split(".")
         except:
             extension = None
-        if extension in ["mp4", "avi"]:
-            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
-                             "!", "jpegenc", "!", "avimux", "!", "filesink",
-                             "location=" + self.filename])
-        elif extension = None:
+        if extension = None:
             subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
                              "!", "jpegenc", "!", "avimux", "!", "filesink",
                              "location=" + self.filename + ".avi"])
         else:
-            pass
+            subprocess.call(["gst-launch", "v4l2src", "!", "ffmpegcolorspace",
+                             "!", "jpegenc", "!", "avimux", "!", "filesink",
+                             "location=" + self.filename])
         self.on_complete()
 
 
