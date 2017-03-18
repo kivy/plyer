@@ -12,12 +12,12 @@ class LinuxAudio(Audio):
                                     "num-buffers=100", "!", "audioconvert",
                                     "!", "vorbisenc", "!", "oggmux", "!",
                                     "filesink", "location=" + self.file_path),
-                                   stdout = subprocess.PIPE)
+                                   stdout=subprocess.PIPE)
         process.wait()
-        
+
     def _stop(self):
         process.terminate()
-        
+
     def _play(self):
         subprocess.call(["gst-launch", "filesrc",
                          "location=" + self.file_path, "!", "decodebin",
