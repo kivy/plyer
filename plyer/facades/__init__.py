@@ -6,15 +6,11 @@ Interface of all the features available.
 
 '''
 
-__all__ = ('Accelerometer', 'Audio', 'Battery', 'Call', 'Camera', 'Compass',
-           'Email', 'FileChooser', 'GPS', 'Gyroscope', 'IrBlaster',
-           'Orientation', 'Notification', 'Sms', 'TTS', 'UniqueID', 'Vibrator',
-           'Wifi', 'Flash', 'RelativeHumidity')
 __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash',
-           'Temperature')
+           'Temperature', 'RelativeHumidity')
 
 
 from plyer.facades.accelerometer import Accelerometer
