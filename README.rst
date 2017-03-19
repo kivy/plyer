@@ -42,7 +42,7 @@ Orientation                        X
 Proximity                          X
 Audio recording                    X
 Flash                              X       X
-Wifi                                           X       X   
+Wifi                                           X       X    X
 Relative Humidity                  X
 Temperature                        X
 ================================== ======= === ======= ==== =====
