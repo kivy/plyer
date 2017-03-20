@@ -26,7 +26,7 @@ class StepCounterSensorListener(PythonJavaClass):
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+                    SensorManager.SENSOR_DELAY_FASTEST)
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
