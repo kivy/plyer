@@ -40,17 +40,20 @@ interface = Builder.load_string('''
             Label:
                 text: 'including drift compensation'
             Label:
-                text: '(' + str(root.x_calib) + ',' + str(root.y_calib) + ',' + str(root.z_calib) + ')' 
+                text: '(' + str(root.x_calib) + ',' + str(root.y_calib) + ',' +\
+                str(root.z_calib) + ')'
             Label:
                 text: 'Rate of rotation'
             Label:
                 text: 'w/o drift compensation'
             Label:
-                text: '(' + str(root.x_speed) + ',' + str(root.y_speed) + ',' + str(root.z_speed) + ')'
+                text: '(' + str(root.x_speed) + ',' + str(root.y_speed) + ',' +\
+                str(root.z_speed) + ')'
             Label:
                 text: 'Estimated Drift'
             Label:
-                text: '(' + str(root.x_drift) + ',' + str(root.y_drift) + ',' + str(root.z_drift) + ')'
+                text: '(' + str(root.x_drift) + ',' + str(root.y_drift) + ',' +\
+                str(root.z_drift) + ')'
             Label:
                 text: 'All the values are in rad/s'
 ''')
@@ -86,8 +89,8 @@ class GyroscopeInterface(BoxLayout):
 
     def get_rotationUncalib(self, dt):
         if self.facade.rotationUncalib != (None, None, None, None, None, None):
-            self.x_speed, self.y_speed, self.z_speed,\
-            self.x_drift, self.y_drift, self.z_drift = self.facade.rotationUncalib
+            self.x_speed, self.y_speed, self.z_speed, self.x_drift,\
+                self.y_drift, self.z_drift = self.facade.rotationUncalib
 
 
 class GyroscopeTestApp(App):
