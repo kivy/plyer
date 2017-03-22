@@ -20,9 +20,9 @@ To disable gyroscope::
 
     >>> gyroscope.disable()
 
-To get the orientation::
+To get the rate of rotation along the three axes::
 
-    >>> gyroscope.orientation
+    >>> gyroscope.rotation
     (-0.0034587313421070576, -0.0073830625042319298, 0.0046892408281564713)
 
 '''
@@ -36,13 +36,13 @@ class Gyroscope(object):
     '''
 
     @property
-    def orientation(self):
+    def rotation(self):
         '''
         Property that returns values of the current Gyroscope sensors, as
         a (x, y, z) tuple. Returns (None, None, None) if no data is currently
         available.
         '''
-        return self.get_orientation()
+        return self.get_rotation()
 
     def enable(self):
         '''
@@ -56,8 +56,8 @@ class Gyroscope(object):
         '''
         self._disable()
 
-    def get_orientation(self):
-        return self._get_orientation()
+    def get_rotation(self):
+        return self._get_rotation()
 
     # private
 
@@ -67,5 +67,5 @@ class Gyroscope(object):
     def _disable(self):
         raise NotImplementedError()
 
-    def _get_orientation(self):
+    def _get_rotation(self):
         raise NotImplementedError()
