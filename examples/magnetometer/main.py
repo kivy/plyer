@@ -7,8 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 Builder.load_string('''
-#:import facade plyer.magneticfield
-<MagneticFieldInterface>:
+#:import facade plyer.magnetometer
+<MagnetometerInterface>:
     facade: facade
     orientation: 'vertical'
     padding: '50dp'
@@ -43,7 +43,7 @@ Builder.load_string('''
 ''')
 
 
-class MagneticFieldInterface(BoxLayout):
+class MagnetometerInterface(BoxLayout):
     '''Root Widget.'''
     along_x = NumericProperty(0)
     along_y = NumericProperty(0)
@@ -63,12 +63,12 @@ class MagneticFieldInterface(BoxLayout):
             self.along_x, self.along_y, self.along_z = self.facade.field
 
 
-class MagneticFieldApp(App):
+class MagnetometerApp(App):
     def build(self):
-        return MagneticFieldInterface()
+        return MagnetometerInterface()
 
     def on_pause(self):
         return True
 
 if __name__ == "__main__":
-    MagneticFieldApp().run()
+    MagnetometerApp().run()

@@ -3,7 +3,7 @@ from jnius import cast
 from jnius import java_method
 from jnius import PythonJavaClass
 
-from plyer.facades import MagneticField
+from plyer.facades import Magnetometer
 from plyer.platforms.android import activity
 
 ActivityInfo = autoclass('android.content.pm.ActivityInfo')
@@ -12,11 +12,11 @@ Sensor = autoclass('android.hardware.Sensor')
 SensorManager = autoclass('android.hardware.SensorManager')
 
 
-class MagneticFieldSensorListener(PythonJavaClass):
+class MagnetometerSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(MagneticFieldSensorListener, self).__init__()
+        super(MagnetometerSensorListener, self).__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
@@ -40,7 +40,7 @@ class MagneticFieldSensorListener(PythonJavaClass):
         pass
 
 
-class AndroidMagneticField(MagneticField):
+class AndroidMagnetometer(Magnetometer):
 
     listener = None
 
@@ -52,7 +52,7 @@ class AndroidMagneticField(MagneticField):
 
     def _enable(self):
         if not self.listener:
-            self.listener = MagneticFieldSensorListener()
+            self.listener = MagnetometerSensorListener()
             self.listener.enable()
 
     def _disable(self):
@@ -62,4 +62,4 @@ class AndroidMagneticField(MagneticField):
 
 
 def instance():
-    return AndroidMagneticField()
+    return AndroidMagnetometer()

@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = PlyerMagneticField
+title = PlyerMagnetometer
 
 # (str) Package name
-package.name = myapp
+package.name = plyer.magnetometer
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

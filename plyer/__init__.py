@@ -9,7 +9,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature', 'magneticfield')
+           'temperature', 'magnetometer')
 
 
 __version__ = '1.2.5dev'
@@ -88,7 +88,7 @@ flash = Proxy('flash', facades.Flash)
 wifi = Proxy('wifi', facades.Wifi)
 
 #: MagneticField proxy to :class:`plyer.facades.MagneticField`
-magneticfield = Proxy('magneticfield', facades.MagneticField)
+magnetometer = Proxy('magnetometer', facades.Magnetometer)
 
 #: Temperature proxy to :class:`plyer.facades.Temperature`
 temperature = Proxy('temperature', facades.Temperature)
