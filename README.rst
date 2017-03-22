@@ -43,7 +43,7 @@ Proximity                          X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X           
-Pedometer                       X
+Pedometer                          X
 Wifi                                           X       X    X
 Temperature                        X
 ================================== ======= === ======= ==== =====
