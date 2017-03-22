@@ -58,4 +58,4 @@ def instance():
         return SnapCamera()
     elif whereis_exe('wacaw'):
         return WacawCamera()
-    return LinuxCamera()
+    return Camera()
