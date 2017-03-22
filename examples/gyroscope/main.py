@@ -16,7 +16,7 @@ interface = Builder.load_string('''
         orientation: 'vertical'
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: 1, .2
+            size_hint: 1, .1
             Button:
                 id: enable_button
                 text: 'Enable Sensor'
@@ -40,20 +40,29 @@ interface = Builder.load_string('''
             Label:
                 text: 'including drift compensation'
             Label:
-                text: '(' + str(root.x_calib) + ',' + str(root.y_calib) + ',' +\
-                str(root.z_calib) + ')'
+                text: '(' + str(root.x_calib) + ','
+            Label:
+                text: str(root.y_calib) + ','
+            Label:
+                text: str(root.z_calib) + ')'
             Label:
                 text: 'Rate of rotation'
             Label:
                 text: 'w/o drift compensation'
             Label:
-                text: '(' + str(root.x_speed) + ',' + str(root.y_speed) + ',' +\
-                str(root.z_speed) + ')'
+                text: '(' + str(root.x_speed) + ','
+            Label:
+                text: str(root.y_speed) + ','
+            Label:
+                text: str(root.z_speed) + ')'
             Label:
                 text: 'Estimated Drift'
             Label:
-                text: '(' + str(root.x_drift) + ',' + str(root.y_drift) + ',' +\
-                str(root.z_drift) + ')'
+                text: '(' + str(root.x_drift) + ','
+            Label:
+                text: str(root.y_drift) + ','
+            Label:
+                text: str(root.z_drift) + ')'
             Label:
                 text: 'All the values are in rad/s'
 ''')
@@ -85,7 +94,7 @@ class GyroscopeInterface(BoxLayout):
 
     def get_rotation(self, dt):
         if self.facade.rotation != (None, None, None):
-            self.x, self.y, self.z = self.facade.rotation
+            self.x_calib, self.y_calib, self.z_calib = self.facade.rotation
 
     def get_rotationUncalib(self, dt):
         if self.facade.rotationUncalib != (None, None, None, None, None, None):
