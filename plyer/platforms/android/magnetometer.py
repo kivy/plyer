@@ -44,7 +44,7 @@ class AndroidMagnetometer(Magnetometer):
 
     listener = None
 
-    def _get_vector(self):
+    def _get_field(self):
         if self.listener and self.listener.values:
             values = self.listener.values
             along_x, along_y, along_z = values[:3]
