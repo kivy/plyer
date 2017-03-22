@@ -85,21 +85,21 @@ class GyroscopeInterface(BoxLayout):
     def enable(self):
         self.facade.enable()
         Clock.schedule_interval(self.get_rotation, 1 / 20.)
-        Clock.schedule_interval(self.get_rotationUncalib, 1 / 20.)
+        Clock.schedule_interval(self.get_rotation_uncalib, 1 / 20.)
 
     def disable(self):
         self.facade.disable()
         Clock.unschedule(self.get_rotation)
-        Clock.unschedule(self.get_rotationUncalib)
+        Clock.unschedule(self.get_rotation_uncalib)
 
     def get_rotation(self, dt):
         if self.facade.rotation != (None, None, None):
             self.x_calib, self.y_calib, self.z_calib = self.facade.rotation
 
-    def get_rotationUncalib(self, dt):
-        if self.facade.rotationUncalib != (None, None, None, None, None, None):
+    def get_rotation_uncalib(self, dt):
+        if self.facade.rotation_uncalib != (None, None, None, None, None, None):
             self.x_speed, self.y_speed, self.z_speed, self.x_drift,\
-                self.y_drift, self.z_drift = self.facade.rotationUncalib
+                self.y_drift, self.z_drift = self.facade.rotation_uncalib
 
 
 class GyroscopeTestApp(App):

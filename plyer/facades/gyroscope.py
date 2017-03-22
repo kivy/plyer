@@ -33,7 +33,7 @@ To get the rate of rotation along the three axes::
 To get the uncalibrated rate of rotation along the three axes along with the
 drift compensation::
 
-    >>> gyroscope.rotationUncalib
+    >>> gyroscope.rotation_uncalib
     ()
     where the first three values show the rate of rotation w/o drift
     compensation and the last three show the estimated drift along the three
@@ -63,7 +63,7 @@ class Gyroscope(object):
         return self.get_rotation()
 
     @property
-    def rotationUncalib(self):
+    def rotation_uncalib(self):
         '''
         Property that returns the current rate of rotation around the X, Y and
         Z axis. An estimation of the drift on each axis is reported as well.
@@ -82,7 +82,7 @@ class Gyroscope(object):
         Returns (None, None, None, None, None, None) if no data is currently
         available.
         '''
-        return self.get_rotationUncalib()
+        return self.get_rotation_uncalib()
 
     def enable(self):
         '''
@@ -99,8 +99,8 @@ class Gyroscope(object):
     def get_rotation(self):
         return self._get_rotation()
 
-    def get_rotationUncalib(self):
-        return self._get_rotationUncalib()
+    def get_rotation_uncalib(self):
+        return self._get_rotation_uncalib()
 
     # private
 
@@ -113,5 +113,5 @@ class Gyroscope(object):
     def _get_rotation(self):
         raise NotImplementedError()
 
-    def _get_rotationUncalib(self):
+    def _get_rotation_uncalib(self):
         raise NotImplementedError()

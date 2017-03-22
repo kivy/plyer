@@ -96,7 +96,7 @@ class AndroidGyroscope(Gyroscope):
         else:
             return (None, None, None)
 
-    def _get_rotationUncalib(self):
+    def _get_rotation_uncalib(self):
         if (self.bState):
             return tuple(self.listenergu.values)
         else:
