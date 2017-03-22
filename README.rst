@@ -27,16 +27,16 @@ Camera (taking picture)            X       X
 GPS                                X       X
 Gravity                            X
 IR Blaster                         X
-Notifications                      X       X           X    X
-Text to speech 	                   X 	   X   X 	   X 	X
+Notifications                      X           X       X    X
+Text to speech                     X       X   X       X    X
 Email (open mail client)           X       X   X       X    X
-Vibrator 	                       X 	   X
-Sms (send messages) 	           X 	   X
+Vibrator                           X       X
+Sms (send messages)                X       X
 Compass                            X       X
-Unique ID 	                       X 	   X   X 	   X 	X
+Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
 Light                              X
-Battery 	                       X  	   X   X 	   X 	X
+Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
 Orientation                        X
 Spatial Orientation                X
