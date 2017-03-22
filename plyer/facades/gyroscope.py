@@ -99,7 +99,7 @@ class Gyroscope(object):
     def get_rotation(self):
         return self._get_rotation()
 
-    def get_rotationUncalib()
+    def get_rotationUncalib():
         return self._get_rotationUncalib()
 
     # private

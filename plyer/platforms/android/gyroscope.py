@@ -69,7 +69,6 @@ class GyroUncalibratedSensorListener(PythonJavaClass):
         pass
 
 
-
 class AndroidGyroscope(Gyroscope):
     def __init__(self):
         super(AndroidGyroscope, self).__init__()

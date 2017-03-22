@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Gyroscope Uncalibrated
+title = Gyroscope
 
 # (str) Package name
-package.name = plyergyrouncalibrated
+package.name = plyergyroscope
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

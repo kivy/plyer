@@ -6,22 +6,23 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 
 interface = Builder.load_string('''
-#:import facade plyer.gyrouncalibrated
-<GyroUncalibratedInterface>:
+#:import facade plyer.gyroscope
+<GyroscopeInterface>:
     facade: facade
     orientation: 'vertical'
     padding: '20dp'
     spacing: '10dp'
     BoxLayout:
-        orientation: 'horizontal'
+        orientation: 'vertical'
         BoxLayout:
-            orientation: 'vertical'
+            orientation: 'horizontal'
+            size_hint: 1, .2
             Button:
                 id: enable_button
                 text: 'Enable Sensor'
                 disabled: False
                 on_release:
-                    root.enable_listener()
+                    root.enable()
                     disable_button.disabled = not disable_button.disabled
                     enable_button.disabled = not enable_button.disabled
             Button:
@@ -29,46 +30,37 @@ interface = Builder.load_string('''
                 text: 'Disable Sensor'
                 disabled: True
                 on_release:
-                    root.disable_listener()
+                    root.disable()
                     disable_button.disabled = not disable_button.disabled
                     enable_button.disabled = not enable_button.disabled
         BoxLayout:
             orientation: 'vertical'
             Label:
-                text: 'Angular Speed'
+                text: 'Rate of rotation'
             Label:
-                text: '(without drift compensation)'
+                text: 'including drift compensation'
             Label:
-                text: 'Along X-axis:'
+                text: '(' + str(root.x_calib) + ',' + str(root.y_calib) + ',' + str(root.z_calib) + ')' 
             Label:
-                text: str(root.x_speed) + 'rad/s'
+                text: 'Rate of rotation'
             Label:
-                text: 'Along Y-axis:'
+                text: 'w/o drift compensation'
             Label:
-                text: str(root.y_speed) + 'rad/s'
-            Label:
-                text: 'Along Z-axis:'
-            Label:
-                text: str(root.z_speed) + 'rad/s'
+                text: '(' + str(root.x_speed) + ',' + str(root.y_speed) + ',' + str(root.z_speed) + ')'
             Label:
                 text: 'Estimated Drift'
             Label:
-                text: 'Along X-axis:'
+                text: '(' + str(root.x_drift) + ',' + str(root.y_drift) + ',' + str(root.z_drift) + ')'
             Label:
-                text: str(root.x_drift) + 'rad/s'
-            Label:
-                text: 'Along Y-axis:'
-            Label:
-                text: str(root.y_drift) + 'rad/s'
-            Label:
-                text: 'Along Z-axis:'
-            Label:
-                text: str(root.z_drift) + 'rad/s'
+                text: 'All the values are in rad/s'
 ''')
 
 
-class GyroUncalibratedInterface(BoxLayout):
+class GyroscopeInterface(BoxLayout):
 
+    x_calib = NumericProperty(0)
+    y_calib = NumericProperty(0)
+    z_calib = NumericProperty(0)
     x_speed = NumericProperty(0)
     y_speed = NumericProperty(0)
     z_speed = NumericProperty(0)
@@ -78,23 +70,29 @@ class GyroUncalibratedInterface(BoxLayout):
 
     facade = ObjectProperty()
 
-    def enable_listener(self):
-        self.facade.enable_listener()
+    def enable(self):
+        self.facade.enable()
         Clock.schedule_interval(self.get_rotation, 1 / 20.)
+        Clock.schedule_interval(self.get_rotationUncalib, 1 / 20.)
 
-    def disable_listener(self):
-        self.facade.disable_listener()
+    def disable(self):
+        self.facade.disable()
         Clock.unschedule(self.get_rotation)
+        Clock.unschedule(self.get_rotationUncalib)
 
     def get_rotation(self, dt):
-        if self.facade.rotation != (None, None, None, None, None, None):
-            self.x_speed, self.y_speed, self.z_speed, self.x_drift,\
-                self.y_drift, self.z_drift = self.facade.rotation
+        if self.facade.rotation != (None, None, None):
+            self.x, self.y, self.z = self.facade.rotation
+
+    def get_rotationUncalib(self, dt):
+        if self.facade.rotationUncalib != (None, None, None, None, None, None):
+            self.x_speed, self.y_speed, self.z_speed,\
+            self.x_drift, self.y_drift, self.z_drift = self.facade.rotationUncalib
 
 
-class GyroUncalibratedTestApp(App):
+class GyroscopeTestApp(App):
     def build(self):
-        return GyroUncalibratedInterface()
+        return GyroscopeInterface()
 
 if __name__ == "__main__":
-    GyroUncalibratedTestApp().run()
+    GyroscopeTestApp().run()
