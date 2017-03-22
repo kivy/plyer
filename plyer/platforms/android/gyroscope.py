@@ -27,14 +27,14 @@ class GyroscopeSensorListener(PythonJavaClass):
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
                     SensorManager.SENSOR_DELAY_NORMAL)
-        
+
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
-        
+
     @java_method('(Landroid/hardware/SensorEvent;)V')
     def onSensorChanged(self, event):
         self.values = event.values[:3]
-        
+
     @java_method('(Landroid/hardware/Sensor;I)V')
     def onAccuracyChanged(self, sensor, accuracy):
         # Maybe, do something in future?
