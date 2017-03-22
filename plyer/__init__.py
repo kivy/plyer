@@ -9,7 +9,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature', 'stepcounter')
+           'temperature', 'pedometer')
 
 
 __version__ = '1.2.5dev'
@@ -87,8 +87,8 @@ flash = Proxy('flash', facades.Flash)
 #: Wifi proxy to :class:`plyer.facades.Wifi`
 wifi = Proxy('wifi', facades.Wifi)
 
-#: StepCounter proxy to :class:`plyer.facades.StepCounter`
-stepcounter = Proxy('stepcounter', facades.StepCounter)
+#: Pedometer proxy to :class:`plyer.facades.Pedometer`
+pedometer = Proxy('pedometer', facades.Pedometer)
 
 #: Temperature proxy to :class:`plyer.facades.Temperature`
 temperature = Proxy('temperature', facades.Temperature)

@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = PlyerStepCounter
+title = PlyerPedometer
 
 # (str) Package name
-package.name = myapp
+package.name = plyer.pedometer
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

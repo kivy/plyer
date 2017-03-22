@@ -3,7 +3,7 @@ from jnius import cast
 from jnius import java_method
 from jnius import PythonJavaClass
 
-from plyer.facades import StepCounter
+from plyer.facades import Pedometer
 from plyer.platforms.android import activity
 
 ActivityInfo = autoclass('android.content.pm.ActivityInfo')
@@ -12,11 +12,11 @@ Sensor = autoclass('android.hardware.Sensor')
 SensorManager = autoclass('android.hardware.SensorManager')
 
 
-class StepCounterSensorListener(PythonJavaClass):
+class PedometerSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(StepCounterSensorListener, self).__init__()
+        super(PedometerSensorListener, self).__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
@@ -40,7 +40,7 @@ class StepCounterSensorListener(PythonJavaClass):
         pass
 
 
-class AndroidStepCounter(StepCounter):
+class AndroidPedometer(Pedometer):
 
     listener = None
 
@@ -51,7 +51,7 @@ class AndroidStepCounter(StepCounter):
 
     def _enable(self):
         if not self.listener:
-            self.listener = StepCounterSensorListener()
+            self.listener = PedometerSensorListener()
             self.listener.enable()
 
     def _disable(self):
@@ -61,4 +61,4 @@ class AndroidStepCounter(StepCounter):
 
 
 def instance():
-    return AndroidStepCounter()
+    return AndroidPedometer()

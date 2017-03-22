@@ -7,8 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 Builder.load_string('''
-#:import facade plyer.stepcounter
-<StepCounterInterface>:
+#:import facade plyer.pedometer
+<PedometerInterface>:
     facade: facade
     orientation: 'vertical'
     padding: '50dp'
@@ -37,7 +37,7 @@ Builder.load_string('''
 ''')
 
 
-class StepCounterInterface(BoxLayout):
+class PedometerInterface(BoxLayout):
     '''Root Widget.'''
     steps = NumericProperty(0)
     facade = ObjectProperty()
@@ -55,13 +55,13 @@ class StepCounterInterface(BoxLayout):
             self.steps = self.facade.count
 
 
-class StepCounterApp(App):
+class PedometerApp(App):
 
     def build(self):
-        return StepCounterInterface()
+        return PedometerInterface()
 
     def on_pause(self):
         return True
 
 if __name__ == "__main__":
-    StepCounterApp().run()
+    PedometerApp().run()
