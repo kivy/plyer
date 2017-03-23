@@ -44,7 +44,6 @@ Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
-Gyroscope Uncalibrated             X
 ================================== ======= === ======= ==== =====
 
 Support
