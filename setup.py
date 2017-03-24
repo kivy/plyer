@@ -41,7 +41,7 @@ setup(
     include_package_data=True,
     license=open(join(curdir, 'LICENSE')).read(),
     zip_safe=False,
-    classifiers=(
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Natural Language :: English',
@@ -53,5 +53,5 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-    ),
+    ],
 )
