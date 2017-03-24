@@ -4,24 +4,24 @@ import subprocess
 
 class LinuxAudio(Audio):
     def __init__(self, file_path=None):
-        default_path = '/home/recording.wav'
+        default_path = 'test.mp3'
         super(LinuxAudio, self).__init__(file_path or default_path)
 
     def _start(self):
-        process = subprocess.Popen(("gst-launch", "autoaudiosrc",
+        self.process = subprocess.Popen(["gst-launch-1.0", "autoaudiosrc",
                                     "num-buffers=100", "!", "audioconvert",
                                     "!", "vorbisenc", "!", "oggmux", "!",
-                                    "filesink", "location=" + self.file_path),
-                                   stdout=subprocess.PIPE)
-        process.wait()
+                                    "filesink", "location=" + self.file_path])
+        self.process.wait()
 
     def _stop(self):
-        process.terminate()
+        self.process.terminate()
 
     def _play(self):
-        subprocess.call(["gst-launch", "filesrc",
+        self.file_path = str(self.file_path)
+        subprocess.call(["gst-launch-1.0", "filesrc",
                          "location=" + self.file_path, "!", "decodebin",
-                         "audioconvert", "!", "pulsesink"])
+                         "pulsesink"])
 
 
 def instance():
