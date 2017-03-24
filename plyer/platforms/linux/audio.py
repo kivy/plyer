@@ -21,7 +21,7 @@ class LinuxAudio(Audio):
         self.file_path = str(self.file_path)
         subprocess.call(["gst-launch-1.0", "filesrc",
                          "location=" + self.file_path, "!", "decodebin",
-                         "pulsesink"])
+                         "!", "pulsesink"])
 
 
 def instance():
