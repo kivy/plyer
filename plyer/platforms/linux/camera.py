@@ -19,7 +19,7 @@ class LinuxCamera(Camera):
             subprocess.call(["gst-launch-1.0", "v4l2src", "num-buffers=1",
                              "!", "pngenc", "!", "filesink",
                              "location=" + self.filename])
-        elif extension == None:
+        elif extension is None:
             subprocess.call(["gst-launch-1.0", "v4l2src", "num-buffers=1", "!",
                              "jpegenc", "!", "filesink",
                              "location=" + self.filename + ".jpg"])
@@ -34,7 +34,7 @@ class LinuxCamera(Camera):
             name, extension = filename.split(".")
         except:
             extension = None
-        if extension == None:
+        if extension is None:
             subprocess.call(["gst-launch-1.0", "v4l2src", "!", "videoconvert",
                              "!", "jpegenc", "!", "avimux", "!", "filesink",
                              "location=" + self.filename + ".avi"])
