@@ -1,939 +1,216 @@
-Changelog
-=========
-
-%%version%% (unreleased)
-------------------------
-
-- Update __init__.py. [dessant]
-
-- Update copyright year. [dessant]
-
-- Fix windows filechooser using `mode` instead of `self.mode` [gabriel
-  pettier]
-
-- Merge pull request #144 from thegrymek/plyer-audio. [dessant]
-
-  Plyer audio for android with facade and example
-
-- Update docs facade with permissions. [andrzej.grymkowski]
-
-- Improving docs. [andrzej.grymkowski]
-
-- Corrected "" in docstring. [Andrzej Grymkowski]
-
-- Flake8. [Andrzej Grymkowski]
-
-- Update readme. [Andrzej Grymkowski]
-
-- Removing temporary files. [Andrzej Grymkowski]
-
-- Moved example class to facades. [Andrzej Grymkowski]
-
-- Impoved example. [andrzej.grymkowski]
-
-- Added almost working example. [Andrzej Grymkowski]
-
-- Initial commit. [Andrzej Grymkowski]
-
-- Merge pull request #147 from kivy/stylefix. [dessant]
-
-  style fixes
-
-- Style fixes. [dessant]
-
-- Merge pull request #146 from kivy/dessant-patch-1. [dessant]
-
-  add pydev files to gitignore
-
-- Add pydev files to gitignore. [dessant]
-
-- Merge pull request #145 from thegrymek/plyer-style-guide-update.
-  [dessant]
-
-  Plyer style guide update
-
-- Another improvements. [andrzej.grymkowski]
-
-- Corrected win filechooser. [andrzej.grymkowski]
-
-- Update for docs. [andrzej.grymkowski]
-
-- Improved styles in files. [andrzej.grymkowski]
-
-- Updated kivy pep8 and corrected some files. [andrzej.grymkowski]
-
-- Merge pull request #143 from kivy/dessant-patch-1. [dessant]
-
-  fix versionchanged tag
-
-- Fix versionchanged tag. [dessant]
-
-- Merge pull request #133 from aron-bordin/master. [dessant]
-
-  fix #107 - Use Android_ID instead of IMEI
-
-- Fix #107 - Use Android_ID instead of IMEI. [Aron Bordin]
-
-- Merge pull request #140 from thegrymek/plyer-android4.0-email.
-  [dessant]
-
-  update info about support email for android<4.0
-
-- Update info to readme about support email on android<4.0.
-  [andrzej.grymkowski]
-
-- Merge pull request #135 from thegrymek/inclement-orientation.
-  [dessant]
-
-  Inclement orientation
-
-- Adding tag versionadded to facade. [andrzej.grymkowski]
-
-- Fix for import facade orientation. [Andrzej Grymkowski]
-
-- Added to readme supported platforms platform android < 4.0. [Andrzej
-  Grymkowski]
-
-- Removing red functions label. [Andrzej Grymkowski]
-
-- Corrected readme. [Andrzej Grymkowski]
-
-- Updated orientation. [Andrzej Grymkowski]
-
-- Merge pull request #139 from thegrymek/plyer-add-package-facades-
-  setuptools. [dessant]
-
-  added plyer.facade to setuptools package
-
-- Added plyer.facade to setuptools package. [Andrzej Grymkowski]
-
-- Merge pull request #138 from thegrymek/plyer-split-facades. [dessant]
-
-  splitted facades
-
-- Changed order. [Andrzej Grymkowski]
-
-- Spliting end. [Andrzej Grymkowski]
-
-- Spliting end. [Andrzej Grymkowski]
-
-- First part. [Andrzej Grymkowski]
-
-- Merge pull request #129 from thegrymek/android-vibrator-sdk-9.
-  [dessant]
-
-  vibrator for android v < 4.0
-
-- Added defaults. [Andrzej Grymkowski]
-
-- Removing files  tests. [Andrzej Grymkowski]
-
-- A. [Andrzej Grymkowski]
-
-- Merging. [Andrzej Grymkowski]
-
-- Replace """ in docstrings" [Andrzej Grymkowski]
-
-- Added exist for sdk < 11. [Andrzej Grymkowski]
-
-- Added unsupported exception. [Andrzej Grymkowski]
-
-- Removed unnessesary docstrings. [Andrzej Grymkowski]
-
-- Conflicts main. [Andrzej Grymkowski]
-
-- Updated document. [Andrzej Grymkowski]
-
-- Vibrator for android v < 4.0, pep257 and flake8. [Andrzej Grymkowski]
-
-- Updated document. [Andrzej Grymkowski]
-
-- Remove unnessesary docstring. [Andrzej Grymkowski]
-
-- Merging. [Andrzej Grymkowski]
-
-- Merge branch 'new_branch_name' [Andrzej Grymkowski]
-
-- Merge. [Andrzej Grymkowski]
-
-- Remove unused variables. [thegrymek]
-
-- PEP8 and typo fixes in MacOS X file chooser. [Robert Jerovsek]
-
-- Removed unused imports and refactor. [Andrzej Grymkowski]
-
-- Pep8 - removed unused imports and variables. [Andrzej Grymkowski]
-
-- Make pep8 compatible. [laltin]
-
-- Responds to issue 109 https://github.com/kivy/plyer/issues/109.
-  [albericc]
-
-- As. [Andrzej Grymkowski]
-
-- Added first structure. [Andrzej Grymkowski]
-
-- Merge pull request #1 from kivy/master. [thegrymek]
-
-  sync pull request
-
-- Merge pull request #134 from thegrymek/patch-1. [dessant]
-
-  remove unused variables
-
-- Remove unused variables. [thegrymek]
-
-- Merge pull request #110 from AlbericC/issue_109. [dessant]
-
-  responds to issue 109 https://github.com/kivy/plyer/issues/109
-
-- Responds to issue 109 https://github.com/kivy/plyer/issues/109.
-  [albericc]
-
-- Merge pull request #121 from laltin/pep8_fix. [Mathieu Virbel]
-
-  Pep8 fix
-
-- Make pep8 compatible. [laltin]
-
-- Merge pull request #1 from kivy/master. [Lütfi Altın]
-
-  sync with origin
-
-- Merge pull request #122 from thegrymek/pep8-removed-unused-imports-
-  and-variables. [Mathieu Virbel]
-
-  pep8 - removed unused imports and variables
-
-- Removed unused imports and refactor. [Andrzej Grymkowski]
-
-- Pep8 - removed unused imports and variables. [Andrzej Grymkowski]
-
-- Merge pull request #123 from robertjerovsek/master. [Mathieu Virbel]
-
-  PEP8 and typo fixes in MacOS X file chooser.
-
-- PEP8 and typo fixes in MacOS X file chooser. [Robert Jerovsek]
-
-- Merge pull request #106 from Davideddu/filechooser. [Mathieu Virbel]
-
-  Add file chooser facade and support for Linux and Windows
-
-- Fix filter conversion on Mac OS X. [Davide Depau]
-
-- Add experimental support for Mac OS X. [Davide Depau]
-
-- Fix inheritance issue on windows filechooser implementation. [Davide
-  Depau]
-
-- Add filechooser facade and support for Linux and Windows. [Davide
-  Depau]
-
-- Merge pull request #119 from trivedigaurav/use-environ-lang. [Mathieu
-  Virbel]
-
-  Use environ to change LANG to 'C' while calling shell processes
-
-- Use environ to change LANG to 'C' while calling shell processes.
-  [gtrivedi]
-
-- Merge pull request #120 from pspchucky/master. [Mathieu Virbel]
-
-  add video recoding to Camera facade and camera.py
-
-- Update camera.py. [pspchucky]
-
-- Add video capture support to facades.py. [pspchucky]
-
-- Merge pull request #118 from kived/irblaster-facade. [Akshay Arora]
-
-  add IrBlaster facade and Android implementation
-
-- Add IrBlaster facade and Android implementation. [Ryan Pessa]
-
-- Update README.rst. [Mathieu Virbel]
-
-- Merge pull request #116 from laltin/ios_gps. [Mathieu Virbel]
-
-  iOS GPS support
-
-- Cleanup & comment. [laltin]
-
-- First working version. [laltin]
-
-- Merge pull request #115 from kivy/fixes_114. [Mathieu Virbel]
-
-  use environ to change LANG to 'C' while calling lshw
-
-- Use environ to change LANG to 'C' while calling lshw. [gabriel
-  pettier]
-
-  fixes #114
-
-- Merge pull request #117 from JimmyStavros/patch-1. [Mathieu Virbel]
-
-  Android gps.py: fixed location provider cycling
-
-- Android gps.py: fixed location provider cycling. [JimmyStavros]
-
-  Issue was first brought to light here: https://github.com/kivy/plyer/issues/54
-
-  GPS module was cycling through "gps" three times instead of all location services.
-
-- Fixes hashCode overflow. Latest kivy/pyjnius master have already
-  hashCode/equals/toString implementation, and the hashCode is fixed
-  with overflow. Just dont try to implement it here. Closes #103. Ref
-  kivy/pyjnius#146. [Mathieu Virbel]
-
-- Bump to 1.2.4-dev. [Mathieu Virbel]
-
-1.2.3 (2015-01-27)
-------------------
-
-- Bump to 1.2.3. [Mathieu Virbel]
-
-- Setup.py: add changelog into the description + fix rst issue. [Mathieu
-  Virbel]
-
-- Bump to 1.2.3-dev. [Mathieu Virbel]
-
-1.2.2 (2015-01-27)
-------------------
-
-- Bump to 1.2.2. [Mathieu Virbel]
-
-- Update the version to the next dev (missing from the last release)
-  [Mathieu Virbel]
-
-- Merge branch 'master' of ssh://github.com/kivy/plyer. [Mathieu Virbel]
-
-- Merge pull request #102 from helenst/sys-platform-linux-check.
-  [Mathieu Virbel]
-
-  Linux platform check made compatible with python 3.3+ (Fixes #58)
-
-- Linux platform check made compatible with python 3.3+ (Fixes #58)
-  [Helen ST]
-
-- Add initial changelog. [Mathieu Virbel]
-
-- Plyer: fix androidd notification. Closes #93 (credits to @kashifpk)
-  [Mathieu Virbel]
-
-- Android/notification: implement a switch to allow usage of API < 16.
-  [Mathieu Virbel]
-
-1.2.1 (2014-08-19)
-------------------
-
-- Merge pull request #92 from dessant/patch-2. [trivedigaurav]
-
-  fix print statement
-
-- Fix print statement. [dessant]
-
-- SMS Manager is supported since Android 1.6. [trivedigaurav]
-
-- Merge pull request #90 from trivedigaurav/ios_uuid. [trivedigaurav]
-
-  iOS UUID facade
-
-- IOS UUID facade. [gtrivedi]
-
-- Merge pull request #86 from trivedigaurav/ios_battery. [trivedigaurav]
-
-  iOS Battery
-
-- Change get_status to get_state. [gtrivedi]
-
-- Clean up. [gtrivedi]
-
-- Add battery.py. [gtrivedi]
-
-- IOS Battery Facade. [gtrivedi]
-
-- Update compass.py. [trivedigaurav]
-
-- Update gyroscope.py. [trivedigaurav]
-
-- Fix typo. [trivedigaurav]
-
-- Fix typo. [trivedigaurav]
-
-- Fix style. [gtrivedi]
-
-- Merge branch 'trivedigaurav-ios_tts' [gtrivedi]
-
-- Fixing README confict and merge master. [gtrivedi]
-
-- Merge pull request #88 from trivedigaurav/ios_email. [trivedigaurav]
-
-  iOS Email Facade
-
-- Add email.py. [gtrivedi]
-
-- Merge branch 'master' of https://github.com/kivy/plyer into ios_email.
-  [gtrivedi]
-
-- Merge pull request #89 from trivedigaurav/fix_make. [trivedigaurav]
-
-  Removing build_ext from plyer
-
-- Removing build_ext from plyer. [gtrivedi]
-
-- Update accelerometer.py. [trivedigaurav]
-
-- Python 3 compat. [trivedigaurav]
-
-- Python 3 compat. [trivedigaurav]
-
-- Python 3 compat. [trivedigaurav]
-
-- IOS Email Facade. [gtrivedi]
-
-- Merge pull request #82 from trivedigaurav/sensors_start_none.
-  [trivedigaurav]
-
-  Fix Android enable and disable. Return (None, None, None) until sensor data is available
-
-- Fix sensor enable-disable. [gtrivedi]
-
-- Merge branch 'master' of https://github.com/kivy/plyer into
-  sensors_start_none. [gtrivedi]
-
-- Merge pull request #68 from trivedigaurav/linux_accel. [trivedigaurav]
-
-  Linux accelerometer facade
-
-- Linux accelerometer facade. [gtrivedi]
-
-- Fix style error. [trivedigaurav]
-
-- Merge pull request #85 from trivedigaurav/battery_ischarging.
-  [trivedigaurav]
-
-  Change connected to isCharging
-
-- Change connected to isCharging. [gtrivedi]
-
-- Merge pull request #80 from ChrisCole42/patch-2. [trivedigaurav]
-
-  Update compass.py
-
-- Update compass.py. [ChrisCole42]
-
-  copied the missing definitions across from accelerometer.py
-
-- Merge pull request #79 from trivedigaurav/where_is. [trivedigaurav]
-
-  Use whereis_exe to check for binaries
-
-- Remove trailing newline. [gtrivedi]
-
-- Add whereis_exe import. [gtrivedi]
-
-- Remove trailing newline. [gtrivedi]
-
-- Use whereis_exe to check for binaries. [gtrivedi]
-
-- Fix style errors. [gtrivedi]
-
-- Copy values atomically. [gtrivedi]
-
-- Return None untill data is available. [gtrivedi]
-
-- Merge pull request #77 from ChrisCole42/patch-1. [trivedigaurav]
-
-  Update compass.py
-
-- Update compass.py. [ChrisCole42]
-
-  fix "global name is not defined" error in AndroidCompass.__init__()
-
-- Merge pull request #75 from trivedigaurav/maintenance. [trivedigaurav]
-
-  Maintenance merge
-
-- Remove extra make command. [gtrivedi]
-
-- Merge branch 'master' of https://github.com/kivy/plyer into
-  maintenance. [gtrivedi]
-
-  Conflicts:
-  	plyer/facades.py
-
-- Changed battery Xs to correct columns (ios -> win) [Alexander Taylor]
-
-- Really did fix battery formatting in readme. [Alexander Taylor]
-
-- Fixed battery formatting in readme. [Alexander Taylor]
-
-- Merge pull request #74 from dessant/patch-1. [Akshay Arora]
-
-  facade docstring revision
-
-- Facade docstring revision. [dessant]
-
-- Merge pull request #73 from trivedigaurav/battery_info. [Akshay Arora]
-
-  Query Battery info/status
-
-- Merge pull request #71 from trivedigaurav/master. [trivedigaurav]
-
-  Revert "Activity was imported twice"
-
-- Revert "Activity was imported twice" [gtrivedi]
-
-  This reverts commit a0600929774c1e90c7dc43043ff87b5ea84213b4.
-
-- Activity was imported twice. [trivedigaurav]
-
-- Fix style errors after merging with master. [gtrivedi]
-
-- Fix styles errors in libs/ [gtrivedi]
-
-- Don't ignore lib folder. [gtrivedi]
-
-- Fix style errors. [gtrivedi]
-
-- Fix docstrings. [gtrivedi]
-
-- Fix typo and style. [gtrivedi]
-
-- Copy pep8 style checker from Kivy. [gtrivedi]
-
-- Add Makefile. [gtrivedi]
-
-- Add windows implementation. [gtrivedi]
-
-- Fix android implemenation typos. [gtrivedi]
-
-- Battery facade. [gtrivedi]
-
-- Merge branch 'master' of https://github.com/kivy/plyer into
-  battery_info. [gtrivedi]
-
-  Conflicts:
-  	plyer/__init__.py
-
-- Merge pull request #70 from trivedigaurav/master. [trivedigaurav]
-
-  Fix tabbing
-
-- Merge pull request #69 from trivedigaurav/gyroscope_fix.
-  [trivedigaurav]
-
-  Gyroscope facade proxy declarations
-
-- Gyroscope facade proxy declarations. [gtrivedi]
-
-- Merge pull request #67 from trivedigaurav/patch-1. [Akshay Arora]
-
-  Update README.rst
-
-- Update README.rst. [trivedigaurav]
-
-  We have merged commits for the email facades on desktops.
-
-- Merge branch 'master' of https://github.com/trivedigaurav/plyer into
-  battery_info. [gtrivedi]
-
-- Fix tabbing. [trivedigaurav]
-
-  Not sure how this passed through.
-
-- Battery facade. [gtrivedi]
-
-- Typo. [Mathieu Virbel]
-
-- Ios: gyroscope is also supported now. [Mathieu Virbel]
-
-1.2.0 (2014-06-24)
-------------------
-
-- Bump to 1.2.0, and mark new classes to 1.2.0. [Mathieu Virbel]
-
-- Merge master. [Mathieu Virbel]
-
-- Remove dependency on Hardware.java. [gtrivedi]
-
-- IOS and Android implementations. [gtrivedi]
-
-- Gyroscope facade. [gtrivedi]
-
-- Add gyroscope in README. [gtrivedi]
-
-- Merge branch 'master' of ssh://github.com/kivy/plyer. [Mathieu Virbel]
-
-- Merge pull request #49 from Davideddu/macosx_email. [Mathieu Virbel]
-
-  add Mac OS X email support
-
-- Add Mac OS X email support. [Davide Depau]
-
-- Merge pull request #48 from Davideddu/windows_email. [Mathieu Virbel]
-
-  add Windows email support
-
-- Catch exception if no email client is installed on Windows. [Davide
-  Depau]
-
-- Add Windows email support. [Davide Depau]
-
-- Merge pull request #47 from Davideddu/linux_email. [Mathieu Virbel]
-
-  added Linux email support
-
-- Revert previous commit, use xdg-open to open email client. [Davide
-  Depau]
-
-- Use xdg-email by default, fallback to xdg-open + mailto uri. [Davide
-  Depau]
-
-- Added Linux email support. [Davide Depau]
-
-- Merge master. [Mathieu Virbel]
-
-- Remove gyroscope files. [gtrivedi]
-
-- Fix typos introduced while copying. [gtrivedi]
-
-- Fix typo. [gtrivedi]
-
-- Fix tabbing. [gtrivedi]
-
-- IOS Magnetometer. [gtrivedi]
-
-- Merge branch 'master' of ssh://github.com/kivy/plyer. [Mathieu Virbel]
-
-- Merge pull request #63 from trivedigaurav/pyjnius_accel. [Mathieu
-  Virbel]
-
-  Switched to pyjnius
-
-- Make values assignment atomic. [gtrivedi]
-
-- Switched to pyjnius. [gtrivedi]
-
-- Merge master. [Mathieu Virbel]
-
-- Plyer Unique ID facade. [gtrivedi]
-
-- Merge master. [Mathieu Virbel]
-
-- Update README. [trivedigaurav]
-
-- Merge branch 'android_compass' of
-  https://github.com/trivedigaurav/plyer into android_compass.
-  [gtrivedi]
-
-- Update buildozer.spec. [trivedigaurav]
-
-- Pyjnius compass. [gtrivedi]
-
-- Update buildozer.spec. [gtrivedi]
-
-- Plyer compass facade. [gtrivedi]
-
-- Merge pull request #52 from mihaineacsu/sms. [Mathieu Virbel]
-
-  Added sms facade, example and android implementation
-
-- Updated sms components. [mihaineacsu]
-
-- Fix components of the sms facade. [mihaineacsu]
-
-- Update README with sms feature. [mihaineacsu]
-
-- Update plyer init. [mihaineacsu]
-
-- Add sms example. [mihaineacsu]
-
-- Add initial android sms implementation. [mihaineacsu]
-
-- Add sms facade. [mihaineacsu]
-
-- Merge pull request #55 from trivedigaurav/osx_accel. [Mathieu Virbel]
-
-  Using sudden motion sensor as accelerometer on OSX
-
-- Check accelerometer in OSX. [gtrivedi]
-
-- LGPL notice no longer required. [gtrivedi]
-
-- Fix tabs to spaces. [gtrivedi]
-
-- Switched to ctypes. [gtrivedi]
-
-- Remove osx libs in setup.py. [gtrivedi]
-
-- Added LGPL.txt for unimotion.c. [gtrivedi]
-
-- Added libs/ folder in macosx. [gtrivedi]
-
-- OSX Accel facade using unimotion. [gtrivedi]
-
-- Merge pull request #62 from trivedigaurav/patch-2. [Mathieu Virbel]
-
-  Update README
-
-- Update README. [trivedigaurav]
-
-- Merge pull request #56 from trivedigaurav/patch-1. [Akshay Arora]
-
-  Update README
-
-- Update README. [trivedigaurav]
-
-- Remove buildozer db. [Mathieu Virbel]
-
-- Merge pull request #46 from matham/master. [akshayaurora]
-
-  Add compat module, remove decoding of strings in notification
-
-- Explicitly declare HANDLE since ctypes in py3 doesn't seem to have it.
-  [Matthew Einhorn]
-
-- Make py3 compat. [Matthew Einhorn]
-
-- Decode textinput input before sending to notification. [Matthew
-  Einhorn]
-
-- Add compat module, remove decoding of strings in notification, do
-  direct inmport instead of relative import. [Matthew Einhorn]
-
-- Removed unused import. [Ben Rousch]
-
-- Merge pull request #6 from inclement/vibrate. [Alexander Taylor]
-
-  Added Vibrator facade and android implementation
-
-- Renamed vibrate_pattern to just pattern. [Alexander Taylor]
-
-- Fixed typo in vibrator proxy comment. [Alexander Taylor]
-
-- Added vibrator example and buildozer.spec. [Alexander Taylor]
-
-- Added AndroidVibrator implementation. [Alexander Taylor]
-
-- Added Vibrator facade. [Alexander Taylor]
-
-- Merge pull request #18 from matham/ctypes-notify-window. [Ben Rousch]
-
-  Changes notify to use ctypes instead of win32gui so we could use unicode.
-
-- Use unique id. [Matthew Einhorn]
-
-- Use count instead of self to generate different classes. [Matthew
-  Einhorn]
-
-- Add notify_close method and always display some systray icon. [Matthew
-  Einhorn]
-
-- Update to use ctypes instead of win32gui so we could use unicode.
-  [Matthew Einhorn]
-
-- Add windows ctypes api defs file. [Matthew Einhorn]
-
-- Merge pull request #39 from trivedigaurav/accelerometer_example. [Ben
-  Rousch]
-
-  Created an accelerometer example. Uses garden graph to plot the values
-
-- Removed unused variable. [gtrivedi]
-
-- Added a simple accelerometer example. [gtrivedi]
-
-- Corrected README for buildozer commands. [gtrivedi]
-
-- Updated README to reflect path changes. [gtrivedi]
-
-- Moved the graph example to examples/accelerometer/using_graph.
-  [gtrivedi]
-
-- Updated README to include information about garden.graph. [gtrivedi]
-
-- Added screenshot of the app running on Android 4.3. [gtrivedi]
-
-- Added README on how to build. [gtrivedi]
-
-- Cleaned up a bit. Newlines. Removed dangling commented lines.
-  [gtrivedi]
-
-- Fixed ordering in the try catch block. It fails at the correct line in
-  the try block if the accelerometer is not present. [gtrivedi]
-
-- Fixed android permissions. Doesn't require any. [gtrivedi]
-
-- Changed popup error message to state that the problem is with the
-  current platform. [gtrivedi]
-
-- Removed a test file not a part of the example. [gtrivedi]
-
-- Created an accelerometer example. Uses garden graph to plot the
-  values. [gtrivedi]
-
-- Added examples README. [Ben Rousch]
-
-- Merge pull request #38 from trivedigaurav/tts_example. [Ben Rousch]
-
-  Shows an error popup if there is no TTS
-
-- Added newlines at the end of files. [gtrivedi]
-
-- Shows an error popup if there is no TTS capability. [gtrivedi]
-
-- Merge pull request #37 from trivedigaurav/tts_example. [akshayaurora]
-
-  Text to Speech Example
-
-- Removed an empty line. [gtrivedi]
-
-- Created an example application for the text to speech (tts) facade.
-  [gtrivedi]
-
-- Merge pull request #11 from kivy/notification_windows_icon.
-  [akshayaurora]
-
-  User-specified icon support for Windows notifications
-
-- Notification: introduce `timeout` [qua-non]
-
-- User-specified icon support for Windows notifications. [Ben Rousch]
-
-- Merge pull request #15 from voen/patch-1. [Ben Rousch]
-
-  readme typo corrected
-
-- Readme typo corrected. [voen]
-
-- Merge pull request #10 from kivy/dbus_notify. [akshayaurora]
-
-  Introduce dbus notification
-
-- Removed attempts at using app_icon in Android notification. [Ben
-  Rousch]
-
-- Improve notification example. [qua-non]
-
-- Partial example notification example. [Ben Rousch]
-
-- Introduce dbus notification. [qua-non]
-
-- Fix plyer android.activity import. [Mathieu Virbel]
-
-- Fixed whereis_exe for windows. Fixed espeak TTS for windows. [Ben
-  Rousch]
-
-- Merge pull request #5 from inclement/sendemail. [Mathieu Virbel]
-
-  Added an email facade and basic android implementation
-
-- Removed unnecessary import from email. [Alexander Taylor]
-
-- Pep8 fixes. [Alexander Taylor]
-
-- Added email facade example. [Alexander Taylor]
-
-- Added email to README. [Alexander Taylor]
-
-- Completed email facade and android implementation. [Alexander Taylor]
-
-- Added email facade. [Alexander Taylor]
-
-- Added simple buildozer.spec for gps example. [Alexander Taylor]
-
-- Add missing super() constructor in IosAccelerometer. [Mathieu Virbel]
-
-- Ios: add support for accelerometer on iOS (and motivate brousch again)
-  [Mathieu Virbel]
-
-- Add MANIFEST to include LICENSE and README. bump to 1.1.2. [Mathieu
-  Virbel]
-
-- Bump to 1.1.1. [Mathieu Virbel]
-
-- Fix setup for pip. [Mathieu Virbel]
-
-- Update readme. [Mathieu Virbel]
-
-- Setup.py: fix readme. [Mathieu Virbel]
-
-- Update readme. [Mathieu Virbel]
-
-- Gps: add versionadded. [Mathieu Virbel]
-
-- Fix documentation version. [Mathieu Virbel]
-
-- Gps: update documentation. [Mathieu Virbel]
-
-- Update setup.py to correctly include win. [Mathieu Virbel]
-
-- Merge branch 'master' of ssh://github.com/kivy/plyer. [Mathieu Virbel]
-
-- Add a basic grid to show supported features per os. [tshirtman]
-
-- Custom icon specification for android notification. [Ben Rousch]
-
-- Even more elegant Android notification code. [Ben Rousch]
-
-- Less hacky getPackageName from Android. [Ben Rousch]
-
-- Fixed hasattr bug. Added default icon support for Android
-  notifications. [Ben Rousch]
-
-- PEPed up balloontip. Fixed no 2nd notify bug. Fixed blocking
-  notification bug. [Ben Rousch]
-
-- Added notifications for Linux via notify-send. [Ben Rousch]
-
-- Fixed name of Windows platform, fixed Windows notify. [Ben Rousch]
-
-- Add GPS/android support for plyer. [Mathieu Virbel]
-
-- Add setup.py. [Mathieu Virbel]
-
-- Plyer is now under MIT license. [Mathieu Virbel]
-
-- Fixed incorrect Android tTS return type. [Ben Rousch]
-
-- Merge pull request #1 from kivy/tts. [Ben Rousch]
-
-  TTS!
-
-- Changed NotImplemented exception to NotImplementedError. [Ben Rousch]
-
-- Added missing () to TTS returns. [Ben Rousch]
-
-- Fixed missed TextToSpeech, deleted old files. [Ben Rousch]
-
-- Changed TextToSpeech to TTS. Returning TTS instead of raising
-  NotImplemented. [Ben Rousch]
-
-- Added text_to_speech for Android, Linux, OSX, and Windows. [Ben
-  Rousch]
-
-- Ensure the documentation will find plyer. [Mathieu Virbel]
-
-- Rework how implementation works, and start documentation. [Mathieu
-  Virbel]
-
-- First version of plyer, including accelerometer (android), camera
-  (android) and notification (android, osx). api is not stabilized.
-  [Mathieu Virbel]
-
-- Merge branch 'master' of github.com:kivy/plyer. [tshirtman]
-
-  Conflicts:
-  	readme.md
-
-- Update readme.md. [Gabriel Pettier]
-
-- Rename to plyer, and uses plateform() from kivy utils. [tshirtman]
-
-- Add android/desktop/ios modules, and auto import from them.
-  [tshirtman]
-
-- Initial commit, created simple readme. [tshirtman]
-
-
+# Change Log
+
+## [1.3.0](https://github.com/kivy/plyer/tree/1.3.0) (2017-03-23)
+[Full Changelog](https://github.com/kivy/plyer/compare/v1.2.4...1.3.0)
+
+**Implemented enhancements:**
+
+- Feature Request: Alarms [\#8](https://github.com/kivy/plyer/issues/8)
+
+**Closed issues:**
+
+- Notification.notify crashes android app  [\#296](https://github.com/kivy/plyer/issues/296)
+- GPS android crash on launch [\#288](https://github.com/kivy/plyer/issues/288)
+- Send SMS feature not working [\#261](https://github.com/kivy/plyer/issues/261)
+- gps.configure\(\) results in exception [\#257](https://github.com/kivy/plyer/issues/257)
+- v1.2.4 archive not available via github [\#234](https://github.com/kivy/plyer/issues/234)
+- SyntaxError in wifi.py for Linux [\#230](https://github.com/kivy/plyer/issues/230)
+- New PyPi release please, to fix static jfieldID not valid for class java.lang.Class\<org.renpy.android.PythonActivity\> [\#229](https://github.com/kivy/plyer/issues/229)
+- Drag-and-drop: originate in Kivy, drop in some external app [\#228](https://github.com/kivy/plyer/issues/228)
+- GPS Issue after in iOS after last changes in plyer [\#224](https://github.com/kivy/plyer/issues/224)
+- battery.status isCharging always shows false [\#221](https://github.com/kivy/plyer/issues/221)
+- GPS example only updating location once [\#217](https://github.com/kivy/plyer/issues/217)
+- uniqueid.id raises exception on Windows [\#212](https://github.com/kivy/plyer/issues/212)
+- Redundant libs folder [\#209](https://github.com/kivy/plyer/issues/209)
+- accelerometer on Android with Kivy Launcher 1.9.0 not working [\#206](https://github.com/kivy/plyer/issues/206)
+- Camera on android doesn't return to app [\#200](https://github.com/kivy/plyer/issues/200)
+- android compass suggestion [\#195](https://github.com/kivy/plyer/issues/195)
+- more example code to the docs [\#166](https://github.com/kivy/plyer/issues/166)
+- Mail API on linux raises error NameError: name 'Email' is not defined [\#131](https://github.com/kivy/plyer/issues/131)
+- native gui widgets [\#124](https://github.com/kivy/plyer/issues/124)
+- android: using gps app cannot resume from pause [\#112](https://github.com/kivy/plyer/issues/112)
+- Please upgrade pypi ! [\#94](https://github.com/kivy/plyer/issues/94)
+- UniqueID using OpenID [\#83](https://github.com/kivy/plyer/issues/83)
+- Display the notification in the right places [\#78](https://github.com/kivy/plyer/issues/78)
+- Python3 All The Plyer! [\#12](https://github.com/kivy/plyer/issues/12)
+
+**Merged pull requests:**
+
+- Modify readme [\#308](https://github.com/kivy/plyer/pull/308) ([malverick](https://github.com/malverick))
+- Add version tags in light and temperature facade [\#307](https://github.com/kivy/plyer/pull/307) ([malverick](https://github.com/malverick))
+- Android ambient temperature sensor [\#293](https://github.com/kivy/plyer/pull/293) ([malverick](https://github.com/malverick))
+- Android light sensor [\#292](https://github.com/kivy/plyer/pull/292) ([malverick](https://github.com/malverick))
+- Plyer android proximity sensor [\#287](https://github.com/kivy/plyer/pull/287) ([malverick](https://github.com/malverick))
+- Plyer android pressure sensor [\#286](https://github.com/kivy/plyer/pull/286) ([malverick](https://github.com/malverick))
+- Update readme and plyer/\_\_init\_\_.py [\#285](https://github.com/kivy/plyer/pull/285) ([malverick](https://github.com/malverick))
+- Plyer android gravity sensor [\#283](https://github.com/kivy/plyer/pull/283) ([malverick](https://github.com/malverick))
+- Add on\_pause function [\#274](https://github.com/kivy/plyer/pull/274) ([malverick](https://github.com/malverick))
+- uniqueid\_facade [\#270](https://github.com/kivy/plyer/pull/270) ([bhaveshAn](https://github.com/bhaveshAn))
+- add bin and .buildozer directory to .gitignore [\#259](https://github.com/kivy/plyer/pull/259) ([malverick](https://github.com/malverick))
+- pep8 fixes [\#250](https://github.com/kivy/plyer/pull/250) ([malverick](https://github.com/malverick))
+- update code [\#249](https://github.com/kivy/plyer/pull/249) ([kiok46](https://github.com/kiok46))
+- Adding small examples in facade files [\#237](https://github.com/kivy/plyer/pull/237) ([kiok46](https://github.com/kiok46))
+- Fix TypeError if `LANG` is not set in on osx [\#232](https://github.com/kivy/plyer/pull/232) ([ForeverWintr](https://github.com/ForeverWintr))
+- fix \#230 [\#231](https://github.com/kivy/plyer/pull/231) ([kiok46](https://github.com/kiok46))
+- fix gps issue for ios [\#225](https://github.com/kivy/plyer/pull/225) ([kiok46](https://github.com/kiok46))
+- Fixed issue \#221 [\#223](https://github.com/kivy/plyer/pull/223) ([Warlord77](https://github.com/Warlord77))
+- Add flash example [\#219](https://github.com/kivy/plyer/pull/219) ([kiok46](https://github.com/kiok46))
+- Make gps request parameters configurable [\#218](https://github.com/kivy/plyer/pull/218) ([kiok46](https://github.com/kiok46))
+- Wifi Facade. OSX, Windows, Linux [\#213](https://github.com/kivy/plyer/pull/213) ([kiok46](https://github.com/kiok46))
+- add sms for ios [\#203](https://github.com/kivy/plyer/pull/203) ([kiok46](https://github.com/kiok46))
+- check android for namespace, otherwise use renpy [\#199](https://github.com/kivy/plyer/pull/199) ([kived](https://github.com/kived))
+- fix p4a revamp [\#198](https://github.com/kivy/plyer/pull/198) ([kived](https://github.com/kived))
+- Rewrite notification on Mac using PyOBJus [\#192](https://github.com/kivy/plyer/pull/192) ([andong777](https://github.com/andong777))
+- Call for ios [\#191](https://github.com/kivy/plyer/pull/191) ([kiok46](https://github.com/kiok46))
+- Note on requirements for iOS [\#187](https://github.com/kivy/plyer/pull/187) ([doratoa](https://github.com/doratoa))
+- Adding battery example, notification ticker and gps example update [\#183](https://github.com/kivy/plyer/pull/183) ([kiok46](https://github.com/kiok46))
+- Call and dial for android [\#181](https://github.com/kivy/plyer/pull/181) ([kiok46](https://github.com/kiok46))
+- Dial or Call for android [\#180](https://github.com/kivy/plyer/pull/180) ([kiok46](https://github.com/kiok46))
+- Added accuracy argument to on\_location call. [\#174](https://github.com/kivy/plyer/pull/174) ([lipi](https://github.com/lipi))
+- Introduce camera access for ios and a example. [\#167](https://github.com/kivy/plyer/pull/167) ([akshayaurora](https://github.com/akshayaurora))
+- macosx: fix incorrect method name in filechooser [\#165](https://github.com/kivy/plyer/pull/165) ([kived](https://github.com/kived))
+- linux email import fix [\#151](https://github.com/kivy/plyer/pull/151) ([thegrymek](https://github.com/thegrymek))
+- Merge android columns [\#148](https://github.com/kivy/plyer/pull/148) ([dessant](https://github.com/dessant))
+- Camera example [\#41](https://github.com/kivy/plyer/pull/41) ([trivedigaurav](https://github.com/trivedigaurav))
+
+## [v1.2.4](https://github.com/kivy/plyer/tree/v1.2.4) (2015-06-01)
+[Full Changelog](https://github.com/kivy/plyer/compare/1.2.3...v1.2.4)
+
+**Implemented enhancements:**
+
+- Update platform check code [\#109](https://github.com/kivy/plyer/issues/109)
+
+**Closed issues:**
+
+- webhook test [\#142](https://github.com/kivy/plyer/issues/142)
+- Sync style check updates from the Kivy repo [\#141](https://github.com/kivy/plyer/issues/141)
+- GPS on android doesn't work \(a strange error\) [\#136](https://github.com/kivy/plyer/issues/136)
+- Create toast notification facade for Android and iOS [\#126](https://github.com/kivy/plyer/issues/126)
+- uniqueid.id empty on linux. [\#114](https://github.com/kivy/plyer/issues/114)
+- Gyroscope Support for iOS [\#111](https://github.com/kivy/plyer/issues/111)
+- AndroidUniqueID doesn't use Android ID [\#107](https://github.com/kivy/plyer/issues/107)
+- OverflowError: Python int too large to convert to C long \[android lollipop\] [\#103](https://github.com/kivy/plyer/issues/103)
+- Feature request: ability to open browser to a particular page [\#98](https://github.com/kivy/plyer/issues/98)
+- AndroidGPS list GPS Provider but use hardcoded "gps" [\#54](https://github.com/kivy/plyer/issues/54)
+- Email Support for Android \< 4.0 [\#42](https://github.com/kivy/plyer/issues/42)
+
+**Merged pull requests:**
+
+- style fixes [\#147](https://github.com/kivy/plyer/pull/147) ([dessant](https://github.com/dessant))
+- add pydev files to gitignore [\#146](https://github.com/kivy/plyer/pull/146) ([dessant](https://github.com/dessant))
+- Plyer style guide update [\#145](https://github.com/kivy/plyer/pull/145) ([thegrymek](https://github.com/thegrymek))
+- Plyer audio for android with facade and example [\#144](https://github.com/kivy/plyer/pull/144) ([thegrymek](https://github.com/thegrymek))
+- fix versionchanged tag [\#143](https://github.com/kivy/plyer/pull/143) ([dessant](https://github.com/dessant))
+- update info about support email for android\<4.0 [\#140](https://github.com/kivy/plyer/pull/140) ([thegrymek](https://github.com/thegrymek))
+- added plyer.facade to setuptools package [\#139](https://github.com/kivy/plyer/pull/139) ([thegrymek](https://github.com/thegrymek))
+- splitted facades [\#138](https://github.com/kivy/plyer/pull/138) ([thegrymek](https://github.com/thegrymek))
+- Inclement orientation [\#135](https://github.com/kivy/plyer/pull/135) ([thegrymek](https://github.com/thegrymek))
+- remove unused variables [\#134](https://github.com/kivy/plyer/pull/134) ([thegrymek](https://github.com/thegrymek))
+- fix \#107 - Use Android\_ID instead of IMEI [\#133](https://github.com/kivy/plyer/pull/133) ([aron-bordin](https://github.com/aron-bordin))
+- vibrator for android v \< 4.0 [\#129](https://github.com/kivy/plyer/pull/129) ([thegrymek](https://github.com/thegrymek))
+- PEP8 and typo fixes in MacOS X file chooser. [\#123](https://github.com/kivy/plyer/pull/123) ([robertjerovsek](https://github.com/robertjerovsek))
+- pep8 - removed unused imports and variables [\#122](https://github.com/kivy/plyer/pull/122) ([thegrymek](https://github.com/thegrymek))
+- Pep8 fix [\#121](https://github.com/kivy/plyer/pull/121) ([laltin](https://github.com/laltin))
+- add video recoding to Camera facade and camera.py [\#120](https://github.com/kivy/plyer/pull/120) ([pspchucky](https://github.com/pspchucky))
+- Use environ to change LANG to 'C' while calling shell processes [\#119](https://github.com/kivy/plyer/pull/119) ([trivedigaurav](https://github.com/trivedigaurav))
+- add IrBlaster facade and Android implementation [\#118](https://github.com/kivy/plyer/pull/118) ([kived](https://github.com/kived))
+- Android gps.py: fixed location provider cycling [\#117](https://github.com/kivy/plyer/pull/117) ([JimmyStavros](https://github.com/JimmyStavros))
+- iOS GPS support [\#116](https://github.com/kivy/plyer/pull/116) ([laltin](https://github.com/laltin))
+- use environ to change LANG to 'C' while calling lshw [\#115](https://github.com/kivy/plyer/pull/115) ([tshirtman](https://github.com/tshirtman))
+- responds to issue 109 https://github.com/kivy/plyer/issues/109 [\#110](https://github.com/kivy/plyer/pull/110) ([AlbericC](https://github.com/AlbericC))
+- Add file chooser facade and support for Linux and Windows [\#106](https://github.com/kivy/plyer/pull/106) ([Depaulicious](https://github.com/Depaulicious))
+
+## [1.2.3](https://github.com/kivy/plyer/tree/1.2.3) (2015-01-27)
+[Full Changelog](https://github.com/kivy/plyer/compare/1.2.2...1.2.3)
+
+## [1.2.2](https://github.com/kivy/plyer/tree/1.2.2) (2015-01-27)
+[Full Changelog](https://github.com/kivy/plyer/compare/1.2.1...1.2.2)
+
+**Closed issues:**
+
+- NotImplementedError: No usable implementation found! whith usable implementations on the system.  [\#108](https://github.com/kivy/plyer/issues/108)
+- Gyro example [\#101](https://github.com/kivy/plyer/issues/101)
+- Notification is not working in android [\#93](https://github.com/kivy/plyer/issues/93)
+- plyer.notification.notfy\(\) raises NotImplementedError under Python 3.3 in Linux but not Python 2.7 [\#58](https://github.com/kivy/plyer/issues/58)
+
+**Merged pull requests:**
+
+- Linux platform check made compatible with python 3.3+ \(Fixes \#58\) [\#102](https://github.com/kivy/plyer/pull/102) ([helenst](https://github.com/helenst))
+
+## [1.2.1](https://github.com/kivy/plyer/tree/1.2.1) (2014-08-19)
+[Full Changelog](https://github.com/kivy/plyer/compare/1.2.0...1.2.1)
+
+**Implemented enhancements:**
+
+- Feature Request: codec-independent sound player [\#2](https://github.com/kivy/plyer/issues/2)
+
+**Closed issues:**
+
+- Battery status connected is actually isCharging [\#84](https://github.com/kivy/plyer/issues/84)
+- Email Support for Windows [\#36](https://github.com/kivy/plyer/issues/36)
+- Accelerometer Support for OSX [\#29](https://github.com/kivy/plyer/issues/29)
+- Email Support for Linux [\#28](https://github.com/kivy/plyer/issues/28)
+- Email Support for iOS [\#25](https://github.com/kivy/plyer/issues/25)
+- TextToSpeech Support for iOS [\#24](https://github.com/kivy/plyer/issues/24)
+
+**Merged pull requests:**
+
+- fix print statement [\#92](https://github.com/kivy/plyer/pull/92) ([dessant](https://github.com/dessant))
+- iOS UUID facade [\#90](https://github.com/kivy/plyer/pull/90) ([trivedigaurav](https://github.com/trivedigaurav))
+- Removing build\_ext from plyer [\#89](https://github.com/kivy/plyer/pull/89) ([trivedigaurav](https://github.com/trivedigaurav))
+- iOS Email Facade [\#88](https://github.com/kivy/plyer/pull/88) ([trivedigaurav](https://github.com/trivedigaurav))
+- iOS Battery [\#86](https://github.com/kivy/plyer/pull/86) ([trivedigaurav](https://github.com/trivedigaurav))
+- Change connected to isCharging [\#85](https://github.com/kivy/plyer/pull/85) ([trivedigaurav](https://github.com/trivedigaurav))
+- Return None until sensor data is available [\#82](https://github.com/kivy/plyer/pull/82) ([trivedigaurav](https://github.com/trivedigaurav))
+- Update compass.py [\#80](https://github.com/kivy/plyer/pull/80) ([ChrisCole42](https://github.com/ChrisCole42))
+- Use whereis\_exe to check for binaries [\#79](https://github.com/kivy/plyer/pull/79) ([trivedigaurav](https://github.com/trivedigaurav))
+- Update compass.py [\#77](https://github.com/kivy/plyer/pull/77) ([ChrisCole42](https://github.com/ChrisCole42))
+- Maintenance [\#75](https://github.com/kivy/plyer/pull/75) ([trivedigaurav](https://github.com/trivedigaurav))
+- facade docstring revision [\#74](https://github.com/kivy/plyer/pull/74) ([dessant](https://github.com/dessant))
+- Query Battery info/status [\#73](https://github.com/kivy/plyer/pull/73) ([trivedigaurav](https://github.com/trivedigaurav))
+- Revert "Activity was imported twice" [\#71](https://github.com/kivy/plyer/pull/71) ([trivedigaurav](https://github.com/trivedigaurav))
+- Fix tabbing [\#70](https://github.com/kivy/plyer/pull/70) ([trivedigaurav](https://github.com/trivedigaurav))
+- Gyroscope facade proxy declarations [\#69](https://github.com/kivy/plyer/pull/69) ([trivedigaurav](https://github.com/trivedigaurav))
+- Linux accelerometer facade [\#68](https://github.com/kivy/plyer/pull/68) ([trivedigaurav](https://github.com/trivedigaurav))
+- Update README.rst [\#67](https://github.com/kivy/plyer/pull/67) ([trivedigaurav](https://github.com/trivedigaurav))
+
+## [1.2.0](https://github.com/kivy/plyer/tree/1.2.0) (2014-06-24)
+**Implemented enhancements:**
+
+- Feature Request: Add adjustable timeout option to Windows notification [\#13](https://github.com/kivy/plyer/issues/13)
+- Changes notify to use ctypes instead of win32gui so we could use unicode. [\#18](https://github.com/kivy/plyer/pull/18) ([matham](https://github.com/matham))
+- User-specified icon support for Windows notifications [\#11](https://github.com/kivy/plyer/pull/11) ([brousch](https://github.com/brousch))
+- Added Vibrator facade and android implementation [\#6](https://github.com/kivy/plyer/pull/6) ([inclement](https://github.com/inclement))
+
+**Closed issues:**
+
+- GPS example crashes [\#40](https://github.com/kivy/plyer/issues/40)
+- TextToSpeech Example App [\#20](https://github.com/kivy/plyer/issues/20)
+- Accelerometer Example App [\#19](https://github.com/kivy/plyer/issues/19)
+
+**Merged pull requests:**
+
+- Plyer Unique ID facade [\#66](https://github.com/kivy/plyer/pull/66) ([trivedigaurav](https://github.com/trivedigaurav))
+- Switched to pyjnius [\#63](https://github.com/kivy/plyer/pull/63) ([trivedigaurav](https://github.com/trivedigaurav))
+- Update README [\#62](https://github.com/kivy/plyer/pull/62) ([trivedigaurav](https://github.com/trivedigaurav))
+- Gyroscope Facades [\#60](https://github.com/kivy/plyer/pull/60) ([trivedigaurav](https://github.com/trivedigaurav))
+- Ios compass [\#59](https://github.com/kivy/plyer/pull/59) ([trivedigaurav](https://github.com/trivedigaurav))
+- Plyer compass facade [\#57](https://github.com/kivy/plyer/pull/57) ([trivedigaurav](https://github.com/trivedigaurav))
+- Update README [\#56](https://github.com/kivy/plyer/pull/56) ([trivedigaurav](https://github.com/trivedigaurav))
+- Using sudden motion sensor as accelerometer on OSX [\#55](https://github.com/kivy/plyer/pull/55) ([trivedigaurav](https://github.com/trivedigaurav))
+- Added sms facade, example and android implementation [\#52](https://github.com/kivy/plyer/pull/52) ([mihaineacsu](https://github.com/mihaineacsu))
+- add Mac OS X email support [\#49](https://github.com/kivy/plyer/pull/49) ([Depaulicious](https://github.com/Depaulicious))
+- add Windows email support [\#48](https://github.com/kivy/plyer/pull/48) ([Depaulicious](https://github.com/Depaulicious))
+- added Linux email support [\#47](https://github.com/kivy/plyer/pull/47) ([Depaulicious](https://github.com/Depaulicious))
+- Add compat module, remove decoding of strings in notification [\#46](https://github.com/kivy/plyer/pull/46) ([matham](https://github.com/matham))
+- Created an accelerometer example. Uses garden graph to plot the values [\#39](https://github.com/kivy/plyer/pull/39) ([trivedigaurav](https://github.com/trivedigaurav))
+- Shows an error popup if there is no TTS [\#38](https://github.com/kivy/plyer/pull/38) ([trivedigaurav](https://github.com/trivedigaurav))
+- Text to Speech Example [\#37](https://github.com/kivy/plyer/pull/37) ([trivedigaurav](https://github.com/trivedigaurav))
+- readme typo corrected [\#15](https://github.com/kivy/plyer/pull/15) ([ghost](https://github.com/ghost))
+- Introduce dbus notification [\#10](https://github.com/kivy/plyer/pull/10) ([akshayaurora](https://github.com/akshayaurora))
+- Added an email facade and basic android implementation [\#5](https://github.com/kivy/plyer/pull/5) ([inclement](https://github.com/inclement))
+- Tts [\#1](https://github.com/kivy/plyer/pull/1) ([brousch](https://github.com/brousch))
+
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
