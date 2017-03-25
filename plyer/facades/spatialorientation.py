@@ -6,7 +6,7 @@ class SpatialOrientation(object):
         system may choose to ignore them, or they may be overridden by
         other system components.
 
-    .. versionadded:: 1.2.4
+    .. versionadded:: 1.3.1
     '''
 
     @property
