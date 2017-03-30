@@ -25,5 +25,5 @@ def instance():
     if whereis_exe('gnome-screenshot'):
         return GnomeScreenShot()
     elif whereis_exe('import'):
-        return ImportScreenShot()     
+        return ImportScreenShot()
     return ScreenShot()
