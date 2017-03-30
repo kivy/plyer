@@ -48,8 +48,7 @@ class ScreenShot(object):
         '''
         self._take_shot(filename=filename, on_complete=on_complete)
 
-       # private
+    # private
 
     def _take_shot(self, **kwargs):
         raise NotImplementedError()
-    
