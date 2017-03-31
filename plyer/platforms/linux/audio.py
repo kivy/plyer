@@ -12,7 +12,6 @@ class LinuxAudio(Audio):
                                     "num-buffers=100", "!", "audioconvert",
                                     "!", "vorbisenc", "!", "oggmux", "!",
                                     "filesink", "location=" + self.file_path])
-        self.process.wait()
 
     def _stop(self):
         self.process.terminate()
