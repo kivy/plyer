@@ -30,7 +30,6 @@ To take screenshot::
 '''
 
 
-
 class ScreenShot(object):
     '''
     ScreenShot facade.
