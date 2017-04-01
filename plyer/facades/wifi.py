@@ -87,7 +87,7 @@ class Wifi(object):
         '''
         Return a dictionary of secified network.
         '''
-        return self._get_network_info(name=name)
+        return self._get_access_points(name=name)
 
     def get_available_wifi(self):
         '''

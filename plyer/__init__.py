@@ -10,7 +10,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
            'temperature', 'humidity', 'spatialorientation', 'brightness',
-           'storagepath', 'processors', 'bluetooth')
+           'storagepath', 'processors', 'bluetooth', 'screenshot')
 
 __version__ = '1.3.2.dev0'
 
@@ -110,3 +110,6 @@ bluetooth = Proxy('bluetooth', facades.Bluetooth)
 
 #: Processors proxy to :class:`plyer.facades.Processors`
 processors = Proxy('processors', facades.Processors)
+
+#: ScreenShot proxy to :class:`plyer.facades.ScreenShot`
+screenshot = Proxy('screenshot', facades.ScreenShot)
