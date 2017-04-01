@@ -30,7 +30,6 @@ Builder.load_string('''
 class UniqueIDInterface(BoxLayout):
     '''Root Widget.'''
 
-
     uniqueid = ObjectProperty()
     uid = StringProperty()
     text = StringProperty()
