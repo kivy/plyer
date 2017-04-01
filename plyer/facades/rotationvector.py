@@ -1,5 +1,6 @@
 # coding=utf-8
 
+
 class RotationVector(object):
     '''Rotation Vector facade.
     Rotation Vector sensor is used to measure the rotation vector as
