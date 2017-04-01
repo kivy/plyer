@@ -19,3 +19,5 @@ venv
 bin
 .buildozer
 .idea
+*.jpg
+*.mp3

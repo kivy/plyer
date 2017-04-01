@@ -89,4 +89,4 @@ wifi = Proxy('wifi', facades.Wifi)
 temperature = Proxy('temperature', facades.Temperature)
 
 #: ScreenShot proxy to :class:`plyer.facades.Screenshot`
-screenshot = Proxy('screenshot', facades.Screenshot)
+screenshot = Proxy('screenshot', facades.ScreenShot)

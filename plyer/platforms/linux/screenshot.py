@@ -4,21 +4,21 @@ from plyer.utils import whereis_exe
 
 
 class GnomeScreenShot(ScreenShot):
+    def __init__(self, file_path=None):
+        default_path = 'test.jpg'
+        super(GnomeScreenShot, self).__init__(file_path or default_path)
 
-    def _take_shot(self, on_complete, filename=None):
-        self.on_complete = on_complete
-        self.filename = str(filename)
-        subprocess.call(["gnome-screenshot", "-d", "2", self.filename])
-        self.on_complete()
+    def _take_shot(self):
+        subprocess.call(["gnome-screenshot", "-d", "2", self.file_path])
 
 
 class ImportScreenShot(ScreenShot):
+    def __init__(self, file_path=None):
+        default_path = 'test.jpg'
+        super(ImportScreenShot, self).__init__(file_path or default_path)
 
-    def _take_shot(self, on_complete, filename=None):
-        self.on_complete = on_complete
-        self.filename = str(filename)
-        subprocess.call(["import", "-window", "root", self.filename])
-        self.on_complete()
+    def _take_shot(self):
+        subprocess.call(["import", "-window", "root", self.file_path])
 
 
 def instance():

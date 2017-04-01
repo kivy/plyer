@@ -1,52 +1,61 @@
 '''
 ScreenShot
-======
+=====
 
-The :class:`ScreenShot` is to capture screen shots.
+The :class:`ScreenShot` is used for recording audio.
+
+Default path for taking screenshot is set in platform implementation.
 
 Simple Examples
 ---------------
 
-Setup callback function.
+To get the file path::
 
-    >>> from os.path import exists, join
-    >>> from plyer import screenshot
-    >>> def camera_callback(filepath):
-    >>>     if(exists(filepath)):
-    >>>         print "saved"
-    >>>     else:
-    >>>         print "unable to save."
-    >>> filepath = 'path/to/your/file'
-    >>> # e.g: filepath = join(App.get_running_app().user_data_dir, file_name)
+    >>> screenshot.file_path
+    '/sdcard/test.jpg'
+
+To set the file path::
+
+    >>> import os
+    >>> current_list = os.listdir('.')
+    ['/sdcard/testrecorder.jpg', '/sdcard/testrecorder1.jpg',
+    '/sdcard/testrecorder2.jpg', '/sdcard/testrecorder3.jpg']
+    >>> file_path = current_list[2]
+    >>> screenshot.file_path = file_path
 
 To take screenshot::
 
-    >>> file_name = "test.jpg"
-    >>> screenshot.take_picture(filename=file_name,
-    >>>                     on_complete=camera_callback)
+    >>> from plyer import screenshot
+    >>> screenshot.take_shot()
 '''
+
 
 
 class ScreenShot(object):
     '''
     ScreenShot facade.
     '''
+    _file_path = ''
 
-    def take_shot(self, filename, on_complete):
-        '''Ask the OS to capture a screenshot, and store it at filename.
+    def __init__(self, file_path):
+        super(ScreenShot, self).__init__()
+        self._file_path = file_path
 
-        When the capture is done, on_complete will be called with the filename
-        as an argument. If the callback returns True, the filename will be
-        unlinked.
+    def take_shot(self):
+        self._take_shot()
 
-        :param filename: Name of the image file
-        :param on_complete: Callback that will be called when the operation is
-            done
+    @property
+    def file_path(self):
+        return self._file_path
 
-        :type filename: str
-        :type on_complete: callable
+    @file_path.setter
+    def file_path(self, location):
         '''
-        self._take_shot(filename=filename, on_complete=on_complete)
+        Location of the screenshot.
+        '''
+        assert isinstance(location, (basestring, unicode)), \
+            'Location must be string or unicode'
+        self._file_path = location
 
     # private
 
