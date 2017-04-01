@@ -88,7 +88,7 @@ class Wifi(object):
         '''
         Returns a list of all the available wifi.
         '''
-        self._get_available_wifi()
+        self._get_access_points()
 
     def connect(self, network, parameters):
         '''
