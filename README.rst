@@ -38,7 +38,7 @@ Gyroscope                          X       X
 Light                              X
 Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
-Orientation                        X
+Orientation                        X                        X
 Proximity                          X
 Audio recording                    X
 Flash                              X       X
