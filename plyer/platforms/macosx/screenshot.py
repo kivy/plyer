@@ -15,4 +15,5 @@ class OSXScreenShot(ScreenShot):
 def instance():
     if whereis_exe('screencapture'):
         return OSXScreenShot()
-    return ScreenShot()
+    else:
+        return ScreenShot()
