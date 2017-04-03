@@ -8,6 +8,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop \
 from ctypes import *
 from ctypes.wintypes import *
 from sys import exit
+from plyer.compat import xrange
 
 
 def customresize(array, new_size):
@@ -447,7 +448,7 @@ def _make_dict():
     global _dict
     _dict = {}
     for network in available:
-        _dict[str(network.dot11Ssid.SSID)] = network
+        _dict[network.dot11Ssid.SSID] = network
 
 
 def _get_available_wifi():
