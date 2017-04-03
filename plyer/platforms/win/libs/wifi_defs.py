@@ -8,7 +8,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop \
 from ctypes import *
 from ctypes.wintypes import *
 from sys import exit
-from plyer.compat import xrange
+from plyer.compat import PY2, xrange
 
 
 def customresize(array, new_size):
@@ -448,8 +448,11 @@ def _make_dict():
     global _dict
     _dict = {}
     for network in available:
-        _dict[network.dot11Ssid.SSID] = network
-
+        # if bytes, dict['name'] throws an error on py3 if not b'name'
+        if PY2:
+            _dict[unicode(network.dot11Ssid.SSID)] = network
+        else:
+            _dict[network.dot11Ssid.SSID.decode('utf-8')] = network
 
 def _get_available_wifi():
     '''

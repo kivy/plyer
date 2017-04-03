@@ -94,13 +94,13 @@ class Wifi(object):
         '''
         Method to connect to some network.
         '''
-        return self._connect(network=network, parameters=parameters)
+        self._connect(network=network, parameters=parameters)
 
     def disconnect(self):
         '''
         To disconnect from some network.
         '''
-        return self._disconnect()
+        self._disconnect()
 
     # private
 
