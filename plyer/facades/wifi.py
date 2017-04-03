@@ -76,19 +76,19 @@ class Wifi(object):
         '''
         Turn on scanning.
         '''
-        self._start_scanning()
+        return self._start_scanning()
 
     def get_network_info(self, name):
         '''
         Return a dictionary of secified network.
         '''
-        return self._get_access_points(name=name)
+        return self._get_network_info(name=name)
 
     def get_available_wifi(self):
         '''
         Returns a list of all the available wifi.
         '''
-        self._get_available_wifi()
+        return self._get_available_wifi()
 
     def connect(self, network, parameters):
         '''
