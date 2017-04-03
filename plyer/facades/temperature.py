@@ -5,7 +5,7 @@ class Temperature(object):
     '''Temperature facade.
 
     Temperature sensor is used to measure the ambient room temperature in
-    degrees Celsius
+    degrees Celsius (°C)
     With method `enable` you can turn on temperature sensor and 'disable'
     method stops the sensor.
     Use property `temperature` to get ambient air temperature in degree C.
