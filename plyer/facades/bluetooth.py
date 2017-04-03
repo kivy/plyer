@@ -2,7 +2,7 @@ class Bluetooth(object):
     '''Bluetooth facade.
 
     '''
-    
+
     def enable(self):
         '''Start the Bluetooth.
         '''
@@ -26,17 +26,17 @@ class Bluetooth(object):
     def connect(self, name):
         '''connect to a bluetooth device
         '''
-        self._connect(name = name)
+        self._connect(name=name)
 
     def disconnect(self, name):
         '''disconnect to a bluetooth device
         '''
-        self._disconnect(name = name)
+        self._disconnect(name=name)
 
     def pair(self, name):
         ''' pair a bluetooth device
         '''
-        self._pair(name = name)
+        self._pair(name=name)
 
     def scan(self):
         ''' Start scanning for nearby bluetooth devices.
