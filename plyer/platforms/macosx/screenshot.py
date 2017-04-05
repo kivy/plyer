@@ -9,7 +9,7 @@ class OSXScreenShot(ScreenShot):
         super(OSXScreenShot, self).__init__(file_path or default_path)
 
     def _take_shot(self):
-        subprocess.call(["screencapture", "-T", "2", self.filename])
+        subprocess.call(["screencapture", "-T", "2", self.file_path])
 
 
 def instance():
