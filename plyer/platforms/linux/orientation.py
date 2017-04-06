@@ -2,7 +2,7 @@ from subprocess import call, check_output
 from plyer.facades import Orientation
 
 
-class LinuxOrientation(Orientation):
+class XrandrOrientation(Orientation):
 
     def _set_landscape(self, **kwargs):
         self.rotate = 'normal'
@@ -20,4 +20,4 @@ class LinuxOrientation(Orientation):
 
 
 def instance():
-    return LinuxOrientation()
+    return XrandrOrientation()
