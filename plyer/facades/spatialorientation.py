@@ -1,10 +1,7 @@
 class SpatialOrientation(object):
     '''Spatial Orientation facade.
 
-    .. note::
-        These settings are generally guidelines, the operating
-        system may choose to ignore them, or they may be overridden by
-        other system components.
+    Computes the device's orientation based on the rotation matrix.
 
     .. versionadded:: 1.3.1
     '''
@@ -12,10 +9,22 @@ class SpatialOrientation(object):
     @property
     def orientation(self):
         '''Property that returns values of the current device orientation
-        as a (pitch, roll, azimuth) tuple.
-        Pitch has range from -180 to 180 (X angle).
-        Roll has range from -90 to 90 (Y angle).
-        Azimuth from 0 to 360 (Z angle).
+        as a (azimuth, pitch, roll) tuple.
+
+        Azimuth, angle of rotation about the -z axis. This value represents the
+        angle between the device's y axis and the magnetic north pole.
+        The range of values is -π to π.
+
+        Pitch, angle of rotation about the x axis. This value represents the
+        angle between a plane parallel to the device's screen and a plane
+        parallel to the ground.
+        The range of values is -π to π.
+
+        Roll, angle of rotation about the y axis. This value represents the
+        angle between a plane perpendicular to the device's screen and a plane
+        perpendicular to the ground.
+        The range of values is -π/2 to π/2.
+
         Returns (None, None, None) if no data is currently available.
         '''
         return self._get_orientation() or (None, None, None)
