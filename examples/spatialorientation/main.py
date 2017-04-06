@@ -9,7 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 interface = Builder.load_string('''
 #:import facade plyer.spatialorientation
 
-<OrientationInterface>:
+<SpOrientationInterface>:
     facade: facade
     orientation: 'vertical'
     padding: '20dp'
@@ -47,7 +47,7 @@ interface = Builder.load_string('''
 ''')
 
 
-class OrientationInterface(BoxLayout):
+class SpOrientationInterface(BoxLayout):
 
     pitch = NumericProperty(0)
     azimuth = NumericProperty(0)
@@ -65,12 +65,12 @@ class OrientationInterface(BoxLayout):
 
     def get_orientation(self, dt):
         if self.facade.orientation != (None, None, None):
-            self.pitch, self.roll, self.azimuth = self.facade.orientation
+            self.azimuth, self.pitch, self.roll = self.facade.orientation
 
 
-class OrientationTestApp(App):
+class SpOrientationTestApp(App):
     def build(self):
-        return OrientationInterface()
+        return SpOrientationInterface()
 
 if __name__ == "__main__":
-    OrientationTestApp().run()
+    SpOrientationTestApp().run()
