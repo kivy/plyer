@@ -2,7 +2,7 @@ from plyer.facades.audio import Audio
 import subprocess
 
 
-class LinuxAudio(Audio):
+class GstreamerAudio(Audio):
     def __init__(self, file_path=None):
         default_path = 'test.mp3'
         super(LinuxAudio, self).__init__(file_path or default_path)
@@ -24,4 +24,4 @@ class LinuxAudio(Audio):
 
 
 def instance():
-    return LinuxAudio()
+    return GstreamerAudio()
