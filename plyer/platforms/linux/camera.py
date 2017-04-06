@@ -9,7 +9,7 @@ class GstreamerCamera(Camera):
         self.filename = filename
         try:
             name, extension = filename.split(".")
-        except:
+        except ValueError:
             extension = None
         if extension == "jpg":
             subprocess.call(["gst-launch-1.0", "v4l2src", "num-buffers=1", "!",
