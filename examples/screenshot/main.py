@@ -27,11 +27,12 @@ Builder.load_string('''
 
 class ScreenShotDemo(BoxLayout):
     '''Root Widget.'''
-
     screenshot = ObjectProperty()
+
     def take_shot(self):
         self.screenshot.take_shot()
-    
+
+
 class ScreenShotApp(App):
 
     def build(self):
