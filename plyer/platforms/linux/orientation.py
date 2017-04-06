@@ -1,5 +1,6 @@
 from subprocess import call, check_output
 from plyer.facades import Orientation
+from plyer.utils import whereis_exe
 
 
 class XrandrOrientation(Orientation):
@@ -20,4 +21,7 @@ class XrandrOrientation(Orientation):
 
 
 def instance():
-    return XrandrOrientation()
+    if whereis_exe('xrandr'):
+        return XrandrOrientation()
+    else:
+        Orientation()
