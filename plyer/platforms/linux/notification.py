@@ -21,7 +21,7 @@ class NotifyDbus(Notification):
         body = kwargs.get('message', "body")
         app_name = kwargs.get('app_name', '')
         app_icon = kwargs.get('app_icon', '')
-        timeout = kwargs.get('timeout', 5000)
+        timeout = kwargs.get('timeout', 10)
         actions = kwargs.get('actions', [])
         hints = kwargs.get('hints', [])
         replaces_id = kwargs.get('replaces_id', 0)
@@ -35,7 +35,7 @@ class NotifyDbus(Notification):
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)
         interface.Notify(app_name, replaces_id, app_icon,
-            summary, body, actions, hints, timeout)
+            summary, body, actions, hints, timeout * 1000)
 
 
 def instance():
