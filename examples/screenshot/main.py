@@ -21,7 +21,7 @@ Builder.load_string('''
     Button:
         id: record_button
         text: 'Take Shot'
-        on_release: root.take_shot()
+        on_release: root.shot()
 ''')
 
 
@@ -29,8 +29,8 @@ class ScreenShotDemo(BoxLayout):
     '''Root Widget.'''
     screenshot = ObjectProperty()
 
-    def take_shot(self):
-        self.screenshot.take_shot()
+    def shot(self):
+        self.screenshot.shot()
 
 
 class ScreenShotApp(App):

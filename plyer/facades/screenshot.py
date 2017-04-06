@@ -1,8 +1,8 @@
 '''
-ScreenShot
+Screenshot
 =====
 
-The :class:`ScreenShot` is used for recording audio.
+The :class:`Screenshot` is used for recording audio.
 
 Default path for taking screenshot is set in platform implementation.
 
@@ -26,22 +26,22 @@ To set the file path::
 To take screenshot::
 
     >>> from plyer import screenshot
-    >>> screenshot.take_shot()
+    >>> screenshot.shot()
 '''
 
 
-class ScreenShot(object):
+class Screenshot(object):
     '''
     ScreenShot facade.
     '''
     _file_path = ''
 
     def __init__(self, file_path):
-        super(ScreenShot, self).__init__()
+        super(Screenshot, self).__init__()
         self._file_path = file_path
 
-    def take_shot(self):
-        self._take_shot()
+    def shot(self):
+        self._shot()
 
     @property
     def file_path(self):
@@ -58,5 +58,5 @@ class ScreenShot(object):
 
     # private
 
-    def _take_shot(self, **kwargs):
+    def _shot(self, **kwargs):
         raise NotImplementedError()
