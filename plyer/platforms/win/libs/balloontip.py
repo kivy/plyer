@@ -52,7 +52,8 @@ class WindowsBalloonTip(object):
         WindowsBalloonTip._lock.release()
         return val
 
-    def __init__(self, title, message, app_name, app_icon='', timeout=10):
+    def __init__(self, title, message, app_name, app_icon='', timeout=10,
+        **kwargs):
         ''' app_icon if given is a icon file.
         '''
 
