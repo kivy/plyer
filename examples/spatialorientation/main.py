@@ -16,9 +16,9 @@ interface = Builder.load_string('''
     spacing: '10dp'
 
     BoxLayout:
-        orientation: 'horizontal'
+        orientation: 'vertical'
         BoxLayout:
-            orientation: 'vertical'
+            orientation: 'horizontal'
             Button:
                 id: enable_button
                 text: 'Enable Sensor'
@@ -38,11 +38,11 @@ interface = Builder.load_string('''
         BoxLayout:
             orientation: 'vertical'
             Label:
-                text: 'Azimuth: ' + str(root.azimuth)
+                text: 'Azimuth: ' + str(root.azimuth) + ' radians'
             Label:
-                text: 'Pitch: ' + str(root.pitch)
+                text: 'Pitch: ' + str(root.pitch) + ' radians'
             Label:
-                text: 'Roll: ' + str(root.roll)
+                text: 'Roll: ' + str(root.roll) + ' radians'
 
 ''')
 
