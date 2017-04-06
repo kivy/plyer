@@ -2,7 +2,7 @@ import subprocess
 from plyer.facades import Camera
 
 
-class LinuxCamera(Camera):
+class GstreamerCamera(Camera):
 
     def _take_picture(self, on_complete, filename=None):
         self.on_complete = on_complete
@@ -46,4 +46,4 @@ class LinuxCamera(Camera):
 
 
 def instance():
-    return LinuxCamera()
+    return GstreamerCamera()
