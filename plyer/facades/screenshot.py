@@ -40,8 +40,8 @@ class Screenshot(object):
         super(Screenshot, self).__init__()
         self._file_path = file_path
 
-    def take_shot(self):
-        self._take_shot()
+    def take(self):
+        self._take()
 
     @property
     def file_path(self):
@@ -56,5 +56,5 @@ class Screenshot(object):
 
     # private
 
-    def _take_shot(self, **kwargs):
+    def _take(self, **kwargs):
         raise NotImplementedError()
