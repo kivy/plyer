@@ -9,10 +9,10 @@ class XwdScreenshot(Screenshot):
         super(XwdScreenshot, self).__init__(file_path or default_path)
 
     def _take_shot(self):
-    	subprocess.call(["xwd", "-root", "-out", "screenshot.xwd"])
-    	subprocess.call(["convert", "screenshot.xwd", self.file_path])
-    	subprocess.call(["rm", "screenshot.xwd"])
+        subprocess.call(["xwd", "-root", "-out", "screenshot.xwd"])
+        subprocess.call(["convert", "screenshot.xwd", self.file_path])
+        subprocess.call(["rm", "screenshot.xwd"])
 
 
 def instance():
-	return XwdScreenshot()
+    return XwdScreenshot()
