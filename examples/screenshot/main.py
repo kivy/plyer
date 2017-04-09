@@ -10,13 +10,11 @@ Builder.load_string('''
     padding: '50dp'
     spacing: '20dp'
     Label:
-        id: location_label
         size_hint_y: None
         height: sp(40)
         text: 'Screenshot Location: ' + str(screenshot.file_path)
 
     Button:
-        id: record_button
         text: 'Take Screenshot'
         on_release: screenshot.take()
 ''')
@@ -24,7 +22,8 @@ Builder.load_string('''
 
 class ScreenshotDemo(BoxLayout):
     '''Root Widget.'''
-    
+
+
 class ScreenshotApp(App):
 
     def build(self):

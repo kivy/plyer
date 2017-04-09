@@ -18,4 +18,4 @@ def instance():
     if whereis_exe('xwd') and whereis_exe('convert'):
         return XwdScreenshot()
     else:
-    	return Screenshot()
+        return Screenshot()
