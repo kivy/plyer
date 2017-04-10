@@ -41,6 +41,10 @@ class Notification(object):
         :type app_icon: str
         :type timeout: int
         :type ticker: str
+
+        .. note::
+           When called on Windows, ``app_icon`` has to be a path to
+           a file in .ICO format.
         '''
 
         self._notify(title=title, message=message, app_icon=app_icon,
