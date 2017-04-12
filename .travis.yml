@@ -1,10 +1,88 @@
-language: python
+matrix:
+  fast_finish: true
+  include:
+    - language: python
+      python: 2.7
+      env: RUN=unit
+      os: linux
+      dist: trusty
+    - language: python
+      python: 3.5
+      env: RUN=unit COVERALLS=true
+      os: linux
+      dist: trusty
+    - language: python
+      python: 3.5
+      env: RUN=pep8
+      os: linux
+      dist: trusty
+    - language: generic
+      env: RUN=unit PY=2
+      os: osx
+    - language: generic
+      env: RUN=unit PY=3
+      os: osx
 
-python:
-  - 3.5
+before_install:
+  # https://github.com/travis-ci/travis-ci/issues/6307
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rvm get head; fi
+
+install:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      if [ "${RUN}" != "pep8" ]; then
+        sudo apt-get update;
+        sudo apt-get install --upgrade python-setuptools;
+        echo "plyer.notification";
+        sudo apt-get install notification-daemon;
+        sudo apt-get install startup-notification;
+        sudo service dbus restart;
+        echo "plyer.battery";
+        sudo apt-get install upower;
+        sudo /usr/bin/python -m pip install --upgrade nose;
+      fi;
+    fi;
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      curl -O -L https://github.com/aria2/aria2/releases/download/release-1.29.0/aria2-1.29.0-osx-darwin.dmg;
+      hdiutil attach aria2-1.29.0-osx-darwin.dmg;
+      sudo installer -package "/Volumes/aria2 1.29.0 Intel/aria2.pkg" -target /;
+
+      if [ "${PY}" == "3" ]; then
+         curl -O -L https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg;
+         sudo installer -package python-3.5.2-macosx10.6.pkg -target /;
+         pip3 install --upgrade --user nose cython;
+         pip3 install https://github.com/kivy/pyobjus/zipball/master;
+      else
+         pip install --upgrade --user nose cython;
+         pip install https://github.com/kivy/pyobjus/zipball/master;
+      fi;
+    fi;
+
+before_script:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
+      export DISPLAY=:99.0;
+      /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX;
+      export PYTHONPATH=$PYTHONPATH:$(pwd);
+    fi;
 
 script:
-  - make style
+  - sudo python -m pip install .
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      set -ex;
+      if [ "${RUN}" == "unit" ]; then
+        /usr/bin/python -m nose.core ./plyer/tests;
+      fi;
+      if [ "${RUN}" == "pep8" ]; then
+        /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py .;
+      fi;
+    fi;
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      set -ex;
+      if [ "${PY}" == "3" ]; then
+        python3 -m nose.core ./plyer/tests;
+      else
+        python -m nose.core ./plyer/tests;
+      fi;
+    fi;
 
 notifications:
   webhooks:
