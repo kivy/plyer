@@ -32,7 +32,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
 
 # (list) Application requirements
-requirements = plyer,kivy
+requirements = plyer, kivy, hostpython2
 
 # (list) Garden requirements
 #garden_requirements =
@@ -64,7 +64,7 @@ android.permissions = SEND_SMS
 #android.minapi = 8
 
 # (int) Android SDK version to use
-#android.sdk = 21
+android.sdk = 24
 
 # (str) Android NDK version to use
 #android.ndk = 9c
