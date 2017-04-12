@@ -10,7 +10,10 @@ from plyer import battery
 
 class Test(unittest.TestCase):
     def test_battery(self):
-        self.assertEqual(list(battery.status.keys()), ['isCharging', 'percentage'])
+        self.assertEqual(
+            set(battery.status.keys()),
+            {'isCharging', 'percentage'}
+        )
 
 
 if __name__ == '__main__':
