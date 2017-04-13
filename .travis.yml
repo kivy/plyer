@@ -61,6 +61,7 @@ before_script:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
       export DISPLAY=:99.0;
       /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX;
+      /etc/init.d/dbus start;
       export PYTHONPATH=$PYTHONPATH:$(pwd);
     fi;
 
