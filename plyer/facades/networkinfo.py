@@ -100,12 +100,6 @@ class NetworkInfo(object):
     def _get_extra_info(self):
         raise NotImplementedError()
 
-    def _get_reason(self):
-        raise NotImplementedError()
-
-    def _get_state(self):
-        raise NotImplementedError()
-
     def _get_subtype_name(self):
         raise NotImplementedError()
 
