@@ -16,7 +16,7 @@ To import facade::
     >>> from plyer import networkinfo
 
 To get extra network information::
-    
+
     >>> networkinfo.get_extra_info()
         jionet
 
@@ -41,7 +41,7 @@ connections and pass data::
     >>> networkinfo.is_connected()
         True
 
-To check whether the device is currently roaming on this network. 
+To check whether the device is currently roaming on this network.
 
     >>> networkinfo.is_roaming()
         False

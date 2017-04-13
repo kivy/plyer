@@ -55,6 +55,7 @@ Builder.load_string('''
 class NetworkInfoInterface(BoxLayout):
     pass
 
+
 class NetworkInfoApp(App):
 
     def build(self):
