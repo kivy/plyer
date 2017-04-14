@@ -2,7 +2,7 @@
 Screenshot
 =====
 
-The :class:`Screenshot` is used for recording audio.
+The :class:`Screenshot` is used for taking screenshot.
 
 Default path for taking screenshot is set in platform implementation.
 
@@ -12,7 +12,7 @@ Simple Examples
 To get the file path::
 
     >>> screenshot.file_path
-    '/sdcard/test.jpg'
+    '/sdcard/screenshot.jpg'
 
 To set the file path::
 
@@ -26,7 +26,7 @@ To set the file path::
 To take screenshot::
 
     >>> from plyer import screenshot
-    >>> screenshot.take_shot()
+    >>> screenshot.take()
 '''
 
 
