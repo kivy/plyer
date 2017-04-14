@@ -3,7 +3,7 @@ from plyer.facades import Screenshot
 from plyer.utils import whereis_exe
 import Xlib
 from Xlib import display, X
-from PIL import Image 
+from PIL import Image
 
 
 class XlibScreenshot(Screenshot):
@@ -17,7 +17,7 @@ class XlibScreenshot(Screenshot):
         H = resolution.height
         dsp = display.Display()
         root = dsp.screen().root
-        raw = root.get_image(0, 0, W,H, X.ZPixmap, 0xffffffff)
+        raw = root.get_image(0, 0, W, H, X.ZPixmap, 0xffffffff)
         image = Image.frombytes("RGB", (W, H), raw.data, "raw", "BGRX")
         image.save(str(self.file_path))
 
