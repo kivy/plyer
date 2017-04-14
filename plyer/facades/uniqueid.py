@@ -6,6 +6,7 @@ Returns the following depending on the platform:
 * **OS X**: Serial number of the device
 * **Linux**: Serial number using lshw
 * **Windows**: MachineGUID from regkey
+* **iOS**: UUID
 
 Simple Example
 --------------

@@ -4,7 +4,7 @@ Compatibility module for Python 2.7 and > 3.3
 '''
 
 __all__ = ('PY2', 'string_types', 'queue', 'iterkeys',
-           'itervalues', 'iteritems')
+           'itervalues', 'iteritems', 'xrange')
 
 import sys
 try:
@@ -32,3 +32,8 @@ else:
     iterkeys = lambda d: iter(d.keys())
     itervalues = lambda d: iter(d.values())
     iteritems = lambda d: iter(d.items())
+
+if PY2:
+    xrange = xrange
+else:
+    xrange = range

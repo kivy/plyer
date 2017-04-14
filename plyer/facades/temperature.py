@@ -1,3 +1,6 @@
+# coding=utf-8
+
+
 class Temperature(object):
     '''Temperature facade.
 
@@ -23,7 +26,7 @@ class Temperature(object):
         '''Disable temperature sensor.'''
         self._disable()
 
-    #private
+    # private
 
     def _get_temperature(self, **kwargs):
         raise NotImplementedError()

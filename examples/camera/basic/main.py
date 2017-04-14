@@ -73,5 +73,6 @@ class MsgPopup(Popup):
         super(MsgPopup, self).__init__()
         self.ids.message_label.text = msg
 
+
 if __name__ == '__main__':
     CameraDemoApp().run()
