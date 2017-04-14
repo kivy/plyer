@@ -7,8 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 Builder.load_string('''
-#:import facade plyer.relativehumidity
-<RelativeHumidityInterface>:
+#:import facade plyer.humidity
+<HumidityInterface>:
     facade: facade
     orientation: 'vertical'
     padding: '50dp'
@@ -37,31 +37,31 @@ Builder.load_string('''
 ''')
 
 
-class RelativeHumidityInterface(BoxLayout):
+class HumidityInterface(BoxLayout):
     '''Root Widget.'''
     humidity = NumericProperty(0)
     facade = ObjectProperty()
 
     def enable(self):
         self.facade.enable()
-        Clock.schedule_interval(self.get_humidity, 1 / 20.)
+        Clock.schedule_interval(self.tell, 1 / 20.)
 
     def disable(self):
         self.facade.disable()
-        Clock.unschedule(self.get_humidity)
+        Clock.unschedule(self.tell)
 
-    def get_humidity(self, dt):
-        if self.facade.humidity is not None:
-            self.humidity = self.facade.humidity
+    def tell(self, dt):
+        if self.facade.tell is not None:
+            self.humidity = self.facade.tell
 
 
-class RelativeHumidityApp(App):
+class HumidityApp(App):
 
     def build(self):
-        return RelativeHumidityInterface()
+        return HumidityInterface()
 
     def on_pause(self):
         return True
 
 if __name__ == "__main__":
-    RelativeHumidityApp().run()
+    HumidityApp().run()

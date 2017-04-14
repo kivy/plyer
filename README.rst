@@ -43,7 +43,7 @@ Proximity                          X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
-Relative Humidity                  X
+Humidity                           X
 Temperature                        X
 ================================== ======= === ======= ==== =====
 

@@ -10,7 +10,7 @@ __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash',
-           'Temperature', 'RelativeHumidity')
+           'Temperature', 'Humidity')
 
 
 from plyer.facades.accelerometer import Accelerometer
@@ -36,5 +36,5 @@ from plyer.facades.tts import TTS
 from plyer.facades.uniqueid import UniqueID
 from plyer.facades.vibrator import Vibrator
 from plyer.facades.wifi import Wifi
-from plyer.facades.relativehumidity import RelativeHumidity
 from plyer.facades.temperature import Temperature
+from plyer.facades.humidity import Humidity

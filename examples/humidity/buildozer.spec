@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = PlyerRelativeHumidity
+title = PlyerHumidity
 
 # (str) Package name
-package.name = myapp
+package.name = plyer.humidity
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -75,16 +75,16 @@ fullscreen = 0
 #android.permissions = INTERNET
 
 # (int) Android API to use
-#android.api = 19
+android.api = 19
 
 # (int) Minimum API required
-#android.minapi = 9
+android.minapi = 19
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 24
 
 # (str) Android NDK version to use
-#android.ndk = 9c
+android.ndk = 9c
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
