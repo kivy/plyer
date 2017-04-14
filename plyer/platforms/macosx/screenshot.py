@@ -1,19 +1,19 @@
 import subprocess
-from plyer.facades import ScreenShot
+from plyer.facades import Screenshot
 from plyer.utils import whereis_exe
 
 
-class OSXScreenShot(ScreenShot):
+class OSXScreenshot(ScreenShot):
     def __init__(self, file_path=None):
-        default_path = 'test.jpg'
-        super(OSXScreenShot, self).__init__(file_path or default_path)
+        default_path = 'screenshot.jpg'
+        super(OSXScreenshot, self).__init__(file_path or default_path)
 
-    def _take_shot(self):
+    def _take(self):
         subprocess.call(["screencapture", "-T", "2", self.file_path])
 
 
 def instance():
     if whereis_exe('screencapture'):
-        return OSXScreenShot()
+        return OSXScreenshot()
     else:
-        return ScreenShot()
+        return Screenshot()
