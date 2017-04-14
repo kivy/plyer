@@ -52,7 +52,8 @@ class WindowsBalloonTip(object):
         WindowsBalloonTip._lock.release()
         return val
 
-    def __init__(self, title, message, app_name, app_icon='', timeout=10):
+    def __init__(self, title, message, app_name, app_icon='',
+                 timeout=10, **kwargs):
         ''' app_icon if given is a icon file.
         '''
 
@@ -74,9 +75,11 @@ class WindowsBalloonTip(object):
         self._wnd_class_ex = wnd_class_ex
 
         # create window
-        self._hwnd = win_api_defs.CreateWindowExW(0, class_atom,
+        self._hwnd = win_api_defs.CreateWindowExW(
+            0, class_atom,
             '', WS_OVERLAPPED, 0, 0, CW_USEDEFAULT,
-            CW_USEDEFAULT, None, None, wnd_class_ex.hInstance, None)
+            CW_USEDEFAULT, None, None, wnd_class_ex.hInstance, None
+        )
         if self._hwnd is None:
             raise Exception('Could not get create window.')
         win_api_defs.UpdateWindow(self._hwnd)
@@ -91,8 +94,10 @@ class WindowsBalloonTip(object):
                                 format(icon_path_name))
             self._balloon_icon = self._hicon = hicon
         else:
-            self._hicon = win_api_defs.LoadIconW(None,
-                ctypes.cast(IDI_APPLICATION, win_api_defs.LPCWSTR))
+            self._hicon = win_api_defs.LoadIconW(
+                None,
+                ctypes.cast(IDI_APPLICATION, win_api_defs.LPCWSTR)
+            )
         self.notify(title, message, app_name)
         if timeout:
             time.sleep(timeout)
@@ -121,10 +126,12 @@ class WindowsBalloonTip(object):
             # if icon is default app's one, don't display it in message
             if self._balloon_icon is not None:
                 icon_flag = NIIF_USER | NIIF_LARGE_ICON
-        notify_data = win_api_defs.get_NOTIFYICONDATAW(0, self._hwnd,
+        notify_data = win_api_defs.get_NOTIFYICONDATAW(
+            0, self._hwnd,
             id(self), flags, 0, hicon, app_name, 0, 0, message,
             NOTIFYICON_VERSION_4, title, icon_flag, win_api_defs.GUID(),
-            self._balloon_icon)
+            self._balloon_icon
+        )
 
         self._notify_data = notify_data
         if not win_api_defs.Shell_NotifyIconW(NIM_ADD, notify_data):
