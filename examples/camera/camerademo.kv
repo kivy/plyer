@@ -1,0 +1,37 @@
+<CameraDemo>:
+    FloatLayout:
+        Label:
+            id: path_label
+            text: 'Here be dragons: {}/{}'.format(app.user_data_dir, filename.text)
+            pos_hint: {'x': 0.25, 'y': 0.7}
+            size_hint: 0.5, 0.1
+            
+        TextInput:
+            id: filename
+            text: 'test_pic.jpg'
+            pos_hint: {'x': 0.25, 'y': .6}
+            size_hint: 0.5, 0.1
+            multiline: False
+        
+        Button:
+            text: 'Take picture from camera!'
+            pos_hint: {'x': 0.25, 'y': .3}
+            size_hint: 0.5, 0.2
+            on_press: root.do_capture()
+
+<MsgPopup>:
+    size_hint: .7, .4
+    title: "Attention"
+    msg: ''
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 20
+        Label:
+            id: message_label
+            size_hint_y: 0.4
+            text: root.msg
+        Button:
+            text: 'Dismiss'
+            size_hint_y: 0.4
+            on_press: root.dismiss()
