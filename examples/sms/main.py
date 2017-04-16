@@ -42,8 +42,9 @@ class IntentButton(Button):
     sms_message = StringProperty()
 
     def send_sms(self, *args):
-        sms.send(recipient=self.sms_recipient, message=self.sms_message)
-
+        smstext = unicode(self.sms_message.strip(codecs.BOM_UTF8), 'utf-8')
+        sms.send(recipient=self.sms_recipient, message=smstext)
+        
 
 class SmsApp(App):
     def build(self):
