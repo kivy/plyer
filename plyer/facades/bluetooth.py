@@ -46,12 +46,12 @@ class Bluetooth(object):
     def get_paired_devices(self):
         ''' Get list of paired devices.
         '''
-        self._get_paired_devices()
+        return self._get_paired_devices()
 
     def get_scan_devices(self):
         ''' Get the scanned devices.
         '''
-        self._get_scan_devices()
+        return self._get_scan_devices()
 
     # private
 
