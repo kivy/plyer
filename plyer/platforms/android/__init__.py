@@ -8,7 +8,7 @@ try:
     from android import config
     ns = config.JAVA_NAMESPACE
 except (ImportError, AttributeError):
-    ns = 'org.renpy.android'
+    ns = 'org.kivy.android'
 
 if 'PYTHON_SERVICE_ARGUMENT' in environ:
     PythonService = autoclass(ns + '.PythonService')
