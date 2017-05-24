@@ -97,28 +97,28 @@ class StoragePath(object):
     #private
 
     def _get_home_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_external_storage_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_root_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_documents_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_downloads_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_movies_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_music_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_pictures_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _get_application_dir(self):
-        return NotImplementedError()
+        raise NotImplementedError()
