@@ -13,6 +13,11 @@ fingerprint scanner of your device.
 Simple Examples
 ---------------
 
+To enroll a fingerprint::
+
+    >>> from plyer import fingerprint
+    >>> fingerprint.register()
+
 To check the presence of fingerprint scanner on your device::
 
     >>> from plyer import fingerprint
@@ -36,6 +41,12 @@ class Fingerprint(object):
     Fingerprint facade.
     '''
 
+    def register(self):
+        '''
+        Enroll a new fingerprint.
+        '''
+        return self._register()
+
     def check_hardware(self):
         '''
         Determine if fingerprint hardware is present and functional.
@@ -55,6 +66,9 @@ class Fingerprint(object):
         return self._authenticate()
 
     #private
+
+    def _register(self):
+        raise NotImplementedError()
 
     def _check_hardware(self):
         raise NotImplementedError()
