@@ -34,10 +34,13 @@ SecretKey = autoclass('javax.crypto.SecretKey')
 CancellationSignal = autoclass('android.os.CancellationSignal')
 AuthenticationResult = autoclass(
     'android.hardware.fingerprint.FingerprintManager$AuthenticationResult')
-FingerprintManagerCryptoObject = autoclass('android.hardware.fingerprint.FingerprintManager$CryptoObject')
+FingerprintManagerCryptoObject = autoclass(
+    'android.hardware.fingerprint.FingerprintManager$CryptoObject')
+
 
 class FingerprintHandler(JavaClass):
-    __javaclass__ = 'android/hardware/fingerprint/FingerprintManager$AuthenticationCallback'
+    __javaclass__ =\
+        'android/hardware/fingerprint/FingerprintManager$AuthenticationCallback'
     __metaclass__ = MetaJavaClass
 
     def start_auth(self, fmanager, crypto_object):
@@ -80,16 +83,16 @@ class AndroidFingerprint(Fingerprint):
 
     def _authenticate(self):
         if self.keyguard_manager.isKeyguardSecure() and\
-        self._check_hardware() and self._is_enrolled():
-            self.KEY_NAME = 'example_key'
-            self.generate_key()
-            if self.cipher_init():
-                self.crypto_object = FingerprintManagerCryptoObject(
-                    self.cipher)
-                self.fingerprint_handler = FingerprintHandler()
-                result = self.fingerprint_handler.start_auth(
-                    self.fingerprint_manager, self.crypto_object)
-                return result
+            self._check_hardware() and self._is_enrolled():
+                self.KEY_NAME = 'example_key'
+                self.generate_key()
+                if self.cipher_init():
+                    self.crypto_object = FingerprintManagerCryptoObject(
+                        self.cipher)
+                    self.fingerprint_handler = FingerprintHandler()
+                    result = self.fingerprint_handler.start_auth(
+                        self.fingerprint_manager, self.crypto_object)
+                    return result
 
     def _check_hardware(self):
         return self.fingerprint_manager.isHardwareDetected()
