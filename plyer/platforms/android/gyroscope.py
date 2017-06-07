@@ -90,7 +90,7 @@ class AndroidGyroscope(Gyroscope):
             del self.listenerg
             del self.listenergu
 
-    def _get_rotation(self):
+    def _get_orientation(self):
         if (self.bState):
             return tuple(self.listenerg.values)
         else:

@@ -5,11 +5,6 @@ Gyroscope
 The gyroscope measures the rate of rotation in rad/s around a device's x, y,
 and z axis.
 
-Rotation is positive in the counter-clockwise direction (right-hand rule).
-That is, an observer looking from some positive location on the x, y or z axis
-at a device positioned on the origin would report positive rotation if the
-device appeared to be rotating counter clockwise.
-
 The :class:`Gyroscope` provides access to public methods to
 use gyroscope of your device.
 
@@ -60,7 +55,7 @@ class Gyroscope(object):
 
         Returns (None, None, None) if no data is currently available.
         '''
-        return self.get_rotation()
+        return self.get_orientation()
 
     @property
     def rotation_uncalib(self):
@@ -84,6 +79,18 @@ class Gyroscope(object):
         '''
         return self.get_rotation_uncalib()
 
+    @property
+    def orientation(self):
+        '''
+        WARNING:: This property is deprecated after API Level 8.
+        Use `gyroscope.rotation` instead.
+
+        Property that returns values of the current Gyroscope sensors, as
+        a (x, y, z) tuple. Returns (None, None, None) if no data is currently
+        available.
+        '''
+        return self.get_orientation()
+
     def enable(self):
         '''
         Activate the Gyroscope sensor.
@@ -96,8 +103,8 @@ class Gyroscope(object):
         '''
         self._disable()
 
-    def get_rotation(self):
-        return self._get_rotation()
+    def get_orientation(self):
+        return self._get_orientation()
 
     def get_rotation_uncalib(self):
         return self._get_rotation_uncalib()
@@ -110,7 +117,7 @@ class Gyroscope(object):
     def _disable(self):
         raise NotImplementedError()
 
-    def _get_rotation(self):
+    def _get_orientation(self):
         raise NotImplementedError()
 
     def _get_rotation_uncalib(self):
