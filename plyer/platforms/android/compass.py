@@ -88,7 +88,7 @@ class AndroidCompass(Compass):
             self.listenerm.disable()
             self.listenermu.disable()
             del self.listenerm
-            del self.listenerm
+            del self.listenermu
 
     def _get_orientation(self):
         if (self.bState):
