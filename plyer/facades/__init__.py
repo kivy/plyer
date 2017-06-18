@@ -6,13 +6,16 @@ Interface of all the features available.
 
 '''
 
+
 __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash',
-           'Temperature')
+           'Temperature', 'LinearAcceleration')
+
 
 from plyer.facades.accelerometer import Accelerometer
+from plyer.facades.linear_acceleration import LinearAcceleration
 from plyer.facades.audio import Audio
 from plyer.facades.barometer import Barometer
 from plyer.facades.battery import Battery

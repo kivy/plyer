@@ -43,6 +43,7 @@ Proximity                          X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
+Linear Acceleration                X
 Temperature                        X
 ================================== ======= === ======= ==== =====
 

@@ -4,11 +4,12 @@ Plyer
 
 '''
 
+
 __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature')
+           'temperature', 'linear_acceleration')
 
 __version__ = '1.3.1dev'
 
@@ -18,6 +19,9 @@ from plyer.utils import Proxy
 
 #: Accelerometer proxy to :class:`plyer.facades.Accelerometer`
 accelerometer = Proxy('accelerometer', facades.Accelerometer)
+
+#: Linear Acceleration proxy to :class:`plyer.facades.LinearAcceleration`
+linear_acceleration = Proxy('linear_acceleration', facades.LinearAcceleration)
 
 #: Audio proxy to :class:`plyer.facades.Audio`
 audio = Proxy('audio', facades.Audio)
