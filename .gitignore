@@ -19,3 +19,5 @@ venv
 bin
 .buildozer
 .idea
+
+.DS_Store
