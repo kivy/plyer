@@ -44,6 +44,7 @@ Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
+Spell Checker                      X
 ================================== ======= === ======= ==== =====
 
 Support
