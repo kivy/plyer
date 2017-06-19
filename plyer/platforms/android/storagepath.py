@@ -30,7 +30,7 @@ class AndroidStoragePath(StoragePath):
         return Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
 
-    def _get_movies_dir(self):
+    def _get_videos_dir(self):
         return Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES).getAbsolutePath()
 

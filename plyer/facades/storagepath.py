@@ -67,12 +67,12 @@ class StoragePath(object):
         '''
         return self._get_downloads_dir()
 
-    def get_movies_dir(self):
+    def get_videos_dir(self):
         '''
-        Get the path of standard directory in which to place movies that are
+        Get the path of standard directory in which to place videos that are
         available to the user.
         '''
-        return self._get_movies_dir()
+        return self._get_videos_dir()
 
     def get_music_dir(self):
         '''
@@ -111,7 +111,7 @@ class StoragePath(object):
     def _get_downloads_dir(self):
         raise NotImplementedError()
 
-    def _get_movies_dir(self):
+    def _get_videos_dir(self):
         raise NotImplementedError()
 
     def _get_music_dir(self):

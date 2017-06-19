@@ -32,8 +32,8 @@ Builder.load_string('''
                 text: 'Downloads'
                 on_press: label.text = str(storagepath.get_downloads_dir())
             Button:
-                text: 'Movies'
-                on_press: label.text = str(storagepath.get_movies_dir())
+                text: 'Videos'
+                on_press: label.text = str(storagepath.get_videos_dir())
         BoxLayout:
             Button:
                 text: 'Music'
