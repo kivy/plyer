@@ -44,7 +44,7 @@ Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
-Storage Path                       X           X
+Storage Path                       X           X       X
 ================================== ======= === ======= ==== =====
 
 Support
