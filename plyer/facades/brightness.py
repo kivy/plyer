@@ -9,11 +9,15 @@ brightness of screen.
 
 Simple Examples
 ---------------
+To know the current brightness level of device::
+
+    >>> from plyer import brightness
+    >>> brightness.current_level()
 
 To set the brightness level to half of maximum::
 
     >>> from plyer import brightness
-    >>> brightness.set(50)
+    >>> brightness.set_level(50)
 
 '''
 
@@ -23,7 +27,13 @@ class Brightness(object):
     Brightness facade.
     '''
 
-    def set(self, level):
+    def current_level(self):
+        '''
+        Know the current level of device's brightness.
+        '''
+        return self._current_level()
+
+    def set_level(self, level):
         '''
         Adjust the brightness of the screen.
         Minimum brightnesss level:: 1
@@ -32,9 +42,12 @@ class Brightness(object):
         :param level: New level of brightness between 1 and 100
         :type level: int
         '''
-        return self._set(level)
+        return self._set_level(level)
 
     #private
 
-    def _set(self, level):
+    def _set_level(self, level):
+        raise NotImplementedError()
+
+    def _current_level(self):
         raise NotImplementedError()
