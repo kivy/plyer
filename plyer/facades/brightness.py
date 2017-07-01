@@ -7,6 +7,8 @@ This API helps you to control the brightness of your primary display screen.
 The :class:`Brightness` provides access to public methods to control the
 brightness of screen.
 
+NOTE:: For Android, make sure to add permission, WRITE_SETTINGS
+
 Simple Examples
 ---------------
 To know the current brightness level of device::
