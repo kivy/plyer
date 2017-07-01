@@ -9,7 +9,6 @@ from kivy.properties import NumericProperty
 Builder.load_string('''
 <BrightnessInterface>:
     orientation: 'vertical'
-    level: slider.value
     Label:
         text: 'Adjust the slider to increase \\n or decrease the brightness'
     Slider:
@@ -17,19 +16,16 @@ Builder.load_string('''
         min: 0
         max: 100
         value: root.get_current_brightness()
+        on_touch_up: root.set_brightness(slider.value)
     Label:
         text: 'Current brightness = ' + str(slider.value)
-    Button:
-        text: 'Set Brightness'
-        on_press: root.set_brightness()
 ''')
 
 
 class BrightnessInterface(BoxLayout):
-    level = NumericProperty()
 
-    def set_brightness(self):
-        brightness.set_level(self.level)
+    def set_brightness(self, level):
+        brightness.set_level(level)
 
     def get_current_brightness(self):
         return brightness.current_level()
