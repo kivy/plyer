@@ -8,7 +8,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature', 'spatialorientation')
+           'temperature', 'spatialorientation', 'brightness')
 
 __version__ = '1.3.1dev'
 
@@ -90,3 +90,6 @@ temperature = Proxy('temperature', facades.Temperature)
 
 #: SpatialOrientation proxy to :class:`plyer.facades.SpatialOrientation`
 spatialorientation = Proxy('spatialorientation', facades.SpatialOrientation)
+
+#: Brightness proxy to :class:`plyer.facades.Brightness`
+brightness = Proxy('brightness', facades.Brightness)
