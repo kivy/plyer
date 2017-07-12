@@ -45,7 +45,7 @@ Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
 Spatial Orientation                X
-Brightness                         X
+Brightness                         X       X                X
 ================================== ======= === ======= ==== =====
 
 Support
