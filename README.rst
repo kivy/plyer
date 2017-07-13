@@ -25,7 +25,7 @@ Barometer                          X
 Call                               X       X
 Camera (taking picture)            X       X
 GPS                                X       X
-Gravity                            X
+Gravity                            X       X
 IR Blaster                         X
 Notifications                      X           X       X    X
 Text to speech                     X       X   X       X    X
