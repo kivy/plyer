@@ -12,7 +12,7 @@ class iOSSpatialOrientation(SpatialOrientation):
 
     def __init__(self):
         self.bridge = autoclass('bridge').alloc().init()
-        self.bridge.motionManager.setdeviceMotionUpdateInterval_(0.1)
+        self.bridge.motionManager.setDeviceMotionUpdateInterval_(0.1)
 
     def _enable_listener(self):
         self.bridge.startDeviceMotion()
