@@ -1,0 +1,41 @@
+#:kivy 1.8.0
+<CameraDemo>:
+    FloatLayout:
+        Label:
+            id: path_label
+            text: 'Working Directory:'
+            pos_hint: {'x': 0.25, 'y': 0.7}
+            size_hint: 0.5, 0.1
+            
+        TextInput:
+            id: filename_text
+            text: 'enter_file_name_here.jpg'
+            pos_hint: {'x': 0.25, 'y': .6}
+            size_hint: 0.5, 0.1
+            multiline: False
+        
+        Button:
+            text: 'Take picture from camera!'
+            pos_hint: {'x': 0.25, 'y': .3}
+            size_hint: 0.5, 0.2
+            on_press: root.do_capture()
+
+<MsgPopup>:
+    size_hint: .7, .4
+    title: "Attention"
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 20
+
+        Label:
+            id: message_label
+            size_hint_y: 0.4
+            text: "Label"
+        Button:
+            text: 'Dismiss'
+            size_hint_y: 0.4
+            on_press: root.dismiss()
+            
+            

@@ -36,7 +36,10 @@ class WindowWifi(Wifi):
         Starts scanning for available Wi-Fi networks and returns the available,
         devices.
         '''
-        self.names = wifi_lib.start_scanning()
+        if self._is_enabled():
+            self.names = wifi_lib.start_scanning()
+        else:
+            raise Exception('Wifi not Enabled.')
 
     def _get_available_wifi(self):
         '''

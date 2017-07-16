@@ -1,30 +1,42 @@
+'''
+    Note::
+        This facade depends on:
+        - nmcli (Network Manager command line tool)
+            It is found in most of the popular distros. Support for other
+            managers is not provided yet.
+
+        - python-wifi module
+            `https://wifi.readthedocs.io/en/latest/`
+            `https://github.com/rockymeza/wifi`
+
+'''
+
 from plyer.facades import Wifi
 from subprocess import Popen, PIPE, call, STDOUT
-
-try:
-    import wifi
-except ImportError:
-    sys.stderr.write("python-wifi not installed. try:"
-                     "`sudo pip install wifi`.")
-    return Wifi()
 
 
 class LinuxWifi(Wifi):
     names = {}
 
-    def _is_enabled():
+    def _is_enabled(self):
         '''
-        TODO: Implement this in future.
+        Returns `True` if wifi is enabled else `False`.
         '''
-        return
+        enbl = Popen(["nmcli", "radio", "wifi"], stdout=PIPE, stderr=PIPE)
+        if enbl.communicate()[0].split()[0] == "enabled":
+            return True
+        return False
 
     def _start_scanning(self):
         '''
         Returns all the network information.
         '''
-        list_ = wifi.Cell.all('wlan0')
-        for i in range(len(list_)):
-            self.names[list_[i].ssid] = list_[i]
+        if self._is_enabled():
+            list_ = wifi.Cell.all('wlan0')
+            for i in range(len(list_)):
+                self.names[list_[i].ssid] = list_[i]
+        else:
+            raise Exception('Wifi not enabled.')
 
     def _get_network_info(self, name):
         '''
@@ -75,4 +87,12 @@ class LinuxWifi(Wifi):
 
 
 def instance():
-    return LinuxWifi()
+    import sys
+    try:
+        import wifi
+        return LinuxWifi()
+    except ImportError:
+        sys.stderr.write("python-wifi not installed. try:"
+                         "`pip install --user wifi`.")
+
+    return Wifi()

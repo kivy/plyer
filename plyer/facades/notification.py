@@ -1,10 +1,32 @@
+'''
+Notification
+===========
+
+The :class:`Notification` provides access to public methods to create
+notifications.
+
+Simple Examples
+---------------
+
+To send notification::
+
+    >>> from plyer import notification
+    >>> title = 'plyer'
+    >>> message = 'This is an example.'
+    >>> notification.notify(title=title, message=message)
+
+'''
+
+
 class Notification(object):
-    '''Notification facade.
+    '''
+    Notification facade.
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
                timeout=10, ticker=''):
-        '''Send a notification.
+        '''
+        Send a notification.
 
         :param title: Title of the notification
         :param message: Message of the notification

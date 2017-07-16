@@ -77,8 +77,6 @@ class WifiInterface(BoxLayout):
         wifi_button = self.ids['wifi_button']
         wifi_button.text = 'Showing Scan Results'
         wifi_button.on_release = self.show_wifi_scans
-        if not self.is_enabled():
-            wifi.enable()
         wifi.start_scanning()
         stop_wifi_button = self.ids['stop_wifi_button']
         stop_wifi_button.disabled = False
@@ -144,6 +142,8 @@ class WifiApp(App):
     def build(self):
         return WifiInterface()
 
+    def on_pause(self):
+        return True
 
 if __name__ == "__main__":
     WifiApp().run()
