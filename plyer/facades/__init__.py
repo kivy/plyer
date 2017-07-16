@@ -34,12 +34,8 @@ from plyer.facades.sms import Sms
 from plyer.facades.tts import TTS
 from plyer.facades.uniqueid import UniqueID
 from plyer.facades.vibrator import Vibrator
-<<<<<<< HEAD
-from plyer.facades.flash import Flash
-from plyer.facades.keystore import Keystore
-=======
->>>>>>> upstream/master
 from plyer.facades.wifi import Wifi
 from plyer.facades.temperature import Temperature
 from plyer.facades.spatialorientation import SpatialOrientation
 from plyer.facades.brightness import Brightness
+from plyer.facades.keystore import Keystore
