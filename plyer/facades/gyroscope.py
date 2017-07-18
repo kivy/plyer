@@ -2,7 +2,7 @@
 Gyroscope
 ============
 
-The gyroscope measures the rate of rotation in rad/s around a device's x, y,
+The gyroscope measures the rate of rotation around a device's x, y,
 and z axis.
 
 The :class:`Gyroscope` provides access to public methods to
@@ -49,9 +49,9 @@ class Gyroscope(object):
         Property that returns the rate of rotation around the device's local
         X, Y and Z axis.
 
-        Along x-axis: angular speed around the X axis in rad/s
-        Along y-axis: angular speed around the Y axis in rad/s
-        Along z-axis: angular speed around the Z axis in rad/s
+        Along x-axis: angular speed around the X axis
+        Along y-axis: angular speed around the Y axis
+        Along z-axis: angular speed around the Z axis
 
         Returns (None, None, None) if no data is currently available.
         '''
@@ -64,15 +64,12 @@ class Gyroscope(object):
         Z axis. An estimation of the drift on each axis is reported as well.
 
         Along x-axis: angular speed (w/o drift compensation) around the X axis
-                      in rad/s
         Along y-axis: angular speed (w/o drift compensation) around the Y axis
-                      in rad/s
         Along z-axis: angular speed (w/o drift compensation) around the Z axis
-                      in rad/s
 
-        Along x-axis: estimated drift around X axis in rad/s
-        Along y-axis: estimated drift around Y axis in rad/s
-        Along z-axis: estimated drift around Z axis in rad/s
+        Along x-axis: estimated drift around X axis
+        Along y-axis: estimated drift around Y axis
+        Along z-axis: estimated drift around Z axis
 
         Returns (None, None, None, None, None, None) if no data is currently
         available.

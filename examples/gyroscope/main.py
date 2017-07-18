@@ -63,8 +63,6 @@ interface = Builder.load_string('''
                 text: str(root.y_drift) + ','
             Label:
                 text: str(root.z_drift) + ')'
-            Label:
-                text: 'All the values are in rad/s'
 ''')
 
 
