@@ -12,7 +12,7 @@ class IosGyroscope(Gyroscope):
     def __init__(self):
         super(IosGyroscope, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
-        self.bridge.motionManager.setGyroscopeUpdateInterval_(0.1)
+        self.bridge.motionManager.setGyroUpdateInterval_(0.1)
 
     def _enable(self):
         self.bridge.startGyroscope()
