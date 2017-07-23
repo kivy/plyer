@@ -13,12 +13,13 @@ UIDevice = autoclass('UIDevice')
 
 device = UIDevice.currentDevice()
 
+
 class IosGyroscope(Gyroscope):
 
     def __init__(self):
         super(IosGyroscope, self).__init__()
         self.bridge = autoclass('bridge').alloc().init()
-        
+
         if int(device.systemVersion.UTF8String().split('.')[0]) <= 4:
             self.bridge.motionManager.setGyroscopeUpdateInterval_(0.1)
         else:
