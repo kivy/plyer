@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
-from kivy.properties import BooleanProperty
+from kivy.properties import StringProperty
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 
@@ -37,7 +37,7 @@ Builder.load_string('''
     Label:
         text: 'Does Proximity Sensor detect something?'
     Label:
-        text: 'Yes' if root.is_near else 'No'
+        text: root.is_near
 
     Widget:
     Label:
@@ -51,7 +51,7 @@ class ProximityInterface(BoxLayout):
     '''Root Widget.'''
 
     proximity = ObjectProperty()
-    is_near = BooleanProperty(False)
+    is_near = StringProperty()
 
     def enable(self):
         self.proximity.enable()
