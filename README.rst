@@ -39,7 +39,7 @@ Light                              X
 Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
 Orientation                        X
-Proximity                          X
+Proximity                          X       X
 Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
