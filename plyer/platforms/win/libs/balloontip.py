@@ -90,8 +90,7 @@ class WindowsBalloonTip(object):
             hicon = win_api_defs.LoadImageW(None, app_icon, IMAGE_ICON, 0, 0,
                                             icon_flags)
             if hicon is None:
-                raise Exception('Could not load icon {}'.
-                                format(icon_path_name))
+                raise Exception('Could not load icon {}'.format(app_icon))
             self._balloon_icon = self._hicon = hicon
         else:
             self._hicon = win_api_defs.LoadIconW(

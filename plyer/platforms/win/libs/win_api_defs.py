@@ -183,7 +183,7 @@ LoadIconW.argtypes = [HINSTANCE, LPCWSTR]
 LoadIconW.restype = HICON
 
 
-class SYSTEM_POWER_STATUS(ctypes.Structure):
+class SYSTEM_POWER_STATUS(Structure):
     _fields_ = [
         ('ACLineStatus', BYTE),
         ('BatteryFlag', BYTE),
@@ -193,9 +193,9 @@ class SYSTEM_POWER_STATUS(ctypes.Structure):
         ('BatteryFullLifeTime', DWORD),
     ]
 
-SystemPowerStatusP = ctypes.POINTER(SYSTEM_POWER_STATUS)
+SystemPowerStatusP = POINTER(SYSTEM_POWER_STATUS)
 
-GetSystemPowerStatus = ctypes.windll.kernel32.GetSystemPowerStatus
+GetSystemPowerStatus = windll.kernel32.GetSystemPowerStatus
 GetSystemPowerStatus.argtypes = [SystemPowerStatusP]
 GetSystemPowerStatus.restype = BOOL
 
