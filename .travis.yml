@@ -6,19 +6,23 @@ matrix:
       env: RUN=unit
       os: linux
       dist: trusty
+
     - language: python
       python: 3.5
       env: RUN=unit COVERALLS=true
       os: linux
       dist: trusty
+
     - language: python
       python: 3.5
       env: RUN=pep8
       os: linux
       dist: trusty
+
     - language: generic
       env: RUN=unit PY=2
       os: osx
+
     - language: generic
       env: RUN=unit PY=3
       os: osx
@@ -26,7 +30,11 @@ matrix:
 
 before_install:
   # https://github.com/travis-ci/travis-ci/issues/6307
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rvm get head; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+
+      rvm get head;
+
+    fi;
 
 
 install:
@@ -52,10 +60,12 @@ install:
 
         echo "[YML] plyer.battery deps";
         sudo apt-get install upower;
+
       fi;
     fi;
 
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+
       ariagh=https://github.com/aria2/aria2/releases/download/release-1.29.0/;
       ariadmg=aria2-1.29.0-osx-darwin.dmg;
       pyftp=https://www.python.org/ftp/python/3.5.2/;
@@ -66,6 +76,7 @@ install:
       sudo installer -package "/Volumes/aria2 1.29.0 Intel/aria2.pkg" -target /;
 
       if [ "${PY}" == "3" ]; then
+
          curl -O -L $pyftp$py3pkg;
          sudo installer -package python-3.5.2-macosx10.6.pkg -target /;
 
@@ -82,30 +93,55 @@ install:
 
 before_script:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
+
       export DISPLAY=:99.0;
-      /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX;
+      /sbin/start-stop-daemon
+          --start
+          --quiet
+          --pidfile /tmp/custom_xvfb_99.pid
+          --make-pidfile
+          --background
+          --exec /usr/bin/Xvfb --
+              :99
+              -screen 0 1280x720x24
+              -ac +extension GLX;
+
       export PYTHONPATH=$PYTHONPATH:$(pwd);
+
     fi;
+
 
 script:
   - sudo python -m pip install .
+
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+
       set -ex;
       if [ "${RUN}" == "unit" ]; then
+
         /usr/bin/python -m nose.core ./plyer/tests;
+
       fi;
       if [ "${RUN}" == "pep8" ]; then
+
         /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py .;
+
       fi;
     fi;
+
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+
       set -ex;
       if [ "${PY}" == "3" ]; then
+
         python3 -m nose.core ./plyer/tests;
+
       else
         python -m nose.core ./plyer/tests;
+
       fi;
     fi;
+
 
 notifications:
   webhooks:
