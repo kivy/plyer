@@ -37,7 +37,10 @@ install:
 
         printf "[YML] plyer.notification deps";
 
-        printf "  * plyer.notification.NotifySendNotification";
+        printf " * plyer.notification.NotifyDbus";
+        sudo apt-get -y install python-dbus;
+
+        printf " * plyer.notification.NotifySendNotification";
         sudo apt-get -y install libnotify-bin;
 
         printf "[YML] plyer.battery deps";
