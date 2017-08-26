@@ -37,6 +37,9 @@ install:
 
         printf "[YML] plyer.notification deps";
 
+        printf "  * plyer.notification.NotifySendNotification";
+        sudo apt-get -y install libnotify-bin;
+
         printf "[YML] plyer.battery deps";
         sudo apt-get install upower;
       fi;
