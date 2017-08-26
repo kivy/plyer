@@ -31,14 +31,25 @@ install:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
       if [ "${RUN}" != "pep8" ]; then
         sudo apt-get update;
-        sudo apt-get install --upgrade python-setuptools;
-        echo "plyer.notification";
-        sudo apt-get install notification-daemon;
-        sudo apt-get install startup-notification;
-        sudo service dbus restart;
-        echo "plyer.battery";
-        sudo apt-get install upower;
+        sudo apt-get -y install --upgrade python-setuptools;
         sudo /usr/bin/python -m pip install --upgrade nose;
+
+        echo "plyer.notification";
+        echo "Fix for DBusException, The name org.freedesktop.Notifications";
+        echo "    was not provided by any .service files";
+        sudo apt-get -y install --reinstall notification-daemon notify-osd;
+        sudo dbus-launch --sh-syntax;
+        sudo apt-get -y install libnotify-cil-dev;
+
+        echo "plyer.notification.NotifyDbus";
+        sudo apt-get -y install python-dbus;
+        sudo service dbus restart;
+
+        echo "plyer.notification.NotifySendNotification";
+        sudo apt-get -y install libnotify-bin;
+
+        echo "plyer.battery";
+        sudo apt-get -y install upower;
       fi;
     fi;
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
@@ -61,7 +72,6 @@ before_script:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
       export DISPLAY=:99.0;
       /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX;
-      /etc/init.d/dbus start;
       export PYTHONPATH=$PYTHONPATH:$(pwd);
     fi;
 
