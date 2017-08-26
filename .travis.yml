@@ -30,26 +30,15 @@ before_install:
 install:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
       if [ "${RUN}" != "pep8" ]; then
+        printf "[YML] Necessary build stuff";
         sudo apt-get update;
         sudo apt-get -y install --upgrade python-setuptools;
         sudo /usr/bin/python -m pip install --upgrade nose;
 
-        echo "plyer.notification";
-        echo "Fix for DBusException, The name org.freedesktop.Notifications";
-        echo "    was not provided by any .service files";
-        sudo apt-get -y install --reinstall notification-daemon notify-osd;
-        sudo dbus-launch --sh-syntax;
-        sudo apt-get -y install libnotify-cil-dev;
+        printf "[YML] plyer.notification deps";
 
-        echo "plyer.notification.NotifyDbus";
-        sudo apt-get -y install python-dbus;
-        sudo service dbus restart;
-
-        echo "plyer.notification.NotifySendNotification";
-        sudo apt-get -y install libnotify-bin;
-
-        echo "plyer.battery";
-        sudo apt-get -y install upower;
+        printf "[YML] plyer.battery deps";
+        sudo apt-get install upower;
       fi;
     fi;
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
