@@ -114,17 +114,21 @@ before_script:
 script:
   - sudo python -m pip install .
 
+  # setup dummies before running tests
+  # nose throws stuff to globals and won't clean up afterwards
+  - python ./plyer/tests/dummy_setup.py
+
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
 
       set -ex;
       if [ "${RUN}" == "unit" ]; then
 
-        /usr/bin/python -m nose.core ./plyer/tests;
+        /usr/bin/python -m nose.core -s ./plyer/tests;
 
       fi;
       if [ "${RUN}" == "pep8" ]; then
 
-        /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py .;
+        /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py $(pwd);
 
       fi;
     fi;
@@ -141,6 +145,9 @@ script:
 
       fi;
     fi;
+
+  # remove dummies and return to previous state
+  - python ./plyer/tests/dummy_teardown.py
 
 
 notifications:

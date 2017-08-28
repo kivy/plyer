@@ -29,4 +29,8 @@ build_script:
         %PYTHON% %cd%\plyer\tools\pep8checker\pep8kivy.py %cd%
     )
 
+    %PYTHON% C:\projects\plyer\plyer\tests\dummy_setup.py
+
     %PYTHON% -m nose.core C:\projects\plyer\plyer\tests
+
+    %PYTHON% C:\projects\plyer\plyer\tests\dummy_teardown.py
