@@ -1,0 +1,36 @@
+version: 1.0.{build}
+environment:
+  matrix:
+  - PY: 27
+  - PY: 36
+  - PEP8: 1
+
+install:
+- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
+
+build_script:
+- cmd:
+    if "%PY%"=="27" (
+        set PYTHON=C:\Python27\python.exe
+    ) else (
+        set PYTHON=C:\Python36\python.exe
+    )
+
+    %PYTHON% -m pip install C:\projects\plyer\.
+
+    %PYTHON% -m pip install nose
+
+    echo Plyer version is
+
+    %PYTHON% -c "import plyer;print(plyer.__version__)"
+
+    if "%PEP8%"=="1" (
+        cd C:\projects\plyer &
+        %PYTHON% %cd%\plyer\tools\pep8checker\pep8kivy.py %cd%
+    )
+
+    %PYTHON% C:\projects\plyer\plyer\tests\dummy_setup.py
+
+    %PYTHON% -m nose.core C:\projects\plyer\plyer\tests
+
+    %PYTHON% C:\projects\plyer\plyer\tests\dummy_teardown.py

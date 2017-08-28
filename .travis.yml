@@ -1,10 +1,154 @@
-language: python
+matrix:
+  fast_finish: true
+  include:
+    - language: python
+      python: 2.7
+      env: RUN=unit
+      os: linux
+      dist: trusty
 
-python:
-  - 3.5
+    - language: python
+      python: 3.5
+      env: RUN=unit COVERALLS=true
+      os: linux
+      dist: trusty
+
+    - language: python
+      python: 3.5
+      env: RUN=pep8
+      os: linux
+      dist: trusty
+
+    - language: generic
+      env: RUN=unit PY=2
+      os: osx
+
+    - language: generic
+      env: RUN=unit PY=3
+      os: osx
+
+
+before_install:
+  # https://github.com/travis-ci/travis-ci/issues/6307
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+
+      rvm get head;
+
+    fi;
+
+
+install:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      if [ "${RUN}" != "pep8" ]; then
+
+        echo "[YML] Necessary build stuff";
+        sudo apt-get update;
+        sudo apt-get -y install --upgrade python-setuptools;
+        sudo /usr/bin/python -m pip install --upgrade nose;
+
+        echo "[YML] plyer.notification deps";
+        echo "[YML] * plyer.notification.NotifyDbus";
+        sudo apt-get -y install python-dbus;
+
+        echo "[YML] * plyer.notification.NotifySendNotification";
+        sudo apt-get -y install libnotify-bin;
+
+        echo "[YML] * Fixing DBusException";
+        echo "[YML] * org.freedesktop.DBus.Error.ServiceUnknown";
+        echo "[YML] * The name org.freedesktop.Notifications was not provided";
+        sudo apt-get -y install --reinstall notification-daemon notify-osd;
+
+        echo "[YML] plyer.battery deps";
+        sudo apt-get install upower;
+
+      fi;
+    fi;
+
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+
+      ariagh=https://github.com/aria2/aria2/releases/download/release-1.29.0/;
+      ariadmg=aria2-1.29.0-osx-darwin.dmg;
+      pyftp=https://www.python.org/ftp/python/3.5.2/;
+      py3pkg=python-3.5.2-macosx10.6.pkg;
+      curl -O -L $ariagh$ariadmg;
+
+      hdiutil attach aria2-1.29.0-osx-darwin.dmg;
+      sudo installer -package "/Volumes/aria2 1.29.0 Intel/aria2.pkg" -target /;
+
+      if [ "${PY}" == "3" ]; then
+
+         curl -O -L $pyftp$py3pkg;
+         sudo installer -package python-3.5.2-macosx10.6.pkg -target /;
+
+         pip3 install --upgrade --user nose cython;
+         pip3 install https://github.com/kivy/pyobjus/zipball/master;
+
+      else
+         pip install --upgrade --user nose cython;
+         pip install https://github.com/kivy/pyobjus/zipball/master;
+
+      fi;
+    fi;
+
+
+before_script:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
+
+      export DISPLAY=:99.0;
+      /sbin/start-stop-daemon
+          --start
+          --quiet
+          --pidfile /tmp/custom_xvfb_99.pid
+          --make-pidfile
+          --background
+          --exec /usr/bin/Xvfb --
+              :99
+              -screen 0 1280x720x24
+              -ac +extension GLX;
+
+      export PYTHONPATH=$PYTHONPATH:$(pwd);
+
+    fi;
+
 
 script:
-  - make style
+  - sudo python -m pip install .
+
+  # setup dummies before running tests
+  # nose throws stuff to globals and won't clean up afterwards
+  - python ./plyer/tests/dummy_setup.py
+
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+
+      set -ex;
+      if [ "${RUN}" == "unit" ]; then
+
+        /usr/bin/python -m nose.core -s ./plyer/tests;
+
+      fi;
+      if [ "${RUN}" == "pep8" ]; then
+
+        /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py $(pwd);
+
+      fi;
+    fi;
+
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+
+      set -ex;
+      if [ "${PY}" == "3" ]; then
+
+        python3 -m nose.core ./plyer/tests;
+
+      else
+        python -m nose.core ./plyer/tests;
+
+      fi;
+    fi;
+
+  # remove dummies and return to previous state
+  - python ./plyer/tests/dummy_teardown.py
+
 
 notifications:
   webhooks:
