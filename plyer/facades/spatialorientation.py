@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 
 class SpatialOrientation(object):
@@ -33,7 +33,7 @@ class SpatialOrientation(object):
         return self._get_orientation() or (None, None, None)
 
     def _get_orientation(self):
-        raise  NotImplementedError()
+        raise NotImplementedError()
 
     def enable_listener(self):
         '''Enable the orientation sensor.
