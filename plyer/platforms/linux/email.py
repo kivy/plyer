@@ -18,11 +18,11 @@ class LinuxEmail(Email):
         if recipient:
             uri += str(recipient)
         if subject:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "subject="
             uri += quote(str(subject))
         if text:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "body="
             uri += quote(str(text))
 
