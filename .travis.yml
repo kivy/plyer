@@ -39,6 +39,11 @@ before_install:
 
 install:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      if [ "${RUN}" == "pep8" ]; then
+
+        python -m pip install pycodestyle;
+
+      fi;
       if [ "${RUN}" != "pep8" ]; then
 
         echo "[YML] Necessary build stuff";
@@ -128,7 +133,7 @@ script:
       fi;
       if [ "${RUN}" == "pep8" ]; then
 
-        /usr/bin/python ./plyer/tools/pep8checker/pep8kivy.py $(pwd);
+        pycodestyle $(pwd);
 
       fi;
     fi;

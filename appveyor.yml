@@ -18,7 +18,7 @@ build_script:
 
     %PYTHON% -m pip install C:\projects\plyer\.
 
-    %PYTHON% -m pip install nose
+    %PYTHON% -m pip install nose pycodestyle
 
     echo Plyer version is
 
@@ -26,7 +26,7 @@ build_script:
 
     if "%PEP8%"=="1" (
         cd C:\projects\plyer &
-        %PYTHON% %cd%\plyer\tools\pep8checker\pep8kivy.py %cd%
+        %PYTHON% -m pycodestyle %cd%
     )
 
     %PYTHON% C:\projects\plyer\plyer\tests\dummy_setup.py
