@@ -1,3 +1,6 @@
+from os import mkdir
+from os.path import abspath, dirname, join
+
 # dummy files to test Proxy + facades
 dummy_facade = ('''\
 class Dummy(object):
@@ -22,8 +25,6 @@ def instance():
     return {plat}Dummy()
 ''')
 
-from os import mkdir
-from os.path import abspath, dirname, join
 fac_path = join(
     dirname(dirname(abspath(__file__))),
     'facades'

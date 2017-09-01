@@ -44,6 +44,7 @@ class Test(unittest.TestCase):
         # loop over windows and get refs to
         # the opened plyer notifications
         clsnames = []
+
         def fetch_class(hwnd, lParam):
             buff = create_unicode_buffer(50)
             GetClassNameW(hwnd, buff, 50)
