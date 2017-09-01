@@ -109,5 +109,6 @@ class CompassTestApp(App):
     def build(self):
         return CompassInterface()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     CompassTestApp().run()
