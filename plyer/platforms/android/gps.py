@@ -58,7 +58,8 @@ class AndroidGPS(GPS):
     def _configure(self):
         if not hasattr(self, '_location_manager'):
             self._location_manager = activity.getSystemService(
-                    Context.LOCATION_SERVICE)
+                Context.LOCATION_SERVICE
+            )
             self._location_listener = _LocationListener(self)
 
     def _start(self, **kwargs):
