@@ -16,7 +16,7 @@ Builder.load_string('''
         min: 0
         max: 100
         value: root.get_current_brightness()
-        on_touch_up: root.set_brightness(slider.value)
+        on_value: root.set_brightness(slider.value)
     Label:
         text: 'Current brightness = ' + str(slider.value)
 ''')

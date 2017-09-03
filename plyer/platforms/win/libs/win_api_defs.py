@@ -10,9 +10,11 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
 
 import ctypes
 from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
-from ctypes.wintypes import (DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
-    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
-    HBRUSH, HMODULE, ATOM, BOOL, HANDLE)
+from ctypes.wintypes import (
+    DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
+    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM,
+    WPARAM, HBRUSH, HMODULE, ATOM, BOOL, HANDLE
+)
 LRESULT = LPARAM
 HRESULT = HANDLE
 HCURSOR = HICON
@@ -150,6 +152,7 @@ def get_WNDCLASSEXW(*largs):
     wnd_class.cbSize = sizeof(WNDCLASSEXW)
     return wnd_class
 
+
 RegisterClassExW = windll.User32.RegisterClassExW
 RegisterClassExW.argtypes = [POINTER(WNDCLASSEXW)]
 RegisterClassExW.restype = ATOM
@@ -192,6 +195,7 @@ class SYSTEM_POWER_STATUS(Structure):
         ('BatteryLifeTime', DWORD),
         ('BatteryFullLifeTime', DWORD),
     ]
+
 
 SystemPowerStatusP = POINTER(SYSTEM_POWER_STATUS)
 
