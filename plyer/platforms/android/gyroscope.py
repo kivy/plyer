@@ -1,6 +1,6 @@
 '''
 Android Gyroscope
----------------------
+-----------------
 '''
 
 from plyer.facades import Gyroscope
@@ -17,16 +17,21 @@ class GyroscopeSensorListener(PythonJavaClass):
 
     def __init__(self):
         super(GyroscopeSensorListener, self).__init__()
-        self.SensorManager = cast('android.hardware.SensorManager',
-                    activity.getSystemService(Context.SENSOR_SERVICE))
+        self.SensorManager = cast(
+            'android.hardware.SensorManager',
+            activity.getSystemService(Context.SENSOR_SERVICE)
+        )
         self.sensor = self.SensorManager.getDefaultSensor(
-                Sensor.TYPE_GYROSCOPE)
+            Sensor.TYPE_GYROSCOPE
+        )
 
         self.values = [None, None, None]
 
     def enable(self):
-        self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+        self.SensorManager.registerListener(
+            self, self.sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)

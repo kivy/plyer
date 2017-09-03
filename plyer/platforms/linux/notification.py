@@ -34,8 +34,11 @@ class NotifyDbus(Notification):
         session_bus = dbus.SessionBus()
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)
-        interface.Notify(app_name, replaces_id, app_icon,
-            summary, body, actions, hints, timeout * 1000)
+        interface.Notify(
+            app_name, replaces_id, app_icon,
+            summary, body, actions,
+            hints, timeout * 1000
+        )
 
 
 def instance():

@@ -16,7 +16,9 @@ class iOSTextToSpeech(TTS):
         self.voice = None
 
     def _set_locale(self, locale="en-US"):
-        self.voice = AVSpeechSynthesisVoice.voiceWithLanguage_(objc_str(locale))
+        self.voice = AVSpeechSynthesisVoice.voiceWithLanguage_(
+            objc_str(locale)
+        )
 
     def _speak(self, **kwargs):
         message = kwargs.get('message')

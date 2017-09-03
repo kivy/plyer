@@ -1,4 +1,3 @@
-
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
@@ -71,6 +70,7 @@ class SpOrientationInterface(BoxLayout):
 class SpOrientationTestApp(App):
     def build(self):
         return SpOrientationInterface()
+
 
 if __name__ == "__main__":
     SpOrientationTestApp().run()

@@ -25,7 +25,7 @@ class Light(object):
         '''Disable light sensor.'''
         self._disable()
 
-    #private
+    # private
 
     def _get_illumination(self, **kwargs):
         raise NotImplementedError()
