@@ -11,8 +11,10 @@ class OSXUniqueID(UniqueID):
         environ['LANG'] = 'C'
 
         ioreg_process = Popen(["ioreg", "-l"], stdout=PIPE)
-        grep_process = Popen(["grep", "IOPlatformSerialNumber"],
-            stdin=ioreg_process.stdout, stdout=PIPE)
+        grep_process = Popen(
+            ["grep", "IOPlatformSerialNumber"],
+            stdin=ioreg_process.stdout, stdout=PIPE
+        )
         ioreg_process.stdout.close()
         output = grep_process.communicate()[0]
 

@@ -12,8 +12,10 @@ class OSXBattery(Battery):
 
         status = {"isCharging": None, "percentage": None}
 
-        ioreg_process = Popen(["ioreg", "-rc", "AppleSmartBattery"],
-                stdout=PIPE)
+        ioreg_process = Popen(
+            ["ioreg", "-rc", "AppleSmartBattery"],
+            stdout=PIPE
+        )
         output = ioreg_process.communicate()[0]
 
         environ['LANG'] = old_lang

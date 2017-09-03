@@ -66,5 +66,6 @@ class GpsTest(App):
         gps.start(1000, 0)
         pass
 
+
 if __name__ == '__main__':
     GpsTest().run()

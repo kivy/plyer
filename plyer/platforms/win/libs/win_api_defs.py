@@ -10,9 +10,11 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
 
 import ctypes
 from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
-from ctypes.wintypes import (DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
-    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM, WPARAM,
-    HBRUSH, HMODULE, ATOM, BOOL, HANDLE)
+from ctypes.wintypes import (
+    DWORD, HICON, HWND, UINT, WCHAR, WORD, BYTE,
+    LPCWSTR, INT, LPVOID, HINSTANCE, HMENU, LPARAM,
+    WPARAM, HBRUSH, HMODULE, ATOM, BOOL, HANDLE
+)
 LRESULT = LPARAM
 HRESULT = HANDLE
 HCURSOR = HICON
@@ -150,6 +152,7 @@ def get_WNDCLASSEXW(*largs):
     wnd_class.cbSize = sizeof(WNDCLASSEXW)
     return wnd_class
 
+
 RegisterClassExW = windll.User32.RegisterClassExW
 RegisterClassExW.argtypes = [POINTER(WNDCLASSEXW)]
 RegisterClassExW.restype = ATOM
@@ -183,7 +186,7 @@ LoadIconW.argtypes = [HINSTANCE, LPCWSTR]
 LoadIconW.restype = HICON
 
 
-class SYSTEM_POWER_STATUS(ctypes.Structure):
+class SYSTEM_POWER_STATUS(Structure):
     _fields_ = [
         ('ACLineStatus', BYTE),
         ('BatteryFlag', BYTE),
@@ -193,8 +196,9 @@ class SYSTEM_POWER_STATUS(ctypes.Structure):
         ('BatteryFullLifeTime', DWORD),
     ]
 
-SystemPowerStatusP = ctypes.POINTER(SYSTEM_POWER_STATUS)
 
-GetSystemPowerStatus = ctypes.windll.kernel32.GetSystemPowerStatus
+SystemPowerStatusP = POINTER(SYSTEM_POWER_STATUS)
+
+GetSystemPowerStatus = windll.kernel32.GetSystemPowerStatus
 GetSystemPowerStatus.argtypes = [SystemPowerStatusP]
 GetSystemPowerStatus.restype = BOOL

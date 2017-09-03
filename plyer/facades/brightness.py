@@ -46,7 +46,7 @@ class Brightness(object):
         '''
         return self._set_level(level)
 
-    #private
+    # private
 
     def _set_level(self, level):
         raise NotImplementedError()
