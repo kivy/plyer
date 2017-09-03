@@ -22,8 +22,10 @@ class LightSensorListener(PythonJavaClass):
         self.value = None
 
     def enable(self):
-        self.SensorManager.registerListener(self, self.sensor,
-            SensorManager.SENSOR_DELAY_NORMAL)
+        self.SensorManager.registerListener(
+            self, self.sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)

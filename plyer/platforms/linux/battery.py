@@ -14,8 +14,10 @@ class LinuxBattery(Battery):
 
         # We are supporting only one battery now
         dev = "/org/freedesktop/UPower/device/battery_BAT0"
-        upower_process = Popen(["upower", "-d", dev],
-                stdout=PIPE)
+        upower_process = Popen(
+            ["upower", "-d", dev],
+            stdout=PIPE
+        )
         output = upower_process.communicate()[0]
 
         environ['LANG'] = old_lang

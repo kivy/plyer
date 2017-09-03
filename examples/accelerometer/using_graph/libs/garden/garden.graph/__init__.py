@@ -213,13 +213,14 @@ class Graph(Widget):
                             points_minor[k2] = pos_log
                             k2 += 1
                     count_min += 1
-                #n_ticks = len(points)
+                # n_ticks = len(points)
             else:
                 # distance between each tick
                 tick_dist = major / float(minor if minor else 1.0)
                 n_ticks = int(floor((s_max - s_min) / tick_dist) + 1)
-                points_major = [0] * int(floor((s_max - s_min) / float(major))
-                                         + 1)
+                points_major = [0] * int(
+                    floor((s_max - s_min) / float(major)) + 1
+                )
                 points_minor = [0] * (n_ticks - len(points_major) + 1)
                 k = 0  # position in points major
                 k2 = 0  # position in points minor
@@ -280,9 +281,10 @@ class Graph(Widget):
             ylabels[0].text = precision % ypoints[0]
             ylabels[0].texture_update()
             y1 = ylabels[0].texture_size
-            y_start = y_next + (padding + y1[1] if len(xlabels) and xlabel_grid
-                                else 0) +\
-                                (padding + y1[1] if not y_next else 0)
+            y_start = y_next + (
+                padding + y1[1]
+                if len(xlabels) and xlabel_grid else 0
+            ) + (padding + y1[1] if not y_next else 0)
             yextent = y + height - padding - y1[1] / 2.
             if self.ylog:
                 ymax = log10(ymax)
@@ -834,11 +836,12 @@ class MeshLinePlot(Plot):
     [].
     '''
 
+
 class MeshStemPlot(MeshLinePlot):
     '''MeshStemPlot uses the MeshLinePlot class to draw a stem plot. The data
     provided is graphed from origin to the data point.
     '''
-    
+
     def _redraw(self, *args):
         points = self.points
         mesh = self._mesh

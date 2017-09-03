@@ -44,8 +44,8 @@ Audio recording                    X
 Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
-Brightness                         X
 Spatial Orientation                X       X
+Brightness                         X       X                X
 ================================== ======= === ======= ==== =====
 
 Support
