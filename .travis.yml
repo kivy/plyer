@@ -153,6 +153,9 @@ script:
       fi;
       if [ "${COVERALLS}" == "1" ] && [ "${TRAVIS_BRANCH}" == "master" ]; then
 
+        coverage html
+            --include='$(pwd)/plyer/*'
+            --omit '$(pwd)/plyer/tools/*,$(pwd)/plyer/tests/*';
         coveralls;
 
       fi;
