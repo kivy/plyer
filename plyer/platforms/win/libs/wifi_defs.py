@@ -291,7 +291,7 @@ def _connect(network, parameters):
     try:
         dot11Ssid.SSID = parameters["ssid"]
         dot11Ssid.SSIDLength = len(parameters["ssid"])
-    except:
+    except Exception:
         dot11Ssid.SSID = network
         dot11Ssid.SSIDLength = len(network)
     wcp.pDot11Ssid = pointer(dot11Ssid)

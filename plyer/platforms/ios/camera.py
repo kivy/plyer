@@ -46,8 +46,8 @@ class iOSCamera(Camera):
     def _unlink(self, fn):
         try:
             unlink(fn)
-        except:
-            pass
+        except Exception:
+            print('Could not remove photo!')
 
 
 def instance():
