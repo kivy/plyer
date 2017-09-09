@@ -47,6 +47,7 @@ install:
       if [ "${RUN}" != "pep8" ]; then
 
         echo "[YML] Necessary build stuff";
+
         sudo apt-get update;
         sudo apt-get -y install --reinstall
             python-setuptools
@@ -143,7 +144,9 @@ script:
       fi;
       if [ "${RUN}" == "pep8" ]; then
 
-        pycodestyle $(pwd);
+        pycodestyle "$(pwd)"
+            --exclude=pep8.py,compat.py,utils.py
+            --ignore=E402;
 
       fi;
     fi;
