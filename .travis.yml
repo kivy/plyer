@@ -9,7 +9,7 @@ matrix:
 
     - language: python
       python: 3.5
-      env: RUN=unit COVERALLS=true
+      env: RUN=unit COVERALLS=1
       os: linux
       dist: trusty
 
@@ -54,7 +54,7 @@ install:
             python-setuptools
             python-dev
             python3.5-dev;
-        python -m pip install --upgrade nose;
+        python -m pip install --upgrade nose coveralls;
 
         echo "[YML] plyer.notification deps";
         echo "[YML] * plyer.notification.NotifyDbus";
@@ -141,7 +141,7 @@ script:
       set -ex;
       if [ "${RUN}" == "unit" ]; then
 
-        python -m nose.core -s ./plyer/tests;
+        python -m nose.core -s ./plyer/tests --with-coverage;
 
       fi;
       if [ "${RUN}" == "pep8" ]; then
@@ -149,6 +149,11 @@ script:
         pycodestyle "$(pwd)"
             --exclude=pep8.py,compat.py,utils.py
             --ignore=E402;
+
+      fi;
+      if [ "${COVERALLS}" == "1" ] && [ "${TRAVIS_BRANCH}" == "master" ]; then
+
+        coveralls;
 
       fi;
     fi;
