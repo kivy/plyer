@@ -5,13 +5,17 @@ Plyer is a platform-independent api to use features commonly found on various
 platforms, notably mobile ones, in Python.
 
 
+
+.. |coverage| image:: https://coveralls.io/repos/kivy/plyer/badge.svg?branch=master
+   :target: https://coveralls.io/r/kivy/plyer?branch=master
+
 .. |travis| image:: https://travis-ci.org/kivy/plyer.svg?branch=master
    :target: https://travis-ci.org/kivy/plyer
 
 .. |appveyor| image:: https://ci.appveyor.com/api/projects/status/k1bwhdie0tfmdq96?svg=true
    :target: https://ci.appveyor.com/project/KivyOrg/plyer
 
-|travis| |appveyor|
+|coverage| |travis| |appveyor|
 
 How
 ---
