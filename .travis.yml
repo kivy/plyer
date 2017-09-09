@@ -141,7 +141,7 @@ script:
       set -ex;
       if [ "${RUN}" == "unit" ]; then
 
-        python -m nose.core -s ./plyer/tests;
+        python -m nose.core -s ./plyer/tests --with-coverage;
 
       fi;
       if [ "${RUN}" == "pep8" ]; then
@@ -153,9 +153,6 @@ script:
       fi;
       if [ "${COVERALLS}" == "1" ] && [ "${TRAVIS_BRANCH}" == "master" ]; then
 
-        coverage html
-            --include='$(pwd)/plyer/*'
-            --omit '$(pwd)/plyer/tools/*,$(pwd)/plyer/tests/*';
         coveralls;
 
       fi;
