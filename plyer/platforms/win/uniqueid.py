@@ -1,9 +1,9 @@
 try:
     import _winreg as regedit
-except:
+except Exception:
     try:
         import winreg as regedit
-    except:
+    except Exception:
         raise NotImplemented()
 
 from plyer.facades import UniqueID
