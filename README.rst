@@ -53,7 +53,7 @@ Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
 Orientation                        X
 Proximity                          X
-Audio recording                    X
+Audio recording                    X                        X
 Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
