@@ -54,7 +54,8 @@ class iOSStoragePath(StoragePath):
 
     def _get_application_dir(self):
         return self.defaultManager.URLsForDirectory_inDomains_(
-            NSApplicationDirectory, 1).firstObject().absoluteString.UTF8String()
+            NSApplicationDirectory, 1).firstObject().absoluteString.\
+            UTF8String()
 
 
 def instance():
