@@ -21,6 +21,9 @@ To set the brightness level to half of maximum::
     >>> from plyer import brightness
     >>> brightness.set_level(50)
 
+Supported Platforms
+-------------------
+Android, iOS, Linux
 '''
 
 

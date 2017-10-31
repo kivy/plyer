@@ -33,6 +33,11 @@ drift compensation::
     where the first three values show the rate of rotation w/o drift
     compensation and the last three show the estimated drift along the three
     axes.
+
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 

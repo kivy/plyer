@@ -29,6 +29,11 @@ To get the uncalibrated field along with iron bias estimation::
     # a,b,c denote the Geomagnetic field strength
     # (without hard iron calibration) along the three axes.
     # x,y,z denote the Iron bias estimation along the three axes.
+
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 

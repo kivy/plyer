@@ -59,6 +59,11 @@ To get available wifi networks::
     >>> return wifi.get_available_wifi()
 
 This returns all the available wifi networks near the device.
+
+Supported Platforms
+-------------------
+Windows, OS X, Linux
+
 '''
 
 
