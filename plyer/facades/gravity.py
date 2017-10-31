@@ -4,7 +4,7 @@ class Gravity(object):
     .. versionadded:: 1.2.5
 
     Supported Platforms:: Android
-    
+
     '''
 
     @property
