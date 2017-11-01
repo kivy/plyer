@@ -23,6 +23,10 @@ To dial call::
 
     >>> call.dialcall()
 
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 

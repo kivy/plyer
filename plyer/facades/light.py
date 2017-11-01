@@ -10,6 +10,8 @@ class Light(object):
     Use property `illumination` to get current illumination in lx.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms:: Android
     '''
 
     @property
