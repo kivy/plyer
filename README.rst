@@ -58,6 +58,7 @@ Flash                              X       X
 Wifi                                           X       X    X
 Temperature                        X
 Spatial Orientation                X
+User Acceleration                  X       X
 Brightness                         X       X                X
 ================================== ======= === ======= ==== =====
 
