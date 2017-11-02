@@ -34,31 +34,31 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
+Audio recording                    X
 Barometer                          X
+Battery                            X       X   X       X    X
+Brightness                         X       X                X
 Call                               X       X
 Camera (taking picture)            X       X
+Compass                            X       X
+Email (open mail client)           X       X   X       X    X
+Flash                              X       X
 GPS                                X       X
 Gravity                            X
-IR Blaster                         X
-Notifications                      X           X       X    X
-Text to speech                     X       X   X       X    X
-Email (open mail client)           X       X   X       X    X
-Vibrator                           X       X
-Sms (send messages)                X       X
-Compass                            X       X
-Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
+IR Blaster                         X
 Light                              X
-Battery                            X       X   X       X    X
 Native file chooser                            X       X    X
+Notifications                      X           X       X    X
 Orientation                        X
 Proximity                          X
-Audio recording                    X
-Flash                              X       X
-Wifi                                           X       X    X
-Temperature                        X
+Sms (send messages)                X       X
 Spatial Orientation                X
-Brightness                         X       X                X
+Temperature                        X
+Text to speech                     X       X   X       X    X
+Unique ID                          X       X   X       X    X
+Vibrator                           X       X
+Wifi                                           X       X    X
 ================================== ======= === ======= ==== =====
 
 Support
