@@ -37,6 +37,7 @@ Accelerometer                      X       X           X    X
 Audio recording                    X
 Barometer                          X
 Battery                            X       X   X       X    X
+Bluetooth                                                       
 Brightness                         X       X                X
 Call                               X       X
 Camera (taking picture)            X       X
