@@ -9,7 +9,11 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
+<<<<<<< master
+           'temperature', 'spatialorientation', 'brightness', 'keystore')
+=======
            'temperature', 'humidity', 'spatialorientation', 'brightness', 'storagepath')
+>>>>>>> master
 
 __version__ = '1.3.1dev'
 
@@ -19,6 +23,9 @@ from plyer.utils import Proxy
 
 #: Accelerometer proxy to :class:`plyer.facades.Accelerometer`
 accelerometer = Proxy('accelerometer', facades.Accelerometer)
+
+#: Keyring proxy to :class::`plyer.facades.Keyring`
+keystore = Proxy('keystore', facades.Keystore)
 
 #: Audio proxy to :class:`plyer.facades.Audio`
 audio = Proxy('audio', facades.Audio)
