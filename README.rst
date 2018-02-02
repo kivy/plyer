@@ -53,6 +53,7 @@ Native file chooser                            X       X    X
 Notifications                      X           X       X    X
 Orientation                        X
 Proximity                          X
+Humidity                           X
 Sms (send messages)                X       X
 Spatial Orientation                X
 Storage Path                       X           X       X

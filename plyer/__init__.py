@@ -4,11 +4,12 @@ Plyer
 
 '''
 
+
 __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature', 'spatialorientation', 'brightness', 'storagepath')
+           'temperature', 'humidity', 'spatialorientation', 'brightness', 'storagepath')
 
 __version__ = '1.3.1dev'
 
@@ -88,6 +89,8 @@ wifi = Proxy('wifi', facades.Wifi)
 #: Temperature proxy to :class:`plyer.facades.Temperature`
 temperature = Proxy('temperature', facades.Temperature)
 
+#: Humidity proxy to :class:`plyer.facades.Humidity`
+humidity = Proxy('humidity', facades.Humidity)
 #: SpatialOrientation proxy to :class:`plyer.facades.SpatialOrientation`
 spatialorientation = Proxy('spatialorientation', facades.SpatialOrientation)
 
