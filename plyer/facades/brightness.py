@@ -21,6 +21,9 @@ To set the brightness level to half of maximum::
     >>> from plyer import brightness
     >>> brightness.set_level(50)
 
+Supported Platforms
+-------------------
+Android, iOS, Linux
 '''
 
 
@@ -46,7 +49,7 @@ class Brightness(object):
         '''
         return self._set_level(level)
 
-    #private
+    # private
 
     def _set_level(self, level):
         raise NotImplementedError()

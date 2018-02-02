@@ -13,6 +13,10 @@ To speak::
     >>> from plyer import tts
     >>> tts.speak(message=message)
 
+Supported Platforms
+-------------------
+Android, iOS, Windows, OS X, Linux
+
 '''
 
 

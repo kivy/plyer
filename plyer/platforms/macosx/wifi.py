@@ -96,8 +96,8 @@ class OSXWifi(Wifi):
             cnt = scan.allObjects().count()
             for i in range(cnt):
                 self.names[
-                    scan.allObjects().objectAtIndex_(i).ssid.UTF8String()] \
-                           = scan.allObjects().objectAtIndex_(i)
+                    scan.allObjects().objectAtIndex_(i).ssid.UTF8String()
+                ] = scan.allObjects().objectAtIndex_(i)
         else:
             raise Exception("Wifi not enabled.")
 

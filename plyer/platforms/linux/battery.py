@@ -14,8 +14,10 @@ class LinuxBattery(Battery):
 
         # We are supporting only one battery now
         dev = "/org/freedesktop/UPower/device/battery_BAT0"
-        upower_process = Popen(["upower", "-d", dev],
-                stdout=PIPE)
+        upower_process = Popen(
+            ["upower", "-d", dev],
+            stdout=PIPE
+        )
         output = upower_process.communicate()[0]
 
         environ['LANG'] = old_lang
@@ -25,9 +27,9 @@ class LinuxBattery(Battery):
 
         state = percentage = None
         for l in output.splitlines():
-            if 'state' in l:
+            if b'state' in l:
                 state = l.rpartition(':')[-1].strip()
-            if 'percentage' in l:
+            if b'percentage' in l:
                 percentage = float(l.rpartition(':')[-1].strip()[:-1])
 
         if(state):

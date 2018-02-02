@@ -37,6 +37,11 @@ Here is an example of the usage of gps::
     gps.start()
     # later
     gps.stop()
+
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 

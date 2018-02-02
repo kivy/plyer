@@ -31,7 +31,9 @@ source.include_exts = py,png,jpg,kv,atlas
 # (str) Application versioning (method 2)
 version = 1.0
 
-# (list) Application requirements
+# (list) Application requirements 
+# android library is also required to run this app on Android platform
+# for android device -> requirements = plyer,kivy,android
 requirements = plyer,kivy
 
 # (str) Presplash of the application
