@@ -12,7 +12,12 @@ from plyer.compat import PY2, xrange
 
 
 def customresize(array, new_size):
-    return (array._type_*new_size).from_address(addressof(array))
+    return (
+        array._type_ * new_size
+    ).from_address(
+        addressof(array)
+    )
+
 
 wlanapi = windll.LoadLibrary('wlanapi.dll')
 
@@ -22,8 +27,9 @@ class GUID(Structure):
         ('Data1', c_ulong),
         ('Data2', c_ushort),
         ('Data3', c_ushort),
-        ('Data4', c_ubyte*8),
-        ]
+        ('Data4', c_ubyte * 8),
+    ]
+
 
 # The WLAN_INTERFACE_STATE enumerated type indicates the state of an interface.
 WLAN_INTERFACE_STATE = c_uint
@@ -47,7 +53,7 @@ class WLAN_INTERFACE_INFO(Structure):
         ("InterfaceGuid", GUID),
         ("strInterfaceDescription", c_wchar * 256),
         ("isState", WLAN_INTERFACE_STATE)
-        ]
+    ]
 
 
 class WLAN_INTERFACE_INFO_LIST(Structure):
@@ -59,9 +65,10 @@ class WLAN_INTERFACE_INFO_LIST(Structure):
         ("NumberOfItems", DWORD),
         ("Index", DWORD),
         ("InterfaceInfo", WLAN_INTERFACE_INFO * 1)
-        ]
+    ]
 
-DOT11_MAC_ADDRESS = c_ubyte*6
+
+DOT11_MAC_ADDRESS = c_ubyte * 6
 WLAN_MAX_PHY_TYPE_NUMBER = 0x8
 DOT11_SSID_MAX_LENGTH = 32
 WLAN_REASON_CODE = DWORD
@@ -120,7 +127,8 @@ class DOT11_SSID(Structure):
     _fields_ = [
         ("SSIDLength", c_ulong),
         ("SSID", c_char * DOT11_SSID_MAX_LENGTH)
-        ]
+    ]
+
 
 # Enumerated type to define the code of connection.
 WLAN_CONNECTION_MODE = c_uint
@@ -153,7 +161,8 @@ class DOT11_BSSID_LIST(Structure):
         ("Header", NDIS_OBJECT_HEADER),
         ("uNumOfEntries", ULONG),
         ("uTotalNumOfEntries", ULONG),
-        ("BSSIDs", DOT11_MAC_ADDRESS*1)]
+        ("BSSIDs", DOT11_MAC_ADDRESS * 1)
+    ]
 
 
 class WLAN_CONNECTION_PARAMETERS(Structure):
@@ -168,6 +177,7 @@ class WLAN_CONNECTION_PARAMETERS(Structure):
         ("pDesiredBssidList", POINTER(DOT11_BSSID_LIST)),
         ("dot11BssType", DOT11_BSS_TYPE),
         ("dwFlags", DWORD)]
+
 
 # The `WlanConnect` attempts to connect to a specific network.
 WlanConnect = wlanapi.WlanConnect
@@ -229,6 +239,7 @@ class WLAN_AVAILABLE_NETWORK_LIST(Structure):
         ("Index", DWORD),
         ("Network", WLAN_AVAILABLE_NETWORK * 1)]
 
+
 # The WlanEnumInterfaces function enumerates all of the wireless LAN interfaces
 # currently enabled on the local computer.
 WlanEnumInterfaces = wlanapi.WlanEnumInterfaces
@@ -280,7 +291,7 @@ def _connect(network, parameters):
     try:
         dot11Ssid.SSID = parameters["ssid"]
         dot11Ssid.SSIDLength = len(parameters["ssid"])
-    except:
+    except Exception:
         dot11Ssid.SSID = network
         dot11Ssid.SSIDLength = len(network)
     wcp.pDot11Ssid = pointer(dot11Ssid)
@@ -453,6 +464,7 @@ def _make_dict():
             _dict[unicode(network.dot11Ssid.SSID)] = network
         else:
             _dict[network.dot11Ssid.SSID.decode('utf-8')] = network
+
 
 def _get_available_wifi():
     '''

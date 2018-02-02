@@ -28,6 +28,10 @@ To set sensor::
 
     >>> orientation.set_sensor()
 
+Supported Platforms
+-------------------
+Android
+
 '''
 
 

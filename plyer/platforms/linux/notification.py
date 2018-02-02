@@ -1,3 +1,4 @@
+import warnings
 import subprocess
 from plyer.facades import Notification
 from plyer.utils import whereis_exe
@@ -34,8 +35,11 @@ class NotifyDbus(Notification):
         session_bus = dbus.SessionBus()
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)
-        interface.Notify(app_name, replaces_id, app_icon,
-            summary, body, actions, hints, timeout * 1000)
+        interface.Notify(
+            app_name, replaces_id, app_icon,
+            summary, body, actions,
+            hints, timeout * 1000
+        )
 
 
 def instance():
@@ -44,9 +48,9 @@ def instance():
         import dbus
         return NotifyDbus()
     except ImportError:
-        sys.stderr.write("python-dbus not installed. try:"
-                         "`sudo pip install python-dbus`.")
+        msg = "python-dbus not installed. try: `sudo pip install python-dbus`."
+        warnings.warn(msg)
     if whereis_exe('notify-send'):
         return NotifySendNotification()
-    sys.stderr.write("notify-send not found.")
+    warnings.warn("notify-send not found.")
     return Notification()

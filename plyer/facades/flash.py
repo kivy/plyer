@@ -31,6 +31,10 @@ To release flash::
 
     >>> flash.release()
 
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 
