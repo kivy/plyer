@@ -55,6 +55,7 @@ Orientation                        X
 Proximity                          X
 Sms (send messages)                X       X
 Spatial Orientation                X
+Storage Path                       X           X       X
 Temperature                        X
 Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
