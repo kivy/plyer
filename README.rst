@@ -45,7 +45,15 @@ Compass                            X       X
 Email (open mail client)           X       X   X       X    X
 Flash                              X       X
 GPS                                X       X
-Gravity                            X
+Gravity                            X       X
+IR Blaster                         X
+Notifications                      X           X       X    X
+Text to speech                     X       X   X       X    X
+Email (open mail client)           X       X   X       X    X
+Vibrator                           X       X
+Sms (send messages)                X       X
+Compass                            X       X
+Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
 IR Blaster                         X
 Light                              X
