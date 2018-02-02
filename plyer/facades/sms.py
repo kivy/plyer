@@ -21,6 +21,10 @@ To send sms::
     >>> message = 'This is an example.'
     >>> sms.send(recipient=recipient, message=message)
 
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 

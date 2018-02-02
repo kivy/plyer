@@ -11,7 +11,7 @@ class OSXAccelerometer(Accelerometer):
     def _enable(self):
         try:
             osx_motion_sensor.get_coord()
-        except:
+        except Exception:
             raise Exception('Could not enable motion sensor on this macbook!')
 
     def _disable(self):

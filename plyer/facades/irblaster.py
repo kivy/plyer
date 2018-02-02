@@ -27,6 +27,10 @@ To check if IrBlaster exists::
     >>> irblaster.exists()
     True/False
 
+Supported Platforms
+-------------------
+Android
+
 '''
 
 

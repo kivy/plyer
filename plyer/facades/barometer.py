@@ -9,6 +9,8 @@ class Barometer(object):
     Use property `pressure` to get current air pressure in hPa.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms:: Android
     '''
 
     @property
