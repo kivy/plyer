@@ -32,6 +32,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 
 # (list) Application requirements
+#for android device-> requirements=plyer,kivy,android
 requirements = plyer,kivy
 
 # (str) Presplash of the application

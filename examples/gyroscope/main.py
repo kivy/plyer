@@ -95,7 +95,9 @@ class GyroscopeInterface(BoxLayout):
             self.x_calib, self.y_calib, self.z_calib = self.facade.rotation
 
     def get_rotation_uncalib(self, dt):
-        if self.facade.rotation_uncalib != (None, None, None, None, None, None):
+        empty = tuple([None for i in range(6)])
+
+        if self.facade.rotation_uncalib != empty:
             self.x_speed, self.y_speed, self.z_speed, self.x_drift,\
                 self.y_drift, self.z_drift = self.facade.rotation_uncalib
 
@@ -103,6 +105,7 @@ class GyroscopeInterface(BoxLayout):
 class GyroscopeTestApp(App):
     def build(self):
         return GyroscopeInterface()
+
 
 if __name__ == "__main__":
     GyroscopeTestApp().run()

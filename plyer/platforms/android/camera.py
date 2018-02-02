@@ -51,7 +51,7 @@ class AndroidCamera(Camera):
     def _unlink(self, fn):
         try:
             unlink(fn)
-        except:
+        except Exception:
             pass
 
 

@@ -1,6 +1,9 @@
-Each facade has its own set of examples here. For each facade, there is a 
-simple example which shows basic usage of the facade and its options. This 
-simple example typically requires Kivy to run and buildozer to compile for 
-Android. There may also be more advanced examples for a facade. Requirements 
+Each facade has its own set of examples here.
+For each facade, there is a simple example which shows basic usage of the facade and its options. 
+This simple example typically requires Kivy to run and buildozer to compile for 
+Android. 
+Requirements for run these examples on android devices: kivy,plyer,android
+These requirements should be rewrite in the buildozer.spec of example before run the example.
+There may also be more advanced examples for a facade. Requirements 
 for the advanced examples may require a different framework (QT, Tkinter, etc) 
 or additional Python modules.

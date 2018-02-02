@@ -6,7 +6,7 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
            'DefWindowProcW', 'get_WNDCLASSEXW', 'GetModuleHandleW',
            'RegisterClassExW', 'UpdateWindow', 'LoadImageW',
            'Shell_NotifyIconW', 'DestroyIcon', 'UnregisterClassW',
-           'DestroyWindow', 'LoadIconW')
+           'DestroyWindow', 'LoadIconW', 'get_PATH')
 
 import ctypes
 from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
@@ -202,3 +202,44 @@ SystemPowerStatusP = POINTER(SYSTEM_POWER_STATUS)
 GetSystemPowerStatus = windll.kernel32.GetSystemPowerStatus
 GetSystemPowerStatus.argtypes = [SystemPowerStatusP]
 GetSystemPowerStatus.restype = BOOL
+
+
+class GUID_(Structure):
+    _fields_ = [
+        ('Data1', DWORD),
+        ('Data2', WORD),
+        ('Data3', WORD),
+        ('Data4', BYTE * 8)
+    ]
+
+    def __init__(self, uuid_):
+        Structure.__init__(self)
+        self.Data1, self.Data2, self.Data3, self.Data4[0], self.Data4[1], rest = uuid_.fields
+        for i in range(2, 8):
+            self.Data4[i] = rest>>(8 - i - 1)*8 & 0xff
+
+_CoTaskMemFree = windll.ole32.CoTaskMemFree
+_CoTaskMemFree.restype = None
+_CoTaskMemFree.argtypes = [ctypes.c_void_p]
+
+_SHGetKnownFolderPath = windll.shell32.SHGetKnownFolderPath
+_SHGetKnownFolderPath.argtypes = [
+    POINTER(GUID_),
+    DWORD,
+    HANDLE,
+    POINTER(ctypes.c_wchar_p)    
+]
+
+
+class PathNotFoundException(Exception):
+    pass
+
+def get_PATH(folderid):
+    fid = GUID_(folderid)
+    pPath = ctypes.c_wchar_p()
+    S_OK = 0
+    if _SHGetKnownFolderPath(ctypes.byref(fid), 0, None, ctypes.byref(pPath)) != S_OK:
+        raise PathNotFoundException()
+    path = pPath.value
+    _CoTaskMemFree(pPath)
+    return path

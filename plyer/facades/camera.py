@@ -35,6 +35,10 @@ Ta take a video::
     >>> camera.take_video(filename=file_name,
     >>>                   on_complete=camera_callback)
 
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
 
