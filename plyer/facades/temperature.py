@@ -11,6 +11,9 @@ class Temperature(object):
     Use property `temperature` to get ambient air temperature in degree C.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms:: Android
+
     '''
 
     @property

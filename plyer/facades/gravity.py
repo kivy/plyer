@@ -2,6 +2,9 @@ class Gravity(object):
     '''Gravity facade.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms:: Android
+
     '''
 
     @property

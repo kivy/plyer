@@ -16,6 +16,10 @@ To get battery status::
     >>> battery.status
     {'percentage': 82.0, 'isCharging': False}
 
+Supported Platforms
+-------------------
+Android, iOS, Windows, OS X, Linux
+
 '''
 
 

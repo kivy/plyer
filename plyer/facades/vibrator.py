@@ -30,6 +30,11 @@ To cancel vibration::
 
     >>> vibrator.cancel()
 
+Supported Platforms
+-------------------
+Android, iOS
+
+
 '''
 
 
