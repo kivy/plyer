@@ -39,6 +39,10 @@ To play recording::
 
     >>> audio.play()
 
+Supported Platforms
+-------------------
+Android
+
 '''
 
 

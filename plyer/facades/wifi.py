@@ -59,6 +59,11 @@ To get available wifi networks::
     >>> return wifi.get_available_wifi()
 
 This returns all the available wifi networks near the device.
+
+Supported Platforms
+-------------------
+Windows, OS X, Linux
+
 '''
 
 
@@ -82,7 +87,7 @@ class Wifi(object):
         '''
         Return a dictionary of secified network.
         '''
-        return self._get_network_info(name=name)
+        return self._get_access_points(name=name)
 
     def get_available_wifi(self):
         '''

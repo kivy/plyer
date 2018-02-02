@@ -15,6 +15,10 @@ To send notification::
     >>> message = 'This is an example.'
     >>> notification.notify(title=title, message=message)
 
+Supported Platforms
+-------------------
+Android, Windows, OS X, Linux
+
 '''
 
 

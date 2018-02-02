@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 
 class SpatialOrientation(object):
@@ -29,11 +29,13 @@ class SpatialOrientation(object):
         The range of values is -π/2 to π/2.
 
         Returns (None, None, None) if no data is currently available.
+
+        Supported Platforms:: Android
         '''
         return self._get_orientation() or (None, None, None)
 
     def _get_orientation(self):
-        raise  NotImplementedError()
+        raise NotImplementedError()
 
     def enable_listener(self):
         '''Enable the orientation sensor.

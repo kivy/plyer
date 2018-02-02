@@ -30,6 +30,10 @@ Arguments:
 
 Important: these methods will return only after user interaction.
 Use threads or you will stop the mainloop if your app has one.
+
+Supported Platforms
+-------------------
+Windows, OS X, Linux
 '''
 
 
