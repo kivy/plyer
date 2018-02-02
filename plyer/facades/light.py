@@ -10,6 +10,8 @@ class Light(object):
     Use property `illumination` to get current illumination in lx.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms:: Android
     '''
 
     @property
@@ -25,7 +27,7 @@ class Light(object):
         '''Disable light sensor.'''
         self._disable()
 
-    #private
+    # private
 
     def _get_illumination(self, **kwargs):
         raise NotImplementedError()

@@ -21,6 +21,11 @@ To get the unique ID::
 
 .. versionchanged:: 1.2.4
     On Android returns Android ID instead of IMEI.
+
+Supported Platforms
+-------------------
+Android, iOS, Windows, OS X, Linux
+
 '''
 
 

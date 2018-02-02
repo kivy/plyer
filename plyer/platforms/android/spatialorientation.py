@@ -15,15 +15,20 @@ class AccelerometerSensorListener(PythonJavaClass):
 
     def __init__(self):
         super(AccelerometerSensorListener, self).__init__()
-        self.SensorManager = cast('android.hardware.SensorManager',
-                    activity.getSystemService(Context.SENSOR_SERVICE))
+        self.SensorManager = cast(
+            'android.hardware.SensorManager',
+            activity.getSystemService(Context.SENSOR_SERVICE)
+        )
         self.sensor = self.SensorManager.getDefaultSensor(
-                Sensor.TYPE_ACCELEROMETER)
+            Sensor.TYPE_ACCELEROMETER
+        )
         self.values = [None, None, None]
 
     def enable(self):
-        self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+        self.SensorManager.registerListener(
+            self, self.sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -50,8 +55,10 @@ class MagnetometerSensorListener(PythonJavaClass):
         self.values = [None, None, None]
 
     def enable(self):
-        self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+        self.SensorManager.registerListener(
+            self, self.sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -72,18 +79,22 @@ class AndroidSpOrientation(SpatialOrientation):
 
     def _get_orientation(self):
         if self.state:
-            R = [0] * 9
-            I = [0] * 9
+            rotation = [0] * 9
+            inclination = [0] * 9
             gravity = []
             geomagnetic = []
             gravity = self.listener_a.values
             geomagnetic = self.listener_m.values
             if gravity[0] is not None and geomagnetic[0] is not None:
                 ff_state = SensorManager.getRotationMatrix(
-                    R, I, gravity, geomagnetic)
+                    rotation, inclination,
+                    gravity, geomagnetic
+                )
                 if ff_state:
                     values = [0, 0, 0]
-                    values = SensorManager.getOrientation(R, values)
+                    values = SensorManager.getOrientation(
+                        rotation, values
+                    )
                 return values
 
     def _enable_listener(self, **kwargs):

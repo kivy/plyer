@@ -129,8 +129,8 @@ def whereis_exe(program):
     '''
     path_split = ';' if platform == 'win' else ':'
     for p in environ.get('PATH', '').split(path_split):
-        if path.exists(path.join(p, program)) and \
-            not path.isdir(path.join(p, program)):
+        if (path.exists(path.join(p, program)) and
+                not path.isdir(path.join(p, program))):
             return path.join(p, program)
     return None
 

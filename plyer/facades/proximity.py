@@ -12,6 +12,8 @@ class Proximity(object):
     property `proximity`. It returns `True` when object is close.
 
     .. versionadded:: 1.2.5
+
+    Supported Platforms::Android
     '''
 
     @property

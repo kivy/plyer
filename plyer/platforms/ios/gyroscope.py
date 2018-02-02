@@ -25,17 +25,30 @@ class IosGyroscope(Gyroscope):
         else:
             self.bridge.motionManager.setGyroUpdateInterval_(0.1)
 
+        self.bridge.motionManager.setDeviceMotionUpdateInterval_(0.1)
+
     def _enable(self):
         self.bridge.startGyroscope()
+        self.bridge.startDeviceMotion()
 
     def _disable(self):
         self.bridge.stopGyroscope()
+        self.bridge.stopDeviceMotion()
 
     def _get_orientation(self):
         return (
+            self.bridge.rotation_rate_x,
+            self.bridge.rotation_rate_y,
+            self.bridge.rotation_rate_z)
+
+    def _get_rotation_uncalib(self):
+        return (
             self.bridge.gy_x,
             self.bridge.gy_y,
-            self.bridge.gy_z)
+            self.bridge.gy_z,
+            self.bridge.gy_x - self.bridge.rotation_rate_x,
+            self.bridge.gy_y - self.bridge.rotation_rate_y,
+            self.bridge.gy_z - self.bridge.rotation_rate_z)
 
 
 def instance():

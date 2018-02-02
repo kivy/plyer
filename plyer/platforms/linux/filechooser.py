@@ -208,6 +208,7 @@ class YADFileChooser(SubprocessFileChooser):
                 ]
         return cmdline
 
+
 CHOOSERS = {
     "gnome": ZenityFileChooser,
     "kde": KDialogFileChooser,
@@ -225,8 +226,8 @@ class LinuxFileChooser(FileChooser):
     '''
 
     desktop = None
-    if str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" \
-        and which("kdialog"):
+    if (str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" and
+            which("kdialog")):
         desktop = "kde"
     elif which("yad"):
         desktop = "yad"
