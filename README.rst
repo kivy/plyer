@@ -34,8 +34,8 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
+Barometer                          X       X
 Audio recording                    X
-Barometer                          X
 Battery                            X       X   X       X    X
 Bluetooth                                                       
 Brightness                         X       X                X
@@ -56,7 +56,7 @@ Proximity                          X
 Humidity                           X
 Sms (send messages)                X       X
 Spatial Orientation                X
-Storage Path                       X           X       X
+Storage Path                       X       X   X       X
 Temperature                        X
 Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
