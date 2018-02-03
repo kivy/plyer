@@ -30,7 +30,7 @@ class iOSProximity(Proximity):
             else:
                 return str(False)
         else:
-            return 'Proximity Sensor in present in your device.'
+            return 'Proximity Sensor is not present in your device.'
 
 
 def instance():
