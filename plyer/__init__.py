@@ -9,11 +9,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-<<<<<<< master
-           'temperature', 'spatialorientation', 'brightness', 'keystore')
-=======
            'temperature', 'humidity', 'spatialorientation', 'brightness', 'storagepath')
->>>>>>> master
 
 __version__ = '1.3.1dev'
 
