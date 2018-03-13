@@ -34,7 +34,7 @@ class BluetoothInterface(BoxLayout):
     text = "Bluetooth: "
 
     def get_info(self):
-        self.info = str(self.bluetooth.info, 'utf-8')
+        self.info = str(self.bluetooth.info)
 
 
 class BluetoothApp(App):
