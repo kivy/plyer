@@ -52,7 +52,7 @@ class SubprocessFileChooser(object):
             ret = self._process.poll()
             if ret is not None:
                 if ret == self.successretcode:
-                    out = self._process.communicate()[0].strip()
+                    out = self._process.communicate()[0].strip().decode('utf8')
                     self.selection = self._split_output(out)
                     return self.selection
                 else:
