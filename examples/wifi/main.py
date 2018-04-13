@@ -23,7 +23,6 @@ Builder.load_string('''
             on_release: root.disconnect()
         TextInput:
             id: password
-            text: '0401624885'
             hint_text: "Password"
             disabled: True
 
