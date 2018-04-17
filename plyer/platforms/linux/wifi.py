@@ -13,8 +13,6 @@ import gi
 gi.require_version('NM', '1.0')
 from gi.repository import NM
 
-nmc = NM.Client.new()
-devs = nmc.get_devices()
 def ssid_to_utf8(ap):
 	ssid = ap.get_ssid()
 	if not ssid:
@@ -97,6 +95,8 @@ class LinuxWifi(Wifi):
 			return True
 		return False
 	def _start_scanning(self):
+		nmc = NM.Client.new()
+		devs = nmc.get_devices()
 		i = 0
 		hosts = {}
 		for dev in devs:
