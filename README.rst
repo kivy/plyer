@@ -70,6 +70,7 @@ Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
 Vibrator                           X       X
 Wifi                                           X       X    X
+Number of Processors                                        X
 ================================== ======= === ======= ==== =====
 
 Support
