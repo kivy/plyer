@@ -4,10 +4,10 @@ Number of Processors
 
 Simple Example
 ---------------
-To get battery status::
+To get number of processors::
     >>> from plyer import processors
     >>> processors.status
-    {"Number_of_Processors": None}
+    {'Number_of_Processors': '4'}
 Supported Platforms
 -------------------
 Linux
