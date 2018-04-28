@@ -28,9 +28,9 @@ class LinuxBattery(Battery):
         state = percentage = None
         for l in output.splitlines():
             if b'state' in l:
-                state = l.rpartition(':')[-1].strip()
+                state = (l.decode()).rpartition(':')[-1].strip()
             if b'percentage' in l:
-                percentage = float(l.rpartition(':')[-1].strip()[:-1])
+                percentage = float((l.decode()).rpartition(':')[-1].strip()[:-1])
 
         if(state):
             status['isCharging'] = state == "charging"
