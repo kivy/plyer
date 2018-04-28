@@ -19,7 +19,7 @@ class LinuxBattery(Battery):
             stdout=PIPE
         )
         output = upower_process.communicate()[0]
-        
+
         environ['LANG'] = old_lang
 
         if not output:
