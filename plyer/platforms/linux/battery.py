@@ -4,7 +4,6 @@ from plyer.utils import whereis_exe
 
 from os import environ
 
-
 class LinuxBattery(Battery):
     def _get_state(self):
         old_lang = environ.get('LANG')
@@ -18,8 +17,8 @@ class LinuxBattery(Battery):
             ["upower", "-d", dev],
             stdout=PIPE
         )
-        output = upower_process.communicate()[0]
-
+        output = upower_process.communicate()[0].decode()
+        
         environ['LANG'] = old_lang
 
         if not output:
@@ -27,10 +26,10 @@ class LinuxBattery(Battery):
 
         state = percentage = None
         for l in output.splitlines():
-            if b'state' in l:
-                state = (l.decode()).rpartition(':')[-1].strip()
-            if b'percentage' in l:
-                percentage = float((l.decode()).rpartition(':')[-1].strip()[:-1])
+            if 'state' in l:
+                state = l.rpartition(':')[-1].strip()
+            if 'percentage' in l:
+                percentage = float(l.rpartition(':')[-1].strip()[:-1])
 
         if(state):
             status['isCharging'] = state == "charging"
