@@ -19,11 +19,12 @@ class LinuxBattery(Battery):
             stdout=PIPE
         )
         output = upower_process.communicate()[0]
+        
         environ['LANG'] = old_lang
 
         if not output:
             return status
-        
+
         state = percentage = None
         for l in output.splitlines():
             if b'state' in l:
