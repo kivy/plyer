@@ -23,7 +23,8 @@ class Processors(object):
     def status(self):
         '''
         Property that contains a dict with the following fields:
-             * **Number_of_Processors** *(int)*: Number of Processors in the system
+             * **Number_of_Processors** *(int)*: Number of Processors in
+             the system
             .. warning::
                 If any of the fields is not readable, it is set as
                 None.
@@ -36,4 +37,4 @@ class Processors(object):
     # private
 
     def _get_state(self):
-	raise NotImplementedError()
+        raise NotImplementedError()
