@@ -10,18 +10,19 @@ class VolumeSet(Volume):
         old_lang = environ.get('LANG')
         environ['LANG'] = 'C'
 
-	status = {"Volume_Set": False}	
-	  
-	print("Set Volume(%) : ")
-        dev = raw_input()
+        status = {"Volume_Set": False}
+  
+        print("Set Volume(%) : ")
+        dev = input()
+        dev = str(dev)
         dev = "pactl set-sink-volume 0 " + dev + "%"
-	try : 
-        	pactl_process = Popen(dev, shell=True)
-	except :
-		return status
+        try : 
+              pactl_process = Popen(dev, shell=True)
+        except :
+                return status
         environ['LANG'] = old_lang
 
-	status['Volume_Set'] = True
+        status['Volume_Set'] = True
 
         return status
 
