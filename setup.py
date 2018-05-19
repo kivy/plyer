@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from os.path import dirname, join
+from sys import platform
 import plyer
 
 try:
@@ -26,6 +27,10 @@ with open(join(curdir, "README.rst")) as fd:
     readme = fd.read()
 with open(join(curdir, "CHANGELOG.md")) as fd:
     changelog = fd.read()
+
+install_requires = []
+if platform in ('linux', 'linux2'):
+    install_requires += ['dbus-python']
 
 setup(
     name='plyer',
@@ -54,4 +59,5 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
+    install_requires=install_requires
 )
