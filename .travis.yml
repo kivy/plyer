@@ -58,15 +58,7 @@ install:
 
         echo "[YML] plyer.notification deps";
         echo "[YML] * plyer.notification.NotifyDbus";
-        sudo apt-get -y install --reinstall
-            dbus
-            dbus-x11
-            libdbus-1-3
-            libdbus-1-dev
-            libdbus-glib-1-2
-            libdbus-glib-1-dev;
-        python -m pip install dbus-python;
-        python3 -m pip install dbus-python;
+        sudo apt-get -y install python-dbus python3-dbus
 
         echo "[YML] * plyer.notification.NotifySendNotification";
         sudo apt-get -y install libnotify-bin;
