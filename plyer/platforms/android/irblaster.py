@@ -20,8 +20,9 @@ class AndroidIrBlaster(IrBlaster):
     def multiply_pulse(self):
         '''Android 4.4.3+ uses microseconds instead of period counts
         '''
-        return not (SDK_INT == 19 and
-                    int(str(ANDROID_VERSION.RELEASE).rsplit('.', 1)[-1]) < 3)
+        return not (SDK_INT == 19
+                    and int(str(ANDROID_VERSION.RELEASE).rsplit('.', 1)[-1])
+                    < 3)
 
     def _get_frequencies(self):
         if not ir_manager:

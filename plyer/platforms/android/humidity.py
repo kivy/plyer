@@ -26,7 +26,7 @@ class RelativeHumiditySensorListener(PythonJavaClass):
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+                                            SensorManager.SENSOR_DELAY_NORMAL)
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -54,7 +54,7 @@ class AmbientTemperatureSensorListener(PythonJavaClass):
 
     def enable(self):
         self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+                                            SensorManager.SENSOR_DELAY_NORMAL)
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -82,8 +82,8 @@ class AndroidHumidity(Humidity):
             Tc = self.listener_a.value
             A = 6.112
             K = 273.15
-            humidity = (Ta * (Rh / 100) * A * exp(m * Tc / (Tn + Tc)) /
-                        (K + Tc))
+            humidity = (Ta * (Rh / 100) * A * exp(m * Tc / (Tn + Tc))
+                        / (K + Tc))
             return humidity
 
     def _enable(self):

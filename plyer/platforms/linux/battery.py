@@ -4,6 +4,7 @@ from plyer.utils import whereis_exe
 
 from os import environ
 
+
 class LinuxBattery(Battery):
     def _get_state(self):
         old_lang = environ.get('LANG')
@@ -15,7 +16,7 @@ class LinuxBattery(Battery):
             ["upower", "-d", dev],
             stdout=PIPE
         )
-        output = upower_process.communicate()[0].decode()        
+        output = upower_process.communicate()[0].decode()
         environ['LANG'] = old_lang
         if not output:
             return status
@@ -29,6 +30,7 @@ class LinuxBattery(Battery):
             status['isCharging'] = state == "charging"
         status['percentage'] = percentage
         return status
+
 
 def instance():
     import sys
