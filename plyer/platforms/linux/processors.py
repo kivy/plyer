@@ -12,7 +12,7 @@ class LinuxProcessors(Processors):
 
         status = {"Number_of_Processors": None}
 
-	dev = "--all"
+        dev = "--all"
         nproc_process = Popen(
             ["nproc", dev],
             stdout=PIPE
@@ -23,7 +23,7 @@ class LinuxProcessors(Processors):
 
         if not output:
             return status
-      
+
         status['Number_of_Processors'] = output.rstrip()
 
         return status

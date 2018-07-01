@@ -17,8 +17,8 @@ class AndroidBattery(Battery):
                              activity.registerReceiver(None, ifilter))
 
         query = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-        isCharging = (query == BatteryManager.BATTERY_STATUS_CHARGING or
-                      query == BatteryManager.BATTERY_STATUS_FULL)
+        isCharging = (query == BatteryManager.BATTERY_STATUS_CHARGING
+                      or query == BatteryManager.BATTERY_STATUS_FULL)
 
         level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)

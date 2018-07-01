@@ -16,7 +16,8 @@ class IosKeystore(Keystore):
         if ret is not None:
             return ret.UTF8String()
         else:
-            return ret 
+            return ret
+
 
 def instance():
     return IosKeystore()

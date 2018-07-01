@@ -9,7 +9,8 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'compass', 'email', 'filechooser', 'flash', 'gps', 'gravity',
            'gyroscope', 'irblaster', 'light', 'orientation', 'notification',
            'proximity', 'sms', 'tts', 'uniqueid', 'vibrator', 'wifi',
-           'temperature', 'humidity', 'spatialorientation', 'brightness', 'storagepath','processors')
+           'temperature', 'humidity', 'spatialorientation', 'brightness',
+           'storagepath', 'processors')
 
 __version__ = '1.3.1dev'
 

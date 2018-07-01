@@ -12,9 +12,9 @@ class AndroidTextToSpeech(TTS):
         tts = TextToSpeech(activity, None)
         tts.setLanguage(Locale.US)  # TODO: locale specification as option
         retries = 0  # First try rarely succeeds due to some timing issue
-        while (retries < 100 and
-               tts.speak(kwargs.get('message').encode('utf-8'),
-                         TextToSpeech.QUEUE_FLUSH, None) == -1):
+        while (retries < 100
+               and tts.speak(kwargs.get('message').encode('utf-8'),
+                             TextToSpeech.QUEUE_FLUSH, None) == -1):
             # -1 indicates error. Let's wait and then try again
             sleep(0.1)
             retries += 1

@@ -140,7 +140,7 @@ script:
 
         pycodestyle "$(pwd)"
             --exclude=pep8.py,compat.py,utils.py
-            --ignore=E402;
+            --ignore=E402,W503;
 
       fi;
       if [ "${COVERALLS}" == "1" ] && [ "${TRAVIS_BRANCH}" == "master" ]; then

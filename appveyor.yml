@@ -28,7 +28,7 @@ build_script:
         cd C:\projects\plyer &
         %PYTHON% -m pycodestyle "%cd%"
             --exclude=pep8.py,compat.py,utils.py
-            --ignore=E402
+            --ignore=E402,W503
     )
 
     %PYTHON% C:\projects\plyer\plyer\tests\dummy_setup.py
