@@ -1,5 +1,5 @@
 '''
-Windows Storage Path
+Linux Storage Path
 --------------------
 '''
 
