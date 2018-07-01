@@ -7,24 +7,27 @@ from plyer.facades import StoragePath
 from os.path import expanduser, dirname, abspath
 
 # Default paths for each name
+USER_DIRS = "/.config/user-dirs.dirs"
+
 PATHS = {
-        "DESKTOP": "/Desktop",
-        "DOCUMENTS": "/Documents",
-        "DOWNLOAD": "/Downloads",
-        "MUSIC": "/Music",
-        "PICTURES": "/Pictures",
-        "VIDEOS": "/Videos"
+    "DESKTOP": "/Desktop",
+    "DOCUMENTS": "/Documents",
+    "DOWNLOAD": "/Downloads",
+    "MUSIC": "/Music",
+    "PICTURES": "/Pictures",
+    "VIDEOS": "/Videos"
 }
+
 
 class LinuxStoragePath(StoragePath):
 
     def _get_from_user_dirs(self, name):
         try:
-            with open(self._get_home_dir() + "/.config/user-dirs.dirs", "r") as f:
+            with open(self._get_home_dir() + USER_DIRS, "r") as f:
                 lines = f.readlines()
-                #Find the line that starts wtih XDG_<name> to get the following
-                index = [i for i, v in enumerate(lines)\
-                        if v.startswith("XDG_" + name)][0]
+                # Find the line that starts with XDG_<name> to get the path
+                index = [i for i, v in enumerate(lines)
+                         if v.startswith("XDG_" + name)][0]
                 return lines[index].split('"')[1]
         except KeyError:
             return PATHS[name]
