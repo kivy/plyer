@@ -243,7 +243,7 @@ def get_PATH(folderid):
     S_OK = 0
     Result = _SHGetKnownFolderPath(ctypes.byref(fid),
                                    0, None, ctypes.byref(pPath))
-    if_SHGetKnownFolderPathResult != S_OK:
+    if _SHGetKnownFolderPathResult != S_OK:
         raise PathNotFoundException()
     path = pPath.value
     _CoTaskMemFree(pPath)
