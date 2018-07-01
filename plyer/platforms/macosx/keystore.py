@@ -1,6 +1,6 @@
 try:
     import keyring
-except:
+except Exception:
     raise NotImplemented()
 from plyer.facades import Keystore
 

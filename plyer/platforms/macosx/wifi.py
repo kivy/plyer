@@ -68,13 +68,13 @@ class OSXWifi(Wifi):
                 'hessid': hessid,
                 'ibss': ibss,
                 'isAdditionalStepRequiredForAccess':
-                    isAdditionalStepRequiredForAccess,
+                isAdditionalStepRequiredForAccess,
                 'isCarPlayNetwork': isCarPlayNetwork,
                 'isEmergencyServicesReachable': isEmergencyServicesReachable,
                 'isPasspoint': isPasspoint,
                 'isPersonalHotspot': isPersonalHotspot,
                 'isUnauthenticatedEmergencyServiceAccessible':
-                    isUnauthenticatedEmergencyServiceAccessible,
+                isUnauthenticatedEmergencyServiceAccessible,
                 'noiseMeasurement': noiseMeasurement,
                 'physicalLayerMode': physicalLayerMode,
                 'rssiValue': rssiValue,

@@ -1,11 +1,15 @@
 import ctypes
 import os
 
+LibraryPath = \
+    "/System/Library/Frameworks/CoreFoundation.framework/\
+    Versions/A/CoreFoundation"
+
 
 def NSIterateSearchPaths(directory):
-    CoreFoundation = ctypes.cdll.LoadLibrary("/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation")
-    NSStartSearchPathEnumeration = CoreFoundation.NSStartSearchPathEnumeration
-    NSGetNextSearchPathEnumeration = CoreFoundation.NSGetNextSearchPathEnumeration
+    CoreFound = ctypes.cdll.LoadLibrary(LibraryPath)
+    NSStartSearchPathEnumeration = CoreFound.NSStartSearchPathEnumeration
+    NSGetNextSearchPathEnumeration = CoreFound.NSGetNextSearchPathEnumeration
     PATH_MAX = os.pathconf('/', os.pathconf_names['PC_PATH_MAX'])
     PATH_ENCODING = 'utf8'
     path_buffer = ctypes.create_string_buffer(PATH_MAX)
