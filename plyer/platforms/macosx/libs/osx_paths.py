@@ -2,7 +2,7 @@ import ctypes
 import os
 
 LibraryPath = "/System/Library/Frameworks/CoreFoundation.framework/"\
-"Versions/A/CoreFoundation"
+    "Versions/A/CoreFoundation"
 
 
 def NSIterateSearchPaths(directory):
