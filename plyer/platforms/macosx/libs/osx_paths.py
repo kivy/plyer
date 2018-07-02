@@ -1,7 +1,7 @@
 import ctypes
 import os
 
-LibraryPath = "/System/Library/Frameworks/CoreFoundation.framework/"
+LibraryPath = "/System/Library/Frameworks/CoreFoundation.framework/"\
 "Versions/A/CoreFoundation"
 
 
