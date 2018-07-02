@@ -1,11 +1,10 @@
 import ctypes
 import os
 
-LibraryPath = ("/System/Library/Frameworks/CoreFoundation.framework/"
-               "Versions/A/CoreFoundation")
-
 
 def NSIterateSearchPaths(directory):
+    LibraryPath = ("/System/Library/Frameworks/CoreFoundation.framework/"
+                   "Versions/A/CoreFoundation")
     CoreFound = ctypes.cdll.LoadLibrary(LibraryPath)
     NSStartSearchPathEnumeration = CoreFound.NSStartSearchPathEnumeration
     NSGetNextSearchPathEnumeration = CoreFound.NSGetNextSearchPathEnumeration
