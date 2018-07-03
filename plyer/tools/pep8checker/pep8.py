@@ -129,7 +129,7 @@ KEYWORDS = frozenset(keyword.kwlist + ['print']) - SINGLETONS
 BINARY_OPERATORS = frozenset([
     '**=', '*=', '+=', '-=', '!=', '<>',
     '%=', '^=', '&=', '|=', '==', '/=', '//=', '<=', '>=', '<<=', '>>=',
-    '%',  '^',  '&',  '|',  '=',  '/',  '//',  '<',  '>',  '<<'])
+    '%', '^', '&', '|', '=', '/', '//', '<', '>', '<<'])
 UNARY_OPERATORS = frozenset(['>>', '**', '*', '+', '-'])
 OPERATORS = BINARY_OPERATORS | UNARY_OPERATORS
 WHITESPACE = frozenset(' \t')
@@ -227,15 +227,15 @@ def trailing_whitespace(physical_line):
             return 0, "W293 blank line contains whitespace"
 
 
-#def trailing_blank_lines(physical_line, lines, line_number):
-#    r"""
-#    JCR: Trailing blank lines are superfluous.
+# def trailing_blank_lines(physical_line, lines, line_number):
+#     r"""
+#     JCR: Trailing blank lines are superfluous.
 #
-#    Okay: spam(1)
-#    W391: spam(1)\n
-#    """
-#    if not physical_line.rstrip() and line_number == len(lines):
-#        return 0, "W391 blank line at end of file"
+#     Okay: spam(1)
+#     W391: spam(1)\n
+#     """
+#     if not physical_line.rstrip() and line_number == len(lines):
+#         return 0, "W391 blank line at end of file"
 
 
 def missing_newline(physical_line):
@@ -1336,14 +1336,15 @@ class Checker(object):
                     offset = 0 if part.count('\n') > 0 else token[2][1]
                     col = offset + pos - part.rfind('\n') + 1
                     if sre.group(0)[0] == '.':
-                        msg = 'E289 Too many spaces after period. Use only one.'
+                        msg = ('E289 Too many spaces after period. '
+                               'Use only one.')
                         self.report_error(line, col, msg, check=None)
                     elif sre.group(0)[0] == ',':
                         msg = 'E288 Too many spaces after comma. Use only one.'
                         self.report_error(line, col, msg, check=None)
                     else:
-                        msg = 'E287 Too many spaces after punctuation. '
-                        'Use only one.'
+                        msg = ('E287 Too many spaces after punctuation. '
+                               'Use only one.')
                         self.report_error(line, col, msg, check=None)
             if token_type == tokenize.OP:
                 if text in '([{':
