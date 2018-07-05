@@ -13,9 +13,9 @@ class LinuxBrightness(Brightness):
 
     def __init__(self):
         if os.system("which xbacklight"):
-            raise Exception(
-                "It seems that 'xbacklight' is not installed. \
-Install it using 'sudo apt-get install xbacklight'.")
+            msg = ("It looks like 'xbacklight' is not installed. Try "
+                   "installing it with your distribution's package manager.")
+            raise Exception(msg)
 
     def _current_level(self):
         cr_level = subprocess.check_output(["xbacklight", "-get"])
