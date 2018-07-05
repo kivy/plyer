@@ -48,7 +48,10 @@ def instance():
         import dbus
         return NotifyDbus()
     except ImportError:
-        msg = "python-dbus not installed. try: `sudo pip install python-dbus`."
+        msg = ("The Python dbus package is not installed.\n"
+               "Try installing it with your distribution's package manager, "
+               "it is usually called python-dbus or python3-dbus, but you "
+               "might have to try dbus-python instead, e.g. when using pip.")
         warnings.warn(msg)
     if whereis_exe('notify-send'):
         return NotifySendNotification()
