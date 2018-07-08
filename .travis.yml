@@ -1,6 +1,23 @@
+sudo: required
+
+services:
+  - docker
+
 matrix:
   fast_finish: true
   include:
+    - env: DOCK=1 PY=2 RUN=unit
+      os: linux
+      dist: trusty
+
+    - env: DOCK=1 PY=3 RUN=unit
+      os: linux
+      dist: trusty
+
+    - env: DOCK=1 PY=3 RUN=style
+      os: linux
+      dist: trusty
+
     - language: python
       python: 2.7
       env: RUN=unit
@@ -38,7 +55,16 @@ before_install:
 
 
 install:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+      if [ "$PY" == "2" ]; then
+        docker build --tag plyer:py2 -f Dockerfile.trusty.py2 "$(pwd)";
+      elif [ "$PY" == "3" ]; then
+        docker build --tag plyer:py3 -f Dockerfile.trusty.py3 "$(pwd)";
+        docker build --tag plyer:style -f Dockerfile.trusty.style "$(pwd)";
+      fi;
+    fi;
+
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ ! -v DOCK ]; then
       if [ "${RUN}" == "pep8" ]; then
 
         python -m pip install pycodestyle;
@@ -102,7 +128,7 @@ install:
 
 
 before_script:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ] && [ ! -v DOCK ]; then
 
       export DISPLAY=:99.0;
       /sbin/start-stop-daemon
@@ -122,13 +148,23 @@ before_script:
 
 
 script:
-  - python -m pip install .
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+      if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]; then
+        docker run -it plyer:py2;
+      elif [ "$PY" == "3" ] && [ "$RUN" == "unit" ]; then
+        docker run -it plyer:py3;
+      elif [ "$PY" == "3" ] && [ "$RUN" == "style" ]; then
+        docker run -it plyer:style;
+      fi;
+    fi;
 
   # setup dummies before running tests
   # nose throws stuff to globals and won't clean up afterwards
-  - python ./plyer/tests/dummy_setup.py
+  # test and remove dummies and return to previous state
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ ! -v DOCK ]; then
 
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      python -m pip install .;
+      python ./plyer/tests/dummy_setup.py;
 
       set -ex;
       if [ "${RUN}" == "unit" ]; then
@@ -148,10 +184,14 @@ script:
         coveralls;
 
       fi;
+
+      python ./plyer/tests/dummy_teardown.py;
     fi;
 
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
 
+      python -m pip install .;
+      python ./plyer/tests/dummy_setup.py;
       set -ex;
       if [ "${PY}" == "3" ]; then
 
@@ -161,11 +201,8 @@ script:
         python -m nose.core ./plyer/tests;
 
       fi;
+      python ./plyer/tests/dummy_teardown.py;
     fi;
-
-  # remove dummies and return to previous state
-  - python ./plyer/tests/dummy_teardown.py
-
 
 notifications:
   webhooks:

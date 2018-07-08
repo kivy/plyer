@@ -1,0 +1,6 @@
+nose
+mock
+pycodestyle
+pylint
+coveralls
+cython
