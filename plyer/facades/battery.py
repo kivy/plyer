@@ -42,6 +42,10 @@ class Battery(object):
         return self.get_state()
 
     def get_state(self):
+        '''
+        Public method for filling battery.status via platform-specific
+        API in plyer.platforms.
+        '''
         return self._get_state()
 
     # private

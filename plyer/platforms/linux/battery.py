@@ -1,11 +1,18 @@
+'''
+Module of Linux API for plyer.battery.
+'''
+
+from os import environ
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
 from plyer.utils import whereis_exe
 
-from os import environ
-
 
 class LinuxBattery(Battery):
+    '''
+    Implementation of Linux battery API.
+    '''
+
     def _get_state(self):
         # if no LANG specified, return empty string
         old_lang = environ.get('LANG', '')
@@ -40,13 +47,16 @@ class LinuxBattery(Battery):
                     percentage.replace(',', '.')
                 )
 
-        if(state):
+        if state:
             status['isCharging'] = state == "charging"
         status['percentage'] = percentage
         return status
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('upower'):
         return LinuxBattery()

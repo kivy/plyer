@@ -1,11 +1,18 @@
+'''
+Module of MacOS API for plyer.battery.
+'''
+
+from os import environ
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
 from plyer.utils import whereis_exe
 
-from os import environ
-
 
 class OSXBattery(Battery):
+    '''
+    Implementation of MacOS battery API.
+    '''
+
     def _get_state(self):
         old_lang = environ.get('LANG', '')
         environ['LANG'] = 'C'
@@ -23,25 +30,28 @@ class OSXBattery(Battery):
         if not output:
             return status
 
-        IsCharging = MaxCapacity = CurrentCapacity = None
-        for l in output.splitlines():
-            if 'IsCharging' in l:
-                IsCharging = l.rpartition('=')[-1].strip()
-            if 'MaxCapacity' in l:
-                MaxCapacity = float(l.rpartition('=')[-1].strip())
-            if 'CurrentCapacity' in l:
-                CurrentCapacity = float(l.rpartition('=')[-1].strip())
+        is_charging = max_capacity = current_capacity = None
+        for line in output.splitlines():
+            if 'IsCharging' in line:
+                is_charging = line.rpartition('=')[-1].strip()
+            if 'MaxCapacity' in line:
+                max_capacity = float(line.rpartition('=')[-1].strip())
+            if 'CurrentCapacity' in line:
+                current_capacity = float(line.rpartition('=')[-1].strip())
 
-        if (IsCharging):
-            status['isCharging'] = IsCharging == "Yes"
+        if is_charging:
+            status['isCharging'] = is_charging == "Yes"
 
-        if (CurrentCapacity and MaxCapacity):
-            status['percentage'] = 100. * CurrentCapacity / MaxCapacity
+        if current_capacity and max_capacity:
+            status['percentage'] = 100.0 * current_capacity / max_capacity
 
         return status
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('ioreg'):
         return OSXBattery()
