@@ -7,13 +7,18 @@ from os import environ
 
 class LinuxBattery(Battery):
     def _get_state(self):
-        old_lang = environ.get('LANG')
+        # if no LANG specified, return empty string
+        old_lang = environ.get('LANG', '')
         environ['LANG'] = 'C'
         status = {"isCharging": None, "percentage": None}
+
         # We are supporting only one battery now
-        dev = "/org/freedesktop/UPower/device/battery_BAT0"
+        # this will fail if there is no object with such path,
+        # however it's safer than 'upower -d' which provides
+        # multiple unrelated 'state' and 'percentage' keywords
+        dev = "/org/freedesktop/UPower/devices/battery_BAT0"
         upower_process = Popen(
-            ["upower", "-d", dev],
+            ["upower", "--show-info", dev],
             stdout=PIPE
         )
         output = upower_process.communicate()[0].decode()
@@ -21,11 +26,20 @@ class LinuxBattery(Battery):
         if not output:
             return status
         state = percentage = None
-        for l in output.splitlines():
-            if 'state' in l:
-                state = l.rpartition(':')[-1].strip()
-            if 'percentage' in l:
-                percentage = float(l.rpartition(':')[-1].strip()[:-1])
+
+        for line in output.splitlines():
+            if 'state' in line:
+                state = line.rpartition(':')[-1].strip()
+
+            if 'percentage' in line:
+                percentage = line.rpartition(':')[-1].strip()[:-1]
+
+                # switching decimal comma to dot
+                # (different LC_NUMERIC locale)
+                percentage = float(
+                    percentage.replace(',', '.')
+                )
+
         if(state):
             status['isCharging'] = state == "charging"
         status['percentage'] = percentage

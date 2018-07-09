@@ -7,7 +7,7 @@ from os import environ
 
 class OSXBattery(Battery):
     def _get_state(self):
-        old_lang = environ.get('LANG')
+        old_lang = environ.get('LANG', '')
         environ['LANG'] = 'C'
 
         status = {"isCharging": None, "percentage": None}
