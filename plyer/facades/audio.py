@@ -54,9 +54,9 @@ class Audio(object):
     state = 'ready'
     _file_path = ''
 
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         super(Audio, self).__init__()
-        self._file_path = file_path
+        self._file_path = file_path or self._file_path
 
     def start(self):
         '''
