@@ -6,8 +6,8 @@ WORKDIR $APP_DIR
 ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
-RUN apt-get update
-RUN apt-get -y --force-yes install \
+RUN apt-get update && \
+    apt-get -y --force-yes install \
     python-setuptools \
     python-dev \
     openjdk-7-jdk \

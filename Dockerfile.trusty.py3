@@ -12,8 +12,8 @@ RUN echo 'deb-src http://ppa.launchpad.net/deadsnakes/ppa/ubuntu trusty main'\
     >> /etc/apt/sources.list.d/pythons.list
 
 # install default packages
-RUN apt-get update
-RUN apt-get -y --force-yes install \
+RUN apt-get update && \
+    apt-get -y --force-yes install \
     python-setuptools \
     python3.5-dev \
     openjdk-7-jdk \

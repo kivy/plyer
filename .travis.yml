@@ -7,14 +7,17 @@ matrix:
   fast_finish: true
   include:
     - env: DOCK=1 PY=2 RUN=unit
+      python: 2.7
       os: linux
       dist: trusty
 
     - env: DOCK=1 PY=3 RUN=unit
+      python: 3.5
       os: linux
       dist: trusty
 
     - env: DOCK=1 PY=3 RUN=style
+      python: 3.5
       os: linux
       dist: trusty
 
