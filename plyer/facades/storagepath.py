@@ -94,7 +94,7 @@ class StoragePath(object):
         '''
         return self._get_application_dir()
 
-    #private
+    # private
 
     def _get_home_dir(self):
         raise NotImplementedError()

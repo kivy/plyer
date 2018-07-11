@@ -58,7 +58,6 @@ Gyroscope                          X       X
 IR Blaster                         X
 Light                              X
 Native file chooser                            X       X    X
-Notifications                      X           X       X    X
 Orientation                        X
 Proximity                          X
 Humidity                           X
@@ -70,6 +69,7 @@ Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
 Vibrator                           X       X
 Wifi                                           X       X    X
+Number of Processors                                        X
 ================================== ======= === ======= ==== =====
 
 Support

@@ -64,8 +64,8 @@ class Win32FileChooser(object):
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
                 args["Filter"] = filters
 
-                flags = (win32con.OFN_EXTENSIONDIFFERENT |
-                         win32con.OFN_OVERWRITEPROMPT)
+                flags = (win32con.OFN_EXTENSIONDIFFERENT
+                         | win32con.OFN_OVERWRITEPROMPT)
                 if self.multiple:
                     flags |= win32con.OFN_ALLOWmultiple | win32con.OFN_EXPLORER
                 if self.show_hidden:

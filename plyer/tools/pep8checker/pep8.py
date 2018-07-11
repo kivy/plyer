@@ -129,7 +129,7 @@ KEYWORDS = frozenset(keyword.kwlist + ['print']) - SINGLETONS
 BINARY_OPERATORS = frozenset([
     '**=', '*=', '+=', '-=', '!=', '<>',
     '%=', '^=', '&=', '|=', '==', '/=', '//=', '<=', '>=', '<<=', '>>=',
-    '%',  '^',  '&',  '|',  '=',  '/',  '//',  '<',  '>',  '<<'])
+    '%', '^', '&', '|', '=', '/', '//', '<', '>', '<<'])
 UNARY_OPERATORS = frozenset(['>>', '**', '*', '+', '-'])
 OPERATORS = BINARY_OPERATORS | UNARY_OPERATORS
 WHITESPACE = frozenset(' \t')
@@ -168,12 +168,12 @@ def tabs_or_spaces(physical_line, indent_char):
     r"""
     Never mix tabs and spaces.
 
-    The most popular way of indenting Python is with spaces only.  The
-    second-most popular way is with tabs only.  Code indented with a mixture
-    of tabs and spaces should be converted to using spaces exclusively.  When
+    The most popular way of indenting Python is with spaces only. The
+    second-most popular way is with tabs only. Code indented with a mixture
+    of tabs and spaces should be converted to using spaces exclusively. When
     invoking the Python command line interpreter with the -t option, it issues
-    warnings about code that illegally mixes tabs and spaces.  When using -tt
-    these warnings become errors.  These options are highly recommended!
+    warnings about code that illegally mixes tabs and spaces. When using -tt
+    these warnings become errors. These options are highly recommended!
 
     Okay: if a == 0:\n        a = 1\n        b = 1
     E101: if a == 0:\n        a = 1\n\tb = 1
@@ -186,7 +186,7 @@ def tabs_or_spaces(physical_line, indent_char):
 
 def tabs_obsolete(physical_line):
     r"""
-    For new projects, spaces-only are strongly recommended over tabs.  Most
+    For new projects, spaces-only are strongly recommended over tabs. Most
     editors have features that make this easy to do.
 
     Okay: if True:\n    return
@@ -227,15 +227,15 @@ def trailing_whitespace(physical_line):
             return 0, "W293 blank line contains whitespace"
 
 
-#def trailing_blank_lines(physical_line, lines, line_number):
-#    r"""
-#    JCR: Trailing blank lines are superfluous.
+# def trailing_blank_lines(physical_line, lines, line_number):
+#     r"""
+#     JCR: Trailing blank lines are superfluous.
 #
-#    Okay: spam(1)
-#    W391: spam(1)\n
-#    """
-#    if not physical_line.rstrip() and line_number == len(lines):
-#        return 0, "W391 blank line at end of file"
+#     Okay: spam(1)
+#     W391: spam(1)\n
+#     """
+#     if not physical_line.rstrip() and line_number == len(lines):
+#         return 0, "W391 blank line at end of file"
 
 
 def missing_newline(physical_line):
@@ -254,8 +254,8 @@ def maximum_line_length(physical_line, max_line_length):
 
     There are still many devices around that are limited to 80 character
     lines; plus, limiting windows to 80 characters makes it possible to have
-    several windows side-by-side.  The default wrapping on such devices looks
-    ugly.  Therefore, please limit all lines to a maximum of 79 characters.
+    several windows side-by-side. The default wrapping on such devices looks
+    ugly. Therefore, please limit all lines to a maximum of 79 characters.
     For flowing long blocks of text (docstrings or comments), limiting the
     length to 72 characters is recommended.
 
@@ -288,7 +288,7 @@ def blank_lines(logical_line, blank_lines, indent_level, line_number,
     Method definitions inside a class are separated by a single blank line.
 
     Extra blank lines may be used (sparingly) to separate groups of related
-    functions.  Blank lines may be omitted between a bunch of related
+    functions. Blank lines may be omitted between a bunch of related
     one-liners (e.g. a set of dummy implementations).
 
     Use blank lines in functions, sparingly, to indicate logical sections.
@@ -410,7 +410,7 @@ def indentation(logical_line, previous_logical, indent_char,
 
     Okay: a = 1
     Okay: if a == 0:\n    a = 1
-    E111:   a = 1
+    E111: .....a = 1
 
     Okay: for item in items:\n    pass
     E112: for item in items:\npass
@@ -789,7 +789,7 @@ def whitespace_before_inline_comment(logical_line, tokens):
     """
     Separate inline comments by at least two spaces.
 
-    An inline comment is a comment on the same line as a statement.  Inline
+    An inline comment is a comment on the same line as a statement. Inline
     comments should be separated by at least two spaces from the statement.
     They should start with a # and a single space.
 
@@ -877,8 +877,8 @@ def explicit_line_join(logical_line, tokens):
     Avoid explicit line join between brackets.
 
     The preferred way of wrapping long lines is by using Python's implied line
-    continuation inside parentheses, brackets and braces.  Long lines can be
-    broken over multiple lines by wrapping expressions in parentheses.  These
+    continuation inside parentheses, brackets and braces. Long lines can be
+    broken over multiple lines by wrapping expressions in parentheses. These
     should be used in preference to using a backslash for line continuation.
 
     E502: aaa = [123, \\n       123]
@@ -918,7 +918,7 @@ def comparison_to_singleton(logical_line):
 
     Also, beware of writing if x when you really mean if x is not None --
     e.g. when testing whether a variable or argument that defaults to None was
-    set to some other value.  The other value might have a type (such as a
+    set to some other value. The other value might have a type (such as a
     container) that could be false in a boolean context!
     """
     match = COMPARE_SINGLETON_REGEX.search(logical_line)
@@ -980,7 +980,7 @@ def python_3000_raise_comma(logical_line):
 
     The paren-using form is preferred because when the exception arguments
     are long or include string formatting, you don't need to use line
-    continuation characters thanks to the containing parentheses.  The older
+    continuation characters thanks to the containing parentheses. The older
     form will be removed in Python 3000.
 
     Okay: raise DummyError("Message")
@@ -1336,18 +1336,16 @@ class Checker(object):
                     offset = 0 if part.count('\n') > 0 else token[2][1]
                     col = offset + pos - part.rfind('\n') + 1
                     if sre.group(0)[0] == '.':
-                        self.report_error(line, col,
-                           'E289 Too many spaces after period. Use only one.',
-                           check=None)
+                        msg = ('E289 Too many spaces after period. '
+                               'Use only one.')
+                        self.report_error(line, col, msg, check=None)
                     elif sre.group(0)[0] == ',':
-                        self.report_error(line, col,
-                           'E288 Too many spaces after comma. Use only one.',
-                           check=None)
+                        msg = 'E288 Too many spaces after comma. Use only one.'
+                        self.report_error(line, col, msg, check=None)
                     else:
-                        self.report_error(line, col,
-                           'E287 Too many spaces after punctuation. '
-                           'Use only one.',
-                           check=None)
+                        msg = ('E287 Too many spaces after punctuation. '
+                               'Use only one.')
+                        self.report_error(line, col, msg, check=None)
             if token_type == tokenize.OP:
                 if text in '([{':
                     parens += 1
@@ -1373,9 +1371,8 @@ class Checker(object):
                         # The comment also ends a physical line
                         self.tokens = []
         if self.blank_lines > 1:
-            self.report_error(token[2][0],0,
-                'E389 File ends in multiple blank lines',
-                check=None)
+            msg = 'E389 File ends in multiple blank lines'
+            self.report_error(token[2][0], 0, msg, check=None)
 
         return self.report.get_file_results()
 
@@ -1655,7 +1652,7 @@ class StyleGuide(object):
         Check if the error code should be ignored.
 
         If 'options.select' contains a prefix of the error code,
-        return False.  Else, if 'options.ignore' contains a prefix of
+        return False. Else, if 'options.ignore' contains a prefix of
         the error code, return True.
         """
         return (code.startswith(self.options.ignore) and
@@ -1677,12 +1674,12 @@ def init_tests(pep8style):
     """
     Initialize testing framework.
 
-    A test file can provide many tests.  Each test starts with a
-    declaration.  This declaration is a single line starting with '#:'.
+    A test file can provide many tests. Each test starts with a
+    declaration. This declaration is a single line starting with '#:'.
     It declares codes of expected failures, separated by spaces or 'Okay'
     if no failure is expected.
     If the file does not contain such declaration, it should pass all
-    tests.  If the declaration is empty, following lines are not checked,
+    tests. If the declaration is empty, following lines are not checked,
     until next declaration.
 
     Examples:
