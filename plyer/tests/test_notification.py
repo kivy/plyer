@@ -1,45 +1,55 @@
+'''
+TestNotification
+================
+
+Tested platforms:
+
+* Linux - notify-send
+'''
+
 import unittest
+import mock
 
 from time import sleep
 from os.path import dirname, abspath, join
 
 from plyer.utils import platform
-from plyer.facades.notification import Notification as NFacade
-from plyer import notification
+from plyer.tests.common import PlatformTest, platform_import
 
 
-if platform == 'win':
-    import ctypes
-    from ctypes import (
-        WINFUNCTYPE, POINTER,
-        create_unicode_buffer,
-        c_bool, c_int
-    )
-    from plyer.platforms.win.notification import WindowsNotification
-    EnumWindows = ctypes.windll.user32.EnumWindows
-    GetClassNameW = ctypes.windll.user32.GetClassNameW
+class MockedNotifySend(object):
+    @staticmethod
+    def whereis_exe(binary):
+        return binary == 'notify-send'
 
-elif platform == 'linux':
-    from plyer.platforms.linux.notification import (
-        NotifySendNotification,
-        NotifyDbus
-    )
+    @staticmethod
+    def call(args):
+        assert len(args) >= 3
+        assert TestNotification.data['title'] in args
+        assert TestNotification.data['message'] in args
+
+    @staticmethod
+    def warn(msg):
+        assert 'dbus package is not installed' in msg
 
 
-class Test(unittest.TestCase):
+class TestNotification(unittest.TestCase):
+    data = {
+        'title': 'title',
+        'message': 'My Message\nis multiline',
+        'app_name': 'Plyer Test',
+        'app_icon': join(
+            dirname(abspath(__file__)),
+            'images', 'kivy32.ico'
+        ),
+        'timeout': 0.1
+    }
+
     def show_notification(self, instance):
-        path = dirname(abspath(__file__))
-        instance.notify(
-            title='title',
-            message='My Message\nis multiline',
-            app_name='Plyer Test',
-            app_icon=join(path, 'images', 'kivy32.ico'),
-            timeout=.1
-        )
+        instance.notify(**self.data)
 
+    @PlatformTest('win')
     def test_notification_windows(self):
-        if platform != 'win':
-            return
 
         # loop over windows and get refs to
         # the opened plyer notifications
@@ -90,12 +100,20 @@ class Test(unittest.TestCase):
         self.assertIsNot(notification, NFacade)
         self.show_notification(NotifyDbus())
 
+    @PlatformTest('linux')
     def test_notification_notifysend(self):
-        if platform != 'linux':
-            return
+        notif = platform_import(
+            platform='linux',
+            module_name='notification',
+            whereis_exe=MockedNotifySend.whereis_exe
+        )
+        self.assertIn('NotifySendNotification', dir(notif))
+        with mock.patch(target='warnings.warn', new=MockedNotifySend.warn):
+            notif = notif.instance()
+        self.assertIn('NotifySendNotification', str(notif))
 
-        self.assertIsNot(notification, NFacade)
-        self.show_notification(NotifySendNotification())
+        with mock.patch(target='subprocess.call', new=MockedNotifySend.call):
+            self.assertIsNone(self.show_notification(notif))
 
 
 if __name__ == '__main__':
