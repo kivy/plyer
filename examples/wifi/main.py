@@ -6,7 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
 from plyer import wifi
 from functools import partial
-
+import sys
 
 Builder.load_string('''
 <WifiInterface>:
@@ -106,8 +106,12 @@ class WifiInterface(BoxLayout):
         for name in wifi_scans:
             content = ""
             items = wifi._get_network_info(name)
-            for key, value in items.iteritems():
-                content += "{}:    {} \n".format(key, value)
+            if sys.version_info.major is 3: #Support for Py2 and Py3
+                for key, value in items.items():
+                    content += "{}:    {} \n".format(key, value)
+            else:
+                for key, value in items.iteritems():
+                    content += "{}:    {} \n".format(key, value)
 
             popup = self._create_popup(name, content)
             boxl = BoxLayout(orientation='horizontal')
