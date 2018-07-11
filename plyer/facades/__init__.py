@@ -11,7 +11,7 @@ __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash',
            'Temperature', 'Humidity', 'SpatialOrientation', 'Brightness',
-           'Processors', 'StoragePath', 'keystore')
+           'Processors', 'StoragePath', 'keystore', 'Bluetooth')
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.audio import Audio
@@ -42,4 +42,5 @@ from plyer.facades.spatialorientation import SpatialOrientation
 from plyer.facades.brightness import Brightness
 from plyer.facades.keystore import Keystore
 from plyer.facades.storagepath import StoragePath
+from plyer.facades.bluetooth import Bluetooth
 from plyer.facades.processors import Processors
