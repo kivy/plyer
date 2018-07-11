@@ -4,6 +4,7 @@ TestNotification
 
 Tested platforms:
 
+* Windows
 * Linux - notify-send
 '''
 
@@ -50,6 +51,18 @@ class TestNotification(unittest.TestCase):
 
     @PlatformTest('win')
     def test_notification_windows(self):
+        import ctypes
+        from ctypes import (
+            WINFUNCTYPE, POINTER,
+            create_unicode_buffer,
+            c_bool, c_int
+        )
+        notif = platform_import(
+            platform='win',
+            module_name='notification'
+        ).instance()
+        EnumWindows = ctypes.windll.user32.EnumWindows
+        GetClassNameW = ctypes.windll.user32.GetClassNameW
 
         # loop over windows and get refs to
         # the opened plyer notifications
@@ -63,8 +76,7 @@ class TestNotification(unittest.TestCase):
                 clsnames.append(buff.value)
 
         # ensure it's not an empty facade
-        self.assertIsNot(notification, NFacade)
-        self.assertIsInstance(notification, WindowsNotification)
+        self.assertIn('WindowsNotification', str(notif))
 
         # create enum function for EnumWindows
         EnumWindowsProc = WINFUNCTYPE(
@@ -76,7 +88,7 @@ class TestNotification(unittest.TestCase):
         )
 
         for i in range(3):
-            self.show_notification(notification)
+            self.show_notification(notif)
 
             # the balloon needs some time to became visible in WinAPI
             sleep(0.01)
@@ -93,6 +105,7 @@ class TestNotification(unittest.TestCase):
             self.assertIn('PlyerTaskbar' + str(i), clsnames)
             clsnames = []
 
+    @PlatformTest('linux')
     def test_notification_dbus(self):
         if platform != 'linux':
             return
