@@ -5,11 +5,12 @@ TestNotification
 Tested platforms:
 
 * Windows
-* Linux - notify-send
+* Linux - notify-send, dbus
 '''
 
 import unittest
-import mock
+import sys
+from mock import Mock, patch
 
 from time import sleep
 from os.path import dirname, abspath, join
@@ -107,11 +108,54 @@ class TestNotification(unittest.TestCase):
 
     @PlatformTest('linux')
     def test_notification_dbus(self):
-        if platform != 'linux':
-            return
+        notif = platform_import(
+            platform='linux',
+            module_name='notification'
+        )
+        self.assertIn('NotifyDbus', dir(notif))
 
-        self.assertIsNot(notification, NFacade)
-        self.show_notification(NotifyDbus())
+        # (3) mocked Interface called from dbus
+        interface = Mock()
+        interface.side_effect = (interface, )
+
+        # (2) mocked SessionBus called from dbus
+        session_bus = Mock()
+        session_bus.side_effect = (session_bus, )
+
+        # (1) mocked dbus for import
+        dbus = Mock(SessionBus=session_bus, Interface=interface)
+
+        # inject the mocked module
+        self.assertNotIn('dbus', sys.modules)
+        sys.modules['dbus'] = dbus
+
+        try:
+            notif = notif.instance()
+            self.assertIn('NotifyDbus', str(notif))
+
+            # call notify()
+            self.show_notification(notif)
+
+            # check whether Mocks were called
+            dbus.SessionBus.assert_called_once()
+
+            session_bus.get_object.assert_called_once_with(
+                'org.freedesktop.Notifications',
+                '/org/freedesktop/Notifications'
+            )
+
+            interface.Notify.assert_called_once_with(
+                TestNotification.data['app_name'],
+                0,
+                TestNotification.data['app_icon'],
+                TestNotification.data['title'],
+                TestNotification.data['message'],
+                [], [],
+                TestNotification.data['timeout'] * 1000
+            )
+        finally:
+            del sys.modules['dbus']
+        self.assertNotIn('dbus', sys.modules)
 
     @PlatformTest('linux')
     def test_notification_notifysend(self):
@@ -121,11 +165,11 @@ class TestNotification(unittest.TestCase):
             whereis_exe=MockedNotifySend.whereis_exe
         )
         self.assertIn('NotifySendNotification', dir(notif))
-        with mock.patch(target='warnings.warn', new=MockedNotifySend.warn):
+        with patch(target='warnings.warn', new=MockedNotifySend.warn):
             notif = notif.instance()
         self.assertIn('NotifySendNotification', str(notif))
 
-        with mock.patch(target='subprocess.call', new=MockedNotifySend.call):
+        with patch(target='subprocess.call', new=MockedNotifySend.call):
             self.assertIsNone(self.show_notification(notif))
 
 
