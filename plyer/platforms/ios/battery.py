@@ -2,9 +2,8 @@
 Module of iOS API for plyer.battery.
 '''
 
-# pylint: disable=import-error
-from pyobjus import autoclass
-from pyobjus.dylib_manager import load_framework
+from pyobjus import autoclass  # pylint: disable=import-error
+from pyobjus.dylib_manager import load_framework  # pylint:disable=import-error
 from plyer.facades import Battery
 
 load_framework('/System/Library/Frameworks/UIKit.framework')

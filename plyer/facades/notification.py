@@ -23,12 +23,14 @@ Android, Windows, OS X, Linux
 
 
 class Notification(object):
+    # pylint: disable=too-few-public-methods
     '''
     Notification facade.
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
                timeout=10, ticker=''):
+        # pylint: disable=too-many-arguments
         '''
         Send a notification.
 

@@ -1,3 +1,7 @@
+'''
+Module of Linux API for plyer.notification.
+'''
+
 import warnings
 import subprocess
 from plyer.facades import Notification
@@ -5,19 +9,26 @@ from plyer.utils import whereis_exe
 
 
 class NotifySendNotification(Notification):
-    ''' Pops up a notification using notify-send
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of Linux notification API
+    using notify-send binary.
     '''
     def _notify(self, **kwargs):
-        subprocess.call(["notify-send",
-                         kwargs.get('title'),
-                         kwargs.get('message')])
+        subprocess.call([
+            "notify-send", kwargs.get('title'), kwargs.get('message')
+        ])
 
 
 class NotifyDbus(Notification):
-    ''' notify using dbus interface
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of Linux notification API
+    using dbus library and dbus-python wrapper.
     '''
 
     def _notify(self, **kwargs):
+        # pylint: disable=too-many-locals
         summary = kwargs.get('title', "title")
         body = kwargs.get('message', "body")
         app_name = kwargs.get('app_name', '')
@@ -31,7 +42,7 @@ class NotifyDbus(Notification):
         _object_path = '/org/freedesktop/Notifications'
         _interface_name = _bus_name
 
-        import dbus
+        import dbus  # pylint: disable=import-error
         session_bus = dbus.SessionBus()
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)
@@ -43,9 +54,11 @@ class NotifyDbus(Notification):
 
 
 def instance():
-    import sys
+    '''
+    Instance for facade proxy.
+    '''
     try:
-        import dbus
+        import dbus  # pylint: disable=unused-variable
         return NotifyDbus()
     except ImportError:
         msg = ("The Python dbus package is not installed.\n"
@@ -53,6 +66,7 @@ def instance():
                "it is usually called python-dbus or python3-dbus, but you "
                "might have to try dbus-python instead, e.g. when using pip.")
         warnings.warn(msg)
+
     if whereis_exe('notify-send'):
         return NotifySendNotification()
     warnings.warn("notify-send not found.")

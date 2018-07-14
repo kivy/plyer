@@ -10,32 +10,49 @@ Tested platforms:
 
 import unittest
 import sys
-from mock import Mock, patch
 
 from time import sleep
 from os.path import dirname, abspath, join
 
-from plyer.utils import platform
+from mock import Mock, patch
 from plyer.tests.common import PlatformTest, platform_import
 
 
 class MockedNotifySend(object):
+    '''
+    Mocked object used instead of the console-like calling
+    of notify-send binary with parameters.
+    '''
     @staticmethod
     def whereis_exe(binary):
+        '''
+        Mock whereis_exe, so that it looks like
+        Linux notify-send binary is present on the system.
+        '''
         return binary == 'notify-send'
 
     @staticmethod
     def call(args):
+        '''
+        Mocked subprocess.call to check console parameters.
+        '''
         assert len(args) >= 3
         assert TestNotification.data['title'] in args
         assert TestNotification.data['message'] in args
 
     @staticmethod
     def warn(msg):
+        '''
+        Mocked warnings.warn, so that we check the custom ImportError message.
+        '''
         assert 'dbus package is not installed' in msg
 
 
 class TestNotification(unittest.TestCase):
+    '''
+    TestCase for plyer.notification.
+    '''
+
     data = {
         'title': 'title',
         'message': 'My Message\nis multiline',
@@ -48,10 +65,16 @@ class TestNotification(unittest.TestCase):
     }
 
     def show_notification(self, instance):
+        '''
+        Call notify() from platform specific instance with sample data.
+        '''
         instance.notify(**self.data)
 
     @PlatformTest('win')
     def test_notification_windows(self):
+        '''
+        Test Windows API for plyer.notification.
+        '''
         import ctypes
         from ctypes import (
             WINFUNCTYPE, POINTER,
@@ -62,16 +85,20 @@ class TestNotification(unittest.TestCase):
             platform='win',
             module_name='notification'
         ).instance()
-        EnumWindows = ctypes.windll.user32.EnumWindows
-        GetClassNameW = ctypes.windll.user32.GetClassNameW
+        enum_windows = ctypes.windll.user32.EnumWindows
+        get_class_name = ctypes.windll.user32.GetClassNameW
 
         # loop over windows and get refs to
         # the opened plyer notifications
         clsnames = []
 
-        def fetch_class(hwnd, lParam):
+        def fetch_class(hwnd, *args):
+            # pylint: disable=unused-argument
+            '''
+            EnumWindowsProc callback for EnumWindows.
+            '''
             buff = create_unicode_buffer(50)
-            GetClassNameW(hwnd, buff, 50)
+            get_class_name(hwnd, buff, 50)
 
             if 'Plyer' in buff.value:
                 clsnames.append(buff.value)
@@ -80,7 +107,7 @@ class TestNotification(unittest.TestCase):
         self.assertIn('WindowsNotification', str(notif))
 
         # create enum function for EnumWindows
-        EnumWindowsProc = WINFUNCTYPE(
+        enum_windows_proc = WINFUNCTYPE(
             # returns
             c_bool,
 
@@ -95,9 +122,9 @@ class TestNotification(unittest.TestCase):
             sleep(0.01)
 
             # fetch window class names
-            EnumWindows(
+            enum_windows(
                 # enum & params
-                EnumWindowsProc(fetch_class), None
+                enum_windows_proc(fetch_class), None
             )
 
             # 3 active balloons at the same time,
@@ -108,6 +135,9 @@ class TestNotification(unittest.TestCase):
 
     @PlatformTest('linux')
     def test_notification_dbus(self):
+        '''
+        Test mocked Linux DBus for plyer.notification.
+        '''
         notif = platform_import(
             platform='linux',
             module_name='notification'
@@ -159,6 +189,9 @@ class TestNotification(unittest.TestCase):
 
     @PlatformTest('linux')
     def test_notification_notifysend(self):
+        '''
+        Test mocked Linux notify-send for plyer.notification.
+        '''
         notif = platform_import(
             platform='linux',
             module_name='notification',
