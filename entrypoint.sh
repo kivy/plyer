@@ -23,13 +23,10 @@ then
 fi
 
 # tests
-$PYTHON ./plyer/tests/dummy_setup.py
-
 nosetests \
     --exe \
     --stop \
     --nocapture \
+    --with-coverage \
+    --cover-package=plyer \
     $APP_DIR/plyer/tests
-#    --with-coverage \
-
-$PYTHON $APP_DIR/plyer/tests/dummy_teardown.py

@@ -12,6 +12,14 @@ import traceback
 from plyer.utils import platform as plyer_platform
 
 
+def reload(mod):
+    try:
+        from imp import reload
+    except ImportError:
+        from importlib import reload
+    reload(mod)
+
+
 class PlatformTest(object):
     # pylint: disable=too-few-public-methods
     '''
