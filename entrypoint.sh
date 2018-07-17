@@ -18,7 +18,7 @@ then
         --exclude=pep8.py,compat.py,utils.py \
         --ignore=E402,W503
     touch "$(pwd)/__init__.py"
-    $PYTHON -m pylint "$(pwd)"
+    $PYTHON -m pylint --disable=R0205 "$(pwd)"
     exit 0
 fi
 
