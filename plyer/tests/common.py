@@ -13,6 +13,10 @@ from plyer.utils import platform as plyer_platform
 
 
 def reload(mod):
+    # pylint: disable=redefined-outer-name
+    '''
+    Py2 + py3 compatible module reloading.
+    '''
     try:
         from imp import reload
     except ImportError:
