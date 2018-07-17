@@ -1,38 +1,47 @@
+'''
+TestEmail
+=========
+
+Tested platforms:
+
+* Windows
+'''
+
 import unittest
 
-from plyer.platforms.win import email
-from plyer.utils import platform
+from mock import Mock, patch
+from plyer.tests.common import PlatformTest, platform_import
 
 
-class Test(unittest.TestCase):
-    def test_email_win(self):
-        if platform != 'win':
-            return
+class TestEmail(unittest.TestCase):
+    '''
+    TestCase for plyer.email.
+    '''
 
-        # replace os.startfile to compare final value
-        _startfile = globals()['email'].__dict__['os'].startfile
-
-        # instead of os.startfile create a variable to compare
-        globals()['email'].__dict__['os'].startfile = lambda *args: setattr(
-            self, 'mailto', args[0]
+    @staticmethod
+    @PlatformTest('win')
+    def test_email_win():
+        '''
+        Test starting Windows email client for plyer.email.
+        '''
+        email = platform_import(
+            platform='win',
+            module_name='email'
         )
 
         try:
             test_mailto = 'mailto:recipient?subject=subject&body=text'
-            email.WindowsEmail().send(
-                recipient='recipient',
-                subject='subject',
-                text='text'
-            )
-            self.assertEqual(self.mailto, test_mailto)
-        except WindowsError:
+            with patch(target='os.startfile', new=Mock()) as startfile:
+                email.instance().send(
+                    recipient='recipient',
+                    subject='subject',
+                    text='text'
+                )
+            startfile.assert_called_once_with(test_mailto)
+        except WindowsError:  # pylint: disable=undefined-variable
             # if WE is raised, email client isn't found,
             # but the platform code works correctly
             print('Mail client not found!')
-
-        # give back startfile and remove mailto
-        globals()['email'].__dict__['os'].startfile = _startfile
-        del self.mailto
 
 
 if __name__ == '__main__':
