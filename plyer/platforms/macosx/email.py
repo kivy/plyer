@@ -1,3 +1,7 @@
+'''
+Module of MacOS API for plyer.email.
+'''
+
 import subprocess
 
 try:
@@ -10,6 +14,11 @@ from plyer.utils import whereis_exe
 
 
 class MacOSXEmail(Email):
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of MacOS email API.
+    '''
+
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
@@ -31,6 +40,9 @@ class MacOSXEmail(Email):
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('open'):
         return MacOSXEmail()

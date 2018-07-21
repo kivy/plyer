@@ -1,3 +1,7 @@
+'''
+Module of Windows API for plyer.email.
+'''
+
 import os
 try:
     from urllib.parse import quote
@@ -7,6 +11,11 @@ from plyer.facades import Email
 
 
 class WindowsEmail(Email):
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of Windows email API.
+    '''
+
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
@@ -24,11 +33,15 @@ class WindowsEmail(Email):
             uri += "body="
             uri += quote(str(text))
 
+        # WE + startfile are available only on Windows
         try:
-            os.startfile(uri)
-        except WindowsError:
+            os.startfile(uri)  # pylint: disable=no-member
+        except WindowsError:  # pylint: disable=undefined-variable
             print("Warning: unable to find a program able to send emails.")
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     return WindowsEmail()
