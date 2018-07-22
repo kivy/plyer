@@ -63,7 +63,7 @@ Proximity                          X
 Humidity                           X
 Sms (send messages)                X       X
 Spatial Orientation                X       X
-Storage Path                       X       X   X       X
+Storage Path                       X       X   X       X    X
 Temperature                        X
 Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
