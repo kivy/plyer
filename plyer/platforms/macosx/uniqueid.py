@@ -1,11 +1,18 @@
+'''
+Module of MacOS API for plyer.uniqueid.
+'''
+
+from os import environ
 from subprocess import Popen, PIPE
 from plyer.facades import UniqueID
 from plyer.utils import whereis_exe
 
-from os import environ
-
 
 class OSXUniqueID(UniqueID):
+    '''
+    Implementation of MacOS uniqueid API.
+    '''
+
     def _get_uid(self):
         old_lang = environ.get('LANG')
         environ['LANG'] = 'C'
@@ -23,13 +30,16 @@ class OSXUniqueID(UniqueID):
         else:
             environ['LANG'] = old_lang
 
+        result = None
         if output:
-            return output.split()[3][1:-1]
-        else:
-            return None
+            result = output.split()[3][1:-1]
+        return result
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('ioreg'):
         return OSXUniqueID()
