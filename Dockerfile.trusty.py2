@@ -13,8 +13,9 @@ RUN apt-get update && \
     openjdk-7-jdk \
     lshw \
     wget \
+    git \
+    && apt-get -y autoremove \
     && apt-get -y clean
-
 
 # install PIP
 RUN wget https://bootstrap.pypa.io/2.6/get-pip.py -O get-pip2.py

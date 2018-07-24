@@ -14,11 +14,13 @@ RUN echo 'deb-src http://ppa.launchpad.net/deadsnakes/ppa/ubuntu trusty main'\
 # install default packages
 RUN apt-get update && \
     apt-get -y --force-yes install \
-    python-setuptools \
+    python3-setuptools \
     python3.5-dev \
     openjdk-7-jdk \
     lshw \
     wget \
+    git \
+    && apt-get -y autoremove \
     && apt-get -y clean
 
 # install PIP

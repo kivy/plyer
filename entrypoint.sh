@@ -30,3 +30,7 @@ nosetests \
     --with-coverage \
     --cover-package=plyer \
     $APP_DIR/plyer/tests
+
+# submit coverage report from (nose) tests to coveralls.io
+# requires: REPO_TOKEN, SERVICE_NAME, JOB_ID, PULL_REQUEST
+coveralls || true
