@@ -29,10 +29,16 @@ class TestUniqueID(unittest.TestCase):
         '''
         Test Windows API for plyer.uniqueid.
         '''
-        from winreg import (  # pylint: disable=import-error
-            HKEY_LOCAL_MACHINE as HKLM,
-            KEY_READ as READ, KEY_WOW64_64KEY as VIEW
-        )
+        try:
+            from winreg import (  # pylint: disable=import-error
+                HKEY_LOCAL_MACHINE as HKLM,
+                KEY_READ as READ, KEY_WOW64_64KEY as VIEW
+            )
+        except ImportError:
+            from _winreg import (  # pylint: disable=import-error
+                HKEY_LOCAL_MACHINE as HKLM,
+                KEY_READ as READ, KEY_WOW64_64KEY as VIEW
+            )
 
         # mock the 'regedit' alias for winreg,
         # see if the import passes and get the instance
