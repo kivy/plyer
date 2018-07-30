@@ -1,6 +1,6 @@
 '''
-TestFacade
-==========
+TestUniqueID
+============
 
 Tested platforms:
 
