@@ -1,129 +1,168 @@
 sudo: required
 
 services:
-  - docker
+    - docker
+
+git:
+    depth: 1
 
 matrix:
-  fast_finish: true
-  include:
-    - env: DOCK=1 PY=2 RUN=unit
-      python: 2.7
-      os: linux
-      dist: trusty
+    fast_finish: true
+    include:
+        - env: DOCK=1 PY=2 RUN=unit
+          python: 2.7
+          os: linux
+          dist: trusty
 
-    - env: DOCK=1 PY=3 RUN=unit COVERALLS=1
-      python: 3.5
-      os: linux
-      dist: trusty
+        - env: DOCK=1 PY=3 RUN=unit COVERALLS=1
+          python: 3.5
+          os: linux
+          dist: trusty
 
-    - env: DOCK=1 PY=3 RUN=style
-      python: 3.5
-      os: linux
-      dist: trusty
+        - env: DOCK=1 PY=3 RUN=style
+          python: 3.5
+          os: linux
+          dist: trusty
 
-    - language: generic
-      env: RUN=unit PY=2 HOMEBREW_NO_AUTO_UPDATE=1
-      os: osx
+        - language: generic
+          env: RUN=unit PY=2 HOMEBREW_NO_AUTO_UPDATE=1
+          os: osx
 
-    - language: generic
-      env: RUN=unit PY=3 HOMEBREW_NO_AUTO_UPDATE=1
-      os: osx
+        - language: generic
+          env: RUN=unit PY=3 HOMEBREW_NO_AUTO_UPDATE=1
+          os: osx
 
 
 before_install:
-  # https://github.com/travis-ci/travis-ci/issues/6307
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      echo path=$PATH;
-      brew uninstall gnupg;
-      brew install gnupg2;
-      sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg || true;
-      sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg2 || true;
-      export PATH=$PATH:/usr/local/Cellar;
-      curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
-      rvm get head;
-    fi;
+    - echo PATH=$PATH;
+
+    # uninstall old GNUpg, install new one and add Brew
+    # 'Cellar' folder to the path (contains binaries)
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+          brew uninstall gnupg;
+          brew install gnupg2;
+          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg || true;
+          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg2 || true;
+          export PATH=$PATH:/usr/local/Cellar;
+      fi;
+
+    # https://github.com/travis-ci/travis-ci/issues/6307
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+          curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
+          rvm get head;
+      fi;
 
 
 install:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
-      if [ "$PY" == "2" ]; then
-        docker build --tag plyer:py2 -f Dockerfile.trusty.py2 "$(pwd)";
-      elif [ "$PY" == "3" ]; then
-        docker build --tag plyer:py3 -f Dockerfile.trusty.py3 "$(pwd)";
-        docker build --tag plyer:style -f Dockerfile.trusty.style "$(pwd)";
+    # build docker images
+    - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+          if [ "$PY" == "2" ]; then
+              docker build
+                  --tag plyer:py2
+                  --file Dockerfile.trusty.py2
+                  "$(pwd)";
+          elif [ "$PY" == "3" ]; then
+              docker build
+                  --tag plyer:py3
+                  --file Dockerfile.trusty.py3
+                  "$(pwd)";
+
+              docker build
+                  --tag plyer:style
+                  --file Dockerfile.trusty.style
+                  "$(pwd)";
+          fi;
       fi;
-    fi;
 
-  # manual get-pip.py because TLS1.2+ required
-  # pyfound.blogspot.com/2017/01/time-to-upgrade-your-python-tls-v12.html
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-      pyftp=https://www.python.org/ftp/python/3.5.4/;
-      py3pkg=python-3.5.4rc1-macosx10.6.pkg;
+    # get Py3 because it's not present in any OSX image on Travis
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          pyftp=https://www.python.org/ftp/python/3.5.4/;
+          py3pkg=python-3.5.4rc1-macosx10.6.pkg;
 
-      if [ "${PY}" == "3" ]; then
-        curl -O -L $pyftp$py3pkg;
-        sudo installer -package $py3pkg -target /;
+          if [ "${PY}" == "3" ]; then
+              curl -O -L $pyftp$py3pkg;
+              sudo installer -package $py3pkg -target /;
+          fi;
       fi;
 
-      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
-      if [ "${PY}" == "3" ]; then sudo python3 get-pip.py;
-          else sudo python get-pip.py; fi;
+    # manual get-pip.py on OSX because TLS1.2+ required
+    # pyfound.blogspot.com/2017/01/time-to-upgrade-your-python-tls-v12.html
+    # and install to virtualenv
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
+          if [ "${PY}" == "3" ]; then
+              sudo python3 get-pip.py;
+          else
+              sudo python get-pip.py;
+          fi;
 
-      if [ "${PY}" == "3" ]; then
-          pip3 install --upgrade --user -r devrequirements.txt;
-          pip3 install --user https://github.com/kivy/pyobjus/zipball/master;
-      else
-          pip install --upgrade --user -r devrequirements.txt;
-          pip install --user https://github.com/kivy/pyobjus/zipball/master;
+          if [ "${PY}" == "3" ]; then
+              pip3 install --user virtualenv;
+              python3 -m virtualenv env;
+          else
+              pip install --user virtualenv;
+              python -m virtualenv env;
+          fi;
+
+          source env/bin/activate;
+          pip install --upgrade --requirement devrequirements.txt;
+          pip install https://github.com/kivy/pyobjus/zipball/master;
       fi;
-    fi;
 
 
 script:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
-      if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]; then
-        docker run -it plyer:py2;
+    # run containers from images
+    - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+          if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]; then
+              docker run
+                  --interactive
+                  --tty
+                  plyer:py2;
 
-      elif [ "$PY" == "3" ] && [ "$RUN" == "unit" ]; then
-        if [ "${COVERALLS}" == "1" ]; then
-          docker run -it
-              -e COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN
-              -e COVERALLS_SERVICE_NAME=travis-ci
-              -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID
-              -e TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
-              plyer:py3;
+          elif [ "$PY" == "3" ] && [ "$RUN" == "unit" ]; then
+              if [ "${COVERALLS}" == "1" ]; then
+                  docker run
+                      --interactive
+                      --tty
+                      --env COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN
+                      --env COVERALLS_SERVICE_NAME=travis-ci
+                      --env TRAVIS_JOB_ID=$TRAVIS_JOB_ID
+                      --env TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
+                      plyer:py3;
 
-        else
-          docker run -it plyer:py3;
+              else
+                  docker run
+                      --interactive
+                      --tty
+                      plyer:py3;
+              fi;
+
+          elif [ "$PY" == "3" ] && [ "$RUN" == "style" ]; then
+              docker run
+                  --interactive
+                  --tty
+                  plyer:style;
+          fi;
         fi;
 
-      elif [ "$PY" == "3" ] && [ "$RUN" == "style" ]; then
-        docker run -it plyer:style;
-      fi;
-    fi;
-
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-      if [ "${PY}" == "3" ]; then
-          pip3 install --user .;
-          /Users/travis/Library/Python/3.5/bin/nosetests
-              --exe
-              --stop
-              --nocapture
-              ./plyer/tests;
-      else
-          pip install --user .;
-          /Users/travis/Library/Python/2.7/bin/nosetests
-              --exe
+    # test_facade.py fails to reload modules when run
+    # on Travis OSX images in Py3 yet works properly
+    # on Windows, Linux and OSX devices
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          if [ "$PY" == "3" ]; then
+              rm ./plyer/tests/test_facade.py;
+          fi;
+          pip install --editable .;
+          nosetests
               --stop
               --nocapture
               ./plyer/tests;
       fi;
-    fi;
 
 notifications:
-  webhooks:
-    urls:
-      - https://kivy.org:5000/travisevent
-    on_success: always
-    on_failure: always
-    on_start: always
+    webhooks:
+        urls:
+            - https://kivy.org:5000/travisevent
+        on_success: always
+        on_failure: always
+        on_start: always
