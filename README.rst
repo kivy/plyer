@@ -34,10 +34,10 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
-Barometer                          X       X
 Audio recording                    X
+Barometer                          X       X
 Battery                            X       X   X       X    X
-Bluetooth                                                       
+Bluetooth                          X                   X
 Brightness                         X       X                X
 Call                               X       X
 Camera (taking picture)            X       X
@@ -46,21 +46,15 @@ Email (open mail client)           X       X   X       X    X
 Flash                              X       X
 GPS                                X       X
 Gravity                            X       X
-IR Blaster                         X
-Notifications                      X           X       X    X
-Text to speech                     X       X   X       X    X
-Email (open mail client)           X       X   X       X    X
-Vibrator                           X       X
-Sms (send messages)                X       X
-Compass                            X       X
-Unique ID                          X       X   X       X    X
 Gyroscope                          X       X
+Humidity                           X
 IR Blaster                         X
 Light                              X
 Native file chooser                            X       X    X
+Notifications                      X           X       X    X
+Number of Processors                                        X
 Orientation                        X
 Proximity                          X
-Humidity                           X
 Sms (send messages)                X       X
 Spatial Orientation                X       X
 Storage Path                       X       X   X       X    X
@@ -69,7 +63,6 @@ Text to speech                     X       X   X       X    X
 Unique ID                          X       X   X       X    X
 Vibrator                           X       X
 Wifi                                           X       X    X
-Number of Processors                                        X
 ================================== ======= === ======= ==== =====
 
 Support
