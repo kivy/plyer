@@ -1,3 +1,8 @@
+'''
+Android Proximity
+-----------------
+'''
+
 from jnius import autoclass
 from jnius import cast
 from jnius import java_method
@@ -62,7 +67,7 @@ class AndroidProximity(Proximity):
             # value is 0.0 when proxime sensor is covered. In other case
             # value is 5.0 because in smartphone, optical proximity sensors
             # are used.
-            return value < 5.0
+            return str(value < 5.0)
 
 
 def instance():
