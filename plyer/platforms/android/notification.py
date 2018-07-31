@@ -1,27 +1,41 @@
+'''
+Module of Android API for plyer.notification.
+'''
+
 from jnius import autoclass
 from plyer.facades import Notification
 from plyer.platforms.android import activity, SDK_INT
 
-AndroidString = autoclass('java.lang.String')
-Context = autoclass('android.content.Context')
-NotificationBuilder = autoclass('android.app.Notification$Builder')
-Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
+ANDROIDSTRING = autoclass('java.lang.String')
+CONTEXT = autoclass('android.content.Context')
+NOTIFICATIONBUILDER = autoclass('android.app.Notification$Builder')
+DRAWABLE = autoclass("{}.R$drawable".format(activity.getPackageName()))
 
 
 class AndroidNotification(Notification):
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of Android notification API.
+    '''
+
+    def __init__(self):
+        self._ns = None
+
     def _get_notification_service(self):
-        if not hasattr(self, '_ns'):
-            self._ns = activity.getSystemService(Context.NOTIFICATION_SERVICE)
+        if not self._ns:
+            self._ns = activity.getSystemService(
+                CONTEXT.NOTIFICATION_SERVICE
+            )
         return self._ns
 
     def _notify(self, **kwargs):
-        icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
-        noti = NotificationBuilder(activity)
-        noti.setContentTitle(AndroidString(
+        icon = getattr(DRAWABLE, kwargs.get('icon_android', 'icon'))
+        noti = NOTIFICATIONBUILDER(activity)
+        noti.setContentTitle(ANDROIDSTRING(
             kwargs.get('title').encode('utf-8')))
-        noti.setContentText(AndroidString(
+        noti.setContentText(ANDROIDSTRING(
             kwargs.get('message').encode('utf-8')))
-        noti.setTicker(AndroidString(
+        noti.setTicker(ANDROIDSTRING(
             kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
         noti.setAutoCancel(True)
@@ -35,4 +49,7 @@ class AndroidNotification(Notification):
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     return AndroidNotification()

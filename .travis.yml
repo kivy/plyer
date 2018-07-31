@@ -1,176 +1,168 @@
+sudo: required
+
+services:
+    - docker
+
+git:
+    depth: 1
+
 matrix:
-  fast_finish: true
-  include:
-    - language: python
-      python: 2.7
-      env: RUN=unit
-      os: linux
-      dist: trusty
+    fast_finish: true
+    include:
+        - env: DOCK=1 PY=2 RUN=unit
+          python: 2.7
+          os: linux
+          dist: trusty
 
-    - language: python
-      python: 3.5
-      env: RUN=unit COVERALLS=1
-      os: linux
-      dist: trusty
+        - env: DOCK=1 PY=3 RUN=unit COVERALLS=1
+          python: 3.5
+          os: linux
+          dist: trusty
 
-    - language: python
-      python: 3.5
-      env: RUN=pep8
-      os: linux
-      dist: trusty
+        - env: DOCK=1 PY=3 RUN=style
+          python: 3.5
+          os: linux
+          dist: trusty
 
-    - language: generic
-      env: RUN=unit PY=2
-      os: osx
+        - language: generic
+          env: RUN=unit PY=2 HOMEBREW_NO_AUTO_UPDATE=1
+          os: osx
 
-    - language: generic
-      env: RUN=unit PY=3
-      os: osx
+        - language: generic
+          env: RUN=unit PY=3 HOMEBREW_NO_AUTO_UPDATE=1
+          os: osx
 
 
 before_install:
-  # https://github.com/travis-ci/travis-ci/issues/6307
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    - echo PATH=$PATH;
 
-      rvm get head;
+    # uninstall old GNUpg, install new one and add Brew
+    # 'Cellar' folder to the path (contains binaries)
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+          brew uninstall gnupg;
+          brew install gnupg2;
+          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg || true;
+          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg2 || true;
+          export PATH=$PATH:/usr/local/Cellar;
+      fi;
 
-    fi;
+    # https://github.com/travis-ci/travis-ci/issues/6307
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+          curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
+          rvm get head;
+      fi;
 
 
 install:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
-      if [ "${RUN}" == "pep8" ]; then
+    # build docker images
+    - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+          if [ "$PY" == "2" ]; then
+              docker build
+                  --tag plyer:py2
+                  --file Dockerfile.trusty.py2
+                  "$(pwd)";
+          elif [ "$PY" == "3" ]; then
+              docker build
+                  --tag plyer:py3
+                  --file Dockerfile.trusty.py3
+                  "$(pwd)";
 
-        python -m pip install pycodestyle;
-
+              docker build
+                  --tag plyer:style
+                  --file Dockerfile.trusty.style
+                  "$(pwd)";
+          fi;
       fi;
-      if [ "${RUN}" != "pep8" ]; then
 
-        echo "[YML] Necessary build stuff";
+    # get Py3 because it's not present in any OSX image on Travis
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          pyftp=https://www.python.org/ftp/python/3.5.4/;
+          py3pkg=python-3.5.4rc1-macosx10.6.pkg;
 
-        sudo add-apt-repository ppa:fkrull/deadsnakes -y;
-        sudo apt-get update;
-        sudo apt-get -y install --reinstall
-            python-setuptools
-            python-dev
-            python3.5-dev;
-        python -m pip install --upgrade nose coveralls;
-
-        echo "[YML] plyer.notification deps";
-        echo "[YML] * plyer.notification.NotifyDbus";
-        sudo apt-get -y install python-dbus python3-dbus
-
-        echo "[YML] * plyer.notification.NotifySendNotification";
-        sudo apt-get -y install libnotify-bin;
-
-        echo "[YML] * Fixing DBusException";
-        echo "[YML] * org.freedesktop.DBus.Error.ServiceUnknown";
-        echo "[YML] * The name org.freedesktop.Notifications was not provided";
-        sudo apt-get -y install --reinstall notification-daemon notify-osd;
-
-        echo "[YML] plyer.battery deps";
-        sudo apt-get install upower;
-
+          if [ "${PY}" == "3" ]; then
+              curl -O -L $pyftp$py3pkg;
+              sudo installer -package $py3pkg -target /;
+          fi;
       fi;
-    fi;
 
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+    # manual get-pip.py on OSX because TLS1.2+ required
+    # pyfound.blogspot.com/2017/01/time-to-upgrade-your-python-tls-v12.html
+    # and install to virtualenv
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
+          if [ "${PY}" == "3" ]; then
+              sudo python3 get-pip.py;
+          else
+              sudo python get-pip.py;
+          fi;
 
-      ariagh=https://github.com/aria2/aria2/releases/download/release-1.29.0/;
-      ariadmg=aria2-1.29.0-osx-darwin.dmg;
-      pyftp=https://www.python.org/ftp/python/3.5.2/;
-      py3pkg=python-3.5.2-macosx10.6.pkg;
-      curl -O -L $ariagh$ariadmg;
+          if [ "${PY}" == "3" ]; then
+              pip3 install --user virtualenv;
+              python3 -m virtualenv env;
+          else
+              pip install --user virtualenv;
+              python -m virtualenv env;
+          fi;
 
-      hdiutil attach aria2-1.29.0-osx-darwin.dmg;
-      sudo installer -package "/Volumes/aria2 1.29.0 Intel/aria2.pkg" -target /;
-
-      if [ "${PY}" == "3" ]; then
-
-         curl -O -L $pyftp$py3pkg;
-         sudo installer -package python-3.5.2-macosx10.6.pkg -target /;
-
-         pip3 install --upgrade --user nose cython;
-         pip3 install https://github.com/kivy/pyobjus/zipball/master;
-
-      else
-         pip install --upgrade --user nose cython;
-         pip install https://github.com/kivy/pyobjus/zipball/master;
-
+          source env/bin/activate;
+          pip install --upgrade --requirement devrequirements.txt;
+          pip install https://github.com/kivy/pyobjus/zipball/master;
       fi;
-    fi;
-
-
-before_script:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ "${RUN}" != "pep8" ]; then
-
-      export DISPLAY=:99.0;
-      /sbin/start-stop-daemon
-          --start
-          --quiet
-          --pidfile /tmp/custom_xvfb_99.pid
-          --make-pidfile
-          --background
-          --exec /usr/bin/Xvfb --
-              :99
-              -screen 0 1280x720x24
-              -ac +extension GLX;
-
-      export PYTHONPATH=$PYTHONPATH:$(pwd);
-
-    fi;
 
 
 script:
-  - python -m pip install .
+    # run containers from images
+    - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
+          if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]; then
+              docker run
+                  --interactive
+                  --tty
+                  plyer:py2;
 
-  # setup dummies before running tests
-  # nose throws stuff to globals and won't clean up afterwards
-  - python ./plyer/tests/dummy_setup.py
+          elif [ "$PY" == "3" ] && [ "$RUN" == "unit" ]; then
+              if [ "${COVERALLS}" == "1" ]; then
+                  docker run
+                      --interactive
+                      --tty
+                      --env COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN
+                      --env COVERALLS_SERVICE_NAME=travis-ci
+                      --env TRAVIS_JOB_ID=$TRAVIS_JOB_ID
+                      --env TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
+                      plyer:py3;
 
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+              else
+                  docker run
+                      --interactive
+                      --tty
+                      plyer:py3;
+              fi;
 
-      set -ex;
-      if [ "${RUN}" == "unit" ]; then
+          elif [ "$PY" == "3" ] && [ "$RUN" == "style" ]; then
+              docker run
+                  --interactive
+                  --tty
+                  plyer:style;
+          fi;
+        fi;
 
-        python -m nose.core -s ./plyer/tests --with-coverage;
-
+    # test_facade.py fails to reload modules when run
+    # on Travis OSX images in Py3 yet works properly
+    # on Windows, Linux and OSX devices
+    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+          if [ "$PY" == "3" ]; then
+              rm ./plyer/tests/test_facade.py;
+          fi;
+          pip install --editable .;
+          nosetests
+              --stop
+              --nocapture
+              ./plyer/tests;
       fi;
-      if [ "${RUN}" == "pep8" ]; then
-
-        pycodestyle "$(pwd)"
-            --exclude=pep8.py,compat.py,utils.py
-            --ignore=E402,W503;
-
-      fi;
-      if [ "${COVERALLS}" == "1" ] && [ "${TRAVIS_BRANCH}" == "master" ]; then
-
-        coveralls;
-
-      fi;
-    fi;
-
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-
-      set -ex;
-      if [ "${PY}" == "3" ]; then
-
-        python3 -m nose.core ./plyer/tests;
-
-      else
-        python -m nose.core ./plyer/tests;
-
-      fi;
-    fi;
-
-  # remove dummies and return to previous state
-  - python ./plyer/tests/dummy_teardown.py
-
 
 notifications:
-  webhooks:
-    urls:
-      - https://kivy.org:5000/travisevent
-    on_success: always
-    on_failure: always
-    on_start: always
+    webhooks:
+        urls:
+            - https://kivy.org:5000/travisevent
+        on_success: always
+        on_failure: always
+        on_start: always

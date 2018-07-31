@@ -1,0 +1,37 @@
+FROM ubuntu:trusty-20180531
+
+ENV APP_DIR=/app
+RUN mkdir $APP_DIR
+WORKDIR $APP_DIR
+ENV PYTHONPATH=$PYTHONPATH:$(pwd)
+
+# install default packages
+RUN apt-get update && \
+    apt-get -y --force-yes install \
+    python-setuptools \
+    python-dev \
+    openjdk-7-jdk \
+    lshw \
+    wget \
+    git \
+    && apt-get -y autoremove \
+    && apt-get -y clean
+
+# install PIP
+RUN wget https://bootstrap.pypa.io/2.6/get-pip.py -O get-pip2.py
+RUN python -V && \
+    python get-pip2.py && \
+    rm get-pip2.py && \
+    python -m pip install --upgrade pip
+
+# install dev packages
+COPY devrequirements.txt .
+RUN python -m pip install \
+        --upgrade \
+        --requirement devrequirements.txt
+RUN python -m pip install \
+    https://github.com/kivy/pyjnius/zipball/master
+
+COPY . $APP_DIR
+RUN python -m pip install .
+ENTRYPOINT ["/app/entrypoint.sh", "py2"]

@@ -1,14 +1,23 @@
-from jnius import autoclass, cast
+'''
+Module of Android API for plyer.email.
+'''
+
+from jnius import autoclass, cast  # pylint: disable=no-name-in-module
 from plyer.facades import Email
 from plyer.platforms.android import activity
 
-Intent = autoclass('android.content.Intent')
-AndroidString = autoclass('java.lang.String')
+INTENT = autoclass('android.content.Intent')
+ANDROIDSTRING = autoclass('java.lang.String')
 
 
 class AndroidEmail(Email):
+    # pylint: disable=too-few-public-methods
+    '''
+    Implementation of Android email API.
+    '''
+
     def _send(self, **kwargs):
-        intent = Intent(Intent.ACTION_SEND)
+        intent = INTENT(INTENT.ACTION_SEND)
         intent.setType('text/plain')
 
         recipient = kwargs.get('recipient')
@@ -17,24 +26,28 @@ class AndroidEmail(Email):
         create_chooser = kwargs.get('create_chooser')
 
         if recipient:
-            intent.putExtra(Intent.EXTRA_EMAIL, [recipient])
+            intent.putExtra(INTENT.EXTRA_EMAIL, [recipient])
         if subject:
             android_subject = cast('java.lang.CharSequence',
-                                   AndroidString(subject))
-            intent.putExtra(Intent.EXTRA_SUBJECT, android_subject)
+                                   ANDROIDSTRING(subject))
+            intent.putExtra(INTENT.EXTRA_SUBJECT, android_subject)
         if text:
             android_text = cast('java.lang.CharSequence',
-                                AndroidString(text))
-            intent.putExtra(Intent.EXTRA_TEXT, android_text)
+                                ANDROIDSTRING(text))
+            intent.putExtra(INTENT.EXTRA_TEXT, android_text)
 
         if create_chooser:
             chooser_title = cast('java.lang.CharSequence',
-                                 AndroidString('Send message with:'))
-            activity.startActivity(Intent.createChooser(intent,
-                                                        chooser_title))
+                                 ANDROIDSTRING('Send message with:'))
+            activity.startActivity(
+                INTENT.createChooser(intent, chooser_title)
+            )
         else:
             activity.startActivity(intent)
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     return AndroidEmail()
