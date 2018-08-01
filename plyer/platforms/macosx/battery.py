@@ -32,15 +32,15 @@ class OSXBattery(Battery):
 
         is_charging = max_capacity = current_capacity = None
         for line in output.splitlines():
-            if 'IsCharging' in line:
-                is_charging = line.rpartition('=')[-1].strip()
-            if 'MaxCapacity' in line:
-                max_capacity = float(line.rpartition('=')[-1].strip())
-            if 'CurrentCapacity' in line:
-                current_capacity = float(line.rpartition('=')[-1].strip())
+            if b'IsCharging' in line:
+                is_charging = line.rpartition(b'=')[-1].strip()
+            if b'MaxCapacity' in line:
+                max_capacity = float(line.rpartition(b'=')[-1].strip())
+            if b'CurrentCapacity' in line:
+                current_capacity = float(line.rpartition(b'=')[-1].strip())
 
         if is_charging:
-            status['isCharging'] = is_charging == "Yes"
+            status['isCharging'] = is_charging == b"Yes"
 
         if current_capacity and max_capacity:
             status['percentage'] = 100.0 * current_capacity / max_capacity
