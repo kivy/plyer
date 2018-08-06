@@ -28,7 +28,7 @@ def mock_platform_module(mod, platform, cls):
     '''
     Create a stub module for a specific platform. This module contains:
 
-    * class inheritting from facade implementing the desired feature
+    * class inheriting from facade implementing the desired feature
     * 'instance' function returning an instance of the implementing class
     '''
 
