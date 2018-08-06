@@ -34,3 +34,9 @@ nosetests \
 # submit coverage report from (nose) tests to coveralls.io
 # requires: REPO_TOKEN, SERVICE_NAME, JOB_ID, PULL_REQUEST
 coveralls || true
+
+# deploy to PyPI if set in CI with PLYER_DEPLOY variable
+if [ "$PLYER_DEPLOY" = "1" ]; then
+    $PYTHON setup.py sdist bdist_wheel
+    $PYTHON -m twine upload dist/*
+fi
