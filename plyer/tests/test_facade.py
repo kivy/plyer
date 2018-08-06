@@ -17,11 +17,46 @@ import sys
 from copy import copy
 from os import remove
 from os.path import abspath, dirname, join
+from types import MethodType
 
-from mock import Mock
+from mock import Mock, patch
 
 import plyer
-from plyer.tests.common import reload
+
+
+def mock_platform_module(mod, platform, cls):
+    '''
+    Create a stub module for a specific platform. This module contains:
+
+    * class inheriting from facade implementing the desired feature
+    * 'instance' function returning an instance of the implementing class
+    '''
+
+    # assemble an instance returned from the instance() function
+    # which is created from a dynamically created class
+    # <class '<mod>.<platform><cls>'> e.g.:
+    # <class 'plyer.platforms.win.dummy . WinDummy'>
+    stub_inst = Mock(
+        __module__=mod,
+        __class__=type(
+            '{}{}'.format(platform.title(), cls), (object, ), {
+                '__module__': mod
+            }
+        ),
+    )
+
+    # manual 'return_value' assign to Mock, so that the instance() call
+    # can return stub_inst's own instance instead of creating another
+    # unnecessary Mock object
+    stub_inst.return_value = stub_inst
+
+    # bind custom function returning the class name to stub_inst instance,
+    # so that instance().show() call requires 'self' i.e. instance parameter
+    # for the function to access the instance's class name
+    stub_inst.show = MethodType(lambda slf: slf, stub_inst)
+
+    stub_mod = Mock(instance=stub_inst)
+    return stub_mod
 
 
 # dummy pyjnius class to silence the import + config
@@ -52,217 +87,48 @@ class TestFacade(unittest.TestCase):
     TestCase for plyer.utils.Proxy and plyer.facades.
     '''
 
-    @classmethod
-    def setUpClass(cls):
-        # dummy files to test Proxy + facades
-        dummy_facade = (
-            'class Dummy(object):\n'
-            '    def show(self):\n'
-            '        raise NotImplementedError()\n'
-        )
-
-        dummy = (
-            'from plyer.facades import Dummy\n\n\n'
-            'class {plat}Dummy(Dummy):\n'
-            '    def show(self):\n'
-            '        return self\n\n'
-            '    def __str__(self, *args):\n'
-            '        return "{plat}".lower()\n\n\n'
-            'def instance():\n'
-            '    return {plat}Dummy()\n\n'
-        )
-
-        fac_path = join(
-            dirname(dirname(abspath(__file__))),
-            'facades'
-        )
-        plat_path = join(
-            dirname(dirname(abspath(__file__))),
-            'platforms'
-        )
-
-        # create Dummy facade
-        with open(join(fac_path, 'dummy.py'), 'w') as fle:
-            fle.write(dummy_facade)
-
-        # create Dummy platform modules
-        for plat in {'android', 'ios', 'win', 'macosx', 'linux'}:
-            with open(join(plat_path, plat, 'dummy.py'), 'w') as fle:
-                fle.write(dummy.format(
-                    **{'plat': plat.title()}
-                ))
-
-        # make Dummy facade available in plyer
-        injected = False
-        with open(join(fac_path, '__init__.py'), 'r+') as fle:
-
-            # make a backup of original file
-            facades_old = fle.readlines()
-
-            # return to the beginning of a file and inject
-            fle.seek(0)
-            for line in facades_old:
-                # inject before the first importing (necessary for __all__)
-                if line.startswith('from ') or line.startswith('import '):
-                    # if injected and on an import line,
-                    # proceed with default
-                    if injected:
-                        fle.write(line)
-                        continue
-
-                    # injecting Dummy facade to plyer
-                    fle.write(
-                        '\nfrom plyer.facades.dummy import Dummy\n'
-                        '__all__ += ("Dummy", )\n'
-                    )
-                    injected = True
-
-                # write line by default
-                fle.write(line)
-            fle.truncate()
-
-        with open(join(fac_path, '__old_init__.py'), 'w') as fle:
-            fle.write(''.join(facades_old))
-
-        # reload everything from plyer
-        # (and other modules if necessary)
-        module_cls = type(sys)
-        include = {'plyer'}
-        for key, val in copy(sys.modules).items():
-            if any([pattern not in key for pattern in include]):
-                continue
-            if any([pattern not in str(val) for pattern in include]):
-                continue
-            if not isinstance(val, module_cls):
-                continue
-            reload(val)
-
-    def test_facade_android(self):
+    def test_facade_existing_platforms(self):
         '''
         Test for returning an object for Android API implementation
         from Proxy object using a dynamically generated dummy objects.
         '''
+        _original = plyer.utils.platform
 
-        plyer.utils.platform = 'android'
+        for plat in {'android', 'ios', 'win', 'macosx', 'linux'}:
+            plyer.utils.platform = plat
 
-        # android platform automatically imports jnius
-        sys.modules['jnius'] = DummyJnius()
-        proxy_cls = plyer.utils.Proxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
+            if plat == 'android':
+                # android platform automatically imports jnius
+                sys.modules['jnius'] = DummyJnius()
 
-        self.assertEqual(
-            str(dummy), plyer.utils.platform
-        )
-        self.assertEqual(
-            dummy.__class__,
-            # pylint: disable=no-member
-            plyer.platforms.android.dummy.AndroidDummy
-        )
-        self.assertIsInstance(
-            dummy.show(),
-            # pylint: disable=no-member
-            plyer.platforms.android.dummy.AndroidDummy
-        )
+            # create stub module with instance func and class
+            stub_mod = mock_platform_module(
+                mod='plyer.platforms.{}.dummy'.format(plat),
+                platform=plyer.utils.platform,
+                cls='Dummy'
+            )
 
-    def test_facade_ios(self):
-        '''
-        Test for returning an object for iOS API implementation
-        from Proxy object using a dynamically generated dummy objects.
-        '''
+            proxy_cls = plyer.utils.Proxy
+            py2_target = '__builtin__.__import__'
+            py3_target = 'builtins.__import__'
+            target = py3_target if sys.version_info.major == 3 else py2_target
+            with patch(target=target, return_value=stub_mod) as obj:
+                dummy = proxy_cls('dummy', stub_mod)
 
-        plyer.utils.platform = 'ios'
-        proxy_cls = plyer.utils.Proxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
+                self.assertEqual(
+                    str(dummy.__class__).split("'")[1],
+                    'plyer.platforms.{}.dummy.{}Dummy'.format(
+                        plat, plat.title()
+                    )
+                )
+                self.assertEqual(
+                    str(dummy.show().__class__).split("'")[1],
+                    'plyer.platforms.{}.dummy.{}Dummy'.format(
+                        plat, plat.title()
+                    )
+                )
 
-        self.assertEqual(
-            str(dummy), plyer.utils.platform
-        )
-        self.assertEqual(
-            dummy.__class__,
-            plyer.platforms.ios.dummy.IosDummy  # pylint: disable=no-member
-        )
-        self.assertIsInstance(
-            dummy.show(),
-            plyer.platforms.ios.dummy.IosDummy  # pylint: disable=no-member
-        )
-
-    def test_facade_windows(self):
-        '''
-        Test for returning an object for Windows API implementation
-        from Proxy object using a dynamically generated dummy objects.
-        '''
-
-        plyer.utils.platform = 'win'
-        proxy_cls = plyer.utils.Proxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
-
-        self.assertEqual(
-            str(dummy), plyer.utils.platform
-        )
-        self.assertEqual(
-            dummy.__class__,
-            plyer.platforms.win.dummy.WinDummy  # pylint: disable=no-member
-        )
-        self.assertIsInstance(
-            dummy.show(),
-            plyer.platforms.win.dummy.WinDummy  # pylint: disable=no-member
-        )
-
-    def test_facade_osx(self):
-        '''
-        Test for returning an object for MacOS API implementation
-        from Proxy object using a dynamically generated dummy objects.
-        '''
-
-        plyer.utils.platform = 'macosx'
-        proxy_cls = plyer.utils.Proxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
-
-        self.assertEqual(
-            str(dummy), plyer.utils.platform
-        )
-        self.assertEqual(
-            dummy.__class__,
-            # pylint: disable=no-member
-            plyer.platforms.macosx.dummy.MacosxDummy
-        )
-        self.assertIsInstance(
-            dummy.show(),
-            # pylint: disable=no-member
-            plyer.platforms.macosx.dummy.MacosxDummy
-        )
-
-    def test_facade_linux(self):
-        '''
-        Test for returning an object for Linux API implementation
-        from Proxy object using a dynamically generated dummy objects.
-        '''
-
-        plyer.utils.platform = 'linux'
-        proxy_cls = plyer.utils.Proxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
-
-        self.assertEqual(
-            str(dummy), plyer.utils.platform
-        )
-        self.assertEqual(
-            dummy.__class__,
-            plyer.platforms.linux.dummy.LinuxDummy  # pylint: disable=no-member
-        )
-        self.assertIsInstance(
-            dummy.show(),
-            plyer.platforms.linux.dummy.LinuxDummy  # pylint: disable=no-member
-        )
+        plyer.utils.platform = _original
 
     def test_facade_unknown(self):
         '''
@@ -270,6 +136,7 @@ class TestFacade(unittest.TestCase):
         is no such requested platform.
         '''
 
+        _original = plyer.utils.platform
         plyer.utils.platform = 'unknown'
 
         # no 'unknown' platform (folder), fallback to facade
@@ -315,46 +182,10 @@ class TestFacade(unittest.TestCase):
                 sys.stderr = sys.__stderr__
 
         proxy_cls = MockedProxy
-        dummy = proxy_cls(
-            'dummy', plyer.facades.Dummy  # pylint: disable=no-member
-        )
-
-        self.assertNotEqual(
-            str(dummy), plyer.utils.platform
-        )
-
-        self.assertEqual(
-            dummy.__class__, plyer.facades.Dummy  # pylint: disable=no-member
-        )
-        with self.assertRaises(NotImplementedError):
-            dummy.show()
-
-    @classmethod
-    def tearDownClass(cls):
-        fac_path = join(
-            dirname(dirname(abspath(__file__))),
-            'facades'
-        )
-        plat_path = join(
-            dirname(dirname(abspath(__file__))),
-            'platforms'
-        )
-
-        # remove Dummy facade
-        remove(join(fac_path, 'dummy.py'))
-
-        # remove Dummy platform modules
-        for plat in {'android', 'ios', 'win', 'macosx', 'linux'}:
-            remove(join(plat_path, plat, 'dummy.py'))
-
-        with open(join(fac_path, '__old_init__.py')) as fle:
-            facades_old = fle.read()
-        remove(join(fac_path, '__old_init__.py'))
-
-        # restore the original facades __init__.py
-        with open(join(fac_path, '__init__.py'), 'w') as fle:
-            fle.write(''.join(facades_old))
-        plyer.utils.platform = plyer.utils.Platform()
+        facade = Mock()
+        dummy = proxy_cls('dummy', facade)
+        self.assertEqual(dummy._mock_new_parent, facade)
+        plyer.utils.platform = _original
 
 
 if __name__ == '__main__':

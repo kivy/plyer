@@ -149,9 +149,6 @@ script:
     # on Travis OSX images in Py3 yet works properly
     # on Windows, Linux and OSX devices
     - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-          if [ "$PY" == "3" ]; then
-              rm ./plyer/tests/test_facade.py;
-          fi;
           pip install --editable .;
           nosetests
               --stop
