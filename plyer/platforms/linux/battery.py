@@ -2,7 +2,9 @@
 Module of Linux API for plyer.battery.
 '''
 
+from math import floor
 from os import environ
+from os.path import exists, join
 from subprocess import Popen, PIPE
 from plyer.facades import Battery
 from plyer.utils import whereis_exe
@@ -10,7 +12,40 @@ from plyer.utils import whereis_exe
 
 class LinuxBattery(Battery):
     '''
-    Implementation of Linux battery API.
+    Implementation of Linux battery API via accessing the sysclass power_supply
+    path from the kernel.
+    '''
+
+    def _get_state(self):
+        status = {"isCharging": None, "percentage": None}
+
+        kernel_bat_path = join('/sys', 'class', 'power_supply', 'BAT0')
+        uevent = join(kernel_bat_path, 'uevent')
+
+        with open(uevent) as fle:
+            lines = [
+                line.decode('utf-8').strip()
+                for line in fle.readlines()
+            ]
+        output = {
+            line.split('=')[0]: line.split('=')[1]
+            for line in lines
+        }
+
+        is_charging = output['POWER_SUPPLY_STATUS'] == 'Charging'
+        total = float(output['POWER_SUPPLY_CHARGE_FULL'])
+        now = float(output['POWER_SUPPLY_CHARGE_NOW'])
+
+        capacity = floor(now / total * 100)
+
+        status['percentage'] = capacity
+        status['isCharging'] = is_charging
+        return status
+
+
+class UPowerBattery(Battery):
+    '''
+    Implementation of UPower battery API.
     '''
 
     def _get_state(self):
@@ -59,6 +94,9 @@ def instance():
     '''
     import sys
     if whereis_exe('upower'):
-        return LinuxBattery()
+        return UPowerBattery()
     sys.stderr.write("upower not found.")
+
+    if exists(join('/sys', 'class', 'power_supply', 'BAT0')):
+        return LinuxBattery()
     return Battery()
