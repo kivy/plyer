@@ -3,9 +3,6 @@ sudo: required
 services:
     - docker
 
-git:
-    depth: 1
-
 matrix:
     fast_finish: true
     include:
@@ -51,6 +48,9 @@ before_install:
           curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
           rvm get head;
       fi;
+
+    # use real branch name instead of detached HEAD
+    - git checkout ${TRAVIS_BRANCH}
 
 
 install:
