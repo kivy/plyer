@@ -50,7 +50,7 @@ before_install:
       fi;
 
     # use real branch name instead of detached HEAD
-    - git checkout ${TRAVIS_BRANCH}
+    - git checkout ${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
 
 
 install:
