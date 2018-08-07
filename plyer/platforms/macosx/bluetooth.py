@@ -1,3 +1,7 @@
+'''
+Module of MacOS API for plyer.bluetooth.
+'''
+
 from subprocess import Popen, PIPE
 from plyer.facades import Bluetooth
 from plyer.utils import whereis_exe
@@ -6,11 +10,18 @@ from os import environ
 
 
 class OSXBluetooth(Bluetooth):
+    '''
+    Implementation of MacOS bluetooth API.
+    '''
+
     def _get_info(self):
         old_lang = environ.get('LANG')
         environ['LANG'] = 'C'
 
-        sys_profiler_process = Popen(["system_profiler", "SPBluetoothDataType"], stdout=PIPE)
+        sys_profiler_process = Popen(
+            ["system_profiler", "SPBluetoothDataType"],
+            stdout=PIPE
+        )
         grep_process = Popen(
             ["grep", "Bluetooth Power"],
             stdin=sys_profiler_process.stdout, stdout=PIPE
@@ -30,6 +41,9 @@ class OSXBluetooth(Bluetooth):
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('system_profiler'):
         return OSXBluetooth()

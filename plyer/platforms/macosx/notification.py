@@ -7,7 +7,10 @@ from plyer.facades import Notification
 try:
     import pyobjus
 except ImportError:
-    raise Exception("pyobjus missing, please install it. `python -m pip install git+http://github.com/kivy/pyobjus/`")
+    raise Exception(
+        "pyobjus missing, please install it. "
+        "`python -m pip install git+http://github.com/kivy/pyobjus/`"
+    )
 
 from pyobjus import (  # pylint: disable=import-error
     autoclass, protocol, objc_str, ObjcBOOL
