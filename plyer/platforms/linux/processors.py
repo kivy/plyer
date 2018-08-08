@@ -6,27 +6,25 @@ from os import environ
 
 
 class LinuxProcessors(Processors):
-    def _get_state(self):
-        old_lang = environ.get('LANG')
+    def _cpus(self):
+        old_lang = environ.get('LANG', '')
         environ['LANG'] = 'C'
 
-        status = {"Number_of_Processors": None}
+        cpus = {
+            'physical': None,  # cores
+            'logical': None    # cores * threads
+        }
 
-        dev = "--all"
-        nproc_process = Popen(
-            ["nproc", dev],
+        logical = Popen(
+            ['nproc', '--all'],
             stdout=PIPE
         )
-        output = nproc_process.communicate()[0]
+        output = logical.communicate()[0].decode('utf-8').strip()
 
         environ['LANG'] = old_lang
-
-        if not output:
-            return status
-
-        status['Number_of_Processors'] = output.rstrip()
-
-        return status
+        if output:
+            cpus['logical'] = int(output)
+        return cpus
 
 
 def instance():

@@ -1,40 +1,38 @@
 '''
-Number of Processors
-=======
+CPU count
+=========
 
 Simple Example
 ---------------
-To get battery status::
+
+To get CPU count::
     >>> from plyer import processors
-    >>> processors.status
-    {'Number_of_Processors': '4'}
+    >>> processors.cpus  # 1 core, 2 threads, logical = cores * threads
+    {'physical': 1, 'logical': 2}
+
 Supported Platforms
 -------------------
+
 Linux
 '''
 
 
 class Processors(object):
     '''
-    Number of Processors info facade.
+    Facade providing info about physical and logical number of processors.
     '''
 
     @property
-    def status(self):
+    def cpus(self):
         '''
         Property that contains a dict with the following fields:
-             * **Number_of_Processors** *(int)*: Number of Processors in
-             the system
-            .. warning::
-                If any of the fields is not readable, it is set as
-                None.
-        '''
-        return self.get_state()
 
-    def get_state(self):
-        return self._get_state()
+        * `physical` *(int)*: Total number of physical cores in the system.
+        * `logical` *(int)*: Total number of cores * threads in the system.
+        '''
+        return self._cpus()
 
     # private
 
-    def _get_state(self):
+    def _cpus(self):
         raise NotImplementedError()
