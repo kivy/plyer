@@ -13,6 +13,7 @@ To get CPU count::
 Supported Platforms
 -------------------
 
+MacOS
 Linux
 '''
 
