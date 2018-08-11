@@ -1,14 +1,19 @@
 '''
-CPU count
-=========
+CPU
+===
 
 Simple Example
 ---------------
 
 To get CPU count::
     >>> from plyer import cpu
-    >>> cpu.cpus  # 1 core, 2 threads, logical = cores * threads
-    {'physical': 1, 'logical': 2}
+    >>> # 1 socket, 1 core per socket, 2 threads per core
+    >>> cpu.sockets   # 1 CPU socket (or slot)
+    1
+    >>> cpu.physical  # 1 CPU socket * 1 core per socket
+    1
+    >>> cpu.logical   # 1 CPU socket * 1 core per socket * 2 threads per core
+    2
 
 Supported Platforms
 -------------------
@@ -20,20 +25,44 @@ Linux
 
 class CPU(object):
     '''
-    Facade providing info about physical and logical number of processors.
+    Facade providing info about sockets, physical and logical
+    number of processors.
     '''
 
     @property
-    def cpus(self):
+    def sockets(self):
         '''
-        Property that contains a dict with the following fields:
+        Property that contains the count of CPU sockets.
+        '''
+        return self._sockets()
 
-        * `physical` *(int)*: Total number of physical cores in the system.
-        * `logical` *(int)*: Total number of cores * threads in the system.
+    @property
+    def physical(self):
         '''
-        return self._cpus()
+        Property that contains the total number of physical cores
+        (max core count) in the system.
+
+        .. note:: `sockets * cores per socket`
+        '''
+        return self._physical()
+
+    @property
+    def logical(self):
+        '''
+        Property that contains the total number of logical cores
+        (max thread count) in the system.
+
+        .. note:: `sockets * cores per socket * threads per core`
+        '''
+        return self._logical()
 
     # private
 
-    def _cpus(self):
+    def _sockets(self):
+        raise NotImplementedError()
+
+    def _physical(self):
+        raise NotImplementedError()
+
+    def _logical(self):
         raise NotImplementedError()

@@ -3,34 +3,37 @@ from plyer.facades import CPU
 from plyer.utils import whereis_exe
 
 
-class OSXProcessors(CPU):
-    def _cpus(self):
-        cpus = {
-            'physical': None,  # cores
-            'logical': None    # cores * threads
-        }
+class OSXCPU(CPU):
+    def _physical(self):
+        # cores
+        physical = None
 
-        physical = Popen(
+        _physical = Popen(
             ['sysctl', '-n', 'hw.physicalcpu_max'],
             stdout=PIPE
         )
-        output = physical.communicate()[0].decode('utf-8').strip()
+        output = _physical.communicate()[0].decode('utf-8').strip()
         if output:
-            cpus['physical'] = int(output)
+            physical = int(output)
+        return physical
 
-        logical = Popen(
+    def _logical(self):
+        # cores * threads
+        logical = None
+
+        _logical = Popen(
             ['sysctl', '-n', 'hw.logicalcpu_max'],
             stdout=PIPE
         )
-        output = logical.communicate()[0].decode('utf-8').strip()
+        output = _logical.communicate()[0].decode('utf-8').strip()
         if output:
-            cpus['logical'] = int(output)
-        return cpus
+            logical = int(output)
+        return logical
 
 
 def instance():
     import sys
     if whereis_exe('sysctl'):
-        return OSXProcessors()
+        return OSXCPU()
     sys.stderr.write('sysctl not found.')
     return CPU()
