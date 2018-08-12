@@ -1,15 +1,17 @@
-import ctypes
+'''
+Module of Windows API for plyer.cpu.
+'''
+
 from ctypes import (
-    c_uint, c_ulonglong, c_ulong, byref, pointer,
+    c_ulonglong, c_ulong, byref,
     Structure, POINTER, Union, windll, create_string_buffer,
-    sizeof, cast, c_void_p, c_ulong, c_uint32
+    sizeof, cast, c_void_p, c_uint32
 )
 from ctypes.wintypes import (
-    BYTE, DWORD, WORD, BOOL
+    BYTE, DWORD, WORD
 )
-from plyer.facades import CPU
 
-from os import environ
+from plyer.facades import CPU
 
 
 KERNEL = windll.kernel32
@@ -17,6 +19,11 @@ ERROR_INSUFFICIENT_BUFFER = 0x0000007A
 
 
 class CacheType(object):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API PROCESSOR_CACHE_TYPE enum.
+    '''
+
     unified = 0
     instruction = 1
     data = 2
@@ -24,6 +31,11 @@ class CacheType(object):
 
 
 class RelationshipType(object):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API LOGICAL_PROCESSOR_RELATIONSHIP enum.
+    '''
+
     processor_core = 0     # logical proc sharing single core
     numa_node = 1          # logical proc sharing single NUMA node
     cache = 2              # logical proc sharing cache
@@ -32,47 +44,73 @@ class RelationshipType(object):
     all = 0xffff           # logical proc info for all groups
 
 
-class CacheDescriptor(Structure):  # = 12
+class CacheDescriptor(Structure):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API CACHE_DESCRIPTOR struct.
+    '''
+
     _fields_ = [
-        ("Level", BYTE),          # 1
-        ("Associativity", BYTE),  # 1
-        ("LineSize", WORD),       # 2
-        ("Size", DWORD),          # 4
-        ("Type", DWORD)           # 4
+        ('Level', BYTE),
+        ('Associativity', BYTE),
+        ('LineSize', WORD),
+        ('Size', DWORD),
+        ('Type', DWORD)
     ]
 
 
-class ProcessorCore(Structure):  # = 1
+class ProcessorCore(Structure):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API ProcessorCore struct.
+    '''
+
+    _fields_ = [('Flags', BYTE)]
+
+
+class NumaNode(Structure):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API NumaNode struct.
+    '''
+
+    _fields_ = [('NodeNumber', DWORD)]
+
+
+class SystemLPIUnion(Union):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API SYSTEM_LOGICAL_PROCESSOR_INFORMATION union without name.
+    '''
+
     _fields_ = [
-        ("Flags", BYTE)  # 1
+        ('ProcessorCore', ProcessorCore),
+        ('NumaNode', NumaNode),
+        ('Cache', CacheDescriptor),
+        ('Reserved', c_ulonglong)
     ]
 
 
-class NumaNode(Structure):  # = 4
+class SystemLPI(Structure):
+    # pylint: disable=too-few-public-methods
+    '''
+    Win API SYSTEM_LOGICAL_PROCESSOR_INFORMATION struct.
+    '''
+
     _fields_ = [
-        ("NodeNumber", DWORD)  # 4
-    ]
-
-
-class SystemLPIUnion(Union):  # = 25
-    _fields_ = [
-        ("ProcessorCore", ProcessorCore),  # 1
-        ("NumaNode", NumaNode),            # 4
-        ("Cache", CacheDescriptor),        # 12
-        ("Reserved", c_ulonglong)          # 8
-    ]
-
-
-class SystemLPI(Structure):  # = 48
-    _fields_ = [
-        ("ProcessorMask", c_ulong),  # 8
-        ("Relationship", c_ulong),   # 8
-        ("LPI", SystemLPIUnion)      # 24
+        ('ProcessorMask', c_ulong),
+        ('Relationship', c_ulong),
+        ('LPI', SystemLPIUnion)
     ]
 
 
 class WinCPU(CPU):
-    def _countbits(self, mask):
+    '''
+    Implementation of Windows CPU API.
+    '''
+
+    @staticmethod
+    def _countbits(mask):
         # make sure the correct ULONG_PTR size is used on 64bit
         # https://docs.microsoft.com/en-us/windows/
         # desktop/WinProg/windows-data-types
@@ -110,8 +148,6 @@ class WinCPU(CPU):
         return count
 
     def _logprocinfo(self, relationship):
-        value = None
-        mask_value = None
         get_logical_process_info = KERNEL.GetLogicalProcessorInformation
 
         # first call with no structure to get the real size of the required
@@ -137,7 +173,6 @@ class WinCPU(CPU):
                 'L1', 'L2', 'L3'
             )
         }
-        mask_value = 0
 
         for i in range(0, buff_length.value, offset):
             slpi = cast(
@@ -198,6 +233,9 @@ class WinCPU(CPU):
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     return WinCPU()
 
 

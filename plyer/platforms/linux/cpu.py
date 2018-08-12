@@ -1,11 +1,18 @@
+'''
+Module of Linux API for plyer.cpu.
+'''
+
+from os import environ
 from subprocess import Popen, PIPE
 from plyer.facades import CPU
 from plyer.utils import whereis_exe
 
-from os import environ
-
 
 class LinuxCPU(CPU):
+    '''
+    Implementation of Linux CPU API.
+    '''
+
     def _sockets(self):
         # physical CPU sockets (or slots) on motherboard
         sockets = []  # list of CPU ids from kernel
@@ -61,8 +68,19 @@ class LinuxCPU(CPU):
         environ['LANG'] = old_lang
         return logical
 
+    @staticmethod
+    def _cache():
+        return
+
+    @staticmethod
+    def _numa():
+        return
+
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('nproc'):
         return LinuxCPU()
