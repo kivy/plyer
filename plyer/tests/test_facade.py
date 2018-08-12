@@ -14,9 +14,6 @@ Tested platforms:
 import unittest
 
 import sys
-from copy import copy
-from os import remove
-from os.path import abspath, dirname, join
 from types import MethodType
 
 from mock import Mock, patch
@@ -112,7 +109,7 @@ class TestFacade(unittest.TestCase):
             py2_target = '__builtin__.__import__'
             py3_target = 'builtins.__import__'
             target = py3_target if sys.version_info.major == 3 else py2_target
-            with patch(target=target, return_value=stub_mod) as obj:
+            with patch(target=target, return_value=stub_mod):
                 dummy = proxy_cls('dummy', stub_mod)
 
                 self.assertEqual(
@@ -184,6 +181,8 @@ class TestFacade(unittest.TestCase):
         proxy_cls = MockedProxy
         facade = Mock()
         dummy = proxy_cls('dummy', facade)
+
+        # pylint: disable=protected-access
         self.assertEqual(dummy._mock_new_parent, facade)
         plyer.utils.platform = _original
 
