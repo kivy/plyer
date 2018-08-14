@@ -42,7 +42,7 @@ Brightness                         X       X                X
 Call                               X       X
 Camera (taking picture)            X       X
 Compass                            X       X
-CPU count                                              X    X
+CPU count                                      X       X    X
 Email (open mail client)           X       X   X       X    X
 Flash                              X       X
 GPS                                X       X
