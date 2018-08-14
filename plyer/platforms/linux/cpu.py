@@ -2,7 +2,8 @@
 Module of Linux API for plyer.cpu.
 '''
 
-from os import environ
+from os.path import join
+from os import environ, listdir
 from subprocess import Popen, PIPE
 from plyer.facades import CPU
 from plyer.utils import whereis_exe
@@ -68,9 +69,36 @@ class LinuxCPU(CPU):
         environ['LANG'] = old_lang
         return logical
 
-    @staticmethod
-    def _cache():
-        return
+    def _cache(self):
+        values = {key: 0 for key in ('L1', 'L2', 'L3')}
+        cpu_path = join('/sys', 'devices', 'system', 'cpu')
+
+        # get present cores from kernel device
+        with open(join(cpu_path, 'present')) as fle:
+            present = fle.read().decode('utf-8')
+        present = present.strip().split('-')
+
+        if len(present) == 2:
+            present = range(int(present[1]) + 1)
+        else:
+            present = [present[0]]
+
+        cores = ['cpu{}'.format(i) for i in present]
+        for core in cores:
+            indicies = [
+                # get 'indexN' files from 'cache' folder assuming
+                # the filename is in range index0 to index99
+                # in case a wild 'index_whatevercontent' file appears
+                fle for fle in listdir(join(cpu_path, core, 'cache'))
+                if fle.startswith('index') and len(fle) <= len('index') + 2
+            ]
+
+            for index in indicies:
+                index_type = join(cpu_path, core, 'cache', index, 'level')
+                with open(index_type, 'rb') as fle:
+                    cache_level = fle.read().decode('utf-8').strip()
+                values['L{}'.format(cache_level)] += 1
+        return values
 
     @staticmethod
     def _numa():
