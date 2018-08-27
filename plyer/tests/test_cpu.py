@@ -4,10 +4,12 @@ TestCPU
 
 Tested platforms:
 
+* Windows
 * Linux - nproc
 '''
 
 import unittest
+from os import environ
 
 from plyer.tests.common import PlatformTest, platform_import
 
@@ -72,6 +74,21 @@ class TestCPU(unittest.TestCase):
 
         self.assertEqual(
             cpu.logical, MockedNProc.logical()
+        )
+
+    @PlatformTest('win')
+    def test_cpu_win_logical(self):
+        cpu = platform_import(
+            platform='win',
+            module_name='cpu'
+        )
+
+        cpu = cpu.instance()
+        self.assertEqual(
+            cpu.logical,
+            # https://docs.microsoft.com/en-us/previous-versions/
+            # windows/it-pro/windows-xp/bb490954(v=technet.10)
+            int(environ['NUMBER_OF_PROCESSORS'])
         )
 
 
