@@ -2,6 +2,7 @@
 Module of Android API for plyer.notification.
 '''
 
+from android.config import JAVA_NAMESPACE
 from jnius import autoclass
 from plyer.facades import Notification
 from plyer.platforms.android import activity, SDK_INT
@@ -10,6 +11,9 @@ ANDROIDSTRING = autoclass('java.lang.String')
 CONTEXT = autoclass('android.content.Context')
 NOTIFICATIONBUILDER = autoclass('android.app.Notification$Builder')
 DRAWABLE = autoclass("{}.R$drawable".format(activity.getPackageName()))
+PYTHONACTIVITY = autoclass('{}.PythonActivity'.format(JAVA_NAMESPACE))
+PENDINGINTENT = autoclass('android.app.PendingIntent')
+INTENT = autoclass('android.content.Intent')
 
 
 class AndroidNotification(Notification):
@@ -39,6 +43,17 @@ class AndroidNotification(Notification):
             kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
         noti.setAutoCancel(True)
+
+        # clicking the notification will open the application
+        app_context = activity.getApplication().getApplicationContext()
+        notification_intent = INTENT(app_context, PYTHONACTIVITY)
+        notification_intent.setFlags(INTENT.FLAG_ACTIVITY_SINGLE_TOP)
+        notification_intent.setAction(INTENT.ACTION_MAIN)
+        notification_intent.addCategory(INTENT.CATEGORY_LAUNCHER)
+        pending_intent = PENDINGINTENT.getActivity(
+            app_context, 0, notification_intent, 0
+        )
+        noti.setContentIntent(pending_intent)
 
         if SDK_INT >= 16:
             noti = noti.build()
