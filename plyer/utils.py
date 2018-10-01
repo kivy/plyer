@@ -12,8 +12,10 @@ from sys import platform as _sys_platform
 
 
 class Platform(object):
-    # refactored to class to allow module function to be replaced
-    # with module variable
+    '''
+    Refactored to class to allow module function to be replaced
+    with module variable.
+    '''
 
     def __init__(self):
         self._platform_ios = None
@@ -49,6 +51,8 @@ class Platform(object):
 
         # On android, _sys_platform return 'linux2', so prefer to check the
         # import of Android module than trying to rely on _sys_platform.
+
+        # pylint: disable=no-else-return
         if self._platform_android is True:
             return 'android'
         elif self._platform_ios is True:
@@ -62,11 +66,14 @@ class Platform(object):
         return 'unknown'
 
 
-platform = Platform()
+platform = Platform()  # pylint: disable=invalid-name
 
 
 class Proxy(object):
-    # taken from http://code.activestate.com/recipes/496741-object-proxying/
+    '''
+    Based on http://code.activestate.com/recipes/496741-object-proxying
+    version by Tomer Filiba, PSF license.
+    '''
 
     __slots__ = ['_obj', '_name', '_facade']
 
@@ -87,7 +94,7 @@ class Proxy(object):
                 platform, name)
             mod = __import__(module, fromlist='.')
             obj = mod.instance()
-        except:
+        except:  # pylint: disable=bare-except
             import traceback
             traceback.print_exc()
             facade = object.__getattribute__(self, '_facade')
@@ -97,10 +104,17 @@ class Proxy(object):
         return obj
 
     def __getattribute__(self, name):
+        result = None
+
         if name == '__doc__':
-            return
+            return result
+
+        # run _ensure_obj func, result in _obj
         object.__getattribute__(self, '_ensure_obj')()
-        return getattr(object.__getattribute__(self, '_obj'), name)
+
+        # return either Proxy instance or platform-dependent implementation
+        result = getattr(object.__getattribute__(self, '_obj'), name)
+        return result
 
     def __delattr__(self, name):
         object.__getattribute__(self, '_ensure_obj')()
@@ -128,14 +142,16 @@ def whereis_exe(program):
         Returns the path if it is found or None if it's not found.
     '''
     path_split = ';' if platform == 'win' else ':'
-    for p in environ.get('PATH', '').split(path_split):
-        if (path.exists(path.join(p, program)) and
-                not path.isdir(path.join(p, program))):
-            return path.join(p, program)
+    for pth in environ.get('PATH', '').split(path_split):
+        folder = path.isdir(path.join(pth, program))
+        available = path.exists(path.join(pth, program))
+        if available and not folder:
+            return path.join(pth, program)
     return None
 
 
 class reify(object):
+    # pylint: disable=too-few-public-methods, invalid-name
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
     in the instance dict after the first call, effectively replacing the

@@ -2,6 +2,7 @@
 Compatibility module for Python 2.7 and > 3.3
 =============================================
 '''
+# pylint: disable=invalid-name
 
 __all__ = ('PY2', 'string_types', 'queue', 'iterkeys',
            'itervalues', 'iteritems', 'xrange')
@@ -19,6 +20,8 @@ PY2 = sys.version_info[0] == 2
 string_types = None
 text_type = None
 if PY2:
+    # pylint: disable=undefined-variable
+    # built-in actually, so it is defined in globals() for py2
     string_types = basestring
     text_type = unicode
 else:
@@ -34,6 +37,8 @@ else:
     iteritems = lambda d: iter(d.items())
 
 if PY2:
+    # pylint: disable=undefined-variable
+    # built-in actually, so it is defined in globals() for py2
     xrange = xrange
 else:
     xrange = range
