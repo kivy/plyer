@@ -6,7 +6,7 @@ then
     PYTHON=$(which python)
 elif [ "$1" = "py3" ] || [ "$1" = "pep8" ]
 then
-    PYTHON=$(which python3.5)
+    PYTHON=$(which python3.6)
 else
     exit 1
 fi

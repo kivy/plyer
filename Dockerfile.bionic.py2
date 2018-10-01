@@ -1,4 +1,4 @@
-FROM ubuntu:trusty-20180531
+FROM ubuntu:bionic-20180821
 
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
@@ -8,9 +8,10 @@ ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 # install default packages
 RUN apt-get update && \
     apt-get -y --force-yes install \
+    build-essential \
     python-setuptools \
     python-dev \
-    openjdk-7-jdk \
+    openjdk-11-jdk \
     lshw \
     wget \
     git \
