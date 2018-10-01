@@ -9,17 +9,17 @@ matrix:
         - env: DOCK=1 PY=2 RUN=unit
           python: 2.7
           os: linux
-          dist: bionic
+          dist: trusty
 
         - env: DOCK=1 PY=3 RUN=unit COVERALLS=1
-          python: 3.6
+          python: 3.5
           os: linux
-          dist: bionic
+          dist: trusty
 
         - env: DOCK=1 PY=3 RUN=style
-          python: 3.6
+          python: 3.5
           os: linux
-          dist: bionic
+          dist: trusty
 
         - language: generic
           env: RUN=unit PY=2 HOMEBREW_NO_AUTO_UPDATE=1
