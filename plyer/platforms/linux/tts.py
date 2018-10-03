@@ -10,6 +10,12 @@ class EspeakTextToSpeech(TTS):
         subprocess.call(["espeak", kwargs.get('message')])
 
 
+    def _speak_to_file(self,**kwargs):
+        '''save the text message into file(mp3, ogg,wav) '''
+            
+        subprocess.call(["espeak", kwargs.get('message'), \
+                        "-w" ,kwargs.get('fileName')])
+
 class FliteTextToSpeech(TTS):
     ''' Speaks using the flite program
     '''
