@@ -74,7 +74,7 @@ class MacFileChooser(object):
                         pystr = f.strip().split("*")[-1].split(".")[-1]
                     filthies.append(objc_str(pystr))
                 else:
-                    for i in f[1:]:
+                    for _ in f[1:]:
                         if not self.use_extensions:
                             if f.strip().endswith("*"):
                                 continue

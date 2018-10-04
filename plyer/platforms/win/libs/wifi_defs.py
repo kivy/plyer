@@ -277,7 +277,6 @@ def _connect(network, parameters):
     global _dict
     wireless_interface = _dict[network]
 
-    c_params = parameters
     wcp = WLAN_CONNECTION_PARAMETERS()
     connection_mode = parameters['connection_mode']
     wcp.wlanConnectionMode = WLAN_CONNECTION_MODE(connection_mode)

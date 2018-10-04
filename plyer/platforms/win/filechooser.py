@@ -4,7 +4,10 @@ Windows file chooser
 '''
 
 from plyer.facades import FileChooser
-from win32com.shell import shell, shellcon
+from win32com.shell.shell import (
+    SHBrowseForFolder as browse,
+    SHGetPathFromIDList as get_path
+)
 import os
 import win32gui
 import win32con
@@ -87,13 +90,13 @@ class Win32FileChooser(object):
                         self.selection = str(self.fname).split("\x00")
             else:
                 # From http://goo.gl/UDqCqo
-                pidl, display_name, image_list = shell.SHBrowseForFolder(
+                pidl, name, images = browse(  # pylint: disable=unused-variable
                     win32gui.GetDesktopWindow(),
                     None,
                     self.title if self.title else "Pick a folder...",
                     0, None, None
                 )
-                self.selection = [str(shell.SHGetPathFromIDList(pidl))]
+                self.selection = [str(get_path(pidl))]
 
             return self.selection
         except (RuntimeError, pywintypes.error):
