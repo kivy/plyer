@@ -5,7 +5,7 @@ Module of MacOS API for plyer.notification.
 from plyer.facades import Notification
 
 try:
-    import pyobjus
+    import pyobjus  # pylint: disable=unused-import
 except ImportError:
     raise Exception(
         "pyobjus missing, please install it. "

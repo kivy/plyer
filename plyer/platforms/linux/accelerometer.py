@@ -4,7 +4,6 @@ Linux accelerometer
 '''
 
 from plyer.facades import Accelerometer
-import os
 import glob
 import re
 

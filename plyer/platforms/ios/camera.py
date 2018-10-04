@@ -1,5 +1,3 @@
-from pyobjus import autoclass
-from pyobjus import protocol
 from os import remove
 from plyer.facades import Camera
 
@@ -10,8 +8,8 @@ class iOSCamera(Camera):
 
     @reify
     def photos(self):
-        # pyPhotoLibrary is a ios recipe/module that interacts with the gallery
-        # and the  camera on ios.
+        # pyPhotoLibrary is a ios recipe/module that
+        # interacts with the gallery and the camera on ios.
         from photolibrary import PhotosLibrary
         return PhotosLibrary()
 

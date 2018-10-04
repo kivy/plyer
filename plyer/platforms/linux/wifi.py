@@ -12,7 +12,7 @@
 '''
 
 from plyer.facades import Wifi
-from subprocess import Popen, PIPE, call, STDOUT
+from subprocess import Popen, PIPE, call
 
 
 class LinuxWifi(Wifi):

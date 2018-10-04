@@ -5,7 +5,6 @@ IOS Call
 
 from plyer.facades import Call
 from pyobjus import autoclass, objc_str
-from pyobjus.dylib_manager import load_framework
 
 NSURL = autoclass('NSURL')
 NSString = autoclass('NSString')
