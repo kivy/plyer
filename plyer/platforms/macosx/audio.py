@@ -1,6 +1,6 @@
 from plyer.facades import Audio
 from pyobjus.dylib_manager import load_framework, INCLUDE
-from pyobjus import autoclass, objc_str
+from pyobjus import autoclass
 
 load_framework(INCLUDE.Foundation)
 load_framework(INCLUDE.AVFoundation)
@@ -19,17 +19,19 @@ class OSXAudio(Audio):
         self._player = None
 
     def _start(self):
-        # filePathNSString = NSString.alloc().initWithUTF8String_(self._file_path)
+        # Conversion of Python file path string to Objective-C NSString
+        filePathNSString = NSString.alloc().initWithUTF8String_(self._file_path)
 
-        fileNSURL = NSURL.alloc().initWithString_(
-            objc_str(self._file_path)
-        )
+        # Definition of Objective-C NSURL object for the output record file specified by NSString file path
+        fileNSURL = NSURL.alloc().initWithString_(filePathNSString)
 
+        # Internal audio file format specification
         af = AVAudioFormat.alloc()
         af = af.initWithCommonFormat_sampleRate_channels_interleaved_(
             1, 44100.0, 2, True
         )
 
+        # Audio recorder instance initialization with specified file NSURL and audio file format
         self._recorder = AVAudioRecorder.alloc().initWithURL_format_error_(fileNSURL, af, None)
         
         if self._recorder:
