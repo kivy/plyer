@@ -1,6 +1,8 @@
 import ctypes
-from ctypes import (Structure, cdll, sizeof,
-                    c_int, c_int8, c_int16, c_size_t)
+from ctypes import (
+    Structure, cdll, sizeof,
+    c_int8, c_int16, c_size_t
+)
 from ctypes.util import find_library
 import platform
 

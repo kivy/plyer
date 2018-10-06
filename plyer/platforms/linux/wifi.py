@@ -12,7 +12,7 @@
 '''
 
 from plyer.facades import Wifi
-from subprocess import Popen, PIPE, call, STDOUT
+from subprocess import Popen, PIPE, call
 
 
 class LinuxWifi(Wifi):
@@ -89,7 +89,7 @@ class LinuxWifi(Wifi):
 def instance():
     import sys
     try:
-        import wifi
+        import wifi  # pylint: disable=unused-variable
         return LinuxWifi()
     except ImportError:
         sys.stderr.write("python-wifi not installed. try:"

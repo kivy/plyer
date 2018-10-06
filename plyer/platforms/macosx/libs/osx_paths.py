@@ -11,7 +11,7 @@ def NSIterateSearchPaths(directory):
     PATH_MAX = os.pathconf('/', os.pathconf_names['PC_PATH_MAX'])
     PATH_ENCODING = 'utf8'
     path_buffer = ctypes.create_string_buffer(PATH_MAX)
-    paths = []
+    # paths = []  <- fixme, possible list of paths in directory
     state = NSStartSearchPathEnumeration(directory, 1)
     while True:
         state = NSGetNextSearchPathEnumeration(state, path_buffer)

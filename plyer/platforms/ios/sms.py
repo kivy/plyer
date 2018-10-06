@@ -3,11 +3,6 @@ IOS Sms
 ----------
 '''
 
-try:
-    from urllib.parse import quote
-except ImportError:
-    from urllib import quote
-
 from plyer.facades import Sms
 from pyobjus import autoclass, objc_str
 from pyobjus.dylib_manager import load_framework

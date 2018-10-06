@@ -7,7 +7,7 @@ https://msdn.microsoft.com/en-us/library/windows/desktop \
 
 from ctypes import *
 from ctypes.wintypes import *
-from sys import exit
+from sys import exit as sys_exit
 from plyer.compat import PY2, xrange
 
 
@@ -277,7 +277,6 @@ def _connect(network, parameters):
     global _dict
     wireless_interface = _dict[network]
 
-    c_params = parameters
     wcp = WLAN_CONNECTION_PARAMETERS()
     connection_mode = parameters['connection_mode']
     wcp.wlanConnectionMode = WLAN_CONNECTION_MODE(connection_mode)
@@ -291,7 +290,7 @@ def _connect(network, parameters):
     try:
         dot11Ssid.SSID = parameters["ssid"]
         dot11Ssid.SSIDLength = len(parameters["ssid"])
-    except Exception:
+    except KeyError:
         dot11Ssid.SSID = network
         dot11Ssid.SSIDLength = len(network)
     wcp.pDot11Ssid = pointer(dot11Ssid)
@@ -318,11 +317,11 @@ def _connect(network, parameters):
                           byref(NegotiatedVersion),
                           byref(ClientHandle))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
 
     try:
         wlan = WlanConnect(ClientHandle,
@@ -330,7 +329,7 @@ def _connect(network, parameters):
                            wcp,
                            None)
         if wlan:
-            exit(FormatError(wlan))
+            sys_exit(FormatError(wlan))
         WlanCloseHandle(ClientHandle)
     finally:
         WlanFreeMemory(pInterfaceList)
@@ -348,12 +347,12 @@ def _disconnect():
                           byref(NegotiatedVersion),
                           byref(ClientHandle))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
 
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
     try:
         ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
                               pInterfaceList.contents.NumberOfItems)
@@ -363,7 +362,7 @@ def _disconnect():
                                   byref(iface.InterfaceGuid),
                                   None)
             if wlan:
-                exit(FormatError(wlan))
+                sys_exit(FormatError(wlan))
             WlanCloseHandle(ClientHandle)
     finally:
         WlanFreeMemory(pInterfaceList)
@@ -385,12 +384,12 @@ def _start_scanning():
                           byref(NegotiatedVersion),
                           byref(ClientHandle))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
     # find all wireless network interfaces
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
-        exit(FormatError(wlan))
+        sys_exit(FormatError(wlan))
     try:
         ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
                               pInterfaceList.contents.NumberOfItems)
@@ -404,7 +403,7 @@ def _start_scanning():
                                                None,
                                                byref(pAvailableNetworkList))
             if wlan:
-                exit(FormatError(wlan))
+                sys_exit(FormatError(wlan))
             try:
                 avail_net_list = pAvailableNetworkList.contents
                 networks = customresize(avail_net_list.Network,
@@ -417,7 +416,7 @@ def _start_scanning():
                                       byref(iface.InterfaceGuid),
                                       None)
                 if wlan:
-                    exit(FormatError(wlan))
+                    sys_exit(FormatError(wlan))
                 WlanCloseHandle(ClientHandle)
             finally:
                 WlanFreeMemory(pAvailableNetworkList)

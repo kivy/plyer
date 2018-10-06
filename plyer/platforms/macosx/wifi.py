@@ -26,8 +26,6 @@ class OSXWifi(Wifi):
         '''
         Returns all the network information.
         '''
-        def ns(x):
-            NSString.alloc().initWithUTF8String_(x)
 
         accessNetworkType = self.names[name].accessNetworkType
         aggregateRSSI = self.names[name].aggregateRSSI
