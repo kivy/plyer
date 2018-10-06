@@ -72,12 +72,17 @@ class LinuxWifi(Wifi):
             - parameters:
                 - password: dict type
         '''
+
+        result = None
         try:
             call(['nmcli', 'nm', 'enable', 'true'])
         finally:
             password = parameters['password']
             cell = self.names[network]
-            return wifi.Scheme.for_cell('wlan0', network, cell, password)
+            result = wifi.Scheme.for_cell(
+                'wlan0', network, cell, password
+            )
+        return result
 
     def _disconnect(self):
         '''

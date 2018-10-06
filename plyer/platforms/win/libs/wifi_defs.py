@@ -264,6 +264,7 @@ WlanGetAvailableNetworkList.restype = DWORD
 WlanFreeMemory = wlanapi.WlanFreeMemory
 WlanFreeMemory.argtypes = [c_void_p]
 
+wireless_interfaces = None
 available = None
 _dict = {}
 
@@ -274,7 +275,7 @@ def _connect(network, parameters):
     '''
     Attempts to connect to a specific network.
     '''
-    global _dict
+    global _dict  # pylint: disable=global-statement
     wireless_interface = _dict[network]
 
     wcp = WLAN_CONNECTION_PARAMETERS()
@@ -342,95 +343,130 @@ def _disconnect():
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
-    wlan = WlanOpenHandle(1,
-                          None,
-                          byref(NegotiatedVersion),
-                          byref(ClientHandle))
+    wlan = WlanOpenHandle(
+        1,
+        None,
+        byref(NegotiatedVersion),
+        byref(ClientHandle)
+    )
     if wlan:
         sys_exit(FormatError(wlan))
+
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
 
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         sys_exit(FormatError(wlan))
+
+    result = None
     try:
-        ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
-                              pInterfaceList.contents.NumberOfItems)
+        ifaces = customresize(
+            pInterfaceList.contents.InterfaceInfo,
+            pInterfaceList.contents.NumberOfItems
+        )
+
         # find each available network for each interface
         for iface in ifaces:
-            wlan = WlanDisconnect(ClientHandle,
-                                  byref(iface.InterfaceGuid),
-                                  None)
+            wlan = WlanDisconnect(
+                ClientHandle,
+                byref(iface.InterfaceGuid),
+                None
+            )
             if wlan:
                 sys_exit(FormatError(wlan))
             WlanCloseHandle(ClientHandle)
+
     finally:
         WlanFreeMemory(pInterfaceList)
+        result = get_available_wifi()
 
-        return get_available_wifi()
+    return result
 
 
 def _start_scanning():
     '''
     Private method for scanning and returns the available devices.
     '''
-    global available
-    global wireless_interfaces
+    global available  # pylint: disable=global-statement
+    global wireless_interfaces  # pylint: disable=global-statement
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
-    wlan = WlanOpenHandle(1,
-                          None,
-                          byref(NegotiatedVersion),
-                          byref(ClientHandle))
+    wlan = WlanOpenHandle(
+        1,
+        None,
+        byref(NegotiatedVersion),
+        byref(ClientHandle)
+    )
+
     if wlan:
         sys_exit(FormatError(wlan))
+
     # find all wireless network interfaces
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         sys_exit(FormatError(wlan))
+
+    result = None
     try:
-        ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
-                              pInterfaceList.contents.NumberOfItems)
+        ifaces = customresize(
+            pInterfaceList.contents.InterfaceInfo,
+            pInterfaceList.contents.NumberOfItems
+        )
+
         # find each available network for each interface
         wireless_interfaces = ifaces
         for iface in ifaces:
             pAvailableNetworkList = pointer(WLAN_AVAILABLE_NETWORK_LIST())
-            wlan = WlanGetAvailableNetworkList(ClientHandle,
-                                               byref(iface.InterfaceGuid),
-                                               0,
-                                               None,
-                                               byref(pAvailableNetworkList))
+            wlan = WlanGetAvailableNetworkList(
+                ClientHandle,
+                byref(iface.InterfaceGuid),
+                0,
+                None,
+                byref(pAvailableNetworkList)
+            )
+
             if wlan:
                 sys_exit(FormatError(wlan))
+
             try:
                 avail_net_list = pAvailableNetworkList.contents
-                networks = customresize(avail_net_list.Network,
-                                        avail_net_list.NumberOfItems)
+                networks = customresize(
+                    avail_net_list.Network,
+                    avail_net_list.NumberOfItems
+                )
+
                 # Assigning the value of networks to the global variable
                 # `available`, so it could be used in other methods.
                 available = networks
                 _make_dict()
-                wlan = WlanDisconnect(ClientHandle,
-                                      byref(iface.InterfaceGuid),
-                                      None)
+                wlan = WlanDisconnect(
+                    ClientHandle,
+                    byref(iface.InterfaceGuid),
+                    None
+                )
+
                 if wlan:
                     sys_exit(FormatError(wlan))
                 WlanCloseHandle(ClientHandle)
+
             finally:
                 WlanFreeMemory(pAvailableNetworkList)
+
     finally:
         WlanFreeMemory(pInterfaceList)
-        return get_available_wifi()
+        result = get_available_wifi()
+
+    return result
 
 
 def _get_network_info(name):
     '''
     returns the list of the network selected in a dict.
     '''
-    global available
-    global _dict
+    global available  # pylint: disable=global-statement
+    global _dict  # pylint: disable=global-statement
 
     net = _dict[name]
     dot11BssType = net.dot11BssType
@@ -454,8 +490,8 @@ def _make_dict():
     '''
     Prepares a dict so it could store network information.
     '''
-    global available
-    global _dict
+    global available  # pylint: disable=global-statement
+    global _dict  # pylint: disable=global-statement
     _dict = {}
     for network in available:
         # if bytes, dict['name'] throws an error on py3 if not b'name'
@@ -469,7 +505,7 @@ def _get_available_wifi():
     '''
     returns the available wifi networks.
     '''
-    global _dict
+    global _dict  # pylint: disable=global-statement
     return _dict
 
 
