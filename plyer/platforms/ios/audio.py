@@ -49,7 +49,6 @@ class iOSAudio(Audio):
         
         if self._recorder:
             self._recorder.record()
-            print("Recording...")
 
             # Setting the currently recorded file as current file
             # for using it as a parameter in audio player
@@ -58,12 +57,10 @@ class iOSAudio(Audio):
     def _stop(self):
         if self._recorder:
             self._recorder.stop()
-            print("Stopped recording.")
             self._recorder = None
 
         if self._player:
             self._player.stop()
-            print("Stopped playing.")
             self._player = None
 
     def _play(self):
@@ -76,7 +73,6 @@ class iOSAudio(Audio):
 
         if self._player:
             self._player.play()
-            print("Playing the last recorded audio file...")
 
 def instance():
     return iOSAudio()
