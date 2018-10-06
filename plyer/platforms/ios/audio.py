@@ -2,6 +2,7 @@ from plyer.facades import Audio
 from pyobjus.dylib_manager import load_framework, INCLUDE
 from pyobjus import autoclass
 from os.path import join, expanduser
+from plyer.platforms.ios.storagepath import iOSStoragePath
 
 load_framework(INCLUDE.Foundation)
 load_framework(INCLUDE.AVFoundation)
@@ -12,10 +13,10 @@ AVAudioFormat = autoclass("AVAudioFormat")
 NSString = autoclass('NSString')
 NSURL = autoclass('NSURL')
 
-class OSXAudio(Audio):
+class iOSAudio(Audio):
     def __init__(self, file_path=None):
-        default_path = join(expanduser('~'), 'Desktop', 'audio.wav')
-        super(OSXAudio, self).__init__(file_path or default_path)
+        default_path = join(iOSStoragePath().get_music_dir(), 'audio.wav')
+        super(iOSAudio, self).__init__(file_path or default_path)
 
         self._recorder = None
         self._player = None
@@ -78,4 +79,4 @@ class OSXAudio(Audio):
             print("Playing the last recorded audio file...")
 
 def instance():
-    return OSXAudio()
+    return iOSAudio()
