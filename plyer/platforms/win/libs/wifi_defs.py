@@ -343,32 +343,44 @@ def _disconnect():
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
-    wlan = WlanOpenHandle(1,
-                          None,
-                          byref(NegotiatedVersion),
-                          byref(ClientHandle))
+    wlan = WlanOpenHandle(
+        1,
+        None,
+        byref(NegotiatedVersion),
+        byref(ClientHandle)
+    )
     if wlan:
         sys_exit(FormatError(wlan))
+
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
 
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         sys_exit(FormatError(wlan))
+
+    result = None
     try:
-        ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
-                              pInterfaceList.contents.NumberOfItems)
+        ifaces = customresize(
+            pInterfaceList.contents.InterfaceInfo,
+            pInterfaceList.contents.NumberOfItems
+        )
+
         # find each available network for each interface
         for iface in ifaces:
-            wlan = WlanDisconnect(ClientHandle,
-                                  byref(iface.InterfaceGuid),
-                                  None)
+            wlan = WlanDisconnect(
+                ClientHandle,
+                byref(iface.InterfaceGuid),
+                None
+            )
             if wlan:
                 sys_exit(FormatError(wlan))
             WlanCloseHandle(ClientHandle)
+
     finally:
         WlanFreeMemory(pInterfaceList)
+        result = get_available_wifi()
 
-        return get_available_wifi()
+    return result
 
 
 def _start_scanning():
@@ -380,50 +392,73 @@ def _start_scanning():
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
-    wlan = WlanOpenHandle(1,
-                          None,
-                          byref(NegotiatedVersion),
-                          byref(ClientHandle))
+    wlan = WlanOpenHandle(
+        1,
+        None,
+        byref(NegotiatedVersion),
+        byref(ClientHandle)
+    )
+
     if wlan:
         sys_exit(FormatError(wlan))
+
     # find all wireless network interfaces
     pInterfaceList = pointer(WLAN_INTERFACE_INFO_LIST())
     wlan = WlanEnumInterfaces(ClientHandle, None, byref(pInterfaceList))
     if wlan:
         sys_exit(FormatError(wlan))
+
+    result = None
     try:
-        ifaces = customresize(pInterfaceList.contents.InterfaceInfo,
-                              pInterfaceList.contents.NumberOfItems)
+        ifaces = customresize(
+            pInterfaceList.contents.InterfaceInfo,
+            pInterfaceList.contents.NumberOfItems
+        )
+
         # find each available network for each interface
         wireless_interfaces = ifaces
         for iface in ifaces:
             pAvailableNetworkList = pointer(WLAN_AVAILABLE_NETWORK_LIST())
-            wlan = WlanGetAvailableNetworkList(ClientHandle,
-                                               byref(iface.InterfaceGuid),
-                                               0,
-                                               None,
-                                               byref(pAvailableNetworkList))
+            wlan = WlanGetAvailableNetworkList(
+                ClientHandle,
+                byref(iface.InterfaceGuid),
+                0,
+                None,
+                byref(pAvailableNetworkList)
+            )
+
             if wlan:
                 sys_exit(FormatError(wlan))
+
             try:
                 avail_net_list = pAvailableNetworkList.contents
-                networks = customresize(avail_net_list.Network,
-                                        avail_net_list.NumberOfItems)
+                networks = customresize(
+                    avail_net_list.Network,
+                    avail_net_list.NumberOfItems
+                )
+
                 # Assigning the value of networks to the global variable
                 # `available`, so it could be used in other methods.
                 available = networks
                 _make_dict()
-                wlan = WlanDisconnect(ClientHandle,
-                                      byref(iface.InterfaceGuid),
-                                      None)
+                wlan = WlanDisconnect(
+                    ClientHandle,
+                    byref(iface.InterfaceGuid),
+                    None
+                )
+
                 if wlan:
                     sys_exit(FormatError(wlan))
                 WlanCloseHandle(ClientHandle)
+
             finally:
                 WlanFreeMemory(pAvailableNetworkList)
+
     finally:
         WlanFreeMemory(pInterfaceList)
-        return get_available_wifi()
+        result = get_available_wifi()
+
+    return result
 
 
 def _get_network_info(name):
