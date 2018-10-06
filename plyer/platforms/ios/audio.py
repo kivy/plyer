@@ -12,9 +12,10 @@ AVAudioRecorder = autoclass("AVAudioRecorder")
 AVAudioFormat = autoclass("AVAudioFormat")
 NSString = autoclass('NSString')
 NSURL = autoclass('NSURL')
+NSError = autoclass('NSError').alloc()
 
 class iOSAudio(Audio):
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         default_path = join(iOSStoragePath().get_music_dir(), 'audio.wav')
         super(iOSAudio, self).__init__(file_path or default_path)
 
@@ -44,15 +45,17 @@ class iOSAudio(Audio):
         # and audio file format
         self._recorder = AVAudioRecorder.alloc()
         self._recorder = self._recorder.initWithURL_format_error_(
-            file_NSURL, af, None
+            file_NSURL, af, NSError
         )
         
-        if self._recorder:
-            self._recorder.record()
+        if not self._recorder:
+            raise Exception(NSError.code, NSError.domain)
 
-            # Setting the currently recorded file as current file
-            # for using it as a parameter in audio player
-            self._current_file = file_NSURL
+        self._recorder.record()
+
+        # Setting the currently recorded file as current file
+        # for using it as a parameter in audio player
+        self._current_file = file_NSURL
 
     def _stop(self):
         if self._recorder:
@@ -68,11 +71,13 @@ class iOSAudio(Audio):
         # of the last recorded audio file
         self._player = AVAudioPlayer.alloc()
         self._player = self._player.initWithContentsOfURL_error_(
-            self._current_file, None
+            self._current_file, NSError
         )
 
-        if self._player:
-            self._player.play()
+        if not self._player:
+            raise Exception(NSError.code, NSError.domain)
+
+        self._player.play()
 
 def instance():
     return iOSAudio()
