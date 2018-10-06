@@ -264,6 +264,7 @@ WlanGetAvailableNetworkList.restype = DWORD
 WlanFreeMemory = wlanapi.WlanFreeMemory
 WlanFreeMemory.argtypes = [c_void_p]
 
+wireless_interfaces = None
 available = None
 _dict = {}
 
@@ -375,7 +376,7 @@ def _start_scanning():
     Private method for scanning and returns the available devices.
     '''
     global available  # pylint: disable=global-statement
-    global wireless_interfaces
+    global wireless_interfaces  # pylint: disable=global-statement
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
