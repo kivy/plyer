@@ -13,7 +13,7 @@ NSString = autoclass('NSString')
 NSURL = autoclass('NSURL')
 
 class OSXAudio(Audio):
-    def __init__(self, file_path=None):
+    def __init__(self, file_path):
         default_path = join(expanduser('~'), 'Desktop', 'audio.wav')
         super(OSXAudio, self).__init__(file_path or default_path)
 
