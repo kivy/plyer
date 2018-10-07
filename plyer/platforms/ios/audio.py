@@ -14,6 +14,7 @@ NSString = autoclass('NSString')
 NSURL = autoclass('NSURL')
 NSError = autoclass('NSError').alloc()
 
+
 class iOSAudio(Audio):
     def __init__(self, file_path=None):
         default_path = join(iOSStoragePath().get_music_dir(), 'audio.wav')
@@ -47,7 +48,7 @@ class iOSAudio(Audio):
         self._recorder = self._recorder.initWithURL_format_error_(
             file_NSURL, af, NSError
         )
-        
+
         if not self._recorder:
             raise Exception(NSError.code, NSError.domain)
 
@@ -78,6 +79,7 @@ class iOSAudio(Audio):
             raise Exception(NSError.code, NSError.domain)
 
         self._player.play()
+
 
 def instance():
     return iOSAudio()

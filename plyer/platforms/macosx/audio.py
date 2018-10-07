@@ -13,6 +13,7 @@ NSString = autoclass('NSString')
 NSURL = autoclass('NSURL')
 NSError = autoclass('NSError').alloc()
 
+
 class OSXAudio(Audio):
     def __init__(self, file_path=None):
         default_path = join(expanduser('~'), 'Desktop', 'audio.wav')
@@ -49,7 +50,7 @@ class OSXAudio(Audio):
 
         if not self._recorder:
             raise Exception(NSError.code, NSError.domain)
-        
+
         self._recorder.record()
 
         # Setting the currently recorded file as current file
@@ -77,6 +78,7 @@ class OSXAudio(Audio):
             raise Exception(NSError.code, NSError.domain)
 
         self._player.play()
+
 
 def instance():
     return OSXAudio()
