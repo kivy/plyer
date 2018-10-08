@@ -1,7 +1,10 @@
-from plyer.facades import Audio
-from pyobjus.dylib_manager import load_framework, INCLUDE
+from os.path import expanduser, join
+
 from pyobjus import autoclass
-from os.path import join, expanduser
+from pyobjus.dylib_manager import INCLUDE, load_framework
+
+from plyer.facades import Audio
+from plyer.platforms.macosx.storagepath import OSXStoragePath
 
 load_framework(INCLUDE.Foundation)
 load_framework(INCLUDE.AVFoundation)
@@ -16,7 +19,10 @@ NSError = autoclass('NSError').alloc()
 
 class OSXAudio(Audio):
     def __init__(self, file_path=None):
-        default_path = join(expanduser('~'), 'Desktop', 'audio.wav')
+        default_path = join(
+            OSXStoragePath().get_music_dir().encode('utf-8'),
+            'audio.wav'
+        )
         super(OSXAudio, self).__init__(file_path or default_path)
 
         self._recorder = None
