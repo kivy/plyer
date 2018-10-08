@@ -3,9 +3,11 @@ MacOS X Storage Path
 --------------------
 '''
 
-import os.path
+import os
 from plyer.facades import StoragePath
-from plyer.platforms.macosx.libs import osx_paths
+from pyobjus import autoclass
+
+NSFileManager = autoclass('NSFileManager')
 
 # Directory constants (NSSearchPathDirectory enumeration)
 NSApplicationDirectory = 1
@@ -17,6 +19,10 @@ NSPicturesDirectory = 19
 
 
 class OSXStoragePath(StoragePath):
+
+    def __init__(self):
+        self.defaultManager = NSFileManager.defaultManager()
+
     def _get_home_dir(self):
         return os.path.expanduser('~')
 
@@ -27,22 +33,29 @@ class OSXStoragePath(StoragePath):
         return '/'
 
     def _get_documents_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSDocumentDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSDocumentDirectory, 1).firstObject().absoluteString.UTF8String()
 
     def _get_downloads_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSDownloadsDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSDownloadsDirectory, 1).firstObject().absoluteString.UTF8String()
 
     def _get_videos_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSMoviesDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSMoviesDirectory, 1).firstObject().absoluteString.UTF8String()
 
     def _get_music_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSMusicDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSMusicDirectory, 1).firstObject().absoluteString.UTF8String()
 
     def _get_pictures_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSPicturesDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSPicturesDirectory, 1).firstObject().absoluteString.UTF8String()
 
     def _get_application_dir(self):
-        return osx_paths.NSIterateSearchPaths(NSApplicationDirectory)
+        return self.defaultManager.URLsForDirectory_inDomains_(
+            NSApplicationDirectory, 1
+        ).firstObject().absoluteString.UTF8String()
 
 
 def instance():
