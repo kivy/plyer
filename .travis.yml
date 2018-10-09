@@ -49,9 +49,10 @@ before_install:
           rvm get head;
       fi;
 
-    # use real branch name instead of detached HEAD
-    - git checkout ${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
-
+    # use real branch name instead of detached HEAD unless PR
+    - if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then
+          git checkout $TRAVIS_BRANCH;
+      fi;
 
 install:
     # build docker images
