@@ -1,7 +1,7 @@
 from plyer.facades import Audio
 from pyobjus.dylib_manager import load_framework, INCLUDE
 from pyobjus import autoclass
-from os.path import join, expanduser
+from os.path import join
 from plyer.platforms.ios.storagepath import iOSStoragePath
 
 load_framework(INCLUDE.Foundation)

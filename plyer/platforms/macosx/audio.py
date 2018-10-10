@@ -1,4 +1,4 @@
-from os.path import expanduser, join
+from os.path import join
 
 from pyobjus import autoclass
 from pyobjus.dylib_manager import INCLUDE, load_framework
