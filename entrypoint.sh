@@ -43,7 +43,10 @@ nosetests \
 coveralls || true
 
 # deploy to PyPI if set in CI with PLYER_DEPLOY variable
-if [ "$PLYER_DEPLOY" = "1" ]; then
+if [ "$PLYER_DEPLOY" = "1" ] || [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+        $PYTHON plyer_deploy.py
+    fi
     $PYTHON setup.py sdist bdist_wheel
     $PYTHON -m twine upload dist/*
 fi
