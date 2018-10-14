@@ -331,7 +331,7 @@ def _connect(network, parameters):
                            None)
         if wlan:
             sys_exit(FormatError(wlan))
-        WlanCloseHandle(ClientHandle)
+        WlanCloseHandle(ClientHandle, None)
     finally:
         WlanFreeMemory(pInterfaceList)
 
@@ -374,7 +374,7 @@ def _disconnect():
             )
             if wlan:
                 sys_exit(FormatError(wlan))
-            WlanCloseHandle(ClientHandle)
+            WlanCloseHandle(ClientHandle, None)
 
     finally:
         WlanFreeMemory(pInterfaceList)
@@ -449,7 +449,7 @@ def _start_scanning():
 
                 if wlan:
                     sys_exit(FormatError(wlan))
-                WlanCloseHandle(ClientHandle)
+                WlanCloseHandle(ClientHandle, None)
 
             finally:
                 WlanFreeMemory(pAvailableNetworkList)
