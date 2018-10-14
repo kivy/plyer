@@ -12,7 +12,7 @@ __all__ = ('accelerometer', 'audio', 'barometer', 'battery', 'call', 'camera',
            'temperature', 'humidity', 'spatialorientation', 'brightness',
            'storagepath', 'processors', 'bluetooth')
 
-__version__ = '1.3.1dev'
+__version__ = '1.3.1'
 
 
 from plyer import facades
