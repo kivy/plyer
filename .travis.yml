@@ -127,6 +127,7 @@ script:
                       --tty
                       --env COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN
                       --env COVERALLS_SERVICE_NAME=travis-ci
+                      --env TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE
                       --env TRAVIS_JOB_ID=$TRAVIS_JOB_ID
                       --env TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
                       --env PLYER_DEPLOY=${PLYER_DEPLOY:-"0"}
