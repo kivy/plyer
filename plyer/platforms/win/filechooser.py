@@ -96,7 +96,7 @@ class Win32FileChooser(object):
                     self.title if self.title else "Pick a folder...",
                     0, None, None
                 )
-                self.selection = [str(get_path(pidl))]
+                self.selection = [str(get_path(pidl).decode('utf-8'))]
 
             return self.selection
         except (RuntimeError, pywintypes.error):
