@@ -8,10 +8,10 @@ from win32com.shell.shell import (
     SHBrowseForFolder as browse,
     SHGetPathFromIDList as get_path
 )
-import os
 import win32gui
 import win32con
 import pywintypes
+from os.path import dirname, splitext, join
 
 
 class Win32FileChooser(object):
@@ -30,6 +30,11 @@ class Win32FileChooser(object):
     * show_hidden
     * filters
     * path
+
+    Known issues:
+    * non-existins folders such as: Network, Control Panel, My Computer, Trash,
+      Library and likes will raise a COM error. The path does not exist, nor
+      a user can open from or save to such path.
     '''
 
     path = None
@@ -46,16 +51,17 @@ class Win32FileChooser(object):
             setattr(self, i, kwargs[i])
 
     def run(self):
+        self.selection = []
         try:
-            self.selection = None
             if self.mode != "dir":
                 args = {}
 
                 if self.path:
-                    args["InitialDir"] = os.path.dirname(self.path)
-                    _, ext = os.path.splitext(self.path)
+                    args["InitialDir"] = dirname(self.path)
+                    _, ext = splitext(self.path)
                     args["File"] = self.path
                     args["DefExt"] = ext
+
                 args["Title"] = self.title if self.title else "Pick a file..."
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
                 args["FilterIndex"] = 1
@@ -68,14 +74,20 @@ class Win32FileChooser(object):
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
                 args["Filter"] = filters
 
-                flags = (win32con.OFN_EXTENSIONDIFFERENT
-                         | win32con.OFN_OVERWRITEPROMPT)
+                flags = win32con.OFN_EXTENSIONDIFFERENT
+                flags |= win32con.OFN_OVERWRITEPROMPT
+
                 if self.multiple:
                     flags |= win32con.OFN_ALLOWmultiple | win32con.OFN_EXPLORER
                 if self.show_hidden:
                     flags |= win32con.OFN_FORCESHOWHIDDEN
+
                 args["Flags"] = flags
 
+                # GetOpenFileNameW, GetSaveFileNameW will raise
+                # pywintypes.error: (0, '...', 'No error message is available')
+                # which is most likely due to incorrect type handling from the
+                # win32gui side; return empty list in that case after exception
                 if self.mode == "open":
                     self.fname, _, _ = win32gui.GetOpenFileNameW(**args)
                 elif self.mode == "save":
@@ -85,11 +97,13 @@ class Win32FileChooser(object):
                     if self.multiple:
                         seq = str(self.fname).split("\x00")
                         dir_n, base_n = seq[0], seq[1:]
-                        self.selection = [os.path.join(dir_n, i)
-                                          for i in base_n]
+                        self.selection = [
+                            join(dir_n, i) for i in base_n
+                        ]
                     else:
                         self.selection = str(self.fname).split("\x00")
-            else:
+
+            else:  # dir mode
                 # From http://goo.gl/UDqCqo
                 pidl, name, images = browse(  # pylint: disable=unused-variable
                     win32gui.GetDesktopWindow(),
@@ -97,12 +111,17 @@ class Win32FileChooser(object):
                     self.title if self.title else "Pick a folder...",
                     0, None, None
                 )
-                if pidl is not None:
+
+                # pidl is None when nothing is selected
+                # and e.g. the dialog is closed afterwards with Cancel
+                if pidl:
                     self.selection = [str(get_path(pidl).decode('utf-8'))]
 
-            return self.selection
         except (RuntimeError, pywintypes.error):
-            return None
+            # ALWAYS! let user know what happened
+            import traceback
+            traceback.print_exc()
+        return self.selection
 
 
 class WinFileChooser(FileChooser):
