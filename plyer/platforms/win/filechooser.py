@@ -47,14 +47,15 @@ class Win32FileChooser(object):
 
     def run(self):
         try:
+            self.selection = None
             if self.mode != "dir":
                 args = {}
 
                 if self.path:
                     args["InitialDir"] = os.path.dirname(self.path)
-                    path = os.path.splitext(os.path.dirname(self.path))
-                    args["File"] = path[0]
-                    args["DefExt"] = path[1]
+                    _, ext = os.path.splitext(self.path)
+                    args["File"] = self.path
+                    args["DefExt"] = ext
                 args["Title"] = self.title if self.title else "Pick a file..."
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
                 args["FilterIndex"] = 1
@@ -96,7 +97,8 @@ class Win32FileChooser(object):
                     self.title if self.title else "Pick a folder...",
                     0, None, None
                 )
-                self.selection = [str(get_path(pidl).decode('utf-8'))]
+                if pidl is not None:
+                    self.selection = [str(get_path(pidl).decode('utf-8'))]
 
             return self.selection
         except (RuntimeError, pywintypes.error):
