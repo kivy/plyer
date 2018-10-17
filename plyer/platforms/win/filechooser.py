@@ -26,10 +26,6 @@ class Win32FileChooser(object):
     by Windows itself):
     * preview
     * window-icon
-    * multiple
-    * show_hidden
-    * filters
-    * path
 
     Known issues:
     * non-existins folders such as: Network, Control Panel, My Computer, Trash,
@@ -66,6 +62,7 @@ class Win32FileChooser(object):
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
                 args["FilterIndex"] = 1
 
+                # e.g. open_file(filters=['*.txt', '*.py'])
                 filters = ""
                 for f in self.filters:
                     if type(f) == str:
@@ -78,7 +75,8 @@ class Win32FileChooser(object):
                 flags |= win32con.OFN_OVERWRITEPROMPT
 
                 if self.multiple:
-                    flags |= win32con.OFN_ALLOWmultiple | win32con.OFN_EXPLORER
+                    flags |= win32con.OFN_ALLOWMULTISELECT
+                    flags |= win32con.OFN_EXPLORER
                 if self.show_hidden:
                     flags |= win32con.OFN_FORCESHOWHIDDEN
 
