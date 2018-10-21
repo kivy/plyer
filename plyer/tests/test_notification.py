@@ -61,7 +61,7 @@ class TestNotification(unittest.TestCase):
             dirname(abspath(__file__)),
             'images', 'kivy32.ico'
         ),
-        'timeout': 0.1
+        'timeout': 0.7
     }
 
     def show_notification(self, instance):
@@ -119,7 +119,7 @@ class TestNotification(unittest.TestCase):
             self.show_notification(notif)
 
             # the balloon needs some time to became visible in WinAPI
-            sleep(0.01)
+            sleep(0.2)
 
             # fetch window class names
             enum_windows(
