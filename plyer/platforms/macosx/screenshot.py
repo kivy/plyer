@@ -1,15 +1,22 @@
 import subprocess
 from plyer.facades import Screenshot
 from plyer.utils import whereis_exe
+from plyer.platforms.macosx.storagepath import OSXStoragePath
 
 
 class OSXScreenshot(ScreenShot):
     def __init__(self, file_path=None):
-        default_path = 'screenshot.jpg'
+        default_path = join(
+            OSXStoragePath().get_pictures_dir().encode('utf-8'),
+            'screenshot.png'
+        )
         super(OSXScreenshot, self).__init__(file_path or default_path)
 
-    def _take(self):
-        subprocess.call(["screencapture", "-T", "2", self.file_path])
+    def _capture(self):
+        subprocess.call([
+            'screencapture',
+            self.file_path
+        ])
 
 
 def instance():
