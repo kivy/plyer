@@ -33,7 +33,7 @@ class Screenshot(object):
 
     _file_path = ''
 
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         self._file_path = file_path
 
     def capture(self):

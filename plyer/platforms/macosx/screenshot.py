@@ -4,7 +4,7 @@ from plyer.utils import whereis_exe
 from plyer.platforms.macosx.storagepath import OSXStoragePath
 
 
-class OSXScreenshot(ScreenShot):
+class OSXScreenshot(Screenshot):
     def __init__(self, file_path=None):
         default_path = join(
             OSXStoragePath().get_pictures_dir().encode('utf-8'),
