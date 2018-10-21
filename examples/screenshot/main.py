@@ -15,8 +15,8 @@ Builder.load_string('''
         text: 'Screenshot Location: ' + str(screenshot.file_path)
 
     Button:
-        text: 'Take Screenshot'
-        on_release: screenshot.take()
+        text: 'Capture Screenshot'
+        on_release: screenshot.capture()
 ''')
 
 
