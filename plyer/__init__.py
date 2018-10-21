@@ -111,5 +111,5 @@ bluetooth = Proxy('bluetooth', facades.Bluetooth)
 #: Processors proxy to :class:`plyer.facades.Processors`
 processors = Proxy('processors', facades.Processors)
 
-#: ScreenShot proxy to :class:`plyer.facades.ScreenShot`
-screenshot = Proxy('screenshot', facades.ScreenShot)
+#: Screenshot proxy to :class:`plyer.facades.Screenshot`
+screenshot = Proxy('screenshot', facades.Screenshot)
