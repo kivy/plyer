@@ -34,12 +34,11 @@ class MockedScreenCapture(object):
         '''
         Mocked subprocess.call to check console parameters.
         '''
-        print(args)
         assert len(args) == 2, len(args)
-        assert 'screencapture' == args[0], args
-        assert join(
+        assert args[0] == 'screencapture', args
+        assert args[1] == join(
             expanduser('~'), 'Pictures', 'screenshot.png'
-        ) == args[1], args
+        ), args
         with open(args[1], 'w') as scr:
             scr.write('')
 
@@ -50,7 +49,9 @@ class TestScreenshot(unittest.TestCase):
     '''
 
     def setUp(self):
-        mkdir(join(expanduser('~'), 'Pictures'))
+        path = join(expanduser('~'), 'Pictures')
+        if not exists(path):
+            mkdir(path)
 
     @PlatformTest('macosx')
     def test_screenshot_screencapture(self):
