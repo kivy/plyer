@@ -1,10 +1,11 @@
 '''
-ScreenShot
-=====
+Screenshot
+==========
 
-The :class:`ScreenShot` is used for recording audio.
+The :class:`Screenshot` is used for capturing a digital image of what
+is currently visible on the monitor.
 
-Default path for taking screenshot is set in platform implementation.
+The default path for taking screenshot is set in each platform implementation.
 
 Simple Examples
 ---------------
@@ -16,32 +17,27 @@ To get the file path::
 
 To set the file path::
 
-    >>> import os
-    >>> current_list = os.listdir('.')
-    ['/sdcard/testrecorder.jpg', '/sdcard/testrecorder1.jpg',
-    '/sdcard/testrecorder2.jpg', '/sdcard/testrecorder3.jpg']
-    >>> file_path = current_list[2]
-    >>> screenshot.file_path = file_path
+    >>> screenshot.file_path = '/Users/OSXUser/Pictures/screenshot.png'
 
 To take screenshot::
 
     >>> from plyer import screenshot
-    >>> screenshot.take_shot()
+    >>> screenshot.capture()
 '''
 
 
 class Screenshot(object):
     '''
-    ScreenShot facade.
+    Screenshot facade.
     '''
+
     _file_path = ''
 
     def __init__(self, file_path):
-        super(Screenshot, self).__init__()
         self._file_path = file_path
 
-    def take(self):
-        self._take()
+    def capture(self):
+        self._capture()
 
     @property
     def file_path(self):
@@ -52,9 +48,10 @@ class Screenshot(object):
         '''
         Location of the screenshot.
         '''
+
         self._file_path = location
 
     # private
 
-    def _take(self, **kwargs):
+    def _capture(self, **kwargs):
         raise NotImplementedError()
