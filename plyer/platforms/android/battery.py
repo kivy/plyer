@@ -22,7 +22,7 @@ class AndroidBattery(Battery):
         ifilter = INTENTFILTER(INTENT.ACTION_BATTERY_CHANGED)
 
         battery_status = cast(
-            'android.content.INTENT',
+            'android.content.Intent',
             activity.registerReceiver(None, ifilter)
         )
 
