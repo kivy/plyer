@@ -5,6 +5,7 @@ TestScreenshot
 Tested platforms:
 
 * MacOS
+* Linux
 '''
 
 import unittest
@@ -44,6 +45,34 @@ class MockedScreenCapture(object):
             scr.write('')
 
 
+class MockedXWD(object):
+    '''
+    Mocked object used instead of the console-like calling
+    of X11 xwd binary with parameters.
+    '''
+    @staticmethod
+    def whereis_exe(binary):
+        '''
+        Mock whereis_exe, so that it looks like
+        X11 xwd binary is present on the system.
+        '''
+        return binary == 'xwd'
+
+    @staticmethod
+    def call(args, stdout):
+        '''
+        Mocked subprocess.call to check console parameters.
+        '''
+        assert len(args) == 3, args
+        assert args[0] == 'xwd', args
+        assert args[1:] == ['-silent', '-root'], args
+        assert stdout.name == join(
+            expanduser('~'), 'Pictures', 'screenshot.xwd'
+        ), stdout.name
+        with open(stdout.name, 'w') as scr:
+            scr.write('')
+
+
 class TestScreenshot(unittest.TestCase):
     '''
     TestCase for plyer.screenshot.
@@ -80,11 +109,33 @@ class TestScreenshot(unittest.TestCase):
         with patch(target='subprocess.call', new=MockedScreenCapture.call):
             self.assertIsNone(scr.capture())
 
-        scr_path = join(
-            expanduser('~'), 'Pictures', 'screenshot.png'
+        self.assertTrue(exists(scr.file_path))
+        remove(scr.file_path)
+
+    @PlatformTest('linux')
+    def test_screenshot_xwd(self):
+        '''
+        Test mocked X11 xwd for plyer.screenshot.
+        '''
+        scr = platform_import(
+            platform='linux',
+            module_name='screenshot',
+            whereis_exe=MockedXWD.whereis_exe
         )
-        self.assertTrue(exists(scr_path))
-        remove(scr_path)
+
+        # such class exists in screenshot module
+        self.assertIn('LinuxScreenshot', dir(scr))
+
+        # the required instance is created
+        scr = scr.instance()
+        self.assertIn('LinuxScreenshot', str(scr))
+
+        # move capture from context manager to run without mock
+        with patch(target='subprocess.call', new=MockedXWD.call):
+            self.assertIsNone(scr.capture())
+
+        self.assertTrue(exists(scr.file_path))
+        remove(scr.file_path)
 
 
 if __name__ == '__main__':
