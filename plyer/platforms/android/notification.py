@@ -7,13 +7,13 @@ from jnius import autoclass
 from plyer.facades import Notification
 from plyer.platforms.android import activity, SDK_INT
 
-ANDROIDSTRING = autoclass('java.lang.String')
-CONTEXT = autoclass('android.content.Context')
-NOTIFICATIONBUILDER = autoclass('android.app.Notification$Builder')
-DRAWABLE = autoclass("{}.R$drawable".format(activity.getPackageName()))
-PYTHONACTIVITY = autoclass('{}.PythonActivity'.format(JAVA_NAMESPACE))
-PENDINGINTENT = autoclass('android.app.PendingIntent')
-INTENT = autoclass('android.content.Intent')
+AndroidString = autoclass('java.lang.String')
+Context = autoclass('android.content.Context')
+NotificationBuilder = autoclass('android.app.Notification$Builder')
+Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
+PythonActivity = autoclass('{}.PythonActivity'.format(JAVA_NAMESPACE))
+PendingIntent = autoclass('android.app.PendingIntent')
+Intent = autoclass('android.content.Intent')
 
 
 class AndroidNotification(Notification):
@@ -28,29 +28,29 @@ class AndroidNotification(Notification):
     def _get_notification_service(self):
         if not self._ns:
             self._ns = activity.getSystemService(
-                CONTEXT.NOTIFICATION_SERVICE
+                Context.NOTIFICATION_SERVICE
             )
         return self._ns
 
     def _notify(self, **kwargs):
-        icon = getattr(DRAWABLE, kwargs.get('icon_android', 'icon'))
-        noti = NOTIFICATIONBUILDER(activity)
-        noti.setContentTitle(ANDROIDSTRING(
+        icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
+        noti = NotificationBuilder(activity)
+        noti.setContentTitle(AndroidString(
             kwargs.get('title').encode('utf-8')))
-        noti.setContentText(ANDROIDSTRING(
+        noti.setContentText(AndroidString(
             kwargs.get('message').encode('utf-8')))
-        noti.setTicker(ANDROIDSTRING(
+        noti.setTicker(AndroidString(
             kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
         noti.setAutoCancel(True)
 
         # clicking the notification will open the application
         app_context = activity.getApplication().getApplicationContext()
-        notification_intent = INTENT(app_context, PYTHONACTIVITY)
-        notification_intent.setFlags(INTENT.FLAG_ACTIVITY_SINGLE_TOP)
-        notification_intent.setAction(INTENT.ACTION_MAIN)
-        notification_intent.addCategory(INTENT.CATEGORY_LAUNCHER)
-        pending_intent = PENDINGINTENT.getActivity(
+        notification_intent = Intent(app_context, PythonActivity)
+        notification_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        notification_intent.setAction(Intent.ACTION_MAIN)
+        notification_intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        pending_intent = PendingIntent.getActivity(
             app_context, 0, notification_intent, 0
         )
         noti.setContentIntent(pending_intent)

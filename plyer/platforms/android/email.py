@@ -6,8 +6,8 @@ from jnius import autoclass, cast  # pylint: disable=no-name-in-module
 from plyer.facades import Email
 from plyer.platforms.android import activity
 
-INTENT = autoclass('android.content.Intent')
-ANDROIDSTRING = autoclass('java.lang.String')
+Intent = autoclass('android.content.Intent')
+AndroidString = autoclass('java.lang.String')
 
 
 class AndroidEmail(Email):
@@ -17,7 +17,7 @@ class AndroidEmail(Email):
     '''
 
     def _send(self, **kwargs):
-        intent = INTENT(INTENT.ACTION_SEND)
+        intent = Intent(Intent.ACTION_SEND)
         intent.setType('text/plain')
 
         recipient = kwargs.get('recipient')
@@ -26,21 +26,27 @@ class AndroidEmail(Email):
         create_chooser = kwargs.get('create_chooser')
 
         if recipient:
-            intent.putExtra(INTENT.EXTRA_EMAIL, [recipient])
+            intent.putExtra(Intent.EXTRA_EMAIL, [recipient])
         if subject:
-            android_subject = cast('java.lang.CharSequence',
-                                   ANDROIDSTRING(subject))
-            intent.putExtra(INTENT.EXTRA_SUBJECT, android_subject)
+            android_subject = cast(
+                'java.lang.CharSequence',
+                AndroidString(subject)
+            )
+            intent.putExtra(Intent.EXTRA_SUBJECT, android_subject)
         if text:
-            android_text = cast('java.lang.CharSequence',
-                                ANDROIDSTRING(text))
-            intent.putExtra(INTENT.EXTRA_TEXT, android_text)
+            android_text = cast(
+                'java.lang.CharSequence',
+                AndroidString(text)
+            )
+            intent.putExtra(Intent.EXTRA_TEXT, android_text)
 
         if create_chooser:
-            chooser_title = cast('java.lang.CharSequence',
-                                 ANDROIDSTRING('Send message with:'))
+            chooser_title = cast(
+                'java.lang.CharSequence',
+                AndroidString('Send message with:')
+            )
             activity.startActivity(
-                INTENT.createChooser(intent, chooser_title)
+                Intent.createChooser(intent, chooser_title)
             )
         else:
             activity.startActivity(intent)

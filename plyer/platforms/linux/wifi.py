@@ -23,7 +23,7 @@ class LinuxWifi(Wifi):
         Returns `True` if wifi is enabled else `False`.
         '''
         enbl = Popen(["nmcli", "radio", "wifi"], stdout=PIPE, stderr=PIPE)
-        if enbl.communicate()[0].split()[0].decode() == "enabled":
+        if enbl.communicate()[0].split()[0].decode('utf-8') == "enabled":
             return True
         return False
 

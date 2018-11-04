@@ -22,8 +22,8 @@ from pyobjus.dylib_manager import (  # pylint: disable=import-error
 load_framework(INCLUDE.AppKit)
 load_framework(INCLUDE.Foundation)
 
-NSUSERNOTIFICATION = autoclass('NSUserNotification')
-NSUSERNOTIFICATIONCENTER = autoclass('NSUserNotificationCenter')
+NSUserNotification = autoclass('NSUserNotification')
+NSUserNotificationCenter = autoclass('NSUserNotificationCenter')
 
 
 class OSXNotification(Notification):
@@ -37,12 +37,12 @@ class OSXNotification(Notification):
         app_name = kwargs.get('app_name', '')
         # app_icon, timeout, ticker are not supported (yet)
 
-        notification = NSUSERNOTIFICATION.alloc().init()
+        notification = NSUserNotification.alloc().init()
         notification.setTitle_(objc_str(title))
         notification.setSubtitle_(objc_str(app_name))
         notification.setInformativeText_(objc_str(message))
 
-        usrnotifctr = NSUSERNOTIFICATIONCENTER.defaultUserNotificationCenter()
+        usrnotifctr = NSUserNotificationCenter.defaultUserNotificationCenter()
         usrnotifctr.setDelegate_(self)
         usrnotifctr.deliverNotification_(notification)
 

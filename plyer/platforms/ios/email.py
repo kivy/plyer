@@ -14,8 +14,8 @@ from pyobjus.dylib_manager import load_framework  # pylint:disable=import-error
 load_framework('/System/Library/Frameworks/UIKit.framework')
 
 NSURL = autoclass('NSURL')
-NSSTRING = autoclass('NSString')
-UIAPPLICATION = autoclass('UIApplication')
+NSString = autoclass('NSString')
+UIApplication = autoclass('UIApplication')
 
 
 class IOSEmail(Email):
@@ -43,7 +43,7 @@ class IOSEmail(Email):
 
         nsurl = NSURL.alloc().initWithString_(objc_str(uri))
 
-        UIAPPLICATION.sharedApplication().openURL_(nsurl)
+        UIApplication.sharedApplication().openURL_(nsurl)
 
 
 def instance():
