@@ -55,7 +55,7 @@ Notifications                      X           X       X    X
 Number of Processors                                        X
 Orientation                        X
 Proximity                          X
-Screenshot                                     X       X
+Screenshot                                     X       X    X
 Sms (send messages)                X       X
 Spatial Orientation                X       X
 Storage Path                       X       X   X       X    X
