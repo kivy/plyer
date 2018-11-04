@@ -7,7 +7,7 @@ from pyobjus.dylib_manager import load_framework  # pylint:disable=import-error
 from plyer.facades import Battery
 
 load_framework('/System/Library/Frameworks/UIKit.framework')
-UIDEVICE = autoclass('UIDevice')
+UIDevice = autoclass('UIDevice')
 
 
 class IOSBattery(Battery):
@@ -17,7 +17,7 @@ class IOSBattery(Battery):
 
     def __init__(self):
         super(IOSBattery, self).__init__()
-        self.device = UIDEVICE.currentDevice()
+        self.device = UIDevice.currentDevice()
 
     def _get_state(self):
         status = {"isCharging": None, "percentage": None}

@@ -6,7 +6,7 @@ from jnius import autoclass
 from plyer.platforms.android import activity
 from plyer.facades import UniqueID
 
-SECURE = autoclass('android.provider.Settings$Secure')
+Secure = autoclass('android.provider.Settings$Secure')
 
 
 class AndroidUniqueID(UniqueID):
@@ -15,8 +15,10 @@ class AndroidUniqueID(UniqueID):
     '''
 
     def _get_uid(self):
-        return SECURE.getString(activity.getContentResolver(),
-                                SECURE.ANDROID_ID)
+        return Secure.getString(
+            activity.getContentResolver(),
+            Secure.ANDROID_ID
+        )
 
 
 def instance():

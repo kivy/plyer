@@ -6,7 +6,7 @@ from jnius import autoclass
 from plyer.platforms.android import activity
 from plyer.facades import Bluetooth
 
-GLOBAL = autoclass('android.provider.Settings$Global')
+Global = autoclass('android.provider.Settings$Global')
 
 
 class AndroidBluetooth(Bluetooth):
@@ -15,9 +15,9 @@ class AndroidBluetooth(Bluetooth):
     '''
 
     def _get_info(self):
-        bluetooth_enabled = GLOBAL.getString(
+        bluetooth_enabled = Global.getString(
             activity.getContentResolver(),
-            GLOBAL.BLUETOOTH_ON
+            Global.BLUETOOTH_ON
         )
         status = 'off'
         if bluetooth_enabled:
