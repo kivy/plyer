@@ -18,6 +18,9 @@ RUN apt-get update && \
     && apt-get -y autoremove \
     && apt-get -y clean
 
+# generate user folder locations (Pictures, Downloads, ...)
+RUN xdg-user-dirs-update
+
 # install PIP
 RUN wget https://bootstrap.pypa.io/get-pip.py -O get-pip3.py
 RUN python3.6 -V && \
