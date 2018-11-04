@@ -48,7 +48,7 @@ class MockedScreenCapture(object):
 class MockedXWD(object):
     '''
     Mocked object used instead of the console-like calling
-    of screencapture binary with parameters.
+    of X11 xwd binary with parameters.
     '''
     @staticmethod
     def whereis_exe(binary):
@@ -59,13 +59,18 @@ class MockedXWD(object):
         return binary == 'xwd'
 
     @staticmethod
-    def call(args):
+    def call(args, stdout):
         '''
         Mocked subprocess.call to check console parameters.
         '''
-        assert len(args) == 2, len(args)
+        assert len(args) == 3, args
         assert args[0] == 'xwd', args
-        assert args[1:] == ['-silent', '-root']
+        assert args[1:] == ['-silent', '-root'], args
+        assert stdout.name == join(
+            expanduser('~'), 'Pictures', 'screenshot.xwd'
+        ), stdout.name
+        with open(stdout.name, 'w') as scr:
+            scr.write('')
 
 
 class TestScreenshot(unittest.TestCase):
@@ -104,11 +109,8 @@ class TestScreenshot(unittest.TestCase):
         with patch(target='subprocess.call', new=MockedScreenCapture.call):
             self.assertIsNone(scr.capture())
 
-        scr_path = join(
-            expanduser('~'), 'Pictures', 'screenshot.png'
-        )
-        self.assertTrue(exists(scr_path))
-        remove(scr_path)
+        self.assertTrue(exists(scr.file_path))
+        remove(scr.file_path)
 
     @PlatformTest('linux')
     def test_screenshot_xwd(self):
@@ -132,11 +134,8 @@ class TestScreenshot(unittest.TestCase):
         with patch(target='subprocess.call', new=MockedXWD.call):
             self.assertIsNone(scr.capture())
 
-        scr_path = join(
-            expanduser('~'), 'Pictures', 'screenshot.png'
-        )
-        self.assertTrue(exists(scr_path))
-        remove(scr_path)
+        self.assertTrue(exists(scr.file_path))
+        remove(scr.file_path)
 
 
 if __name__ == '__main__':
