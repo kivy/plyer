@@ -33,8 +33,7 @@ COPY devrequirements.txt .
 RUN python -m pip install \
         --upgrade \
         --requirement devrequirements.txt
-RUN python -m pip install \
-    https://github.com/kivy/pyjnius/zipball/master
+RUN python -m pip install pyjnius
 
 COPY . $APP_DIR
 RUN python -m pip install .
