@@ -18,7 +18,8 @@ from subprocess import Popen, PIPE, call
 class LinuxWifi(Wifi):
     names = {}
     
-    ifname = Popen(["nmcli", "-t","connection", "show", "--active"], stdout=PIPE, stderr=PIPE).communicate()[0].decode().split(":")[-1].strip()
+    Popen(["nmcli", "-t","connection", "show", "--active"], stdout=PIPE, stderr=PIPE).
+    ifname = communicate()[0].decode('utf-8').split(":")[-1].strip()
     
     def _is_enabled(self):
         '''
