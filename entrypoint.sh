@@ -7,9 +7,14 @@ then
 elif [ "$1" = "py3" ] || [ "$1" = "pep8" ]
 then
     PYTHON=$(which python3.6)
+elif [ "$1" = "env" ]
+then
+    PYTHON=$PYTHON
 else
     exit 1
 fi
+
+$PYTHON -V
 
 # pep8 check
 if [ "$2" = "style" ]
