@@ -6,17 +6,37 @@ services:
 matrix:
     fast_finish: true
     include:
-        - env: DOCK=1 PY=2 RUN=unit
+        - env: DOCK=1 IMAGE=bionic PY=2 RUN=unit
           python: 2.7
           os: linux
           dist: trusty
 
-        - env: DOCK=1 PY=3 RUN=unit COVERALLS=1
+        - env: DOCK=1 IMAGE=bionic PY=3 RUN=unit COVERALLS=1
           python: 3.5
           os: linux
           dist: trusty
 
-        - env: DOCK=1 PY=3 RUN=style
+        - env: DOCK=1 IMAGE=bionic PY=3 RUN=style
+          python: 3.5
+          os: linux
+          dist: trusty
+
+        - env: DOCK=1 IMAGE=fedora28 PY=2 RUN=unit
+          python: 2.7
+          os: linux
+          dist: trusty
+
+        - env: DOCK=1 IMAGE=fedora28 PY=3 RUN=unit
+          python: 3.5
+          os: linux
+          dist: trusty
+
+        - env: DOCK=1 IMAGE=archlinux PY=2 RUN=unit
+          python: 2.7
+          os: linux
+          dist: trusty
+
+        - env: DOCK=1 IMAGE=archlinux PY=3 RUN=unit
           python: 3.5
           os: linux
           dist: trusty
@@ -60,18 +80,20 @@ install:
           if [ "$PY" == "2" ]; then
               docker build
                   --tag plyer:py2
-                  --file Dockerfile.bionic.py2
+                  --file Dockerfile.$IMAGE.py2
                   "$(pwd)";
           elif [ "$PY" == "3" ]; then
               docker build
                   --tag plyer:py3
-                  --file Dockerfile.bionic.py3
+                  --file Dockerfile.$IMAGE.py3
                   "$(pwd)";
 
-              docker build
-                  --tag plyer:style
-                  --file Dockerfile.bionic.style
-                  "$(pwd)";
+              if [ "$RUN" == "style" ]; then
+                  docker build
+                      --tag plyer:style
+                      --file Dockerfile.$IMAGE.style
+                      "$(pwd)";
+              fi;
           fi;
       fi;
 
