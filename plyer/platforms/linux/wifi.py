@@ -88,7 +88,7 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'nm', 'enable', 'false'])
+        return call(['nmcli', 'networking', 'off'])
 
 
 def instance():
