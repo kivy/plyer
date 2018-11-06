@@ -54,11 +54,7 @@ before_install:
     - echo PATH=$PATH;
     - ./ci/osx_fix_cellar.sh
     - ./ci/osx_fix_rvm.sh
-
-    # use real branch name instead of detached HEAD unless PR
-    - if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then
-          git checkout $TRAVIS_BRANCH;
-      fi;
+    - ./ci/github_checkout_branch.sh
 
 install:
     # build docker images
