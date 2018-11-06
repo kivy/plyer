@@ -52,16 +52,7 @@ matrix:
 
 before_install:
     - echo PATH=$PATH;
-
-    # uninstall old GNUpg, install new one and add Brew
-    # 'Cellar' folder to the path (contains binaries)
-    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-          brew uninstall gnupg;
-          brew install gnupg2;
-          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg || true;
-          sudo ln -sv /usr/local/Cellar/gnupg /usr/local/Cellar/gpg2 || true;
-          export PATH=$PATH:/usr/local/Cellar;
-      fi;
+    - ./ci/osx_fix_cellar.sh
 
     # https://github.com/travis-ci/travis-ci/issues/6307
     - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
