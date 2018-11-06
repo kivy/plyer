@@ -57,27 +57,7 @@ before_install:
     - ./ci/github_checkout_branch.sh
 
 install:
-    # build docker images
-    - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
-          if [ "$PY" == "2" ]; then
-              docker build
-                  --tag plyer:py2
-                  --file Dockerfile.$IMAGE.py2
-                  "$(pwd)";
-          elif [ "$PY" == "3" ]; then
-              docker build
-                  --tag plyer:py3
-                  --file Dockerfile.$IMAGE.py3
-                  "$(pwd)";
-
-              if [ "$RUN" == "style" ]; then
-                  docker build
-                      --tag plyer:style
-                      --file Dockerfile.$IMAGE.style
-                      "$(pwd)";
-              fi;
-          fi;
-      fi;
+    - ./ci/docker_build.sh
 
     # get Py3 because it's not present in any OSX image on Travis
     - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
