@@ -27,6 +27,10 @@ class LinuxWifi(Wifi):
             break
     else:
         ifname = "wlan0"
+        
+    com = Popen(["nmcli","--version"],stdout=PIPE)
+    com = com.communicate()[0].strip()
+    nmcliVersion = int(com.split(" ")[-1].replace(".", ""))
     
     def _is_enabled(self):
         '''
@@ -98,7 +102,10 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'nm', 'enable', 'false'])
+        if(self.nmcliVersion > 98):
+            return call(['nmcli','networking','off'])
+        else:
+            return call(['nmcli', 'nm', 'enable', 'false'])
 
 
 def instance():
