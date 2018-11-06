@@ -62,6 +62,8 @@ install:
     - ./ci/docker_build.sh
 
 script:
+    - ./ci/osx_run_tests.sh
+
     # run containers from images
     - if [ "${TRAVIS_OS_NAME}" == "linux" ] && [ -v DOCK ]; then
           if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]; then
@@ -100,14 +102,3 @@ script:
                   plyer:style;
           fi;
         fi;
-
-    # test_facade.py fails to reload modules when run
-    # on Travis OSX images in Py3 yet works properly
-    # on Windows, Linux and OSX devices
-    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-          pip install --editable .;
-          nosetests
-              --stop
-              --nocapture
-              ./plyer/tests;
-      fi;
