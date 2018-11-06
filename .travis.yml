@@ -57,33 +57,9 @@ before_install:
     - ./ci/github_checkout_branch.sh
 
 install:
-    - ./ci/docker_build.sh
     - ./ci/osx_get_py3.sh
-
-    # manual get-pip.py on OSX because TLS1.2+ required
-    # pyfound.blogspot.com/2017/01/time-to-upgrade-your-python-tls-v12.html
-    # and install to virtualenv
-    - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
-          if [ "${PY}" == "3" ]; then
-              sudo python3 get-pip.py;
-          else
-              sudo python get-pip.py;
-          fi;
-
-          if [ "${PY}" == "3" ]; then
-              pip3 install --user virtualenv;
-              python3 -m virtualenv env;
-          else
-              pip install --user virtualenv;
-              python -m virtualenv env;
-          fi;
-
-          source env/bin/activate;
-          pip install --upgrade --requirement devrequirements.txt;
-          pip install https://github.com/kivy/pyobjus/zipball/master;
-      fi;
-
+    - ./ci/osx_get_pipvirtualenv.sh
+    - ./ci/docker_build.sh
 
 script:
     # run containers from images
