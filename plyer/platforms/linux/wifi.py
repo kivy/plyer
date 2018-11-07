@@ -16,7 +16,34 @@ from subprocess import Popen, PIPE, call
 
 
 class LinuxWifi(Wifi):
+    def __init__(self):
+        self.ifname = self.getIfname()
+        self.nmcliVersion = self.getNmcliVersion()
+
     names = {}
+
+    def getIfname(self):
+        '''
+        Return wifi interface name if available else return "wlan0'
+        '''
+        com = Popen(["nmcli", "-t","connection", "show", "--active","--order","active" ], stdout=PIPE )
+        com = com.communicate()[0].decode("utf-8").strip().split("\n")
+        for i in com:
+            if("wireless" in i):
+                ifname = i
+                ifname = ifname.split(':')[-1]
+                break
+            else:
+                ifname = "wlan0"
+        return ifname
+
+    def getNmcliVersion(self):
+        '''
+        Return nmcli version in Int to perform operation accordingly 
+        '''
+        com = Popen(["nmcli","--version"],stdout=PIPE)
+        com = com.communicate()[0].decode("utf-8").strip()
+        return int(com.split(" ")[-1].replace(".", ""))
 
     def _is_enabled(self):
         '''
@@ -88,7 +115,10 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'nm', 'enable', 'false'])
+        if(self.nmcliVersion > 98):
+            return call(['nmcli','networking','off'])
+        else:
+            return call(['nmcli', 'nm', 'enable', 'false'])
 
 
 def instance():
