@@ -34,5 +34,6 @@ RUN python3.6 -m pip install \
 RUN python3.6 -m pip install pyjnius
 
 COPY . $APP_DIR
+COPY ./ci/entrypoint.sh $APP_DIR
 RUN python3.6 -m pip install .
 ENTRYPOINT ["/app/entrypoint.sh", "py3"]

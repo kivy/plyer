@@ -38,6 +38,7 @@ RUN python2 -m pip install \
 RUN python2 -m pip install pyjnius
 
 COPY . $APP_DIR
+COPY ./ci/entrypoint.sh $APP_DIR
 RUN python2 -m pip install .
 ENV PYTHON=/usr/bin/python2
 ENTRYPOINT ["/app/entrypoint.sh", "env"]

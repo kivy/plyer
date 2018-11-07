@@ -37,5 +37,6 @@ RUN python -m pip install \
 RUN python -m pip install pyjnius
 
 COPY . $APP_DIR
+COPY ./ci/entrypoint.sh $APP_DIR
 ENV PYTHON=/usr/bin/python
 ENTRYPOINT ["/app/entrypoint.sh", "env"]
