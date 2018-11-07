@@ -10,7 +10,7 @@ RUN pacman -Fy && \
     pacman -Sy && \
     yes |pacman -Sy \
     gcc \
-    extra/python \
+    python2 \
     jdk-openjdk \
     lshw \
     wget \
@@ -23,19 +23,22 @@ RUN pacman -Fy && \
 RUN xdg-user-dirs-update
 
 # install PIP
-RUN wget https://bootstrap.pypa.io/get-pip.py -O get-pip3.py
-RUN python -V && \
-    python get-pip3.py && \
-    rm get-pip3.py && \
-    python -m pip install --upgrade pip
+RUN wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
+RUN python2 -V && \
+    python2 get-pip.py && \
+    rm get-pip.py && \
+    python2 -m pip install --upgrade pip
+
 
 # install dev packages
 COPY devrequirements.txt .
-RUN python -m pip install \
+RUN python2 -m pip install \
         --upgrade \
         --requirement devrequirements.txt
-RUN python -m pip install pyjnius
+RUN python2 -m pip install pyjnius
 
 COPY . $APP_DIR
-ENV PYTHON=/usr/bin/python
+COPY ./ci/entrypoint.sh $APP_DIR
+RUN python2 -m pip install .
+ENV PYTHON=/usr/bin/python2
 ENTRYPOINT ["/app/entrypoint.sh", "env"]

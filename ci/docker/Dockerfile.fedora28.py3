@@ -9,8 +9,7 @@ ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 # redhat-rpm-config: https://stackoverflow.com/a/34641068/5994041
 RUN yum -y install \
     gcc \
-    python \
-    python-devel \
+    python3-devel \
     java-11-openjdk \
     java-11-openjdk-devel \
     lshw \
@@ -24,16 +23,17 @@ RUN yum -y install \
 RUN xdg-user-dirs-update
 
 # install PIP
-RUN python -V && \
-    python -m pip install --upgrade pip
+RUN python3.6 -V && \
+    python3.6 -m pip install --upgrade pip
 
 # install dev packages
 COPY devrequirements.txt .
-RUN python -m pip install \
+RUN python3.6 -m pip install \
         --upgrade \
         --requirement devrequirements.txt
-RUN python -m pip install pyjnius
+RUN python3.6 -m pip install pyjnius
 
 COPY . $APP_DIR
-RUN python -m pip install .
-ENTRYPOINT ["/app/entrypoint.sh", "py2"]
+COPY ./ci/entrypoint.sh $APP_DIR
+RUN python3.6 -m pip install .
+ENTRYPOINT ["/app/entrypoint.sh", "py3"]

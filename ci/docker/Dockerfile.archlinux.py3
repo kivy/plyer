@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20180821
+FROM base/archlinux
 
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
@@ -6,26 +6,27 @@ WORKDIR $APP_DIR
 ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
-RUN apt-get update && \
-    apt-get -y --force-yes install \
-    build-essential \
-    python-setuptools \
-    python-dev \
-    openjdk-11-jdk \
+RUN pacman -Fy && \
+    pacman -Sy && \
+    yes |pacman -Sy \
+    gcc \
+    extra/python \
+    jdk-openjdk \
     lshw \
     wget \
-    git \
-    && apt-get -y autoremove \
-    && apt-get -y clean
+    apparmor \
+    xdg-user-dirs \
+    && yes |pacman -Rns $(pacman -Qtdq) ||true \
+    && yes |pacman -Sc
 
 # generate user folder locations (Pictures, Downloads, ...)
 RUN xdg-user-dirs-update
 
 # install PIP
-RUN wget https://bootstrap.pypa.io/2.6/get-pip.py -O get-pip2.py
+RUN wget https://bootstrap.pypa.io/get-pip.py -O get-pip3.py
 RUN python -V && \
-    python get-pip2.py && \
-    rm get-pip2.py && \
+    python get-pip3.py && \
+    rm get-pip3.py && \
     python -m pip install --upgrade pip
 
 # install dev packages
@@ -36,5 +37,6 @@ RUN python -m pip install \
 RUN python -m pip install pyjnius
 
 COPY . $APP_DIR
-RUN python -m pip install .
-ENTRYPOINT ["/app/entrypoint.sh", "py2"]
+COPY ./ci/entrypoint.sh $APP_DIR
+ENV PYTHON=/usr/bin/python
+ENTRYPOINT ["/app/entrypoint.sh", "env"]
