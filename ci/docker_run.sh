@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ "$TRAVIS_OS_NAME" == "linux" ] && [ -v DOCK ]
+if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$DOCK" = "1" ]
 then
 
     # run tests for Plyer in Python 2
-    if [ "$PY" == "2" ] && [ "$RUN" == "unit" ]
+    if [ "$PY" = "2" ] && [ "$RUN" = "unit" ]
     then
         docker run \
             --interactive \
@@ -12,12 +12,12 @@ then
             plyer:py2
 
     # run tests for Plyer in Python 3
-    elif [ "$PY" == "3" ] && [ "$RUN" == "unit" ]
+    elif [ "$PY" = "3" ] && [ "$RUN" = "unit" ]
     then
 
         # running coverage report (COVERALLS=1)
         # and even deploy to PyPI (PLYER_DEPLOY=1) if asked for
-        if [ "$COVERALLS" == "1" ]
+        if [ "$COVERALLS" = "1" ]
         then
             docker run \
                 --interactive \
@@ -41,7 +41,7 @@ then
                 plyer:py3
         fi
 
-    elif [ "$PY" == "3" ] && [ "$RUN" == "style" ]
+    elif [ "$PY" = "3" ] && [ "$RUN" = "style" ]
     then
         docker run \
             --interactive \

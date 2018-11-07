@@ -2,7 +2,7 @@
 
 # uninstall old GNUpg, install new one and add Brew
 # 'Cellar' folder to the path (contains binaries)
-if [ "$TRAVIS_OS_NAME" == "osx" ]
+if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
     brew uninstall gnupg
     brew install gnupg2

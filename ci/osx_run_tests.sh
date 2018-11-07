@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$TRAVIS_OS_NAME" == "osx" ]
+if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
     pip install --editable .
     nosetests \
