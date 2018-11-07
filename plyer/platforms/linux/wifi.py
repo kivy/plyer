@@ -59,7 +59,7 @@ class LinuxWifi(Wifi):
         Returns all the network information.
         '''
         if self._is_enabled():
-            list_ = wifi.Cell.all('wlan0')
+            list_ = wifi.Cell.all(self.ifname)
             for i in range(len(list_)):
                 self.names[list_[i].ssid] = list_[i]
         else:
@@ -107,7 +107,7 @@ class LinuxWifi(Wifi):
             password = parameters['password']
             cell = self.names[network]
             result = wifi.Scheme.for_cell(
-                'wlan0', network, cell, password
+                self.ifname, network, cell, password
             )
         return result
 
