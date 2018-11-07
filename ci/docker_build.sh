@@ -9,24 +9,24 @@ then
     then
         docker build \
             --tag plyer:py2 \
-            --file docker/Dockerfile.$IMAGE.py2 \
-            "$(pwd)/.."
+            --file ci/docker/Dockerfile.$IMAGE.py2 \
+            "$(pwd)"
 
     # separate images for Python 3
     elif [ "$PY" = "3" ]
     then
         docker build \
             --tag plyer:py3 \
-            --file docker/Dockerfile.$IMAGE.py3 \
-            "$(pwd)/.."
+            --file ci/docker/Dockerfile.$IMAGE.py3 \
+            "$(pwd)"
 
         # style image that inherits layers from Python 3 image
         if [ "$RUN" = "style" ]
         then
             docker build \
                 --tag plyer:style \
-                --file docker/Dockerfile.$IMAGE.style \
-                "$(pwd)/.."
+                --file ci/docker/Dockerfile.$IMAGE.style \
+                "$(pwd)"
         fi
     fi
 fi
