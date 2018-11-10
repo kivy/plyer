@@ -64,11 +64,27 @@ Supported Platforms
 -------------------
 Windows, OS X, Linux
 
+Ex: 6
+----------
+
+from plyer import wifi
+wifi.enable()
+
+This enables wifi device.
+
+Ex: 7
+----------
+
+from plyer import wifi
+wifi.disable()
+
+This disable wifi device
 '''
 
 
 class Wifi(object):
-    '''Wifi Facade.
+    '''
+    Wifi Facade.
     '''
 
     def is_enabled(self):
@@ -107,6 +123,18 @@ class Wifi(object):
         '''
         self._disconnect()
 
+    def enable(self):
+        '''
+        Wifi interface power state is set to "ON".
+        '''
+        self._enable()
+
+    def disable(self):
+        '''
+        Wifi interface power state is set to "OFF".
+        '''
+        self._disable()
+
     # private
 
     def _is_enabled(self):
@@ -125,4 +153,10 @@ class Wifi(object):
         raise NotImplementedError()
 
     def _disconnect(self):
+        raise NotImplementedError()
+
+    def _enable(self):
+        raise NotImplementedError()
+
+    def _disable(self):
         raise NotImplementedError()

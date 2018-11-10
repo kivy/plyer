@@ -31,8 +31,9 @@ class LinuxWifi(Wifi):
         '''
         Returns all the network information.
         '''
+        import wifi
         if self._is_enabled():
-            list_ = wifi.Cell.all('wlan0')
+            list_ = list(wifi.Cell.all('wlan0'))
             for i in range(len(list_)):
                 self.names[list_[i].ssid] = list_[i]
         else:
@@ -72,10 +73,10 @@ class LinuxWifi(Wifi):
             - parameters:
                 - password: dict type
         '''
-
+        import wifi
         result = None
         try:
-            call(['nmcli', 'nm', 'enable', 'true'])
+            self._enable()
         finally:
             password = parameters['password']
             cell = self.names[network]
@@ -88,16 +89,39 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'nm', 'enable', 'false'])
+        if self._nmcli_version() >= (1, 2, 6):
+            # todo replace wlan0 with dynamically fetched interface
+            call(['nmcli', 'dev', 'disconnect', 'wlan0'])
+        else:
+            call(['nmcli', 'nm', 'enable', 'false'])
+
+    def _enable(self):
+        '''
+        Wifi interface power state is set to "ON".
+        '''
+        return call(['nmcli', 'radio', 'wifi', 'on'])
+
+    def _disable(self):
+        '''
+        Wifi interface power state is set to "OFF".
+        '''
+        return call(['nmcli', 'radio', 'wifi', 'off'])
+
+    def _nmcli_version(self):
+        version = Popen(['nmcli', '-v'], stdout=PIPE)
+        version = version.communicate()[0].decode('utf-8')
+        while version and not version[0].isdigit():
+            version = version[1:]
+        return tuple(map(int, (version.split('.'))))
 
 
 def instance():
     import sys
+
     try:
         import wifi  # pylint: disable=unused-variable
-        return LinuxWifi()
     except ImportError:
         sys.stderr.write("python-wifi not installed. try:"
                          "`pip install --user wifi`.")
-
-    return Wifi()
+        return Wifi()
+    return LinuxWifi()

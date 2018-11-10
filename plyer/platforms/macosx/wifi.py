@@ -1,6 +1,8 @@
-from plyer.facades import Wifi
-from pyobjus.dylib_manager import load_framework, INCLUDE
 from pyobjus import autoclass
+from pyobjus.dylib_manager import load_framework, INCLUDE
+
+from plyer.facades import Wifi
+
 load_framework(INCLUDE.Foundation)
 load_framework(INCLUDE.CoreWLAN)
 
@@ -13,7 +15,6 @@ NSString = autoclass('NSString')
 
 
 class OSXWifi(Wifi):
-
     names = {}
 
     def _is_enabled(self):
@@ -60,7 +61,6 @@ class OSXWifi(Wifi):
                 'beaconInterval': beaconInterval,
                 'bssid': bssid,
                 'countryCode': countryCode,
-                'hasInternet': hasInternet,
                 'hasInternet': hasInternet,
                 'hasInterworkingIE': hasInterworkingIE,
                 'hessid': hessid,
@@ -125,6 +125,22 @@ class OSXWifi(Wifi):
         '''
         CWInterface.interface().disassociate()
         return
+
+    def _disable(self):
+        '''
+        Wifi interface power state is set to "OFF".
+        '''
+
+        interface = CWWiFiClient.sharedWiFiClient().interface()
+        interface.setPower_error_(False, None)
+
+    def _enable(self):
+        '''
+        Wifi interface power state is set to "ON".
+        '''
+
+        interface = CWWiFiClient.sharedWiFiClient().interface()
+        interface.setPower_error_(True, None)
 
 
 def instance():
