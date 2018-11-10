@@ -130,15 +130,17 @@ class OSXWifi(Wifi):
         '''
         Wifi interface power state is set to "OFF".
         '''
-        CWWiFiClient.sharedWiFiClient().interface().setPower_error_(False, None)
-        return
+
+        interface = CWWiFiClient.sharedWiFiClient().interface()
+        interface.setPower_error_(False, None)
 
     def _enable(self):
         '''
         Wifi interface power state is set to "ON".
         '''
-        CWWiFiClient.sharedWiFiClient().interface().setPower_error_(True, None)
-        return
+
+        interface = CWWiFiClient.sharedWiFiClient().interface()
+        interface.setPower_error_(True, None)
 
 
 def instance():

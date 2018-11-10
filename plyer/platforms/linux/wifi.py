@@ -114,6 +114,7 @@ class LinuxWifi(Wifi):
             version = version[1:]
         return tuple(map(int, (version.split('.'))))
 
+
 def instance():
     import sys
 
