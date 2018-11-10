@@ -89,7 +89,11 @@ class LinuxWifi(Wifi):
         '''
         Disconnect all the networks managed by Network manager.
         '''
-        return call(['nmcli', 'dev', 'disconnect', 'wifi'])
+        if self._nmcli_version() >= (1, 2, 6):
+            # todo replace wlan0 with dynamically fetched interface
+            call(['nmcli', 'dev', 'disconnect', 'wlan0'])
+        else:
+            call(['nmcli', 'nm', 'enable', 'false'])
 
     def _enable(self):
         '''
@@ -103,6 +107,12 @@ class LinuxWifi(Wifi):
         '''
         return call(['nmcli', 'radio', 'wifi', 'off'])
 
+    def _nmcli_version(self):
+        version = Popen(['nmcli', '-v'], stdout=PIPE)
+        version = version.communicate()[0].decode('utf-8')
+        while version and not version[0].isdigit():
+            version = version[1:]
+        return tuple(map(int, (version.split('.'))))
 
 def instance():
     import sys
