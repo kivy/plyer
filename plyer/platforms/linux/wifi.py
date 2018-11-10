@@ -31,6 +31,7 @@ class LinuxWifi(Wifi):
         '''
         Returns all the network information.
         '''
+        import wifi
         if self._is_enabled():
             list_ = wifi.Cell.all('wlan0')
             for i in range(len(list_)):
@@ -72,7 +73,7 @@ class LinuxWifi(Wifi):
             - parameters:
                 - password: dict type
         '''
-
+        import wifi
         result = None
         try:
             self._enable()
