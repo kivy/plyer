@@ -21,7 +21,6 @@ class LinuxWifi(Wifi):
         self.ifname = self._getIfname()
         self.nmcliVersion = self._getNmcliVersion()
 
-
     def _getIfname(self):
         '''
         Return wifi interface name if available else return "wlan0'.
@@ -33,7 +32,7 @@ class LinuxWifi(Wifi):
                 if "wifi" in i:
                     return i.split(":")[0]
             return 'wlan0'
-        except:
+        except Exception:
             return None
 
     def _getNmcliVersion(self):
@@ -44,7 +43,7 @@ class LinuxWifi(Wifi):
             com = Popen(["nmcli", "--version"], stdout=PIPE)
             com = com.communicate()[0].decode("utf-8").strip()
             return int(com.split(" ")[-1].replace(".", ""))
-        except:
+        except Exception:
             return None
 
     def _is_enabled(self):
