@@ -43,7 +43,7 @@ class MockedSystemProfiler(object):
               Address: AA-00-BB-11-CC-22
               Major Type: Miscellaneous
               Minor Type: Unknown
-              Services: 
+              Services:
               Paired: No
               Configured: Yes
               Connected: No
@@ -102,14 +102,39 @@ class TestBluetooth(unittest.TestCase):
         Test macOS system_profiler for plyer.bluetooth.
         '''
         bluetooth = platform_import(
-        platform='macosx',
-        module_name='bluetooth',
-        whereis_exe=MockedSystemProfiler.whereis_exe
+            platform='macosx',
+            module_name='bluetooth',
+            whereis_exe=MockedSystemProfiler.whereis_exe
         )
 
         bluetooth.Popen = MockedSystemProfiler
+        self.assertIn('OSXBluetooth', dir(bluetooth))
         bluetooth = bluetooth.instance()
+        self.assertIn('OSXBluetooth', str(bluetooth))
 
         self.assertEqual(
             bluetooth.info, MockedSystemProfiler.get_info()
         )
+
+
+    def test_bluetooth_macosx_instance(self):
+        '''
+        Test macOS instance for plyer.bluetooth.
+        '''
+
+        def no_exe(*args, **kwargs):
+            return
+
+        bluetooth = platform_import(
+            platform='macosx',
+            module_name='bluetooth',
+            whereis_exe=no_exe
+        )
+
+        bluetooth = bluetooth.instance()
+        self.assertNotIn('OSXBluetooth', str(bluetooth))
+        self.assertIn('Bluetooth', str(bluetooth))
+
+
+if __name__ == '__main__':
+    unittest.main()

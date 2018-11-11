@@ -286,7 +286,7 @@ class MockedIOReg(object):
         current_capacity = int(MockedIOReg.values['CurrentCapacity'])
         max_capacity = int(MockedIOReg.values['MaxCapacity'])
         percentage =  100.0 * current_capacity / max_capacity
-        
+
         return percentage
 
 class TestBattery(unittest.TestCase):
@@ -368,7 +368,7 @@ class TestBattery(unittest.TestCase):
         for key in ('isCharging', 'percentage'):
             self.assertIn(key, battery.status)
             self.assertIsNotNone(battery.status[key])
-    
+
     def test_battery_macosx(self):
         '''
         Test macOS IOReg for plyer.battery.
@@ -379,7 +379,9 @@ class TestBattery(unittest.TestCase):
             whereis_exe=MockedIOReg.whereis_exe
         )
         battery.Popen = MockedIOReg
+        self.assertIn('OSXBattery', dir(battery))
         battery = battery.instance()
+        self.assertIn('OSXBattery', str(battery))
 
         self.assertEqual(
             battery.status, {
@@ -387,6 +389,25 @@ class TestBattery(unittest.TestCase):
                 'percentage': MockedIOReg.percentage()
             }
         )
+
+    def test_battery_macosx_instance(self):
+        '''
+        Test macOS instance for plyer.battery
+        '''
+
+        def no_exe(*args, **kwargs):
+            return
+
+        battery = platform_import(
+            platform='macosx',
+            module_name='battery',
+            whereis_exe=no_exe
+        )
+
+        battery = battery.instance()
+        self.assertNotIn('OSXBattery', str(battery))
+        self.assertIn('Battery', str(battery))
+
 
 if __name__ == '__main__':
     unittest.main()
