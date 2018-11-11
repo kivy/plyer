@@ -371,7 +371,7 @@ class TestBattery(unittest.TestCase):
     
     def test_battery_macosx(self):
         '''
-        Test macOS API for plyer.battery.
+        Test macOS IOReg for plyer.battery.
         '''
         battery = platform_import(
             platform='macosx',
