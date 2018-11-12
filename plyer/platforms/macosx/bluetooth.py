@@ -22,20 +22,23 @@ class OSXBluetooth(Bluetooth):
             ["system_profiler", "SPBluetoothDataType"],
             stdout=PIPE
         )
-        grep_process = Popen(
-            ["grep", "Bluetooth Power"],
-            stdin=sys_profiler_process.stdout, stdout=PIPE
-        )
-        sys_profiler_process.stdout.close()
-        output = grep_process.communicate()[0]
+
+        stdout = sys_profiler_process.communicate()[0].decode('utf-8')
+        output = stdout.splitlines()
+
+        lines = []
+        for line in output:
+            if 'Bluetooth Power' not in line:
+                continue
+            lines.append(line)
 
         if old_lang is None:
             environ.pop('LANG')
         else:
             environ['LANG'] = old_lang
 
-        if output:
-            return output.split()[2]
+        if output and len(lines) == 1:
+            return lines[0].split()[2]
         else:
             return None
 
