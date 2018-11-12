@@ -3,8 +3,9 @@ Utils
 =====
 
 '''
+# pylint: disable=useless-object-inheritance
 
-__all__ = ('platform', 'reify')
+__all__ = ('platform', 'reify', 'deprecated')
 
 from os import environ
 from os import path
@@ -151,7 +152,7 @@ def whereis_exe(program):
 
 
 class reify(object):
-    # pylint: disable=too-few-public-methods, invalid-name
+    # pylint: disable=too-few-public-methods,invalid-name
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
     in the instance dict after the first call, effectively replacing the
@@ -183,3 +184,93 @@ class reify(object):
         retval = self.func(inst)
         setattr(inst, self.func.__name__, retval)
         return retval
+
+
+def deprecated(obj):
+    '''
+    This is a decorator which can be used to mark functions and classes as
+    deprecated. It will result in a warning being emitted when a deprecated
+    function is called or a new instance of a class created.
+
+    In case of classes, the warning is emitted before the __new__ method
+    of the decorated class is called, therefore a way before the __init__
+    method itself.
+    '''
+
+    import logging
+    from inspect import stack
+    from functools import wraps
+    from types import FunctionType
+
+    new_obj = None
+    logger = logging.getLogger()
+
+    # wrap a function into a function emitting a deprecated warning
+    if isinstance(obj, FunctionType):
+
+        @wraps(obj)
+        def new_func(*args, **kwargs):
+            # get the previous stack frame and extract file, line and caller
+            # stack() -> caller()
+            call_file, call_line, caller = stack()[1][1:4]
+
+            # assemble warning
+            warning = (
+                'Call to deprecated function %s in %s line %d. '
+                'Called from %s line %d'
+                ' by %s().\n' % (
+                    obj.__name__,
+                    obj.__code__.co_filename,
+                    obj.__code__.co_firstlineno + 1,
+                    call_file, call_line, caller
+                )
+            )
+
+            # get logger and print
+            logger.warning('[%s] %s', 'WARNING', warning)
+
+            # if there is a docstring present, emit docstring too
+            if obj.__doc__:
+                logger.warning(obj.__doc__)
+
+            # return function wrapper
+            return obj(*args, **kwargs)
+        new_obj = new_func
+
+    # wrap a class into a class emitting a deprecated warning
+    # obj is class, type(obj) is metaclass, metaclasses inherit from type
+    elif isinstance(type(obj), type):
+        # we have an access to the metaclass instance (class) and need to print
+        # the warning when a class instance (object) is created with __new__
+        # i.e. when calling Class()
+
+        def obj_new(cls, *args, **kwargs):  # pylint: disable=unused-argument
+            '''
+            Custom metaclass instance's __new__ method with deprecated warning.
+            Calls the original __new__ method afterwards.
+            '''
+
+            # get the previous stack frame and extract file, line and caller
+            # stack() -> caller()
+            call_file, call_line, caller = stack()[1][1:4]
+            loc_file = obj.__module__
+
+            # get logger and print
+            logger.warning(
+                '[%s] Creating an instance of a deprecated class %s in %s.'
+                ' Called from %s line %d by %s().\n', 'WARNING',
+                obj.__name__, loc_file, call_file, call_line, caller
+            )
+
+            # if there is a docstring present, emit docstring too
+            if obj.__doc__:
+                logger.warning(obj.__doc__)
+
+            return obj.__old_new__(cls)
+
+        obj.__old_new__ = obj.__new__
+        obj.__new__ = obj_new
+        new_obj = obj
+
+    # return a function wrapper or an extended class
+    return new_obj
