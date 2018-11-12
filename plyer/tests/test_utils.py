@@ -38,9 +38,12 @@ class TestUtils(unittest.TestCase):
 
         @deprecated
         def function():
+            '''
+            Dummy deprecated function.
+            '''
             return 1
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             self.assertEqual(function(), 1)
 
             args, _ = stderr.call_args_list[0]
@@ -52,8 +55,12 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('by test_deprecated_function().\n', args)
 
-            args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+        args, _ = stderr.call_args_list[1]
+        self.assertEqual(args, (
+            '''
+            Dummy deprecated function.
+            ''',
+        ))
 
     def test_deprecated_function_arg(self):
         '''
@@ -65,9 +72,12 @@ class TestUtils(unittest.TestCase):
 
         @deprecated
         def function_with_arg(arg):
+            '''
+            Dummy deprecated function with arg.
+            '''
             return arg
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             self.assertEqual(function_with_arg(1), 1)
 
             args, _ = stderr.call_args_list[0]
@@ -79,8 +89,12 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('by test_deprecated_function_arg().\n', args)
 
-            args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+        args, _ = stderr.call_args_list[1]
+        self.assertEqual(args, (
+            '''
+            Dummy deprecated function with arg.
+            ''',
+        ))
 
     def test_deprecated_function_kwarg(self):
         '''
@@ -92,9 +106,12 @@ class TestUtils(unittest.TestCase):
 
         @deprecated
         def function_with_kwarg(kwarg):
+            '''
+            Dummy deprecated function with kwarg.
+            '''
             return kwarg
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             self.assertEqual(function_with_kwarg(kwarg=1), 1)
 
             args, _ = stderr.call_args_list[0]
@@ -106,8 +123,12 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('by test_deprecated_function_kwarg().\n', args)
 
-            args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+        args, _ = stderr.call_args_list[1]
+        self.assertEqual(args, (
+            '''
+            Dummy deprecated function with kwarg.
+            ''',
+        ))
 
     def test_deprecated_class_method(self):
         '''
@@ -133,7 +154,7 @@ class TestUtils(unittest.TestCase):
                 '''
                 return (self.args, self.kwargs)
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             args = (1, 2, 3)
             kwargs = dict(x=1, y=2)
 
@@ -150,9 +171,13 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class_method().\n', args)
 
             args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+            self.assertEqual(args, (
+                '''
+                Dummy deprecated method.
+                ''',
+            ))
 
-    def test_deprecated_class_static(self):
+    def test_deprecated_class_static_none(self):
         '''
         Test printed out warning with @deprecated decorator
         on a function without any arguments.
@@ -180,7 +205,7 @@ class TestUtils(unittest.TestCase):
                 '''
                 return (Class.args, Class.kwargs)
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             args = (1, 2, 3)
             kwargs = dict(x=1, y=2)
 
@@ -193,23 +218,69 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('Called from', args)
             args = self.cutter('test_utils.py', args)
-            args = self.cutter('by test_deprecated_class_static().\n', args)
+            args = self.cutter(
+                'by test_deprecated_class_static_none().\n', args
+            )
 
             args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
-
-            cls = Class(*args, **kwargs)
-            self.assertEqual(cls.static(), (args, kwargs))
-
-            args, kwargs = stderr.call_args_list[2]
             self.assertEqual(args, (
                 '''
                 Dummy deprecated static method.
                 ''',
             ))
 
-            args, kwargs = stderr.call_args_list[3]
-            self.assertEqual(args, ('\n',))
+    def test_deprecated_class_static_argskwargs(self):
+        '''
+        Test printed out warning with @deprecated decorator
+        on a function without any arguments.
+        '''
+
+        from plyer.utils import deprecated
+
+        class Class(object):  # pylint: disable=useless-object-inheritance
+            '''
+            Dummy class with deprecated static method.
+            '''
+            # pylint: disable=too-few-public-methods
+            args = None
+            kwargs = None
+
+            def __init__(self, *args, **kwargs):
+                Class.args = args
+                Class.kwargs = kwargs
+
+            @staticmethod
+            @deprecated
+            def static():
+                '''
+                Dummy deprecated static method.
+                '''
+                return (Class.args, Class.kwargs)
+
+        with patch(target='warnings.warn') as stderr:
+            args = (1, 2, 3)
+            kwargs = dict(x=1, y=2)
+
+            cls = Class(*args, **kwargs)
+            self.assertEqual(cls.static(), (args, kwargs))
+
+            args, kwargs = stderr.call_args_list[0]
+            args = args[0]
+            args = self.cutter('[WARNING] ', args)
+            args = self.cutter('deprecated function static', args)
+            args = self.cutter('test_utils.py', args)
+            args = self.cutter('Called from', args)
+            args = self.cutter('test_utils.py', args)
+            args = self.cutter(
+                'by test_deprecated_class_static_argskwargs().\n', args
+            )
+
+            args, kwargs = stderr.call_args_list[1]
+            self.assertEqual(args, (
+                '''
+                Dummy deprecated static method.
+                ''',
+            ))
 
     def test_deprecated_class_clsmethod(self):
         '''
@@ -235,7 +306,7 @@ class TestUtils(unittest.TestCase):
                 '''
                 return (cls.args, cls.kwargs)
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             self.assertEqual(Class.clsmethod(), (None, None))
 
             args, _ = stderr.call_args_list[0]
@@ -248,7 +319,11 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class_clsmethod().\n', args)
 
             args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+            self.assertEqual(args, (
+                '''
+                Dummy deprecated class method.
+                ''',
+            ))
 
     def test_deprecated_class(self):
         '''
@@ -268,7 +343,7 @@ class TestUtils(unittest.TestCase):
                 self.args = args
                 self.kwargs = kwargs
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             args = (1, 2, 3)
             kwargs = dict(x=1, y=2)
 
@@ -287,8 +362,12 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('by test_deprecated_class().\n', args)
 
-            args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+        args, kwargs = stderr.call_args_list[1]
+        self.assertEqual(args, (
+            '''
+            Dummy deprecated class.
+            ''',
+        ))
 
     def test_deprecated_class_inherited(self):
         '''
@@ -318,12 +397,11 @@ class TestUtils(unittest.TestCase):
                 self.args = args
                 self.kwargs = kwargs
 
-        with patch(target='sys.stderr.write') as stderr:
+        with patch(target='warnings.warn') as stderr:
             args = (1, 2, 3)
             kwargs = dict(x=1, y=2)
 
             cls = Inherited(*args, **kwargs)
-            self.assertIsInstance(cls, Class)
             self.assertIsInstance(cls, Inherited)
             self.assertEqual(cls.args, args)
             self.assertEqual(cls.kwargs, kwargs)

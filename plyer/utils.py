@@ -10,6 +10,7 @@ __all__ = ('platform', 'reify', 'deprecated')
 from os import environ
 from os import path
 from sys import platform as _sys_platform
+from types import MethodType
 
 
 class Platform(object):
@@ -197,13 +198,12 @@ def deprecated(obj):
     method itself.
     '''
 
-    import logging
+    import warnings
     from inspect import stack
     from functools import wraps
     from types import FunctionType
 
     new_obj = None
-    logger = logging.getLogger()
 
     # wrap a function into a function emitting a deprecated warning
     if isinstance(obj, FunctionType):
@@ -216,9 +216,9 @@ def deprecated(obj):
 
             # assemble warning
             warning = (
-                'Call to deprecated function %s in %s line %d. '
-                'Called from %s line %d'
-                ' by %s().\n' % (
+                'Call to deprecated function {} in {} line {}. '
+                'Called from {} line {}'
+                ' by {}().\n'.format(
                     obj.__name__,
                     obj.__code__.co_filename,
                     obj.__code__.co_firstlineno + 1,
@@ -226,12 +226,11 @@ def deprecated(obj):
                 )
             )
 
-            # get logger and print
-            logger.warning('[%s] %s', 'WARNING', warning)
+            warnings.warn('[{}] {}'.format('WARNING', warning))
 
             # if there is a docstring present, emit docstring too
             if obj.__doc__:
-                logger.warning(obj.__doc__)
+                warnings.warn(obj.__doc__)
 
             # return function wrapper
             return obj(*args, **kwargs)
@@ -255,21 +254,22 @@ def deprecated(obj):
             call_file, call_line, caller = stack()[1][1:4]
             loc_file = obj.__module__
 
-            # get logger and print
-            logger.warning(
-                '[%s] Creating an instance of a deprecated class %s in %s.'
-                ' Called from %s line %d by %s().\n', 'WARNING',
-                obj.__name__, loc_file, call_file, call_line, caller
+            warnings.warn(
+                '[{}] Creating an instance of a deprecated class {} in {}.'
+                ' Called from {} line {} by {}().\n'.format(
+                    'WARNING', obj.__name__, loc_file,
+                    call_file, call_line, caller
+                )
             )
 
             # if there is a docstring present, emit docstring too
             if obj.__doc__:
-                logger.warning(obj.__doc__)
+                warnings.warn(obj.__doc__)
 
             return obj.__old_new__(cls)
 
         obj.__old_new__ = obj.__new__
-        obj.__new__ = obj_new
+        obj.__new__ = MethodType(obj_new, obj)
         new_obj = obj
 
     # return a function wrapper or an extended class
