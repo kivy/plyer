@@ -1,6 +1,6 @@
 '''
-TestFacade
-==========
+TestUtils
+=========
 
 Tested platforms:
 
@@ -65,7 +65,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_function_arg(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a function with arguments.
         '''
 
         from plyer.utils import deprecated
@@ -99,7 +99,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_function_kwarg(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a function with keyword arguments.
         '''
 
         from plyer.utils import deprecated
@@ -133,7 +133,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_class_method(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a instance bound method.
         '''
 
         from plyer.utils import deprecated
@@ -180,7 +180,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_class_static_none(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a static method without arguments.
         '''
 
         from plyer.utils import deprecated
@@ -206,12 +206,9 @@ class TestUtils(unittest.TestCase):
                 return (Class.args, Class.kwargs)
 
         with patch(target='warnings.warn') as stderr:
-            args = (1, 2, 3)
-            kwargs = dict(x=1, y=2)
-
             self.assertEqual(Class.static(), (None, None))
 
-            args, kwargs = stderr.call_args_list[0]
+            args, _ = stderr.call_args_list[0]
             args = args[0]
             args = self.cutter('[WARNING] ', args)
             args = self.cutter('deprecated function static', args)
@@ -222,7 +219,7 @@ class TestUtils(unittest.TestCase):
                 'by test_deprecated_class_static_none().\n', args
             )
 
-            args, kwargs = stderr.call_args_list[1]
+            args, _ = stderr.call_args_list[1]
             self.assertEqual(args, (
                 '''
                 Dummy deprecated static method.
@@ -232,7 +229,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_class_static_argskwargs(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a static method with arguments and keyword argument.
         '''
 
         from plyer.utils import deprecated
@@ -285,7 +282,7 @@ class TestUtils(unittest.TestCase):
     def test_deprecated_class_clsmethod(self):
         '''
         Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        on a class bound method.
         '''
 
         from plyer.utils import deprecated
@@ -327,8 +324,7 @@ class TestUtils(unittest.TestCase):
 
     def test_deprecated_class(self):
         '''
-        Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        Test printed out warning with @deprecated decorator on a class.
         '''
 
         from plyer.utils import deprecated
@@ -371,8 +367,8 @@ class TestUtils(unittest.TestCase):
 
     def test_deprecated_class_inherited(self):
         '''
-        Test printed out warning with @deprecated decorator
-        on a function without any arguments.
+        Test printed out warning with @deprecated decorator on a class
+        which inherits from a deprecated class.
         '''
 
         from plyer.utils import deprecated
@@ -416,8 +412,12 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('test_utils.py', args)
             args = self.cutter('by test_deprecated_class_inherited().\n', args)
 
-            args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\n',))
+        args, kwargs = stderr.call_args_list[1]
+        self.assertEqual(args, (
+            '''
+            Dummy deprecated class.
+            ''',
+        ))
 
 
 if __name__ == '__main__':
