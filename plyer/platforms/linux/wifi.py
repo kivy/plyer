@@ -90,7 +90,6 @@ class LinuxWifi(Wifi):
         Disconnect all the networks managed by Network manager.
         '''
         if self._nmcli_version() >= (1, 2, 6):
-            # todo replace wlan0 with dynamically fetched interface
             call(['nmcli', 'dev', 'disconnect', 'wlan0'])
         else:
             call(['nmcli', 'nm', 'enable', 'false'])
