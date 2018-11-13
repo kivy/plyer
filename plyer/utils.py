@@ -3,8 +3,9 @@ Utils
 =====
 
 '''
+# pylint: disable=useless-object-inheritance
 
-__all__ = ('platform', 'reify')
+__all__ = ('platform', 'reify', 'deprecated')
 
 from os import environ
 from os import path
@@ -151,7 +152,7 @@ def whereis_exe(program):
 
 
 class reify(object):
-    # pylint: disable=too-few-public-methods, invalid-name
+    # pylint: disable=too-few-public-methods,invalid-name
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
     in the instance dict after the first call, effectively replacing the
@@ -183,3 +184,110 @@ class reify(object):
         retval = self.func(inst)
         setattr(inst, self.func.__name__, retval)
         return retval
+
+
+def deprecated(obj):
+    '''
+    This is a decorator which can be used to mark functions and classes as
+    deprecated. It will result in a warning being emitted when a deprecated
+    function is called or a new instance of a class created.
+
+    In case of classes, the warning is emitted before the __new__ method
+    of the decorated class is called, therefore a way before the __init__
+    method itself.
+    '''
+
+    import warnings
+    from inspect import stack
+    from functools import wraps
+    from types import FunctionType, MethodType
+
+    new_obj = None
+
+    # wrap a function into a function emitting a deprecated warning
+    if isinstance(obj, FunctionType):
+
+        @wraps(obj)
+        def new_func(*args, **kwargs):
+            # get the previous stack frame and extract file, line and caller
+            # stack() -> caller()
+            call_file, call_line, caller = stack()[1][1:4]
+
+            # assemble warning
+            warning = (
+                'Call to deprecated function {} in {} line {}. '
+                'Called from {} line {}'
+                ' by {}().\n'.format(
+                    obj.__name__,
+                    obj.__code__.co_filename,
+                    obj.__code__.co_firstlineno + 1,
+                    call_file, call_line, caller
+                )
+            )
+
+            warnings.warn('[{}] {}'.format('WARNING', warning))
+
+            # if there is a docstring present, emit docstring too
+            if obj.__doc__:
+                warnings.warn(obj.__doc__)
+
+            # return function wrapper
+            return obj(*args, **kwargs)
+        new_obj = new_func
+
+    # wrap a class into a class emitting a deprecated warning
+    # obj is class, type(obj) is metaclass, metaclasses inherit from type
+    elif isinstance(type(obj), type):
+        # we have an access to the metaclass instance (class) and need to print
+        # the warning when a class instance (object) is created with __new__
+        # i.e. when calling Class()
+
+        def obj_new(cls, child, *args, **kwargs):
+            '''
+            Custom metaclass instance's __new__ method with deprecated warning.
+            Calls the original __new__ method afterwards.
+            '''
+            # pylint: disable=unused-argument
+
+            # get the previous stack frame and extract file, line and caller
+            # stack() -> caller()
+            call_file, call_line, caller = stack()[1][1:4]
+            loc_file = obj.__module__
+
+            warnings.warn(
+                '[{}] Creating an instance of a deprecated class {} in {}.'
+                ' Called from {} line {} by {}().\n'.format(
+                    'WARNING', obj.__name__, loc_file,
+                    call_file, call_line, caller
+                )
+            )
+
+            # if there is a docstring present, emit docstring too
+            if obj.__doc__:
+                warnings.warn(obj.__doc__)
+
+            # make sure nothing silly gets into the function
+            assert obj is cls
+
+            # we are creating a __new__ for a class that inherits from
+            # a deprecated class, therefore in this particular case
+            # MRO is (child, cls, object) > (cls, object)
+            if len(child.__mro__) > len(cls.__mro__):
+                assert cls is child.__mro__[1], (cls.__mro__, child.__mro__)
+
+            # we are creating __new__ directly for the deprecated class
+            # therefore MRO is the same for parent and child class
+            elif len(child.__mro__) == len(cls.__mro__):
+                assert cls is child
+
+            # return the class back with the extended __new__ method
+            return obj.__old_new__(child)
+
+        # back up the old __new__ method and create an extended
+        # __new__ method that emits deprecated warnings
+        obj.__old_new__ = obj.__new__
+        obj.__new__ = MethodType(obj_new, obj)
+        new_obj = obj
+
+    # return a function wrapper or an extended class
+    return new_obj
