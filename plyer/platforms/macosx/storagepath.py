@@ -3,7 +3,6 @@ MacOS X Storage Path
 --------------------
 '''
 
-import os
 from plyer.facades import StoragePath
 from pyobjus import autoclass
 
