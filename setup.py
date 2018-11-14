@@ -15,8 +15,21 @@ For Android install additional dependency PyJNIus::
 from os.path import dirname, join
 import plyer
 
+EXTRA_OPTIONS = {}
+
 try:
     from setuptools import setup
+    EXTRA_OPTIONS = dict(
+        EXTRA_OPTIONS, **{
+            'extras_require': {
+                'ios': ['pyobjus'],
+                'macosx': ['pyobjus'],
+                'android': ['pyjnius'],
+                'dev': ['mock', 'pycodestyle', 'pylint']
+            }
+        }
+    )
+
 except ImportError:
     from distutils.core import setup
 
@@ -66,4 +79,5 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
+    **EXTRA_OPTIONS
 )
