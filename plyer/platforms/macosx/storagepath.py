@@ -3,7 +3,6 @@ MacOS X Storage Path
 --------------------
 '''
 
-import os
 from plyer.facades import StoragePath
 from pyobjus import autoclass
 
@@ -24,7 +23,8 @@ class OSXStoragePath(StoragePath):
         self.defaultManager = NSFileManager.defaultManager()
 
     def _get_home_dir(self):
-        return os.path.expanduser('~')
+        home_dir_NSURL = self.defaultManager.homeDirectoryForCurrentUser
+        return home_dir_NSURL.absoluteString.UTF8String()
 
     def _get_external_storage_dir(self):
         return 'Method not implemented for current platform.'
