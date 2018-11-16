@@ -3,7 +3,6 @@ FROM fedora:28
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
-ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
 # redhat-rpm-config: https://stackoverflow.com/a/34641068/5994041
