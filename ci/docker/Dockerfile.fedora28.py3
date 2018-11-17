@@ -3,15 +3,14 @@ FROM fedora:28
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
-ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
 # redhat-rpm-config: https://stackoverflow.com/a/34641068/5994041
 RUN yum -y install \
     gcc \
     python3-devel \
-    java-11-openjdk \
-    java-11-openjdk-devel \
+    java-1.8.0-openjdk \
+    java-1.8.0-openjdk-devel \
     lshw \
     wget \
     xdg-user-dirs \

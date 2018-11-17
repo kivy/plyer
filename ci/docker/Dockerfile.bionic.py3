@@ -3,7 +3,6 @@ FROM ubuntu:bionic-20180821
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
-ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
 RUN apt-get update && \
@@ -11,7 +10,7 @@ RUN apt-get update && \
     build-essential \
     python3-setuptools \
     python3.6-dev \
-    openjdk-11-jdk \
+    openjdk-8-jdk \
     lshw \
     wget \
     git \

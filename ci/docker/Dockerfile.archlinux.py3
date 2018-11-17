@@ -3,7 +3,6 @@ FROM base/archlinux
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
-ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install default packages
 RUN pacman -Fy && \

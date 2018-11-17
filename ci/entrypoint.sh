@@ -34,16 +34,16 @@ then
     exit 0
 fi
 
-# tests
-nosetests \
-    --exe \
-    --stop \
-    --nocapture \
-    --with-coverage \
-    --cover-package=plyer \
-    $APP_DIR/plyer/tests
+# tests and coverage for plyer package
+$PYTHON -m coverage run \
+    --source $APP_DIR/plyer \
+    -m unittest discover \
+        --start-directory $APP_DIR/plyer/tests \
+        --top-level-directory $APP_DIR \
+        --failfast
+coverage report -m
 
-# submit coverage report from (nose) tests to coveralls.io
+# submit coverage report from tests to coveralls.io
 # requires: REPO_TOKEN, SERVICE_NAME, JOB_ID, PULL_REQUEST
 coveralls || true
 
