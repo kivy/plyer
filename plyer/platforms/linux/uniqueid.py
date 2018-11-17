@@ -23,7 +23,9 @@ class LinuxUniqueID(UniqueID):
         output = grep_process.communicate()[0]
         environ['LANG'] = old_lang
 
+        environ['LANG'] = old_lang or u''
         result = None
+
         if output:
             result = output.split()[1]
         return result
