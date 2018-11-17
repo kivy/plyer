@@ -10,7 +10,7 @@ RUN apt-get update && \
     build-essential \
     python3-setuptools \
     python3.6-dev \
-    openjdk-11-jdk \
+    openjdk-8-jdk \
     lshw \
     wget \
     git \

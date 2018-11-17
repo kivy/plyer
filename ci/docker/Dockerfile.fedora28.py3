@@ -9,8 +9,8 @@ WORKDIR $APP_DIR
 RUN yum -y install \
     gcc \
     python3-devel \
-    java-11-openjdk \
-    java-11-openjdk-devel \
+    java-1.8.0-openjdk \
+    java-1.8.0-openjdk-devel \
     lshw \
     wget \
     xdg-user-dirs \
