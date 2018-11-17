@@ -16,12 +16,17 @@ class LinuxUniqueID(UniqueID):
     def _get_uid(self):
         old_lang = environ.get('LANG')
         environ['LANG'] = 'C'
-        lshw_process = Popen(["lshw", "-quiet"], stdout=PIPE, stderr=PIPE)
-        grep_process = Popen(["grep", "-m1", "serial:"],
-                             stdin=lshw_process.stdout, stdout=PIPE)
-        lshw_process.stdout.close()
-        output = grep_process.communicate()[0]
-        environ['LANG'] = old_lang
+        stdout = Popen(
+            ["lshw", "-quiet"],
+            stdout=PIPE, stderr=PIPE
+        ).communicate()[0].decode('utf-8')
+
+        output = u''
+        for line in stdout.splitlines():
+            if 'serial:' not in line:
+                continue
+            output = line
+            break
 
         environ['LANG'] = old_lang or u''
         result = None
