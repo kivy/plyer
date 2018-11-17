@@ -196,6 +196,7 @@ class MockedUPower(object):
         percentage = MockedUPower.values['battery']['percentage'][:-1]
         return float(percentage.replace(',', '.'))
 
+
 class MockedIOReg(object):
     '''
     Mocked object used instead of Apple's ioreg.
@@ -285,9 +286,10 @@ class MockedIOReg(object):
         '''
         current_capacity = int(MockedIOReg.values['CurrentCapacity'])
         max_capacity = int(MockedIOReg.values['MaxCapacity'])
-        percentage =  100.0 * current_capacity / max_capacity
+        percentage = 100.0 * current_capacity / max_capacity
 
         return percentage
+
 
 class TestBattery(unittest.TestCase):
     '''

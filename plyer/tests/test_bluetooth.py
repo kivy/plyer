@@ -11,6 +11,7 @@ import unittest
 
 from plyer.tests.common import platform_import
 
+
 class MockedSystemProfiler(object):
     '''
     Mocked object used instead of Apple's system_profiler
@@ -92,6 +93,7 @@ class MockedSystemProfiler(object):
         '''
         return MockedSystemProfiler.value
 
+
 class TestBluetooth(unittest.TestCase):
     '''
     TestCase for plyer.bluetooth.
@@ -115,7 +117,6 @@ class TestBluetooth(unittest.TestCase):
         self.assertEqual(
             bluetooth.info, MockedSystemProfiler.get_info()
         )
-
 
     def test_bluetooth_macosx_instance(self):
         '''

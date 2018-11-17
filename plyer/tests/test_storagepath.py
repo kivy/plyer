@@ -9,12 +9,15 @@ Tested platforms:
 
 import unittest
 
-from plyer.tests.common import platform_import
+from plyer.tests.common import platform_import, PlatformTest
+
 
 class TestStoragePath(unittest.TestCase):
     '''
     TestCase for plyer.storagepath.
     '''
+
+    @PlatformTest('macosx')
     def test_storagepath_macosx(self):
         '''
         Test macOS for plyer.storagepath.

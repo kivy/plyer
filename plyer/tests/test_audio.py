@@ -7,17 +7,20 @@ Tested platforms:
 * macOS
 '''
 
-import unittest, time
+import unittest
+import time
 
 from os import mkdir, remove
 from os.path import join, expanduser, exists
-from plyer.tests.common import platform_import
+from plyer.tests.common import platform_import, PlatformTest
+
 
 class TestAudio(unittest.TestCase):
     '''
     TestCase for plyer.audio.
     '''
 
+    @PlatformTest('macosx')
     def test_audio_macosx(self):
         '''
         Test macOS audio start, stop and play
