@@ -9,7 +9,7 @@ Interface of all the features available.
 __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
-           'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash',
+           'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash', 'CPU',
            'Temperature', 'Humidity', 'SpatialOrientation', 'Brightness',
            'Processors', 'StoragePath', 'keystore', 'Bluetooth', 'Screenshot')
 
@@ -44,4 +44,5 @@ from plyer.facades.keystore import Keystore
 from plyer.facades.storagepath import StoragePath
 from plyer.facades.bluetooth import Bluetooth
 from plyer.facades.processors import Processors
+from plyer.facades.cpu import CPU
 from plyer.facades.screenshot import Screenshot

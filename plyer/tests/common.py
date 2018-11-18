@@ -9,6 +9,8 @@ Common objects for testing
 '''
 
 import traceback
+from os import sep
+from os.path import normpath, splitdrive
 from plyer.utils import platform as plyer_platform
 
 
@@ -59,3 +61,18 @@ def platform_import(platform, module_name, whereis_exe=None):
     if whereis_exe:
         mod.whereis_exe = whereis_exe
     return mod
+
+
+def splitpath(path):
+    '''
+    Split string path into a list of folders (+ file if available).
+    '''
+    if path[0] == sep and path[1] != sep:
+        path = path[1:]
+        path = normpath(path).split(sep)
+    else:
+        drive, path = splitdrive(path)
+        if path[0] == sep and path[1] != sep:
+            path = path[1:]
+        path = [drive, ] + normpath(path).split(sep)
+    return path
