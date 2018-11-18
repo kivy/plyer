@@ -11,10 +11,68 @@ Tested platforms:
 import sys
 import unittest
 from os import environ
+from os.path import join
 from mock import patch, Mock
 from textwrap import dedent
 
-from plyer.tests.common import PlatformTest, platform_import
+from plyer.tests.common import PlatformTest, platform_import, splitpath
+
+
+class MockedKernelCPU(object):
+    def __init__(self, *args, **kwargs):
+        self.fname = args[0] if args else ''
+        self.cpu_path = join('/sys', 'devices', 'system', 'cpu')
+        self.cores = 16
+        self.indicies = 4
+
+    def __enter__(self, *args):
+        file_value = None
+        cpu_path = self.cpu_path
+        spath = splitpath(self.fname)
+
+        if self.fname == join(cpu_path, 'present'):
+            file_value = Mock()
+            file_value.read.return_value = self.present
+        elif spath[5] == 'cache' and spath[7] == 'level':
+            file_value = Mock()
+            # force bytes, because reading files as bytes
+            file_value.read.return_value = str(
+                self.index_types[spath[4]][spath[6]][spath[7]]
+            ).encode('utf-8')
+        return file_value
+
+    def __exit__(self, *args):
+        pass
+
+    @property
+    def present(self):
+        rng = list(range(self.cores))
+        start = str(rng[0])
+        end = str(rng[-1])
+        if start == end:  # cores == 1 --> b'0'
+            value = str(start)
+        else:  # cores > 1 --> b'0-n'
+            value = str('-'.join([start, end]))
+        return value.encode('utf-8')
+
+    @property
+    def listdir(self):
+        return ['index{}'.format(i) for i in range(self.indicies)]
+
+    @property
+    def index_types(self):
+        # assign L1 to index0-1, L2 to 2, L3 to 3
+        types = {0: 1, 1: 1, 2: 2, 3: 3}
+
+        return {
+            'cpu{}'.format(c): {
+                'index{}'.format(i): {
+                    'level': types[i]
+                }
+                for i in range(self.indicies)
+            }
+            for c in range(self.cores)
+        }
 
 
 class MockedNProc(object):
@@ -163,6 +221,31 @@ class TestCPU(unittest.TestCase):
         self.assertEqual(
             cpu.logical, MockedNProc.logical()
         )
+
+    @PlatformTest('linux')
+    def test_cpu_linux_cache(self):
+        cpu = platform_import(
+            platform='linux',
+            module_name='cpu',
+            whereis_exe=lambda b: b == 'nproc'
+        ).instance()
+
+        stub = MockedKernelCPU
+        py2_target = '__builtin__.open'
+        py3_target = 'builtins.open'
+        target = py3_target if sys.version_info.major == 3 else py2_target
+        sub_target = 'plyer.platforms.linux.cpu.listdir'
+
+        with patch(target=target, new=stub):
+            with patch(target=sub_target, return_value=stub().listdir):
+                sb = stub()
+                self.assertEqual(
+                    cpu.cache, {
+                        'L1': sb.cores * 2,
+                        'L2': sb.cores,
+                        'L3': sb.cores
+                    }
+                )
 
     @PlatformTest('win')
     def test_cpu_win_logical(self):
