@@ -207,7 +207,8 @@ class MockedIOReg(object):
         "IsCharging": "No"
     }
 
-    output = """+-o AppleSmartBattery  <class AppleSmartBattery,\
+    output = dedent(
+        b"""+-o AppleSmartBattery  <class AppleSmartBattery,\
     id 0x1000002c9, registered, matched, active, busy 0 (0 ms), retain 6>
     {{
       "TimeRemaining" = 585
@@ -251,7 +252,8 @@ class MockedIOReg(object):
       "DesignCycleCount9C" = 1000
       "PostChargeWaitSeconds" = 120
       "ExternalConnected" = No
-    }}""".format(**values)
+    }}"""
+    ).decode('utf-8').format(**values).encode('utf-8')
 
     def __init__(self, *args, **kwargs):
         # only to ignore all args, kwargs
@@ -380,6 +382,7 @@ class TestBattery(unittest.TestCase):
             module_name='battery',
             whereis_exe=MockedIOReg.whereis_exe
         )
+        
         battery.Popen = MockedIOReg
         self.assertIn('OSXBattery', dir(battery))
         battery = battery.instance()

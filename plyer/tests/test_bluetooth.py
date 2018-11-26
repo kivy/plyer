@@ -10,6 +10,7 @@ Tested platforms:
 import unittest
 
 from plyer.tests.common import platform_import
+from textwrap import dedent
 
 
 class MockedSystemProfiler(object):
@@ -17,7 +18,8 @@ class MockedSystemProfiler(object):
     Mocked object used instead of Apple's system_profiler
     '''
     value = "On"
-    output = """Bluetooth:
+    output = dedent(
+        b"""Bluetooth:
 
       Apple Bluetooth Software Version: 6.0.7f11
       Hardware, Features, and Settings:
@@ -64,7 +66,8 @@ class MockedSystemProfiler(object):
       Incoming Serial Ports:
           Bluetooth-Incoming-Port:
               RFCOMM Channel: 3
-              Requires Authentication: No""".format(value)
+              Requires Authentication: No"""
+    ).decode('utf-8').format(value).encode('utf-8')
 
     def __init__(self, *args, **kwargs):
         # only to ignore all args, kwargs

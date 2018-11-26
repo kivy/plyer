@@ -38,6 +38,7 @@ class TestAudio(unittest.TestCase):
         audio = audio.instance()
         self.assertIn('OSXAudio', str(audio))
 
+        self.assertFalse(exists(audio.file_path))
         self.assertIsNone(audio.start())
         time.sleep(0.5)
         self.assertIsNone(audio.stop())
