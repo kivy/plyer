@@ -153,7 +153,9 @@ class SpeechListener(PythonJavaClass):
         texts = []
         matches = results.getStringArrayList(SpeechResults)
         for match in matches.toArray():
-            texts.append(match.decode('ascii', 'ignore'))
+            if isinstance(match, bytes):
+                match = match.decode('utf-8')
+            texts.append(match)
 
         if texts and self.result_callback:
             self.result_callback(texts)
@@ -174,7 +176,7 @@ class AndroidSpeech(Speech):
     '''
 
     def _on_error(self, msg):
-        self.results.append(msg)
+        self.errors.append(msg)
         self.stop()
 
     def _on_result(self, messages):
@@ -203,13 +205,22 @@ class AndroidSpeech(Speech):
         self.speech.setRecognitionListener(listener)
         self.speech.startListening(intent)
 
+    @run_on_ui_thread
     def _stop(self):
-        if self.speech:
-            self.speech.stopListening()
+        if not self.speech:
+            return
+
+        # stop listening
+        self.speech.stopListening()
+
+        # free object
+        self.speech.destroy()
         self.speech = None
 
     def _exist(self):
-        return bool(SpeechRecognizer.isRecognitionAvailable(activity))
+        return bool(
+            SpeechRecognizer.isRecognitionAvailable(activity)
+        )
 
 
 def instance():
