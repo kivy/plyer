@@ -21,40 +21,84 @@ SpeechResults = SpeechRecognizer.RESULTS_RECOGNITION
 class SpeechListener(PythonJavaClass):
     __javainterfaces__ = ['android/speech/RecognitionListener']
 
+    # class variables because PythonJavaClass class failed
+    # to see them later in getters and setters
+    _error_callback = None
+    _result_callback = None
+    _partial_result_callback = None
+    _volume_callback = None
+
     def __init__(self):
         super(SpeechListener, self).__init__()
-        self.error_callback = None
-        self.result_callback = None
-        self.volume_callback = None
 
-    def set_error_callback(self, callback):
-        '''Set error callback. It is called when error occurs.
+        # overwrite class variables in the object
+        self._error_callback = None
+        self._result_callback = None
+        self._partial_result_callback = None
+        self._volume_callback = None
 
-        :param callback: function with one param of error message.
+    # error handling
+    @property
+    def error_callback(self):
+        return self._error_callback
+
+    @error_callback.setter
+    def error_callback(self, callback):
         '''
-        self.error_callback = callback
+        Set error callback. It is called when error occurs.
 
-    def set_result_callback(self, callback):
-        '''Set result callback. It is called when result are receiver.
-
-        :param callback: function with one param of lists of results
-            where elements are strings of texts.
+        :param callback: function with one parameter for error message
         '''
-        self.result_callback = callback
 
-    def set_volume_changed_callback(self, callback):
-        '''Set volume voice callback.
+        self._error_callback = callback
 
-        It is called when loudness of voice changes.
+    # result handling
+    @property
+    def result_callback(self):
+        return self._result_callback
 
-        :param callback: function with one param of volume
-            in range from 0.0 to 1.0.
-        :return:
+    @result_callback.setter
+    def result_callback(self, callback):
         '''
-        self.volume_callback = callback
+        Set result callback. It is called when results are received.
+
+        :param callback: function with one parameter for lists of strings
+        '''
+
+        self._result_callback = callback
+
+    @property
+    def partial_result_callback(self):
+        return self._partial_result_callback
+
+    @partial_result_callback.setter
+    def partial_result_callback(self, callback):
+        '''
+        Set partial result callback. It is called when partial results are
+        received while the listener is still in listening mode.
+
+        :param callback: function with one parameter for lists of strings
+        '''
+
+        self._partial_result_callback = callback
+
+    # voice changes handling
+    @property
+    def volume_callback(self):
+        return self._volume_callback
+
+    @volume_callback.setter
+    def volume_callback(self, callback):
+        '''
+        Set volume voice callback.
+
+        It is called when loudness of the voice changes.
+
+        :param callback: function with one parameter for volume RMS dB (float).
+        '''
+        self._volume_callback = callback
 
     # Implementation Java Interfaces
-
     @java_method('()V')
     def onBeginningOfSpeech(self):
         pass
@@ -116,8 +160,8 @@ class SpeechListener(PythonJavaClass):
 
     @java_method('(F)V')
     def onRmsChanged(self, rmsdB):
-        if self.set_volume_changed_callback:
-            self.set_volume_changed_callback(rmsdB)
+        if self.volume_callback:
+            self.volume_callback(rmsdB)
 
 
 class AndroidSpeech(Speech):
@@ -148,10 +192,13 @@ class AndroidSpeech(Speech):
                         RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1000)
 
+        # listener and callbacks
         listener = SpeechListener()
-        listener.set_error_callback(self._on_error)
-        listener.set_result_callback(self._on_result)
+        listener.error_callback = self._on_error
+        listener.result_callback = self._on_result
+        listener.partial_result_callback = self._on_partial
 
+        # create recognizer and start
         self.speech = SpeechRecognizer.createSpeechRecognizer(activity)
         self.speech.setRecognitionListener(listener)
         self.speech.startListening(intent)
