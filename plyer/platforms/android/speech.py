@@ -141,8 +141,16 @@ class SpeechListener(PythonJavaClass):
         pass
 
     @java_method('(Landroid/os/Bundle;)V')
-    def onPartialResults(self):
-        pass
+    def onPartialResults(self, results):
+        texts = []
+        matches = results.getStringArrayList(SpeechResults)
+        for match in matches.toArray():
+            if isinstance(match, bytes):
+                match = match.decode('utf-8')
+            texts.append(match)
+
+        if texts and self.partial_result_callback:
+            self.partial_result_callback(texts)
 
     @java_method('(Landroid/os/Bundle;)V')
     def onReadyForSpeech(self, params):
@@ -183,16 +191,31 @@ class AndroidSpeech(Speech):
         self.results.extend(messages)
         self.stop()
 
+    def _on_partial(self, messages):
+        self.partial_results.extend(messages)
+
     @run_on_ui_thread
     def _start(self):
         intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                        self.language)
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                        activity.getPackageName())
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                        RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_CALLING_PACKAGE,
+            activity.getPackageName()
+        )
+
+        # language preferences
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, self.language
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
+        )
+
+        # results settings
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1000)
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, True)
+        if self.prefer_offline:
+            intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, True)
 
         # listener and callbacks
         listener = SpeechListener()
