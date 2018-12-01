@@ -175,12 +175,14 @@ class SpeechListener(PythonJavaClass):
 
 
 class AndroidSpeech(Speech):
-    '''Android Speech Implementation.
+    '''
+    Android Speech Implementation.
 
-    Android class `SpeechRecognizer` deactivates automatically.
+    Android class `SpeechRecognizer`'s listening deactivates automatically.
 
-    Class methods `_on_error()`, `_on_result()` are some kind of listeners.
-    Android on finish listening sends one of result: error or possible matches
+    Class methods `_on_error()`, `_on_result()` listeners. You can find
+    documentation here:
+    https://developer.android.com/reference/android/speech/RecognitionListener
     '''
 
     def _on_error(self, msg):
