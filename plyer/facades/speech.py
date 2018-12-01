@@ -43,7 +43,7 @@ class Speech(object):
     and possible sentences that was recognition program.
     '''
 
-    errors= []
+    errors = []
     '''
     List of errors found while listening.
     '''

@@ -56,7 +56,7 @@ class SpeechInterface(BoxLayout):
 
         speech.start()
 
-        Clock.schedule_interval(self.check_state, 1/5)
+        Clock.schedule_interval(self.check_state, 1 / 5)
 
     def stop_listening(self):
         start_button = self.ids.start_button

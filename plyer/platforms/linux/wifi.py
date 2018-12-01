@@ -118,7 +118,7 @@ def instance():
     import sys
 
     try:
-        import wifi  # pylint: disable=unused-variable
+        import wifi  # pylint: disable=unused-variable,unused-import
     except ImportError:
         sys.stderr.write("python-wifi not installed. try:"
                          "`pip install --user wifi`.")
