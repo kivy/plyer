@@ -4,7 +4,7 @@ from jnius import autoclass
 from jnius import java_method
 from jnius import PythonJavaClass
 
-from plyer.facades import Speech
+from plyer.facades import STT
 from plyer.platforms.android import activity
 
 ArrayList = autoclass('java.util.ArrayList')
@@ -174,7 +174,7 @@ class SpeechListener(PythonJavaClass):
             self.volume_callback(rmsdB)
 
 
-class AndroidSpeech(Speech):
+class AndroidSpeech(STT):
     '''
     Android Speech Implementation.
 
