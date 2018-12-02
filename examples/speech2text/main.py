@@ -22,21 +22,16 @@ Builder.load_string('''
     TextInput:
         id: results
         hint_text: 'results (auto stop)'
-        size_hint_y: 0.3
     TextInput:
         id: partial
         hint_text: 'partial results (manual stop)'
-        size_hint_y: 0.3
     TextInput:
         id: errors
-        size_hint_y: None
-        height: sp(20)
+        hint_text: 'errors'
     Button:
         id: start_button
         text: 'Start Listening'
-        on_release:
-            root.start_listening()
-
+        on_release: root.start_listening()
 ''')
 
 
