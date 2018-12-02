@@ -1,52 +1,81 @@
-class Speech(object):
+'''
+Speech to Text
+==============
+
+.. versionadded:: 1.3.3
+
+Speech Recognition facade.
+
+In order to check that your device supports voice recognition use method
+`exist`.
+
+Variable `language` indicates which language will be used to match words from
+ voice.
+
+Use `start` to start voice recognition immediately and `stop` to stop.
+
+.. note::
+    Needed permissions for Android: `RECORD_AUDIO` (and `INTERNET` if you want
+    online voice recognition API to be used)
+
+.. note::
+    On Android platform, after execute `start` method you can hear BEEP!
+    Mute sound in order to disable it.
+
+.. note::
+    For Android implementation to work there has to be an application with
+    `android.speech.RecognitionService` implementation present in the system.
+    Mostly it's `com.google.android.googlequicksearchbox` or "Google"
+    application (the search bar with the launcher widget).
+
+Offline Speech Recognition on Android
+-------------------------------------
+
+Requires any application that provides an
+`android.speech.RecognitionService` implementation to the other apps. One of
+such applications is on a lot of devices preinstalled Google (quick search
+box).
+
+The API prefers offline recognition, but should be able to switch to online
+alternative in case you don't have a language package installed (`INTERNET`
+permission necessary).
+
+You can enable offline speech recognition this way (Android 8.1):
+
+* open the `Settings` app
+* choose `Language & Input` / `Language & Keyboard` (Samsung might include it
+  in the `General` category)
+* choose `On-Screen keyboard` or `Voice search`
+* choose `Google Keyboard`
+* choose `Offline Speech recognition`
+* download language package if you don't have one already
+
+Simple Examples
+---------------
+
+To start listening::
+
+    >>> from plyer import stt
+    >>> stt.start()
+
+To retrieve partial results while listening::
+
+    >>> assert stt.listening
+    >>> print(stt.partial_results)
+
+To stop listening::
+
+    >>> stt.stop()
+
+To retrieve results after the listening stopped::
+
+    >>> print(stt.results)
+'''
+
+
+class STT(object):
     '''
-    .. versionadded:: 1.3.3
-
-    Speech Recognition facade.
-
-    In order to check that your device supports voice recognition use method
-    `exist`.
-
-    Variable `language` indicates which language will be used to match words
-    from voice.
-
-    Use `start` to start voice recognition immediately and `stop` to stop.
-
-    .. note::
-        Needed permissions for Android: `RECORD_AUDIO` (and `INTERNET` if you
-        want online voice recognition API to be used)
-
-    .. note::
-        On Android platform, after execute `start` method you can hear BEEP!
-        Mute sound in order to disable it.
-
-    .. note::
-        For Android implementation to work there has to be an application
-        with `android.speech.RecognitionService` implementation present
-        in the system. Mostly it's `com.google.android.googlequicksearchbox`
-        or "Google" application (the search bar with the launcher widget).
-
-    Offline Speech Recognition on Android
-    -------------------------------------
-
-    Requires any application that provides an
-    `android.speech.RecognitionService` implementation to the other apps. One
-    of such applications is on a lot of devices preinstalled Google (quick
-    search box).
-
-    The API prefers offline recognition, but should be able to switch to online
-    alternative in case you don't have a language package installed (`INTERNET`
-    permission necessary).
-
-    You can enable offline speech recognition this way (Android 8.1):
-
-    * open the `Settings` app
-    * choose `Language & Input` / `Language & Keyboard` (Samsung might include
-      it in the `General` category)
-    * choose `On-Screen keyboard` or `Voice search`
-    * choose `Google Keyboard`
-    * choose `Offline Speech recognition`
-    * download language package if you don't have one already
+    Speech to text facade.
     '''
 
     _language = 'en-US'

@@ -4,17 +4,17 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
-from plyer import speech
+from plyer import stt
 
 Builder.load_string('''
-#:import speech plyer.speech
+#:import stt plyer.stt
 
 <SpeechInterface>:
     orientation: 'vertical'
     Label:
         size_hint_y: None
         height: sp(40)
-        text: 'Is supported: %s' % speech.exist()
+        text: 'Is supported: %s' % stt.exist()
     Label:
         size_hint_y: None
         height: sp(40)
@@ -44,7 +44,7 @@ class SpeechInterface(BoxLayout):
     '''Root Widget.'''
 
     def start_listening(self):
-        if speech.listening:
+        if stt.listening:
             self.stop_listening()
             return
 
@@ -54,7 +54,7 @@ class SpeechInterface(BoxLayout):
         self.ids.results.text = ''
         self.ids.partial.text = ''
 
-        speech.start()
+        stt.start()
 
         Clock.schedule_interval(self.check_state, 1 / 5)
 
@@ -62,19 +62,19 @@ class SpeechInterface(BoxLayout):
         start_button = self.ids.start_button
         start_button.text = 'Start Listening'
 
-        speech.stop()
+        stt.stop()
         self.update()
 
         Clock.unschedule(self.check_state)
 
     def check_state(self, dt):
         # if the recognizer service stops, change UI
-        if not speech.listening:
+        if not stt.listening:
             self.stop_listening()
 
     def update(self):
-        self.ids.partial.text = '\n'.join(speech.partial_results)
-        self.ids.results.text = '\n'.join(speech.results)
+        self.ids.partial.text = '\n'.join(stt.partial_results)
+        self.ids.results.text = '\n'.join(stt.results)
 
 
 class SpeechApp(App):
