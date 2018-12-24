@@ -16,7 +16,9 @@ from subprocess import Popen, PIPE, call
 
 
 class LinuxWifi(Wifi):
-    names = {}
+    def __init__(self, *args, **kwargs):
+        super(LinuxWifi, self).__init__(*args, **kwargs)
+        self.names = {}
 
     @property
     def interfaces(self):
