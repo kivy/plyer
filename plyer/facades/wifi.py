@@ -89,15 +89,33 @@ class Wifi(object):
 
     def is_enabled(self):
         '''
-        Returns `True`if the Wifi is enables else `False`.
+        Return enabled status of WiFi hardware.
         '''
         return self._is_enabled()
 
-    def start_scanning(self):
+    def is_connected(self, interface=None):
+        '''
+        Return connection state of WiFi interface.
+
+        .. versionadded:: 1.3.3
+        '''
+        return self._is_connected(interface=interface)
+
+    @property
+    def interfaces(self):
+        '''
+        List all available WiFi interfaces.
+
+        .. versionadded:: 1.3.3
+        '''
+
+        raise NotImplementedError()
+
+    def start_scanning(self, interface=None):
         '''
         Turn on scanning.
         '''
-        return self._start_scanning()
+        return self._start_scanning(interface=interface)
 
     def get_network_info(self, name):
         '''
@@ -111,17 +129,21 @@ class Wifi(object):
         '''
         return self._get_available_wifi()
 
-    def connect(self, network, parameters):
+    def connect(self, network, parameters, interface=None):
         '''
         Method to connect to some network.
         '''
-        self._connect(network=network, parameters=parameters)
+        self._connect(
+            network=network,
+            parameters=parameters,
+            interface=interface
+        )
 
-    def disconnect(self):
+    def disconnect(self, interface=None):
         '''
         To disconnect from some network.
         '''
-        self._disconnect()
+        self._disconnect(interface=interface)
 
     def enable(self):
         '''
@@ -140,7 +162,10 @@ class Wifi(object):
     def _is_enabled(self):
         raise NotImplementedError()
 
-    def _start_scanning(self):
+    def _is_connected(self, interface=None):
+        raise NotImplementedError()
+
+    def _start_scanning(self, interface=None):
         raise NotImplementedError()
 
     def _get_network_info(self, **kwargs):
@@ -152,7 +177,7 @@ class Wifi(object):
     def _connect(self, **kwargs):
         raise NotImplementedError()
 
-    def _disconnect(self):
+    def _disconnect(self, interface=None):
         raise NotImplementedError()
 
     def _enable(self):
