@@ -140,15 +140,17 @@ class LinuxWifi(Wifi):
         Returns the name of available networks.
 
         .. versionadded:: 1.2.5
+        .. versionchanged:: 1.3.3
+            return a proper list of elements instead of dict_keys
         '''
-        return self.names.keys()
+        return list(self.names.keys())
 
     def _connect(self, network, parameters, interface=None):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
-            - parameters:
-                - password: dict type
+            - parameters: dict type
+                - password: string or None
 
         .. versionadded:: 1.2.5
         '''
