@@ -20,7 +20,7 @@ class MockedSystemProfiler(object):
     '''
     value = "On"
     output = dedent(
-        b"""Bluetooth:
+        """Bluetooth:
 
       Apple Bluetooth Software Version: 6.0.7f11
       Hardware, Features, and Settings:
@@ -68,7 +68,7 @@ class MockedSystemProfiler(object):
           Bluetooth-Incoming-Port:
               RFCOMM Channel: 3
               Requires Authentication: No"""
-    ).decode('utf-8').format(value).encode('utf-8')
+    ).format(value).encode('utf-8')
 
     def __init__(self, *args, **kwargs):
         # only to ignore all args, kwargs
