@@ -382,7 +382,7 @@ class TestBattery(unittest.TestCase):
             module_name='battery',
             whereis_exe=MockedIOReg.whereis_exe
         )
-        
+
         battery.Popen = MockedIOReg
         self.assertIn('OSXBattery', dir(battery))
         battery = battery.instance()
