@@ -63,6 +63,35 @@ class LinuxWifi(Wifi):
             return True
         return False
 
+    def _is_connected(self, interface=None):
+        '''
+        .. versionadded:: 1.3.3
+        '''
+
+        if not interface:
+            interface = self.interfaces[0]
+
+        proc = Popen([
+            'nmcli', '--terse',
+            '--fields', 'DEVICE,TYPE,STATE',
+            'device'
+        ], stdout=PIPE)
+        lines = proc.communicate()[0].decode('utf-8').splitlines()
+
+        connected = False
+        for line in lines:
+            device, dtype, state = line.split(':')
+            if dtype != 'wifi':
+                continue
+
+            if device != interface:
+                continue
+
+            if state == 'connected':
+                connected = True
+
+        return connected
+
     def _start_scanning(self, interface=None):
         '''
         Returns all the network information.

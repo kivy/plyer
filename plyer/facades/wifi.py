@@ -93,6 +93,14 @@ class Wifi(object):
         '''
         return self._is_enabled()
 
+    def is_connected(self, interface=None):
+        '''
+        Return connection state of WiFi interface.
+
+        .. versionadded:: 1.3.3
+        '''
+        return self._is_connected(interface=interface)
+
     @property
     def interfaces(self):
         '''
@@ -152,6 +160,9 @@ class Wifi(object):
     # private
 
     def _is_enabled(self):
+        raise NotImplementedError()
+
+    def _is_connected(self):
         raise NotImplementedError()
 
     def _start_scanning(self):
