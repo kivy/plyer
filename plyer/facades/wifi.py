@@ -162,10 +162,10 @@ class Wifi(object):
     def _is_enabled(self):
         raise NotImplementedError()
 
-    def _is_connected(self):
+    def _is_connected(self, interface=None):
         raise NotImplementedError()
 
-    def _start_scanning(self):
+    def _start_scanning(self, interface=None):
         raise NotImplementedError()
 
     def _get_network_info(self, **kwargs):
@@ -177,7 +177,7 @@ class Wifi(object):
     def _connect(self, **kwargs):
         raise NotImplementedError()
 
-    def _disconnect(self):
+    def _disconnect(self, interface=None):
         raise NotImplementedError()
 
     def _enable(self):
