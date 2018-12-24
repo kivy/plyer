@@ -63,7 +63,7 @@ class LinuxWifi(Wifi):
             return True
         return False
 
-    def _start_scanning(self):
+    def _start_scanning(self, interface=None):
         '''
         Returns all the network information.
 
@@ -71,9 +71,13 @@ class LinuxWifi(Wifi):
         .. versionchanged:: 1.3.0
             scan only if wifi is enabled
         '''
+
+        if not interface:
+            interface = self.interfaces[0]
+
         import wifi
         if self._is_enabled():
-            list_ = list(wifi.Cell.all('wlan0'))
+            list_ = list(wifi.Cell.all(interface))
             for i in range(len(list_)):
                 self.names[list_[i].ssid] = list_[i]
         else:
@@ -110,7 +114,7 @@ class LinuxWifi(Wifi):
         '''
         return self.names.keys()
 
-    def _connect(self, network, parameters):
+    def _connect(self, network, parameters, interface=None):
         '''
         Expects 2 parameters:
             - name/ssid of the network.
@@ -119,6 +123,9 @@ class LinuxWifi(Wifi):
 
         .. versionadded:: 1.2.5
         '''
+        if not interface:
+            interface = self.interfaces[0]
+
         import wifi
         result = None
         try:
@@ -127,18 +134,21 @@ class LinuxWifi(Wifi):
             password = parameters['password']
             cell = self.names[network]
             result = wifi.Scheme.for_cell(
-                'wlan0', network, cell, password
+                interface, network, cell, password
             )
         return result
 
-    def _disconnect(self):
+    def _disconnect(self, interface=None):
         '''
         Disconnect all the networks managed by Network manager.
 
         .. versionadded:: 1.2.5
         '''
+        if not interface:
+            interface = self.interfaces[0]
+
         if self._nmcli_version() >= (1, 2, 6):
-            call(['nmcli', 'dev', 'disconnect', 'wlan0'])
+            call(['nmcli', 'dev', 'disconnect', interface])
         else:
             call(['nmcli', 'nm', 'enable', 'false'])
 

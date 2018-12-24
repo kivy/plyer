@@ -103,11 +103,11 @@ class Wifi(object):
 
         raise NotImplementedError()
 
-    def start_scanning(self):
+    def start_scanning(self, interface=None):
         '''
         Turn on scanning.
         '''
-        return self._start_scanning()
+        return self._start_scanning(interface=interface)
 
     def get_network_info(self, name):
         '''
@@ -121,17 +121,21 @@ class Wifi(object):
         '''
         return self._get_available_wifi()
 
-    def connect(self, network, parameters):
+    def connect(self, network, parameters, interface=None):
         '''
         Method to connect to some network.
         '''
-        self._connect(network=network, parameters=parameters)
+        self._connect(
+            network=network,
+            parameters=parameters,
+            interface=interface
+        )
 
-    def disconnect(self):
+    def disconnect(self, interface=None):
         '''
         To disconnect from some network.
         '''
-        self._disconnect()
+        self._disconnect(interface=interface)
 
     def enable(self):
         '''
