@@ -9,6 +9,7 @@ Tested platforms:
 * macOS - ioreg
 '''
 
+from __future__ import unicode_literals
 import sys
 import unittest
 from io import BytesIO

@@ -7,6 +7,7 @@ Tested platforms:
 * macOS
 '''
 
+from __future__ import unicode_literals
 import unittest
 
 from plyer.tests.common import platform_import, PlatformTest
