@@ -16,12 +16,24 @@ from subprocess import Popen, PIPE, call
 
 
 class LinuxWifi(Wifi):
+    '''
+    .. versionadded:: 1.2.5
+    '''
+
     def __init__(self, *args, **kwargs):
+        '''
+        .. versionadded:: 1.3.3
+        '''
+
         super(LinuxWifi, self).__init__(*args, **kwargs)
         self.names = {}
 
     @property
     def interfaces(self):
+        '''
+        .. versionadded:: 1.3.3
+        '''
+
         proc = Popen([
             'nmcli', '--terse',
             '--fields', 'DEVICE,TYPE',
@@ -41,6 +53,10 @@ class LinuxWifi(Wifi):
     def _is_enabled(self):
         '''
         Returns `True` if wifi is enabled else `False`.
+
+        .. versionadded:: 1.2.5
+        .. versionchanged:: 1.3.2
+            nmcli output is properly decoded to unicode
         '''
         enbl = Popen(["nmcli", "radio", "wifi"], stdout=PIPE, stderr=PIPE)
         if enbl.communicate()[0].split()[0].decode('utf-8') == "enabled":
@@ -50,6 +66,10 @@ class LinuxWifi(Wifi):
     def _start_scanning(self):
         '''
         Returns all the network information.
+
+        .. versionadded:: 1.2.5
+        .. versionchanged:: 1.3.0
+            scan only if wifi is enabled
         '''
         import wifi
         if self._is_enabled():
@@ -63,6 +83,8 @@ class LinuxWifi(Wifi):
         '''
         Starts scanning for available Wi-Fi networks and returns the available,
         devices.
+
+        .. versionadded:: 1.2.5
         '''
         ret_list = {}
         ret_list['ssid'] = self.names[name].ssid
@@ -83,6 +105,8 @@ class LinuxWifi(Wifi):
     def _get_available_wifi(self):
         '''
         Returns the name of available networks.
+
+        .. versionadded:: 1.2.5
         '''
         return self.names.keys()
 
@@ -92,6 +116,8 @@ class LinuxWifi(Wifi):
             - name/ssid of the network.
             - parameters:
                 - password: dict type
+
+        .. versionadded:: 1.2.5
         '''
         import wifi
         result = None
@@ -108,6 +134,8 @@ class LinuxWifi(Wifi):
     def _disconnect(self):
         '''
         Disconnect all the networks managed by Network manager.
+
+        .. versionadded:: 1.2.5
         '''
         if self._nmcli_version() >= (1, 2, 6):
             call(['nmcli', 'dev', 'disconnect', 'wlan0'])
@@ -117,16 +145,23 @@ class LinuxWifi(Wifi):
     def _enable(self):
         '''
         Wifi interface power state is set to "ON".
+
+        .. versionadded:: 1.3.2
         '''
         return call(['nmcli', 'radio', 'wifi', 'on'])
 
     def _disable(self):
         '''
         Wifi interface power state is set to "OFF".
+
+        .. versionadded:: 1.3.2
         '''
         return call(['nmcli', 'radio', 'wifi', 'off'])
 
     def _nmcli_version(self):
+        '''
+        .. versionadded:: 1.3.2
+        '''
         version = Popen(['nmcli', '-v'], stdout=PIPE)
         version = version.communicate()[0].decode('utf-8')
         while version and not version[0].isdigit():

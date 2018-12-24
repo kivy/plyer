@@ -89,7 +89,7 @@ class Wifi(object):
 
     def is_enabled(self):
         '''
-        Returns `True`if the Wifi is enables else `False`.
+        Return enabled status of WiFi hardware.
         '''
         return self._is_enabled()
 
