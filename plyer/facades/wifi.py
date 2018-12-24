@@ -93,6 +93,16 @@ class Wifi(object):
         '''
         return self._is_enabled()
 
+    @property
+    def interfaces(self):
+        '''
+        List all available WiFi interfaces.
+
+        .. versionadded:: 1.3.3
+        '''
+
+        raise NotImplementedError()
+
     def start_scanning(self):
         '''
         Turn on scanning.

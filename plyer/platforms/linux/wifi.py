@@ -18,6 +18,24 @@ from subprocess import Popen, PIPE, call
 class LinuxWifi(Wifi):
     names = {}
 
+    @property
+    def interfaces(self):
+        proc = Popen([
+            'nmcli', '--terse',
+            '--fields', 'DEVICE,TYPE',
+            'device'
+        ], stdout=PIPE)
+        lines = proc.communicate()[0].decode('utf-8').splitlines()
+
+        interfaces = []
+        for line in lines:
+            device, dtype = line.split(':')
+            if dtype != 'wifi':
+                continue
+            interfaces.append(device)
+
+        return interfaces
+
     def _is_enabled(self):
         '''
         Returns `True` if wifi is enabled else `False`.
