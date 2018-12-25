@@ -6,8 +6,10 @@ Tested platforms:
 
 * Windows
 * Linux - upower, kernel sysclass
+* macOS - ioreg
 '''
 
+from __future__ import unicode_literals
 import sys
 import unittest
 from io import BytesIO
@@ -196,6 +198,102 @@ class MockedUPower(object):
         return float(percentage.replace(',', '.'))
 
 
+class MockedIOReg(object):
+    '''
+    Mocked object used instead of Apple's ioreg.
+    '''
+    values = {
+        "MaxCapacity": "5023",
+        "CurrentCapacity": "4222",
+        "IsCharging": "No"
+    }
+
+    output = dedent(
+        """+-o AppleSmartBattery  <class AppleSmartBattery,\
+    id 0x1000002c9, registered, matched, active, busy 0 (0 ms), retain 6>
+    {{
+      "TimeRemaining" = 585
+      "AvgTimeToEmpty" = 585
+      "InstantTimeToEmpty" = 761
+      "ExternalChargeCapable" = Yes
+      "FullPathUpdated" = 1541845134
+      "CellVoltage" = (4109,4118,4099,0)
+      "PermanentFailureStatus" = 0
+      "BatteryInvalidWakeSeconds" = 30
+      "AdapterInfo" = 0
+      "MaxCapacity" = {MaxCapacity}
+      "Voltage" = 12326
+      "DesignCycleCount70" = 13
+      "Manufacturer" = "SWD"
+      "Location" = 0
+      "CurrentCapacity" = {CurrentCapacity}
+      "LegacyBatteryInfo" = {{"Amperage"=18446744073709551183,"Flags"=4,\
+      "Capacity"=5023,"Current"=4222,"Voltage"=12326,"Cycle Count"=40}}
+      "FirmwareSerialNumber" = 1
+      "BatteryInstalled" = Yes
+      "PackReserve" = 117
+      "CycleCount" = 40
+      "DesignCapacity" = 5088
+      "OperationStatus" = 58435
+      "ManufactureDate" = 19700
+      "AvgTimeToFull" = 65535
+      "BatterySerialNumber" = "1234567890ABCDEFGH"
+      "BootPathUpdated" = 1541839734
+      "PostDischargeWaitSeconds" = 120
+      "Temperature" = 3038
+      "UserVisiblePathUpdated" = 1541845194
+      "InstantAmperage" = 18446744073709551249
+      "ManufacturerData" = <000000000>
+      "FullyCharged" = No
+      "MaxErr" = 1
+      "DeviceName" = "bq20z451"
+      "IOGeneralInterest" = "IOCommand is not serializable"
+      "Amperage" = 18446744073709551183
+      "IsCharging" = {IsCharging}
+      "DesignCycleCount9C" = 1000
+      "PostChargeWaitSeconds" = 120
+      "ExternalConnected" = No
+    }}"""
+    ).format(**values).encode('utf-8')
+
+    def __init__(self, *args, **kwargs):
+        # only to ignore all args, kwargs
+        pass
+
+    @staticmethod
+    def communicate():
+        '''
+        Mock Popen.communicate, so that 'ioreg' isn't used.
+        '''
+        return (MockedIOReg.output, )
+
+    @staticmethod
+    def whereis_exe(binary):
+        '''
+        Mock whereis_exe, so that it looks like
+        macOS ioreg binary is present on the system.
+        '''
+        return binary == 'ioreg'
+
+    @staticmethod
+    def charging():
+        '''
+        Return charging bool from mocked data.
+        '''
+        return MockedIOReg.values['IsCharging'] == 'Yes'
+
+    @staticmethod
+    def percentage():
+        '''
+        Return percentage from mocked data.
+        '''
+        current_capacity = int(MockedIOReg.values['CurrentCapacity'])
+        max_capacity = int(MockedIOReg.values['MaxCapacity'])
+        percentage = 100.0 * current_capacity / max_capacity
+
+        return percentage
+
+
 class TestBattery(unittest.TestCase):
     '''
     TestCase for plyer.battery.
@@ -275,6 +373,46 @@ class TestBattery(unittest.TestCase):
         for key in ('isCharging', 'percentage'):
             self.assertIn(key, battery.status)
             self.assertIsNotNone(battery.status[key])
+
+    def test_battery_macosx(self):
+        '''
+        Test macOS IOReg for plyer.battery.
+        '''
+        battery = platform_import(
+            platform='macosx',
+            module_name='battery',
+            whereis_exe=MockedIOReg.whereis_exe
+        )
+
+        battery.Popen = MockedIOReg
+        self.assertIn('OSXBattery', dir(battery))
+        battery = battery.instance()
+        self.assertIn('OSXBattery', str(battery))
+
+        self.assertEqual(
+            battery.status, {
+                'isCharging': MockedIOReg.charging(),
+                'percentage': MockedIOReg.percentage()
+            }
+        )
+
+    def test_battery_macosx_instance(self):
+        '''
+        Test macOS instance for plyer.battery
+        '''
+
+        def no_exe(*args, **kwargs):
+            return
+
+        battery = platform_import(
+            platform='macosx',
+            module_name='battery',
+            whereis_exe=no_exe
+        )
+
+        battery = battery.instance()
+        self.assertNotIn('OSXBattery', str(battery))
+        self.assertIn('Battery', str(battery))
 
 
 if __name__ == '__main__':
