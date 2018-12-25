@@ -34,7 +34,7 @@ Supported APIs
 Platform                           Android iOS Windows OS X Linux
 ================================== ======= === ======= ==== =====
 Accelerometer                      X       X           X    X
-Audio recording                    X                   X
+Audio recording                    X           X       X
 Barometer                          X       X
 Battery                            X       X   X       X    X
 Bluetooth                          X                   X
