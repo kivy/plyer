@@ -71,6 +71,16 @@ class TestAudio(unittest.TestCase):
         .. versionadded:: 1.3.3
         '''
 
+        if environ.get('APPVEYOR'):
+            # Appveyor has no recording device installed
+            # therefore the test will 100% fail
+            #
+            # error_code: 328
+            # message:
+            # 'No wave device is installed that can record files in the current
+            # format. To install a wave device, go to Control Panel, click P')
+            return
+
         path = join(environ['USERPROFILE'], 'Music')
         if not exists(path):
             mkdir(path)
