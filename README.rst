@@ -58,6 +58,7 @@ Proximity                          X
 Screenshot                                     X       X    X
 Sms (send messages)                X       X
 Spatial Orientation                X       X
+Speech to text                     X
 Storage Path                       X       X   X       X    X
 Temperature                        X
 Text to speech                     X       X   X       X    X
