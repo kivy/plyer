@@ -39,10 +39,21 @@ class SubprocessFileChooser(object):
     icon = None
     show_hidden = False
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
+        self._handle_selection = kwargs.pop(
+            'on_selection', self._handle_selection
+        )
+
         # Simulate Kivy's behavior
         for i in kwargs:
             setattr(self, i, kwargs[i])
+
+    @staticmethod
+    def _handle_selection(selection):
+        '''
+        Dummy placeholder for returning selection from chooser.
+        '''
+        return selection
 
     _process = None
 
@@ -54,6 +65,7 @@ class SubprocessFileChooser(object):
                 if ret == self.successretcode:
                     out = self._process.communicate()[0].strip().decode('utf8')
                     self.selection = self._split_output(out)
+                    self._handle_selection(self.selection)
                     return self.selection
                 else:
                     return None

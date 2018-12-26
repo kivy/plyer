@@ -37,10 +37,21 @@ class MacFileChooser(object):
     show_hidden = False
     use_extensions = False
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
+        self._handle_selection = kwargs.pop(
+            'on_selection', self._handle_selection
+        )
+
         # Simulate Kivy's behavior
         for i in kwargs:
             setattr(self, i, kwargs[i])
+
+    @staticmethod
+    def _handle_selection(selection):
+        '''
+        Dummy placeholder for returning selection from chooser.
+        '''
+        return selection
 
     def run(self):
         panel = None
@@ -90,15 +101,19 @@ class MacFileChooser(object):
             panel.setDirectoryURL_(url)
 
         if panel.runModal():
+            selection = None
             if self.mode == "save" or not self.multiple:
-                return [panel.filename().UTF8String()]
+                selection = [panel.filename().UTF8String()]
             else:
-                return [i.UTF8String() for i in panel.filenames()]
+                selection = [i.UTF8String() for i in panel.filenames()]
+            self._handle_selection(selection)
+            return selection
         return None
 
 
 class MacOSXFileChooser(FileChooser):
-    '''FileChooser implementation for Windows, using win3all.
+    '''
+    FileChooser implementation for macOS using NSOpenPanel, NSSavePanel.
     '''
     def _file_selection_dialog(self, **kwargs):
         return MacFileChooser(**kwargs).run()

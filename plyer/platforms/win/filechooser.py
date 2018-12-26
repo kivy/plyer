@@ -41,10 +41,21 @@ class Win32FileChooser(object):
     icon = None
     show_hidden = False
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
+        self._handle_selection = kwargs.pop(
+            'on_selection', self._handle_selection
+        )
+
         # Simulate Kivy's behavior
         for i in kwargs:
             setattr(self, i, kwargs[i])
+
+    @staticmethod
+    def _handle_selection(selection):
+        '''
+        Dummy placeholder for returning selection from chooser.
+        '''
+        return selection
 
     def run(self):
         self.selection = []
@@ -119,6 +130,7 @@ class Win32FileChooser(object):
             # ALWAYS! let user know what happened
             import traceback
             traceback.print_exc()
+        self._handle_selection(self.selection)
         return self.selection
 
 
