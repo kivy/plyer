@@ -39,6 +39,8 @@ to actually finish, however the result from the call of
 ``AndroidFileChooser._open_file()`` will be returned nevertheless and anything
 using that result will use an incorrect one i.e. the default value of
 ``AndroidFilechooser.selection`` (``None``).
+
+.. versionadded:: 1.3.3
 '''
 
 from __future__ import unicode_literals
@@ -67,6 +69,8 @@ class AndroidFileChooser(FileChooser):
     '''
     FileChooser implementation for Android using
     the built-in file browser via Intent.
+
+    .. versionadded:: 1.3.3
     '''
 
     # filechooser activity <-> result pair identification
@@ -85,6 +89,8 @@ class AndroidFileChooser(FileChooser):
         '''
         Dummy placeholder for returning selection from
         ``android.app.Activity.onActivityResult()``.
+
+        .. versionadded:: 1.3.3
         '''
         return selection
 
@@ -92,6 +98,8 @@ class AndroidFileChooser(FileChooser):
         '''
         Running Android Activity is non-blocking and the only call
         that blocks is onActivityResult running in GUI thread
+
+        .. versionadded:: 1.3.3
         '''
 
         # set up selection handler
@@ -125,6 +133,8 @@ class AndroidFileChooser(FileChooser):
         '''
         Listener for ``android.app.Activity.onActivityResult()`` assigned
         via ``android.activity.bind()``.
+
+        .. versionadded:: 1.3.3
         '''
 
         # not our response
@@ -151,6 +161,8 @@ class AndroidFileChooser(FileChooser):
         '''
         Selection from the system filechooser when using ``Phone``
         or ``Internal storage`` or ``SD card`` option from menu.
+
+        .. versionadded:: 1.3.3
         '''
 
         file_id = DocumentsContract.getDocumentId(uri)
@@ -179,6 +191,8 @@ class AndroidFileChooser(FileChooser):
         '''
         Selection from the system filechooser when using ``Images``
         or ``Videos`` or ``Audio`` option from menu.
+
+        .. versionadded:: 1.3.3
         '''
 
         file_id = DocumentsContract.getDocumentId(uri)
@@ -218,6 +232,8 @@ class AndroidFileChooser(FileChooser):
         Workaround:
             Selecting path from ``Phone`` -> ``Download`` -> ``<file>``
             (or ``Internal storage``) manually.
+
+        .. versionadded:: 1.3.3
         '''
 
         # known locations, differ between machines
@@ -275,6 +291,8 @@ class AndroidFileChooser(FileChooser):
     def _resolve_uri(self, uri):
         '''
         Resolve URI input from ``android.app.Activity.onActivityResult()``.
+
+        .. versionadded:: 1.3.3
         '''
 
         uri_authority = uri.getAuthority()
@@ -321,6 +339,8 @@ class AndroidFileChooser(FileChooser):
     ):
         '''
         Parser for ``content://`` URI returned by some Android resources.
+
+        .. versionadded:: 1.3.3
         '''
 
         result = None
