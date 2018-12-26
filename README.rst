@@ -51,7 +51,7 @@ Gyroscope                          X       X
 Humidity                           X
 IR Blaster                         X
 Light                              X
-Native file chooser                            X       X    X
+Native file chooser                X           X       X    X
 Notifications                      X           X       X    X
 Orientation                        X
 Proximity                          X

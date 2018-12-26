@@ -3,6 +3,8 @@ Android Storage Path
 --------------------
 '''
 
+from os import listdir, access, R_OK
+from os.path import join
 from plyer.facades import StoragePath
 from jnius import autoclass
 from android import mActivity
@@ -18,6 +20,23 @@ class AndroidStoragePath(StoragePath):
 
     def _get_external_storage_dir(self):
         return Environment.getExternalStorageDirectory().getAbsolutePath()
+
+    def _get_sdcard_dir(self):
+        '''
+        .. versionadded:: 1.3.3
+        '''
+        # folder in /storage/ that is readable
+        # and is not internal SD card
+        path = None
+        for folder in listdir('/storage'):
+            folder = join('/storage', folder)
+            if folder in self._get_external_storage_dir():
+                continue
+            if not access(folder, R_OK):
+                continue
+            path = folder
+            break
+        return path
 
     def _get_root_dir(self):
         return Environment.getRootDirectory().getAbsolutePath()
