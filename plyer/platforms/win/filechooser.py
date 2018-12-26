@@ -51,7 +51,7 @@ class Win32FileChooser(object):
             setattr(self, i, kwargs[i])
 
     @staticmethod
-    def _handle_selection(selection):
+    def _handle_selection(selection):  # pylint: disable=method-hidden
         '''
         Dummy placeholder for returning selection from chooser.
         '''

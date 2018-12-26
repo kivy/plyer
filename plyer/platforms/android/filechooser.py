@@ -85,7 +85,7 @@ class AndroidFileChooser(FileChooser):
         self.selection = None
 
     @staticmethod
-    def _handle_selection(selection):
+    def _handle_selection(selection):  # pylint: disable=method-hidden
         '''
         Dummy placeholder for returning selection from
         ``android.app.Activity.onActivityResult()``.
@@ -258,10 +258,10 @@ class AndroidFileChooser(FileChooser):
         # and handle JavaExceptions due to different locations
         # for content:// downloads or missing permission
         path = None
-        for uri in try_uris:
+        for down in try_uris:
             try:
                 path = AndroidFileChooser._parse_content(
-                    uri=uri, projection=['_data'],
+                    uri=down, projection=['_data'],
                     selection=None,
                     selection_args=None,
                     sort_order=None
@@ -278,14 +278,23 @@ class AndroidFileChooser(FileChooser):
         # alternative approach to Downloads by joining
         # all data items from Activity result
         if not path:
-            path = AndroidFileChooser._parse_content(
-                uri=try_uris[1], projection=None,
-                selection=None,
-                selection_args=None,
-                sort_order=None,
-                index_all=True
-            )
+            for down in try_uris:
+                try:
+                    path = AndroidFileChooser._parse_content(
+                        uri=down, projection=None,
+                        selection=None,
+                        selection_args=None,
+                        sort_order=None,
+                        index_all=True
+                    )
 
+                except JavaException:
+                    import traceback
+                    traceback.print_exc()
+
+                # we got a path, ignore the rest
+                if path:
+                    break
         return path
 
     def _resolve_uri(self, uri):
@@ -333,7 +342,7 @@ class AndroidFileChooser(FileChooser):
         return path
 
     @staticmethod
-    def _parse_content(
+    def _parse_content(  # pylint: disable=too-many-arguments
             uri, projection, selection, selection_args, sort_order,
             index_all=False
     ):
