@@ -47,6 +47,14 @@ class StoragePath(object):
         '''
         return self._get_external_storage_dir()
 
+    def get_sdcard_dir(self):
+        '''
+        Get the path of external SD card.
+
+        .. versionadded:: 1.3.3
+        '''
+        return self._get_sdcard_dir()
+
     def get_root_dir(self):
         '''
         Get the path of root of the "system" partition holding the core OS.
@@ -100,6 +108,9 @@ class StoragePath(object):
         raise NotImplementedError()
 
     def _get_external_storage_dir(self):
+        raise NotImplementedError()
+
+    def _get_sdcard_dir(self):
         raise NotImplementedError()
 
     def _get_root_dir(self):
