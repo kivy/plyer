@@ -1,5 +1,9 @@
 '''
 Module of Android API for plyer.notification.
+
+.. versionchanged:: 1.3.3
+    Fixed notifications not displaying due to missing NotificationChannel
+    required by Android Oreo 8.0+ (API 26+)
 '''
 
 from android.config import JAVA_NAMESPACE
@@ -24,6 +28,7 @@ class AndroidNotification(Notification):
 
     def __init__(self):
         self._ns = None
+        self._channel_id = activity.getPackageName()
 
     def _get_notification_service(self):
         if not self._ns:
@@ -32,11 +37,40 @@ class AndroidNotification(Notification):
             )
         return self._ns
 
+    def _build_notification_channel(self, name):
+        '''
+        Create a NotificationChannel using channel id of the application
+        package name (com.xyz, org.xyz, ...) and channel name same as the
+        provided notification title if the API is high enough, otherwise
+        do nothing.
+        '''
+
+        if SDK_INT < 26:
+            return
+
+        manager = autoclass('android.app.NotificationManager')
+        channel = autoclass('android.app.NotificationChannel')
+
+        app_channel = channel(
+            self._channel_id, name, manager.IMPORTANCE_DEFAULT
+        )
+        activity.getSystemService(manager).createNotificationChannel(
+            app_channel
+        )
+        return app_channel
+
     def _notify(self, **kwargs):
         icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
-        noti = NotificationBuilder(activity)
-        noti.setContentTitle(AndroidString(
-            kwargs.get('title').encode('utf-8')))
+        title = AndroidString(
+            kwargs.get('title', '').encode('utf-8')
+        )
+        if SDK_INT < 26:
+            noti = NotificationBuilder(activity)
+        else:
+            self._channel = self._build_notification_channel(title)
+            noti = NotificationBuilder(activity, self._channel_id)
+
+        noti.setContentTitle(title)
         noti.setContentText(AndroidString(
             kwargs.get('message').encode('utf-8')))
         noti.setTicker(AndroidString(
