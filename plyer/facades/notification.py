@@ -1,6 +1,6 @@
 '''
 Notification
-===========
+============
 
 The :class:`Notification` provides access to public methods to create
 notifications.
@@ -15,10 +15,20 @@ To send notification::
     >>> message = 'This is an example.'
     >>> notification.notify(title=title, message=message)
 
-Supported Platforms
--------------------
-Android, Windows, OS X, Linux
+Android toast notification::
 
+    >>> from plyer import notification
+    >>> notification.notify(message='hello', toast=True)
+
+Android simple notification::
+
+    >>> from plyer import notification
+    >>> notification.notify(message='hello')
+
+.. versionadded:: 1.0.0
+
+.. versionadded:: 1.3.3
+   Add implementation of primitive Android popup-like notification (toast)
 '''
 
 
@@ -29,7 +39,7 @@ class Notification(object):
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
-               timeout=10, ticker=''):
+               timeout=10, ticker='', toast=False):
         # pylint: disable=too-many-arguments
         '''
         Send a notification.
@@ -41,20 +51,30 @@ class Notification(object):
         :param timeout: time to display the message for, defaults to 10
         :param ticker: text to display on status bar as the notification
                        arrives
+        :param toast: simple Android message instead of full notification
         :type title: str
         :type message: str
         :type app_name: str
         :type app_icon: str
         :type timeout: int
         :type ticker: str
+        :type toast: bool
 
         .. note::
            When called on Windows, ``app_icon`` has to be a path to
            a file in .ICO format.
+
+        .. versionadded:: 1.0.0
+
+        .. versionchanged:: 1.3.3
+           Add 'toast' keyword argument
         '''
 
-        self._notify(title=title, message=message, app_icon=app_icon,
-                     app_name=app_name, timeout=timeout, ticker=ticker)
+        self._notify(
+            title=title, message=message,
+            app_icon=app_icon, app_name=app_name,
+            timeout=timeout, ticker=ticker, toast=toast
+        )
 
     # private
 

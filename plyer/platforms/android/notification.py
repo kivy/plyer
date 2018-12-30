@@ -1,13 +1,21 @@
 '''
 Module of Android API for plyer.notification.
 
+.. versionadded:: 1.0.0
+
 .. versionchanged:: 1.3.3
     Fixed notifications not displaying due to missing NotificationChannel
-    required by Android Oreo 8.0+ (API 26+)
+    required by Android Oreo 8.0+ (API 26+).
+
+.. versionchanged:: 1.3.3
+    Added simple toaster notification.
 '''
 
-from android.config import JAVA_NAMESPACE
-from jnius import autoclass
+from __future__ import unicode_literals
+from android import python_act
+from android.runnable import run_on_ui_thread
+from jnius import autoclass, cast
+
 from plyer.facades import Notification
 from plyer.platforms.android import activity, SDK_INT
 
@@ -15,15 +23,17 @@ AndroidString = autoclass('java.lang.String')
 Context = autoclass('android.content.Context')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
 Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
-PythonActivity = autoclass('{}.PythonActivity'.format(JAVA_NAMESPACE))
 PendingIntent = autoclass('android.app.PendingIntent')
 Intent = autoclass('android.content.Intent')
+Toast = autoclass('android.widget.Toast')
 
 
 class AndroidNotification(Notification):
     # pylint: disable=too-few-public-methods
     '''
     Implementation of Android notification API.
+
+    .. versionadded:: 1.0.0
     '''
 
     def __init__(self):
@@ -43,6 +53,8 @@ class AndroidNotification(Notification):
         package name (com.xyz, org.xyz, ...) and channel name same as the
         provided notification title if the API is high enough, otherwise
         do nothing.
+
+        .. versionadded:: 1.3.3
         '''
 
         if SDK_INT < 26:
@@ -59,11 +71,31 @@ class AndroidNotification(Notification):
         )
         return app_channel
 
+    @run_on_ui_thread
+    def _toast(self, message):
+        '''
+        Display a popup-like small notification at the bottom of the screen.
+
+        .. versionadded:: 1.3.3
+        '''
+        Toast.makeText(
+            activity,
+            cast('java.lang.CharSequence', AndroidString(message)),
+            Toast.LENGTH_LONG
+        ).show()
+
     def _notify(self, **kwargs):
         icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
         title = AndroidString(
             kwargs.get('title', '').encode('utf-8')
         )
+        message = kwargs.get('message').encode('utf-8')
+
+        # decide whether toast only or proper notification
+        if kwargs.get('toast'):
+            self._toast(message)
+            return
+
         if SDK_INT < 26:
             noti = NotificationBuilder(activity)
         else:
@@ -71,8 +103,7 @@ class AndroidNotification(Notification):
             noti = NotificationBuilder(activity, self._channel_id)
 
         noti.setContentTitle(title)
-        noti.setContentText(AndroidString(
-            kwargs.get('message').encode('utf-8')))
+        noti.setContentText(AndroidString(message))
         noti.setTicker(AndroidString(
             kwargs.get('ticker').encode('utf-8')))
         noti.setSmallIcon(icon)
@@ -80,7 +111,8 @@ class AndroidNotification(Notification):
 
         # clicking the notification will open the application
         app_context = activity.getApplication().getApplicationContext()
-        notification_intent = Intent(app_context, PythonActivity)
+        notification_intent = Intent(app_context, python_act)
+
         notification_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         notification_intent.setAction(Intent.ACTION_MAIN)
         notification_intent.addCategory(Intent.CATEGORY_LAUNCHER)
