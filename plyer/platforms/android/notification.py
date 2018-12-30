@@ -9,6 +9,10 @@ Module of Android API for plyer.notification.
 
 .. versionchanged:: 1.3.3
     Added simple toaster notification.
+
+.. versionchanged:: 1.3.3
+    Fixed notifications not displaying big icons properly.
+    Added option for custom big icon via `icon`.
 '''
 
 from __future__ import unicode_literals
@@ -26,6 +30,7 @@ Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
 PendingIntent = autoclass('android.app.PendingIntent')
 Intent = autoclass('android.content.Intent')
 Toast = autoclass('android.widget.Toast')
+BitmapFactory = autoclass('android.graphics.BitmapFactory')
 
 
 class AndroidNotification(Notification):
@@ -84,49 +89,104 @@ class AndroidNotification(Notification):
             Toast.LENGTH_LONG
         ).show()
 
-    def _notify(self, **kwargs):
-        icon = getattr(Drawable, kwargs.get('icon_android', 'icon'))
-        title = AndroidString(
-            kwargs.get('title', '').encode('utf-8')
-        )
-        message = kwargs.get('message').encode('utf-8')
+    @staticmethod
+    def _set_icons(notification, icon=None):
+        '''
+        Set the small application icon displayed at the top panel together with
+        WiFi, battery percentage and time and the big optional icon (preferably
+        PNG format with transparent parts) displayed directly in the
+        notification body.
 
-        # decide whether toast only or proper notification
-        if kwargs.get('toast'):
-            self._toast(message)
-            return
+        .. versionadded:: 1.3.3
+        '''
+        app_icon = Drawable.icon
+        notification.setSmallIcon(app_icon)
 
+        bitmap_icon = app_icon
+        if icon is not None:
+            bitmap_icon = BitmapFactory.decodeFile(icon)
+            notification.setLargeIcon(bitmap_icon)
+        elif icon == '':
+            # we don't want the big icon set,
+            # only the small one in the top panel
+            pass
+        else:
+            bitmap_icon = BitmapFactory.decodeResource(
+                python_act.getResources(), app_icon
+            )
+            notification.setLargeIcon(bitmap_icon)
+
+    def _build_notification(self, title):
+        '''
+        .. versionadded:: 1.3.3
+        '''
         if SDK_INT < 26:
             noti = NotificationBuilder(activity)
         else:
             self._channel = self._build_notification_channel(title)
             noti = NotificationBuilder(activity, self._channel_id)
+        return noti
 
-        noti.setContentTitle(title)
-        noti.setContentText(AndroidString(message))
-        noti.setTicker(AndroidString(
-            kwargs.get('ticker').encode('utf-8')))
-        noti.setSmallIcon(icon)
-        noti.setAutoCancel(True)
+    @staticmethod
+    def _set_open_behavior(notification):
+        '''
+        Open the source application when user opens the notification.
 
-        # clicking the notification will open the application
+        .. versionadded:: 1.3.3
+        '''
+
+        # create Intent that navigates back to the application
         app_context = activity.getApplication().getApplicationContext()
         notification_intent = Intent(app_context, python_act)
 
+        # set flags to run our application Activity
         notification_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         notification_intent.setAction(Intent.ACTION_MAIN)
         notification_intent.addCategory(Intent.CATEGORY_LAUNCHER)
+
+        # get our application Activity
         pending_intent = PendingIntent.getActivity(
             app_context, 0, notification_intent, 0
         )
-        noti.setContentIntent(pending_intent)
 
+        notification.setContentIntent(pending_intent)
+        notification.setAutoCancel(True)
+
+    def _open_notification(self, notification):
         if SDK_INT >= 16:
-            noti = noti.build()
+            notification = notification.build()
         else:
-            noti = noti.getNotification()
+            notification = notification.getNotification()
 
-        self._get_notification_service().notify(0, noti)
+        self._get_notification_service().notify(0, notification)
+
+    def _notify(self, **kwargs):
+        noti = None
+        message = kwargs.get('message').encode('utf-8')
+        ticker = kwargs.get('ticker').encode('utf-8')
+        title = AndroidString(
+            kwargs.get('title', '').encode('utf-8')
+        )
+        icon = kwargs.get('app_icon')
+
+        # decide whether toast only or proper notification
+        if kwargs.get('toast'):
+            self._toast(message)
+            return
+        else:
+            noti = self._build_notification(title)
+
+        # set basic properties for notification
+        noti.setContentTitle(title)
+        noti.setContentText(AndroidString(message))
+        noti.setTicker(AndroidString(ticker))
+
+        # set additional flags for notification
+        self._set_icons(noti, icon=icon)
+        self._set_open_behavior(noti)
+
+        # launch
+        self._open_notification(noti)
 
 
 def instance():

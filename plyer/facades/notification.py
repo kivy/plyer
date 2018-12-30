@@ -23,12 +23,20 @@ Android toast notification::
 Android simple notification::
 
     >>> from plyer import notification
-    >>> notification.notify(message='hello')
+    >>> notification.notify(message='hello', toast=True)
+
+Notification with custom icon::
+
+    >>> from plyer import notification
+    >>> notification.notify(title='title', message='hello', app_icon=<path>)
 
 .. versionadded:: 1.0.0
 
 .. versionadded:: 1.3.3
    Add implementation of primitive Android popup-like notification (toast)
+
+.. versionchanged:: 1.3.3
+   Android implementation now supports custom icons for notifications.
 '''
 
 
