@@ -45,10 +45,12 @@ class NMCLIWifi(Wifi):
         # filter devices by type
         interfaces = []
         for line in lines:
+            # bad escape from nmcli's side :<
+            line = line.replace('\\:', '$$')
             device, dtype = line.split(':')
             if dtype != 'wifi':
                 continue
-            interfaces.append(device)
+            interfaces.append(device.replace('$$', ':'))
 
         # return wifi interfaces
         return interfaces
@@ -92,7 +94,9 @@ class NMCLIWifi(Wifi):
         # filter by wifi type and interface
         connected = False
         for line in lines:
+            line = line.replace('\\:', '$$')
             device, dtype, state = line.split(':')
+            device = device.replace('$$', ':')
             if dtype != 'wifi':
                 continue
 
@@ -218,7 +222,7 @@ class NMCLIWifi(Wifi):
         ]
         if password:
             command += ['password', password]
-        output = call(command)
+        call(command)
 
     def _disconnect(self, interface=None):
         '''
