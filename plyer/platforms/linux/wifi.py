@@ -12,12 +12,12 @@ from plyer.utils import whereis_exe, deprecated
 
 class NMCLIWifi(Wifi):
     '''
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     def __init__(self, *args, **kwargs):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         super(NMCLIWifi, self).__init__(*args, **kwargs)
@@ -28,7 +28,7 @@ class NMCLIWifi(Wifi):
         '''
         Get all the available interfaces for WiFi.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self._is_enabled():
@@ -59,7 +59,7 @@ class NMCLIWifi(Wifi):
         '''
         Return the status of WiFi device.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         output = Popen(
@@ -75,7 +75,7 @@ class NMCLIWifi(Wifi):
         '''
         Return whether a specified interface is connected to a WiFi network.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self._is_enabled():
@@ -113,7 +113,7 @@ class NMCLIWifi(Wifi):
         Start scanning for available Wi-Fi networks
         for the specified interface.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self._is_enabled():
@@ -152,7 +152,7 @@ class NMCLIWifi(Wifi):
         '''
         Get all the network information by network's name (SSID).
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self.names:
@@ -192,7 +192,7 @@ class NMCLIWifi(Wifi):
         '''
         Return the names of all found networks.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self.names:
@@ -208,7 +208,7 @@ class NMCLIWifi(Wifi):
             - parameters: dict
                 - password: string or None
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         self._enable()
@@ -228,7 +228,7 @@ class NMCLIWifi(Wifi):
         '''
         Disconnect a specific interface from a WiFi network.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         if not self._is_enabled():
@@ -246,7 +246,7 @@ class NMCLIWifi(Wifi):
         '''
         Turn WiFi device on.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         call(['nmcli', 'radio', 'wifi', 'on'])
@@ -255,7 +255,7 @@ class NMCLIWifi(Wifi):
         '''
         Turn WiFi device off.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         call(['nmcli', 'radio', 'wifi', 'off'])
@@ -264,7 +264,7 @@ class NMCLIWifi(Wifi):
         '''
         Get nmcli version to prevent executing deprecated commands.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
            Tested with nmcli 1.2.6.
         '''
         version = Popen(['nmcli', '-v'], stdout=PIPE)
@@ -282,7 +282,7 @@ class LinuxWifi(Wifi):
 
     def __init__(self, *args, **kwargs):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         super(LinuxWifi, self).__init__(*args, **kwargs)
@@ -291,7 +291,7 @@ class LinuxWifi(Wifi):
     @property
     def interfaces(self):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         proc = Popen([
@@ -325,7 +325,7 @@ class LinuxWifi(Wifi):
 
     def _is_connected(self, interface=None):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         if not interface:
@@ -400,7 +400,7 @@ class LinuxWifi(Wifi):
         Returns the name of available networks.
 
         .. versionadded:: 1.2.5
-        .. versionchanged:: 1.3.3
+        .. versionchanged:: 1.4.0
             return a proper list of elements instead of dict_keys
         '''
         return list(self.names.keys())

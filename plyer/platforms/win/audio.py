@@ -2,7 +2,7 @@
 Documentation:
 http://docs.microsoft.com/en-us/windows/desktop/Multimedia
 
-.. versionadded:: 1.3.3
+.. versionadded:: 1.4.0
 '''
 
 from __future__ import unicode_literals
@@ -42,7 +42,7 @@ class MCI_OPEN_PARMS(Structure):
     '''
     Struct for MCI_OPEN message parameters.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     _fields_ = [
@@ -60,7 +60,7 @@ class MCI_RECORD_PARMS(Structure):
 
     http://docs.microsoft.com/en-us/windows/desktop/Multimedia/mci-record-parms
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     _fields_ = [
@@ -76,7 +76,7 @@ class MCI_SAVE_PARMS(Structure):
 
     http://docs.microsoft.com/en-us/windows/desktop/Multimedia/mci-save-parms
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     _fields_ = [
@@ -91,7 +91,7 @@ class MCI_PLAY_PARMS(Structure):
 
     http://docs.microsoft.com/en-us/windows/desktop/Multimedia/mci-play-parms
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     _fields_ = [
@@ -108,7 +108,7 @@ def send_command(device, msg, flags, params):
     In case of no `params` passed, use `None`, that value
     won't be dereferenced.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     multimedia = windll.winmm
@@ -157,7 +157,7 @@ class WinRecorder(object):
     Generic wrapper for MCI_RECORD handling the filenames and device closing
     in the same approach like it is used for other platforms.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     def __init__(self, device, filename):
@@ -169,7 +169,7 @@ class WinRecorder(object):
         '''
         Public property returning device ID.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         return self._device
 
@@ -178,7 +178,7 @@ class WinRecorder(object):
         '''
         Public property returning filename for current recording.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         return self._filename
 
@@ -186,7 +186,7 @@ class WinRecorder(object):
         '''
         Start recording a WAV sound.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         send_command(
             device=self.device,
@@ -201,7 +201,7 @@ class WinRecorder(object):
         self.filename. Wait until the file is written.
         Close the device afterwards.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         # stop the recording first
@@ -238,7 +238,7 @@ class WinPlayer(object):
     '''
     Generic wrapper for MCI_PLAY handling the device closing.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     def __init__(self, device):
@@ -249,7 +249,7 @@ class WinPlayer(object):
         '''
         Public property returning device ID.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         return self._device
 
@@ -257,7 +257,7 @@ class WinPlayer(object):
         '''
         Start playing a WAV sound.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         play_params = MCI_PLAY_PARMS()
         play_params.dwFrom = 0
@@ -273,7 +273,7 @@ class WinPlayer(object):
         '''
         Stop playing a WAV sound and close the device.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         send_command(
             device=self.device,
@@ -295,7 +295,7 @@ class WinAudio(Audio):
     '''
     Windows implementation of audio recording and audio playing.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     def __init__(self, file_path=None):
@@ -314,7 +314,7 @@ class WinAudio(Audio):
         '''
         Start recording a WAV sound in the background asynchronously.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         # clean everything before recording in case
@@ -352,7 +352,7 @@ class WinAudio(Audio):
         '''
         Stop recording or playing of a WAV sound.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         if self._recorder:
@@ -368,7 +368,7 @@ class WinAudio(Audio):
         Play a WAV sound from a file. Prioritize latest recorded file before
         default file path from WinAudio.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         # create structure and set device parameters

@@ -23,7 +23,7 @@ class AndroidStoragePath(StoragePath):
 
     def _get_sdcard_dir(self):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         # folder in /storage/ that is readable
         # and is not internal SD card

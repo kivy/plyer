@@ -97,7 +97,7 @@ class Wifi(object):
         '''
         Return connection state of WiFi interface.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         return self._is_connected(interface=interface)
 
@@ -106,7 +106,7 @@ class Wifi(object):
         '''
         List all available WiFi interfaces.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         raise NotImplementedError()

@@ -7,7 +7,7 @@ Tested platforms:
 * macOS
 * Windows
 
-.. versionadded:: 1.3.3
+.. versionadded:: 1.4.0
 '''
 
 from __future__ import unicode_literals
@@ -23,7 +23,7 @@ class TestAudio(unittest.TestCase):
     '''
     TestCase for plyer.audio.
 
-    .. versionadded:: 1.3.3
+    .. versionadded:: 1.4.0
     '''
 
     @PlatformTest('macosx')
@@ -31,7 +31,7 @@ class TestAudio(unittest.TestCase):
         '''
         Test macOS audio start, stop and play
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         path = join(expanduser('~'), 'Music')
@@ -68,7 +68,7 @@ class TestAudio(unittest.TestCase):
         '''
         Test Windows audio start, stop and play
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         if environ.get('APPVEYOR'):
