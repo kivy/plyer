@@ -4,17 +4,13 @@
         - nmcli (Network Manager command line tool)
             It is found in most of the popular distros. Support for other
             managers is not provided yet.
-
-        - python-wifi module
-            `https://wifi.readthedocs.io/en/latest/`
-            `https://github.com/rockymeza/wifi`
-
 '''
 
 from plyer.facades import Wifi
 from subprocess import Popen, PIPE, call
 
 
+@deprecated
 class LinuxWifi(Wifi):
     '''
     .. versionadded:: 1.2.5
