@@ -1,6 +1,4 @@
-from os.path import dirname
-from os.path import join
-from os.path import realpath
+from os.path import join, dirname, realpath
 
 import kivy
 kivy.require('1.8.0')
@@ -33,6 +31,8 @@ class NotificationDemo(BoxLayout):
             else:
                 kwargs['app_icon'] = join(dirname(realpath(__file__)),
                                           'plyer-icon.png')
+        elif mode == 'toast':
+            kwargs['toast'] = True
         notification.notify(**kwargs)
 
 

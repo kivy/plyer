@@ -1,6 +1,7 @@
 #:kivy 1.8.0
 <NotificationDemo>:
     orientation: 'vertical'
+    Widget:
     BoxLayout:
         orientation: 'horizontal'
         size_hint: 1, None
@@ -17,11 +18,15 @@
             text: 'New notification'
             size_hint: 1, None
     Button:
+        text: 'Toast Notification'
+        size_hint: 1, None
+        on_release: root.do_notify(mode='toast')
+    Button:
         text: 'Simple Notification'
         size_hint: 1, None
-        on_press: root.do_notify(mode='normal')
+        on_release: root.do_notify(mode='normal')
     Button:
         text: 'Fancy Notification'
         size_hint: 1, None
-        on_press:
-            root.do_notify(mode='fancy')
+        on_release: root.do_notify(mode='fancy')
+    Widget:
