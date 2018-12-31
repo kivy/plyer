@@ -3,14 +3,14 @@ Module of Android API for plyer.notification.
 
 .. versionadded:: 1.0.0
 
-.. versionchanged:: 1.3.3
+.. versionchanged:: 1.4.0
     Fixed notifications not displaying due to missing NotificationChannel
     required by Android Oreo 8.0+ (API 26+).
 
-.. versionchanged:: 1.3.3
+.. versionchanged:: 1.4.0
     Added simple toaster notification.
 
-.. versionchanged:: 1.3.3
+.. versionchanged:: 1.4.0
     Fixed notifications not displaying big icons properly.
     Added option for custom big icon via `icon`.
 '''
@@ -59,7 +59,7 @@ class AndroidNotification(Notification):
         provided notification title if the API is high enough, otherwise
         do nothing.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         if SDK_INT < 26:
@@ -81,7 +81,7 @@ class AndroidNotification(Notification):
         '''
         Display a popup-like small notification at the bottom of the screen.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         Toast.makeText(
             activity,
@@ -97,7 +97,7 @@ class AndroidNotification(Notification):
         PNG format with transparent parts) displayed directly in the
         notification body.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         app_icon = Drawable.icon
         notification.setSmallIcon(app_icon)
@@ -118,7 +118,7 @@ class AndroidNotification(Notification):
 
     def _build_notification(self, title):
         '''
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         if SDK_INT < 26:
             noti = NotificationBuilder(activity)
@@ -132,7 +132,7 @@ class AndroidNotification(Notification):
         '''
         Open the source application when user opens the notification.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
 
         # create Intent that navigates back to the application

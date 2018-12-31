@@ -32,10 +32,10 @@ Notification with custom icon::
 
 .. versionadded:: 1.0.0
 
-.. versionadded:: 1.3.3
+.. versionadded:: 1.4.0
    Add implementation of primitive Android popup-like notification (toast)
 
-.. versionchanged:: 1.3.3
+.. versionchanged:: 1.4.0
    Android implementation now supports custom icons for notifications.
 '''
 
@@ -74,7 +74,7 @@ class Notification(object):
 
         .. versionadded:: 1.0.0
 
-        .. versionchanged:: 1.3.3
+        .. versionchanged:: 1.4.0
            Add 'toast' keyword argument
         '''
 

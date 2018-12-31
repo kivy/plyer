@@ -51,7 +51,7 @@ class StoragePath(object):
         '''
         Get the path of external SD card.
 
-        .. versionadded:: 1.3.3
+        .. versionadded:: 1.4.0
         '''
         return self._get_sdcard_dir()
 

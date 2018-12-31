@@ -32,7 +32,7 @@ Arguments:
 Important: these methods will return only after user interaction.
 Use threads or you will stop the mainloop if your app has one.
 
-.. versionchanged:: 1.3.3
+.. versionchanged:: 1.4.0
     Added Android implementation for open_file()
     Added ``on_selection`` kwarg for callback function
 '''

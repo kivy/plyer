@@ -2,7 +2,7 @@
 Speech to Text
 ==============
 
-.. versionadded:: 1.3.3
+.. versionadded:: 1.4.0
 
 Speech Recognition facade.
 
