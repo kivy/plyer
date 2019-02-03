@@ -14,6 +14,7 @@ For Android install additional dependency PyJNIus::
 
 from os.path import dirname, join
 import plyer
+import io
 
 EXTRA_OPTIONS = {}
 
@@ -47,16 +48,16 @@ PACKAGES = [
     'plyer.platforms.macosx.libs',
 ]
 
-with open(join(CURDIR, "README.rst")) as fd:
+with io.open(join(CURDIR, "README.md"), encoding="utf8") as fd:
     README = fd.read()
-with open(join(CURDIR, "CHANGELOG.md")) as fd:
+with io.open(join(CURDIR, "CHANGELOG.md"), encoding="utf8") as fd:
     CHANGELOG = fd.read()
 
 setup(
     name='plyer',
     version=plyer.__version__,
     description='Platform-independent wrapper for platform-dependent APIs',
-    long_description=README + "\n\n" + CHANGELOG,
+    long_description=README + u"\n\n" + CHANGELOG,
     author='Kivy team',
     author_email='mat@kivy.org',
     url='https://plyer.readthedocs.org/en/latest/',
