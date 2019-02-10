@@ -58,8 +58,8 @@ class AccelerometerDemo(BoxLayout):
                 self.sensorEnabled = False
                 self.ids.toggle_button.text = "Start Accelerometer"
         except NotImplementedError:
-                popup = ErrorPopup()
-                popup.open()
+            popup = ErrorPopup()
+            popup.open()
 
     def get_acceleration(self, dt):
         if (self.counter == 100):
