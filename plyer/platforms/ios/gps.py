@@ -34,7 +34,9 @@ class IosGPS(GPS):
         location = manager.location
 
         description = location.description.UTF8String()
-        lat, lon = [float(coord) for coord in description.split('<')[-1].split('>')[0].split(',')]
+        split_description = description.split('<')[-1].split('>')[0].split(',')
+
+        lat, lon = [float(coord) for coord in split_description]
         acc = float(description.split(' +/- ')[-1].split('m ')[0])
 
         speed = location.speed
