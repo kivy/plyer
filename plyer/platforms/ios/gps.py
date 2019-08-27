@@ -33,12 +33,23 @@ class IosGPS(GPS):
     def locationManager_didUpdateLocations_(self, manager, locations):
         location = manager.location
 
+        description = location.description.UTF8String()
+        split_description = description.split('<')[-1].split('>')[0].split(',')
+
+        lat, lon = [float(coord) for coord in split_description]
+        acc = float(description.split(' +/- ')[-1].split('m ')[0])
+
+        speed = location.speed
+        altitude = location.altitude
+        course = location.course
+
         self.on_location(
-            lat=location.coordinate.a,
-            lon=location.coordinate.b,
-            speed=location.speed,
-            bearing=location.course,
-            altitude=location.altitude)
+            lat=lat,
+            lon=lon,
+            speed=speed,
+            bearing=course,
+            altitude=altitude,
+            accuracy=acc)
 
 
 def instance():
