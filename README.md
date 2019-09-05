@@ -23,7 +23,7 @@ implement the api in the easiest way, depending on the current platform.
 ## Supported APIs
 
 | Platform                       | Android | iOS | Windows | OS X | Linux |
-|--------------------------------|---------|-----|---------|------|-------|
+| ------------------------------ | ------- | --- | ------- | ---- | ----- |
 | Accelerometer                  | ✔       | ✔   |         | ✔    | ✔     |
 | Audio recording                | ✔       |     | ✔       | ✔    |       |
 | Barometer                      | ✔       | ✔   |         |      |       |
