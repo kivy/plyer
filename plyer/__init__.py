@@ -13,7 +13,7 @@ __all__ = (
     'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi'
 )
 
-__version__ = '1.4.1.dev0'
+__version__ = '1.4.2.dev0.dev0'
 
 
 from plyer import facades
