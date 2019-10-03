@@ -68,5 +68,6 @@ class TestStoragePath(unittest.TestCase):
         self.assertIn(path_format, storagepath.get_pictures_dir())
         self.assertIn(path_format, storagepath.get_application_dir())
 
+
 if __name__ == '__main__':
     unittest.main()
