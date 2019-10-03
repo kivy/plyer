@@ -45,10 +45,8 @@ class WinStoragePath(StoragePath):
         return get_PATH(folderid)
 
     def _get_application_dir(self):
-        '''
-        To do.
-        '''
-        return "Method not implemented for current platform."
+        folderid = UUID('{905E63B6-C1BF-494E-B29C-65B732D3D21A}')
+        return get_PATH(folderid)
 
 
 def instance():
