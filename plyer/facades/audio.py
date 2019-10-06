@@ -47,6 +47,7 @@ Android
 
 from plyer.compat import string_types, text_type
 
+
 class Audio(object):
     '''
     Audio facade.
