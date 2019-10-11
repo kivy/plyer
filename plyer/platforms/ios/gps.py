@@ -42,7 +42,8 @@ class IosGPS(GPS):
             status_msg = "authorizedAlways"
         elif status == 4:
             status_msg = "authorizedWhenInUse"
-        self.on_status(status_msg)
+        if self.on_status:
+            self.on_status(status_msg)
 
     @protocol('CLLocationManagerDelegate')
     def locationManager_didUpdateLocations_(self, manager, locations):
