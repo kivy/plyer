@@ -49,7 +49,7 @@ implement the api in the easiest way, depending on the current platform.
 | Screenshot                     |         |     | ✔       | ✔    | ✔     |
 | SMS (send messages)            | ✔       | ✔   |         |      |       |
 | Spatial Orientation            | ✔       | ✔   |         |      |       |
-| Speed to text                  | ✔       |     |         |      |       |
+| Speech to text                 | ✔       |     |         |      |       |
 | Storage Path                   | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Temperature                    | ✔       |     |         |      |       |
 | Text to speech                 | ✔       | ✔   | ✔       | ✔    | ✔     |
