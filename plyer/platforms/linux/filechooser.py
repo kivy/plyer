@@ -248,7 +248,7 @@ class LinuxFileChooser(FileChooser):
 
     def _file_selection_dialog(self, desktop_override=desktop, **kwargs):
         if not desktop_override:
-            desktop_override = desktop
+            desktop_override = self.desktop
         # This means we couldn't find any back-end
         if not desktop_override:
             raise OSError("No back-end available. Please install one.")
