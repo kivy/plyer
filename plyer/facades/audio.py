@@ -45,6 +45,8 @@ Android
 
 '''
 
+from plyer.compat import string_types
+
 
 class Audio(object):
     '''
@@ -88,7 +90,7 @@ class Audio(object):
         '''
         Location of the recording.
         '''
-        assert isinstance(location, (basestring, unicode)), \
+        assert isinstance(location, string_types), \
             'Location must be string or unicode'
         self._file_path = location
 
