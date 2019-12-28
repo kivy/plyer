@@ -31,19 +31,27 @@ class IosGPS(GPS):
 
     @protocol('CLLocationManagerDelegate')
     def locationManager_didChangeAuthorizationStatus_(self, manager, status):
-        status_msg = ""
-        if status == 0:
-            status_msg = "notDetermined"
-        elif status == 1:
-            status_msg = "restricted"
-        elif status == 2:
-            status_msg = "denied"
-        elif status == 3:
-            status_msg = "authorizedAlways"
-        elif status == 4:
-            status_msg = "authorizedWhenInUse"
         if self.on_status:
-            self.on_status(status_msg)
+            s_status = ''
+            provider_status = ''
+            provider = 'standard-ios-provider'
+            if status == 0:
+                provider_status = 'provider-disabled'
+                s_status = 'notDetermined'
+            elif status == 1:
+                provider_status = 'provider-enabled'
+                s_status = 'restricted'
+            elif status == 2:
+                provider_status = 'provider-disabled'
+                s_status = 'denied'
+            elif status == 3:
+                provider_status = 'provider-enabled'
+                s_status = 'authorizedAlways'
+            elif status == 4:
+                provider_status = 'provider-enabled'
+                s_status = 'authorizedWhenInUse'
+            self.on_status(provider_status, '{}: {}'.format(
+                provider, s_status))
 
     @protocol('CLLocationManagerDelegate')
     def locationManager_didUpdateLocations_(self, manager, locations):
