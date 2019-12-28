@@ -62,7 +62,7 @@ class GpsTest(App):
             import traceback
             traceback.print_exc()
             self.gps_status = 'GPS is not implemented for your platform'
-        except PermissionError
+        except PermissionError:
             if platform == "android":
                 self.request_android_permissions()
             else:
