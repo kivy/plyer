@@ -47,9 +47,10 @@ class GpsTest(App):
             Defines the callback to be fired when runtime permission
             has been granted or denied.
             """
-            # TODO: Check permissions have been granted by inspecting results
-            gps.configure(on_location=self.on_location,
-                          on_status=self.on_status)
+            if all([res for res in results]):
+                print("callback. All permissions granted.")
+            else:
+                print("callback. Some permissions refused.")
 
         request_permissions([Permission.ACCESS_COARSE_LOCATION,
                              Permission.ACCESS_FINE_LOCATION], callback)
@@ -62,11 +63,10 @@ class GpsTest(App):
             import traceback
             traceback.print_exc()
             self.gps_status = 'GPS is not implemented for your platform'
-        except PermissionError:
-            if platform == "android":
-                self.request_android_permissions()
-            else:
-                self.gps_status = 'Access to GPS is denied'
+
+        if platform == "android":
+            print("gps.py: Android detected. Requesting permissions")
+            self.request_android_permissions()
 
         return Builder.load_string(kv)
 
