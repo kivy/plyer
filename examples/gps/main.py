@@ -3,6 +3,7 @@ from plyer import gps
 from kivy.app import App
 from kivy.properties import StringProperty
 from kivy.clock import Clock, mainthread
+from kivy.utils import platform
 
 kv = '''
 BoxLayout:
@@ -32,6 +33,35 @@ class GpsTest(App):
     gps_location = StringProperty()
     gps_status = StringProperty('Click Start to get GPS location updates')
 
+
+    def request_android_permissions(self):
+        """
+        Since API 23, Android requires permission to be requested at runtime.
+        This function requests permission and handles the response via a
+        callback.
+
+        The request will produce a popup if permissions have not already been
+        been granted, otherwise it will do nothing.
+        """
+        from android.permissions import request_permissions, Permission
+
+        def callback(permissions, results):
+            """
+            Defines the callback to be fired when runtime permission
+            has been granted or denied. This is not strictly required,
+            but added for the sake of completeness.
+            """
+            if all([res for res in results]):
+                print("callback. All permissions granted.")
+            else:
+                print("callback. Some permissions refused.")
+
+        request_permissions([Permission.ACCESS_COARSE_LOCATION,
+                             Permission.ACCESS_FINE_LOCATION], callback)
+        # # To request permissions without a callback, do:
+        # request_permissions([Permission.ACCESS_COARSE_LOCATION,
+        #                      Permission.ACCESS_FINE_LOCATION])
+
     def build(self):
         try:
             gps.configure(on_location=self.on_location,
@@ -40,6 +70,10 @@ class GpsTest(App):
             import traceback
             traceback.print_exc()
             self.gps_status = 'GPS is not implemented for your platform'
+
+        if platform == "android":
+            print("gps.py: Android detected. Requesting permissions")
+            self.request_android_permissions()
 
         return Builder.load_string(kv)
 
