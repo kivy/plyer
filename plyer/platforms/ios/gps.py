@@ -30,6 +30,30 @@ class IosGPS(GPS):
         self._location_manager.stopUpdatingLocation()
 
     @protocol('CLLocationManagerDelegate')
+    def locationManager_didChangeAuthorizationStatus_(self, manager, status):
+        if self.on_status:
+            s_status = ''
+            provider_status = ''
+            provider = 'standard-ios-provider'
+            if status == 0:
+                provider_status = 'provider-disabled'
+                s_status = 'notDetermined'
+            elif status == 1:
+                provider_status = 'provider-enabled'
+                s_status = 'restricted'
+            elif status == 2:
+                provider_status = 'provider-disabled'
+                s_status = 'denied'
+            elif status == 3:
+                provider_status = 'provider-enabled'
+                s_status = 'authorizedAlways'
+            elif status == 4:
+                provider_status = 'provider-enabled'
+                s_status = 'authorizedWhenInUse'
+            self.on_status(provider_status, '{}: {}'.format(
+                provider, s_status))
+
+    @protocol('CLLocationManagerDelegate')
     def locationManager_didUpdateLocations_(self, manager, locations):
         location = manager.location
 
