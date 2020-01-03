@@ -84,6 +84,9 @@ class AndroidFileChooser(FileChooser):
         self.select_code = randint(123456, 654321)
         self.selection = None
 
+        # bind a function for a response from filechooser activity
+        activity.bind(on_activity_result=self._on_activity_result)
+
     @staticmethod
     def _handle_selection(selection):  # pylint: disable=method-hidden
         '''
@@ -115,9 +118,6 @@ class AndroidFileChooser(FileChooser):
         file_intent.addCategory(
             Intent.CATEGORY_OPENABLE
         )
-
-        # bind a function for a response from filechooser activity
-        activity.bind(on_activity_result=self._on_activity_result)
 
         # start a new activity from PythonActivity
         # which creates a filechooser via intent
