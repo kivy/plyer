@@ -117,6 +117,9 @@ class AndroidFileChooser(FileChooser):
         )
 
         # bind a function for a response from filechooser activity
+        # but before that, lets unbind the function
+        # to avoid repetitive callbacks
+        activity.unbind(on_activity_result=self._on_activity_result)
         activity.bind(on_activity_result=self._on_activity_result)
 
         # start a new activity from PythonActivity
