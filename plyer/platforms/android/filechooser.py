@@ -137,8 +137,8 @@ class AndroidFileChooser(FileChooser):
         .. versionadded:: 1.4.0
         '''
 
-        # not our response
-        if request_code != self.select_code:
+        # not our response, or nothing has been selected (selection cancelled)
+        if (request_code != self.select_code) or not data:
             return
 
         # bad response
