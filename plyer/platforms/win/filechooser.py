@@ -6,12 +6,14 @@ Windows file chooser
 from plyer.facades import FileChooser
 from win32com.shell.shell import (
     SHBrowseForFolder as browse,
-    SHGetPathFromIDList as get_path
+    SHGetPathFromIDList as get_path, SHILCreateFromPath
 )
+from win32com.shell import shellcon
 import win32gui
 import win32con
 import pywintypes
-from os.path import dirname, splitext, join
+import pathlib
+from os.path import dirname, splitext, join, isdir
 
 
 class Win32FileChooser(object):
@@ -64,10 +66,13 @@ class Win32FileChooser(object):
                 args = {}
 
                 if self.path:
-                    args["InitialDir"] = dirname(self.path)
-                    _, ext = splitext(self.path)
-                    args["File"] = self.path
-                    args["DefExt"] = ext
+                    if isdir(self.path):
+                        args["InitialDir"] = self.path
+                    else:
+                        args["InitialDir"] = dirname(self.path)
+                        _, ext = splitext(self.path)
+                        args["File"] = self.path
+                        args["DefExt"] = ext and ext[1:]  # no period
 
                 args["Title"] = self.title if self.title else "Pick a file..."
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
@@ -82,8 +87,8 @@ class Win32FileChooser(object):
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
                 args["Filter"] = filters
 
-                flags = win32con.OFN_EXTENSIONDIFFERENT
-                flags |= win32con.OFN_OVERWRITEPROMPT
+                flags = win32con.OFN_OVERWRITEPROMPT
+                flags |= win32con.OFN_HIDEREADONLY
 
                 if self.multiple:
                     flags |= win32con.OFN_ALLOWMULTISELECT
@@ -93,32 +98,40 @@ class Win32FileChooser(object):
 
                 args["Flags"] = flags
 
-                # GetOpenFileNameW, GetSaveFileNameW will raise
-                # pywintypes.error: (0, '...', 'No error message is available')
-                # which is most likely due to incorrect type handling from the
-                # win32gui side; return empty list in that case after exception
-                if self.mode == "open":
-                    self.fname, _, _ = win32gui.GetOpenFileNameW(**args)
-                elif self.mode == "save":
-                    self.fname, _, _ = win32gui.GetSaveFileNameW(**args)
+                try:
+                    if self.mode == "open":
+                        self.fname, _, _ = win32gui.GetOpenFileNameW(**args)
+                    elif self.mode == "save":
+                        self.fname, _, _ = win32gui.GetSaveFileNameW(**args)
+                except pywintypes.error as e:
+                    # if canceled, it's not really an error
+                    if not e.winerror:
+                        self._handle_selection(self.selection)
+                        return self.selection
+                    raise
 
                 if self.fname:
                     if self.multiple:
                         seq = str(self.fname).split("\x00")
-                        dir_n, base_n = seq[0], seq[1:]
-                        self.selection = [
-                            join(dir_n, i) for i in base_n
-                        ]
+                        if len(seq) > 1:
+                            dir_n, base_n = seq[0], seq[1:]
+                            self.selection = [
+                                join(dir_n, i) for i in base_n
+                            ]
+                        else:
+                            self.selection = seq
                     else:
                         self.selection = str(self.fname).split("\x00")
 
             else:  # dir mode
+                BIF_EDITBOX = shellcon.BIF_EDITBOX
+                BIF_NEWDIALOGSTYLE = 0x00000040
                 # From http://goo.gl/UDqCqo
                 pidl, name, images = browse(  # pylint: disable=unused-variable
                     win32gui.GetDesktopWindow(),
                     None,
                     self.title if self.title else "Pick a folder...",
-                    0, None, None
+                    BIF_NEWDIALOGSTYLE | BIF_EDITBOX, None, None
                 )
 
                 # pidl is None when nothing is selected
@@ -126,7 +139,7 @@ class Win32FileChooser(object):
                 if pidl:
                     self.selection = [str(get_path(pidl).decode('utf-8'))]
 
-        except (RuntimeError, pywintypes.error):
+        except (RuntimeError, pywintypes.error, Exception):
             # ALWAYS! let user know what happened
             import traceback
             traceback.print_exc()
