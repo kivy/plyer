@@ -140,18 +140,26 @@ class AndroidFileChooser(FileChooser):
         # not our response, or nothing has been selected (selection cancelled)
         from kivy.logger import Logger
         Logger.info("Entering _on_activity_result. data = " + str(data))
-        if (request_code != self.select_code) or not data:
+        if (request_code != self.select_code):
             return
 
         # bad response
         if result_code != Activity.RESULT_OK:
-            print(
-                'Activity result failed',
-                result_code, data.getData().toString()
-            )
+            Logger.info("Activity.RESULT_OK not OK! Attempting getData")
+            try:
+                get_data = data.getData().toString()
+            except Exception as e:
+                get_data = str(e)
+
+            Logger.info("Activity result failed" + str(get_data))
             return
 
-        selection = self._resolve_uri(data.getData()) or []
+        try:
+            Logger.error("Trying getData()...")
+            selection = self._resolve_uri(data.getData()) or []
+            Logger.error("getData() success")
+        except Exception as e:
+            Logger.error("Error with getData(): " + str(e))
 
         # return value to object
         self.selection = [selection]
