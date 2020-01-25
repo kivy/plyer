@@ -138,6 +138,7 @@ class AndroidFileChooser(FileChooser):
         '''
 
         # not our response, or nothing has been selected (selection cancelled)
+        from kivy.logger import Logger
         Logger.info("Entering _on_activity_result. data = " + str(data))
         if (request_code != self.select_code) or not data:
             return
