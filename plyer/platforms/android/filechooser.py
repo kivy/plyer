@@ -142,7 +142,7 @@ class AndroidFileChooser(FileChooser):
             return
 
         if result_code != Activity.RESULT_OK:
-            # The action had been cancelled. To data to get
+            # The action had been cancelled.
             return
 
         selection = self._resolve_uri(data.getData()) or []
