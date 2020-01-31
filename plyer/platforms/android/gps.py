@@ -19,6 +19,14 @@ class _LocationListener(PythonJavaClass):
         self.root = root
         super(_LocationListener, self).__init__()
 
+        # programmatically request permission for GPS (as required by the API.)
+        if SDK_INT >= 23:
+            Manifest.extend([
+                'android.permission.ACCESS_FINE_LOCATION',
+                'android.permission.ACCESS_COARSE_LOCATION'
+            ])
+            ActivityCompat.requestPermissions(activity, Manifest, 1000)
+
     @java_method('(Landroid/location/Location;)V')
     def onLocationChanged(self, location):
         self.root.on_location(
