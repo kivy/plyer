@@ -141,12 +141,8 @@ class AndroidFileChooser(FileChooser):
         if request_code != self.select_code:
             return
 
-        # bad response
         if result_code != Activity.RESULT_OK:
-            print(
-                'Activity result failed',
-                result_code, data.getData().toString()
-            )
+            # The action had been cancelled.
             return
 
         selection = self._resolve_uri(data.getData()) or []
