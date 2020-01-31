@@ -4,7 +4,7 @@ Android GPS
 '''
 
 from plyer.facades import GPS
-from plyer.platforms.android import activity
+from plyer.platforms.android import SDK_INT, Manifest, activity, ActivityCompat
 from jnius import autoclass, java_method, PythonJavaClass
 
 Looper = autoclass('android.os.Looper')
