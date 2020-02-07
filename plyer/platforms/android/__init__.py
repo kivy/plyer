@@ -3,7 +3,6 @@ from jnius import autoclass
 
 ANDROID_VERSION = autoclass('android.os.Build$VERSION')
 SDK_INT = ANDROID_VERSION.SDK_INT
-ActivityCompat = autoclass('androidx.core.app.ActivityCompat')
 
 try:
     from android import config
