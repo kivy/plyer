@@ -4,7 +4,7 @@ Android GPS
 '''
 
 from plyer.facades import GPS
-from plyer.platforms.android import SDK_INT, Manifest, activity, ActivityCompat
+from plyer.platforms.android import SDK_INT, activity, ActivityCompat
 from jnius import autoclass, java_method, PythonJavaClass
 
 Looper = autoclass('android.os.Looper')
@@ -21,10 +21,10 @@ class _LocationListener(PythonJavaClass):
 
         # programmatically request permission for GPS (as required by the API.)
         if SDK_INT >= 23:
-            Manifest.extend([
+            Manifest = [
                 'android.permission.ACCESS_FINE_LOCATION',
                 'android.permission.ACCESS_COARSE_LOCATION'
-            ])
+            ]
             ActivityCompat.requestPermissions(activity, Manifest, 1000)
 
     @java_method('(Landroid/location/Location;)V')
