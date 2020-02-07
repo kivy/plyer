@@ -4,12 +4,14 @@ Android GPS
 '''
 
 from plyer.facades import GPS
-from plyer.platforms.android import SDK_INT, activity, ActivityCompat
+from plyer.platforms.android import SDK_INT, activity
 from jnius import autoclass, java_method, PythonJavaClass
 
 Looper = autoclass('android.os.Looper')
 LocationManager = autoclass('android.location.LocationManager')
 Context = autoclass('android.content.Context')
+
+ActivityCompat = autoclass('androidx.core.app.ActivityCompat')
 
 
 class _LocationListener(PythonJavaClass):
