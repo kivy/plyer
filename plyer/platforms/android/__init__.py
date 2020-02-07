@@ -17,7 +17,3 @@ if 'PYTHON_SERVICE_ARGUMENT' in environ:
 else:
     PythonActivity = autoclass(ns + '.PythonActivity')
     activity = PythonActivity.mActivity
-
-# AndroidManifest.xml abstraction
-# Ex. ["android.permission.INTERNET",]
-Manifest = list()
