@@ -29,7 +29,7 @@ class LinuxStoragePath(StoragePath):
                 index = [i for i, v in enumerate(lines)
                          if v.startswith("XDG_" + name)][0]
                 return lines[index].split('"')[1]
-        except KeyError:
+        except (KeyError, FileNotFoundError):
             return PATHS[name]
         except Exception as e:
             raise e
@@ -44,7 +44,7 @@ class LinuxStoragePath(StoragePath):
         return "/"
 
     def _get_documents_dir(self):
-        directory = self._get_from_user_dirs("DOCUMENT")
+        directory = self._get_from_user_dirs("DOCUMENTS")
         return directory.replace("$HOME", self._get_home_dir())
 
     def _get_downloads_dir(self):
