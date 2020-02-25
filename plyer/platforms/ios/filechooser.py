@@ -1,12 +1,13 @@
 '''
-iOS file chooser
+IOS file chooser
 --------------------
 
-.. versionadded:: 1.4.0  # TODO
+# TODO
+
+.. versionadded:: 1.4.4
 '''
 
-from filechooser_facade import FileChooser
-# from plyer import storagepath
+from plyer.facades import FileChooser
 from pyobjus import autoclass, protocol
 from pyobjus.dylib_manager import load_framework
 
@@ -34,6 +35,8 @@ class IOSFileChooser(FileChooser):
         self._on_selection = kwargs["on_selection"]
         if kwargs["mode"] == "open":
             self._open()
+        else:
+            raise NotImplementedError()
 
     def _get_picker(self):
         """
