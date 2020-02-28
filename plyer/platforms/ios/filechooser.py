@@ -70,7 +70,8 @@ class IOSFileChooser(FileChooser):
         # Note: We need to call this Objective C class as there is currently
         #       no way to call a non-class function via pyobjus. And here,
         #       we have to use the `UIImagePNGRepresentation` to get the png
-        #       representation.
+        #       representation. For this, please ensure you are using an
+        #       appropriate version of kivy-ios.
         native_image_picker = autoclass("NativeImagePicker").alloc().init()
         path = native_image_picker.writeToPNG_(frozen_dict)
         self._on_selection([path.UTF8String()])
