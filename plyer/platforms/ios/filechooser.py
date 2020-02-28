@@ -2,7 +2,7 @@
 IOS file chooser
 --------------------
 
-# TODO
+This module houses the iOS implementation of the plyer FileChooser.
 
 .. versionadded:: 1.4.4
 '''
