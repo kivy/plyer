@@ -30,7 +30,7 @@ class LinuxStoragePath(StoragePath):
                          if v.startswith("XDG_" + name)][0]
                 return lines[index].split('"')[1]
         except (KeyError, FileNotFoundError):
-            return PATHS[name]
+            return self._get_home_dir() + PATHS[name]
         except Exception as e:
             raise e
 
