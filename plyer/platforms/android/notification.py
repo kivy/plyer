@@ -26,6 +26,7 @@ from plyer.platforms.android import activity, SDK_INT
 AndroidString = autoclass('java.lang.String')
 Context = autoclass('android.content.Context')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
+NotificationManager = autoclass('android.app.NotificationManager')
 Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
 PendingIntent = autoclass('android.app.PendingIntent')
 Intent = autoclass('android.content.Intent')
@@ -47,9 +48,9 @@ class AndroidNotification(Notification):
 
     def _get_notification_service(self):
         if not self._ns:
-            self._ns = activity.getSystemService(
+            self._ns = cast(NotificationManager, activity.getSystemService(
                 Context.NOTIFICATION_SERVICE
-            )
+            ))
         return self._ns
 
     def _build_notification_channel(self, name):
@@ -65,13 +66,12 @@ class AndroidNotification(Notification):
         if SDK_INT < 26:
             return
 
-        manager = autoclass('android.app.NotificationManager')
         channel = autoclass('android.app.NotificationChannel')
 
         app_channel = channel(
-            self._channel_id, name, manager.IMPORTANCE_DEFAULT
+            self._channel_id, name, NotificationManager.IMPORTANCE_DEFAULT
         )
-        activity.getSystemService(manager).createNotificationChannel(
+        self._get_notification_service().createNotificationChannel(
             app_channel
         )
         return app_channel
