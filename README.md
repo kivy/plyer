@@ -6,6 +6,10 @@ platforms, notably mobile ones, in Python.
 [![coverage](https://coveralls.io/repos/kivy/plyer/badge.svg?branch=master)](https://coveralls.io/r/kivy/plyer?branch=master)
 [![Backers on Open Collective](https://opencollective.com/kivy/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/kivy/sponsors/badge.svg)](#sponsors)
+![Continuous Integration with Ubuntu](https://github.com/kivy/plyer/workflows/Continuous%20Integration%20with%20Ubuntu/badge.svg)
+![Continuous Integration with OSX](https://github.com/kivy/plyer/workflows/Continuous%20Integration%20with%20OSX/badge.svg)
+![Continuous Integration with Windows](https://github.com/kivy/plyer/workflows/Continuous%20Integration%20with%20Windows/badge.svg)
+![Deploy to PyPI](https://github.com/kivy/plyer/workflows/Deploy%20to%20PyPI/badge.svg)
 
 
 ## How
