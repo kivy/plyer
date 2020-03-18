@@ -1,0 +1,33 @@
+name: Continuous Integration with OSX
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        source ci/ci_osx.sh
+        dependencies
+
+    - name: Style
+      run: |
+        source ci/ci_ubuntu.sh
+        style
+
+    - name: Tests
+      run: |
+        source ci/ci_osx.sh
+        tests
