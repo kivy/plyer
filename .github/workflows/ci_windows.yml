@@ -1,0 +1,33 @@
+name: Continuous Integration with Windows
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        . .\ci\ci_windows.ps1
+        Dependencies
+
+    - name: Style
+      run: |
+        . .\ci\ci_windows.ps1
+        Style
+
+    - name: Tests
+      run: |
+        . .\ci\ci_windows.ps1
+        Tests
