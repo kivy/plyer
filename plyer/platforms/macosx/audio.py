@@ -20,7 +20,7 @@ NSError = autoclass('NSError').alloc()
 class OSXAudio(Audio):
     def __init__(self, file_path=None):
         default_path = join(
-            OSXStoragePath().get_music_dir().encode('utf-8'),
+            OSXStoragePath().get_music_dir(),
             'audio.wav'
         )
         super(OSXAudio, self).__init__(file_path or default_path)
