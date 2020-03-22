@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from plyer import gps
 from kivy.app import App
 from kivy.properties import StringProperty
-from kivy.clock import Clock, mainthread
+from kivy.clock import mainthread
 from kivy.utils import platform
 
 kv = '''
@@ -32,7 +32,6 @@ class GpsTest(App):
 
     gps_location = StringProperty()
     gps_status = StringProperty('Click Start to get GPS location updates')
-
 
     def request_android_permissions(self):
         """
