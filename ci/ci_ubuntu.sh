@@ -37,6 +37,13 @@ deployment_dependencies()
   pip install setuptools wheel twine
 }
 
+style_dependencies()
+{
+    python -m pip install --upgrade pip
+
+    pip install pycodestyle pylint
+}
+
 # pep8 check
 style()
 {
