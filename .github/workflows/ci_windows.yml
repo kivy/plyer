@@ -3,7 +3,7 @@ name: Continuous Integration with Windows
 on: [push, pull_request]
 
 jobs:
-  build:
+  tests:
 
     runs-on: windows-latest
     strategy:
