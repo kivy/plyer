@@ -22,11 +22,6 @@ jobs:
         . .\ci\ci_windows.ps1
         Dependencies
 
-    - name: Style
-      run: |
-        . .\ci\ci_windows.ps1
-        Style
-
     - name: Tests
       run: |
         . .\ci\ci_windows.ps1

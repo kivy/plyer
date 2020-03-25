@@ -22,11 +22,6 @@ jobs:
         source ci/ci_osx.sh
         dependencies
 
-    - name: Style
-      run: |
-        source ci/ci_ubuntu.sh
-        style
-
     - name: Tests
       run: |
         source ci/ci_osx.sh
