@@ -4,4 +4,3 @@ pylint
 coverage
 coveralls
 cython
-twine
