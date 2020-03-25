@@ -3,6 +3,28 @@ name: Continuous Integration with Ubuntu
 on: [push, pull_request]
 
 jobs:
+
+  style:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: |
+        source ci/ci_ubuntu.sh
+        style_dependencies
+
+    - name: Style
+      run: |
+        source ci/ci_ubuntu.sh
+        style
+
   build:
 
     runs-on: ubuntu-latest
@@ -21,11 +43,6 @@ jobs:
       run: |
         source ci/ci_ubuntu.sh
         dependencies
-
-    - name: Style
-      run: |
-        source ci/ci_ubuntu.sh
-        style
 
     - name: Tests
       run: |
