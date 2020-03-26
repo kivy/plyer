@@ -39,28 +39,14 @@ deployment_dependencies()
 
 style_dependencies()
 {
-    python -m pip install --upgrade pip
+  python -m pip install --upgrade pip
 
-    pip install pycodestyle pylint
+  pip install flake8
 }
 
-# pep8 check
 style()
 {
-  python -m pycodestyle "$(pwd)" \
-  --exclude=pep8.py,compat.py,utils.py \
-  --ignore=E402,W503
-
-  touch "$(pwd)/__init__.py"
-
-  python -m pylint \
-  --jobs=0 \
-  --disable=C0103,C0111,C0123,C0200,C0325,C0411,C0412,C1801,E0203,E0401 \
-  --disable=E0602,E0611,E0711,E1003,E1101,E1102,R0201,R0205,R0801,R0903 \
-  --disable=R0912,R0914,R1702,R1705,R1710,R1711,R1714,W0101,W0109 \
-  --disable=W0201,W0212,W0221,W0223,W0401 \
-  --disable=W0613,W0614 \
-  "$(pwd)"
+  python -m flake8 . --show-source
 }
 
 tests()
