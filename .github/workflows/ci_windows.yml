@@ -1,0 +1,25 @@
+name: Continuous Integration with Windows
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        . .\ci\ci_windows.ps1
+        Dependencies
+
+    - name: Tests
+      run: |
+        . .\ci\ci_windows.ps1
+        Tests

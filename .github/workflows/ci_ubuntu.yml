@@ -1,0 +1,55 @@
+name: Continuous Integration with Ubuntu
+
+on: [push, pull_request]
+
+jobs:
+
+  style:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: |
+        source ci/ci_ubuntu.sh
+        style_dependencies
+
+    - name: Style
+      run: |
+        source ci/ci_ubuntu.sh
+        style
+
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        source ci/ci_ubuntu.sh
+        dependencies
+
+    - name: Tests
+      run: |
+        source ci/ci_ubuntu.sh
+        tests
+
+    - name: Upload Coverage
+      if: github.event_name == 'push' && github.ref == 'refs/head/master'
+      env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: |
+        source ci/ci_ubuntu.sh
+        upload_coverage
