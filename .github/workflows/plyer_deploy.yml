@@ -20,6 +20,11 @@ jobs:
         source ci/ci_ubuntu.sh
         deployment_dependencies
 
+    - name: Build Package
+      run: |
+        source ci/ci_ubuntu.sh
+        build
+
     - name: Create artifacts
       uses: actions/upload-artifact@v1
       with:
@@ -36,7 +41,7 @@ jobs:
         files: dist/*
         draft: true
 
-    - name: Build and publish to PyPI
+    - name: Publish to PyPI
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}

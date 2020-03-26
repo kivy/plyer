@@ -67,9 +67,14 @@ upload_coverage()
   python -m coveralls
 }
 
+build()
+{
+  python setup.py sdist
+  python setup.py bdist_wheel --universal
+}
+
 deploy()
 {
   # deploy to PyPI
-  python setup.py sdist bdist_wheel
   python -m twine upload dist/*
 }
