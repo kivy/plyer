@@ -48,3 +48,11 @@ jobs:
       run: |
         source ci/ci_ubuntu.sh
         tests
+
+    - name: Upload Coverage
+      if: github.event_name == 'push' && github.ref == 'refs/head/master'
+      env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: |
+        source ci/ci_ubuntu.sh
+        upload_coverage

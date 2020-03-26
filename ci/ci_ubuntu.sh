@@ -60,10 +60,11 @@ tests()
   --failfast
 
   coverage report -m
+}
 
-  # submit coverage report from tests to coveralls.io
-  # requires: REPO_TOKEN, SERVICE_NAME, JOB_ID, PULL_REQUEST
-  coveralls || true
+upload_coverage()
+{
+  python -m coveralls
 }
 
 deploy()
