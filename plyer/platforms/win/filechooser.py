@@ -6,13 +6,12 @@ Windows file chooser
 from plyer.facades import FileChooser
 from win32com.shell.shell import (
     SHBrowseForFolder as browse,
-    SHGetPathFromIDList as get_path, SHILCreateFromPath
+    SHGetPathFromIDList as get_path
 )
 from win32com.shell import shellcon
 import win32gui
 import win32con
 import pywintypes
-import pathlib
 from os.path import dirname, splitext, join, isdir
 
 
