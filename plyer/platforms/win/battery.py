@@ -19,7 +19,8 @@ class WinBattery(Battery):
         if not query:
             return status
 
-        status["isCharging"] = query["BatteryFlag"] !=255 and query["BatteryFlag"] & 8 > 0
+        status["isCharging"] = query["BatteryFlag"] !=255 and 
+                               query["BatteryFlag"] & 8 > 0
         status["percentage"] = query["BatteryLifePercent"]
 
         return status
