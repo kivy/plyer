@@ -1,21 +1,21 @@
-import kivy
-kivy.require('1.8.0')
-
-from kivy.app import App
-from kivy.properties import ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.popup import Popup
-from kivy.clock import Clock
-
-from plyer import accelerometer
-
 '''
 This example uses Kivy Garden Graph addon to draw graphs plotting the
 accelerometer values in X,Y and Z axes.
 The package is installed in the directory: ./libs/garden/garden.graph
 To read more about kivy garden, visit: http://kivy-garden.github.io/.
 '''
-from kivy.garden.graph import Graph, MeshLinePlot
+
+import kivy
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.clock import Clock
+
+from plyer import accelerometer
+
+from kivy.garden.graph import MeshLinePlot
+
+kivy.require('1.8.0')
 
 
 class AccelerometerDemo(BoxLayout):
