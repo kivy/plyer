@@ -11,7 +11,7 @@ __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
            'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash', 'CPU',
            'Temperature', 'Humidity', 'SpatialOrientation', 'Brightness',
-           'Processors', 'StoragePath', 'keystore', 'Bluetooth', 'Screenshot',
+           'Processors', 'StoragePath', 'Keystore', 'Bluetooth', 'Screenshot',
            'STT')
 
 from plyer.facades.accelerometer import Accelerometer
