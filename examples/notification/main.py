@@ -1,14 +1,14 @@
 from os.path import join, dirname, realpath
 
 import kivy
-kivy.require('1.8.0')
-
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
 from plyer import notification
 from plyer.utils import platform
 from plyer.compat import PY2
+
+kivy.require('1.8.0')
 
 
 class NotificationDemo(BoxLayout):
