@@ -13,7 +13,7 @@ class EspeakTextToSpeech(TTS):
 class FliteTextToSpeech(TTS):
     ''' Speaks using the flite program
     '''
-    def _speak(self):
+    def _speak(self, **kwargs):
         subprocess.call(["flite", "-t", kwargs.get('message'), "play"])
 
 
@@ -21,5 +21,5 @@ def instance():
     if whereis_exe('espeak'):
         return EspeakTextToSpeech()
     elif whereis_exe('flite'):
-        return FlitetextToSpeech()
+        return FliteTextToSpeech()
     return TTS()
