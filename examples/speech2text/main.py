@@ -1,7 +1,6 @@
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
-from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
 from plyer import stt
