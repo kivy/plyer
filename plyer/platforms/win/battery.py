@@ -13,7 +13,7 @@ class WinBattery(Battery):
 
     def _get_state(self):
         CHARGING = 8
-        NO_SYS_BATTERY = 128
+        NO_BATTERY = 128
         UNKNOWN_STATUS = 255
         status = {"isCharging": None, "percentage": None}
 
@@ -23,7 +23,7 @@ class WinBattery(Battery):
             return status
 
         status["isCharging"] = (query["BatteryFlag"] != UNKNOWN_STATUS) and \
-                               (query["BatteryFlag"] & NO_SYS_BATTERY > 0) and \
+                               (query["BatteryFlag"] & NO_BATTERY > 0) and \
                                (query["BatteryFlag"] & CHARGING > 0)
         status["percentage"] = query["BatteryLifePercent"]
 
