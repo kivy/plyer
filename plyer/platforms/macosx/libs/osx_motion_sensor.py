@@ -99,7 +99,7 @@ def read_sms():
         structureInSize = IOItemCount(sizeof(data_structure))
         structureOutSize = IOItemCount(sizeof(data_structure))
 
-        result = IOConnectMethodStructureIStructureO(
+        result = IOKit.IOConnectMethodStructureIStructureO(
             dataPort, KERN_FUNC,
             structureInSize, ctypes.byref(structureOutSize),
             ctypes.byref(inStructure), ctypes.byref(outStructure)
