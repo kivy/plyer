@@ -58,7 +58,7 @@ def instance():
     Instance for facade proxy.
     '''
     try:
-        import dbus  # pylint: disable=unused-variable,unused-import
+        import dbus  # noqa: F401
         return NotifyDbus()
     except ImportError:
         msg = ("The Python dbus package is not installed.\n"
