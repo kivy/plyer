@@ -12,8 +12,7 @@ class WinBattery(Battery):
     '''
 
     def _get_state(self):
-        
-        # Flags values 
+        # Flags values
         CHARGING = 8
         NO_SYSTEM_BATTERY = 128
         UNKNOWN_STATUS = 255
