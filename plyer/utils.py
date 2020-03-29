@@ -3,8 +3,6 @@ Utils
 =====
 
 '''
-# pylint: disable=useless-object-inheritance
-
 __all__ = ('platform', 'reify', 'deprecated')
 
 from os import environ
@@ -53,7 +51,6 @@ class Platform(object):
         # On android, _sys_platform return 'linux2', so prefer to check the
         # import of Android module than trying to rely on _sys_platform.
 
-        # pylint: disable=no-else-return
         if self._platform_android is True:
             return 'android'
         elif self._platform_ios is True:
@@ -67,7 +64,7 @@ class Platform(object):
         return 'unknown'
 
 
-platform = Platform()  # pylint: disable=invalid-name
+platform = Platform()
 
 
 class Proxy(object):
@@ -152,7 +149,6 @@ def whereis_exe(program):
 
 
 class reify(object):
-    # pylint: disable=too-few-public-methods,invalid-name
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
     in the instance dict after the first call, effectively replacing the
@@ -247,8 +243,6 @@ def deprecated(obj):
             Custom metaclass instance's __new__ method with deprecated warning.
             Calls the original __new__ method afterwards.
             '''
-            # pylint: disable=unused-argument
-
             # get the previous stack frame and extract file, line and caller
             # stack() -> caller()
             call_file, call_line, caller = stack()[1][1:4]
