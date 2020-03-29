@@ -35,7 +35,7 @@ class UniqueID(object):
     '''
 
     @property
-    def id(self):  # pylint: disable=invalid-name
+    def id(self):
         '''
         Property that returns the unique id of the platform.
         '''
