@@ -19,7 +19,6 @@ __version__ = '2.0.0.dev0'
 from plyer import facades
 from plyer.utils import Proxy
 
-# pylint: disable=invalid-name
 #: Accelerometer proxy to :class:`plyer.facades.Accelerometer`
 accelerometer = Proxy('accelerometer', facades.Accelerometer)
 
