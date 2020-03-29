@@ -19,7 +19,6 @@ ERROR_INSUFFICIENT_BUFFER = 0x0000007A
 
 
 class CacheType(object):
-    # pylint: disable=too-few-public-methods
     '''
     Win API PROCESSOR_CACHE_TYPE enum.
     '''
@@ -31,7 +30,6 @@ class CacheType(object):
 
 
 class RelationshipType(object):
-    # pylint: disable=too-few-public-methods
     '''
     Win API LOGICAL_PROCESSOR_RELATIONSHIP enum.
     '''
@@ -45,7 +43,6 @@ class RelationshipType(object):
 
 
 class CacheDescriptor(Structure):
-    # pylint: disable=too-few-public-methods
     '''
     Win API CACHE_DESCRIPTOR struct.
     '''
@@ -60,7 +57,6 @@ class CacheDescriptor(Structure):
 
 
 class ProcessorCore(Structure):
-    # pylint: disable=too-few-public-methods
     '''
     Win API ProcessorCore struct.
     '''
@@ -69,7 +65,6 @@ class ProcessorCore(Structure):
 
 
 class NumaNode(Structure):
-    # pylint: disable=too-few-public-methods
     '''
     Win API NumaNode struct.
     '''
@@ -78,7 +73,6 @@ class NumaNode(Structure):
 
 
 class SystemLPIUnion(Union):
-    # pylint: disable=too-few-public-methods
     '''
     Win API SYSTEM_LOGICAL_PROCESSOR_INFORMATION union without name.
     '''
@@ -92,7 +86,6 @@ class SystemLPIUnion(Union):
 
 
 class SystemLPI(Structure):
-    # pylint: disable=too-few-public-methods
     '''
     Win API SYSTEM_LOGICAL_PROCESSOR_INFORMATION struct.
     '''
