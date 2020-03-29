@@ -324,7 +324,6 @@ class TestBattery(unittest.TestCase):
         '''
 
         def false(*args, **kwargs):
-            # pylint: disable=unused-argument
             return False
 
         sysclass = MockedKernelSysclass()
