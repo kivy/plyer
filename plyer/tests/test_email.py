@@ -38,7 +38,7 @@ class TestEmail(unittest.TestCase):
                     text='text'
                 )
             startfile.assert_called_once_with(test_mailto)
-        except WindowsError:  # pylint: disable=undefined-variable
+        except WindowsError:
             # if WE is raised, email client isn't found,
             # but the platform code works correctly
             print('Mail client not found!')
