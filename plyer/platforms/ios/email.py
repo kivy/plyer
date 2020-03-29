@@ -8,8 +8,8 @@ except ImportError:
     from urllib import quote
 
 from plyer.facades import Email
-from pyobjus import autoclass, objc_str  # pylint: disable=import-error
-from pyobjus.dylib_manager import load_framework  # pylint:disable=import-error
+from pyobjus import autoclass, objc_str
+from pyobjus.dylib_manager import load_framework
 
 load_framework('/System/Library/Frameworks/UIKit.framework')
 
@@ -19,7 +19,6 @@ UIApplication = autoclass('UIApplication')
 
 
 class IOSEmail(Email):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of iOS battery API.
     '''
