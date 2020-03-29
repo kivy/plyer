@@ -12,7 +12,6 @@ from plyer.utils import whereis_exe
 
 
 class LinuxEmail(Email):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Linux email API.
     '''
