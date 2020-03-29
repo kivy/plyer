@@ -47,7 +47,7 @@ class MacFileChooser(object):
             setattr(self, i, kwargs[i])
 
     @staticmethod
-    def _handle_selection(selection):  # pylint: disable=method-hidden
+    def _handle_selection(selection):
         '''
         Dummy placeholder for returning selection from chooser.
         '''
