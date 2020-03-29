@@ -18,7 +18,6 @@ def battery_status():
     if not win_api_defs.GetSystemPowerStatus(ctypes.pointer(status)):
         raise Exception('Could not get system power status.')
 
-    # pylint: disable=protected-access
     return dict(
         (field, getattr(status, field))
         for field, _ in status._fields_
