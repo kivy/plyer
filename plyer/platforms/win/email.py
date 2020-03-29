@@ -11,7 +11,6 @@ from plyer.facades import Email
 
 
 class WindowsEmail(Email):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Windows email API.
     '''
@@ -35,8 +34,8 @@ class WindowsEmail(Email):
 
         # WE + startfile are available only on Windows
         try:
-            os.startfile(uri)  # pylint: disable=no-member
-        except WindowsError:  # pylint: disable=undefined-variable
+            os.startfile(uri)
+        except WindowsError:
             print("Warning: unable to find a program able to send emails.")
 
 
