@@ -138,11 +138,10 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):  # pylint: disable=useless-object-inheritance
+        class Class(object):
             '''
             Dummy class with deprecated method method.
             '''
-            # pylint: disable=too-few-public-methods
             def __init__(self, *args, **kwargs):
                 self.args = args
                 self.kwargs = kwargs
@@ -185,11 +184,10 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):  # pylint: disable=useless-object-inheritance
+        class Class(object):
             '''
             Dummy class with deprecated static method.
             '''
-            # pylint: disable=too-few-public-methods
             args = None
             kwargs = None
 
@@ -234,11 +232,10 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):  # pylint: disable=useless-object-inheritance
+        class Class(object):
             '''
             Dummy class with deprecated static method.
             '''
-            # pylint: disable=too-few-public-methods
             args = None
             kwargs = None
 
@@ -287,11 +284,10 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):  # pylint: disable=useless-object-inheritance
+        class Class(object):
             '''
             Dummy class with deprecated class method.
             '''
-            # pylint: disable=too-few-public-methods
             args = None
             kwargs = None
 
@@ -329,12 +325,11 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        @deprecated  # pylint: disable=useless-object-inheritance
+        @deprecated
         class Class(object):
             '''
             Dummy deprecated class.
             '''
-            # pylint: disable=too-few-public-methods
             def __init__(self, *args, **kwargs):
                 self.args = args
                 self.kwargs = kwargs
@@ -373,12 +368,11 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        @deprecated  # pylint: disable=useless-object-inheritance
+        @deprecated
         class Class(object):
             '''
             Dummy deprecated class.
             '''
-            # pylint: disable=too-few-public-methods
             def __init__(self, *args, **kwargs):
                 self.args = args
                 self.kwargs = kwargs
@@ -387,7 +381,6 @@ class TestUtils(unittest.TestCase):
             '''
             Dummy class inheriting from a dummy deprecated class.
             '''
-            # pylint: disable=too-few-public-methods
             def __init__(self, *args, **kwargs):
                 super(Inherited, self).__init__(*args, **kwargs)
                 self.args = args
