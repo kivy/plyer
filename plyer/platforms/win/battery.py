@@ -4,6 +4,7 @@ Module of Windows API for plyer.battery.
 
 from plyer.platforms.win.libs.batterystatus import battery_status
 from plyer.facades import Battery
+from ctypes.wintypes import BYTE
 
 
 class WinBattery(Battery):
@@ -12,8 +13,8 @@ class WinBattery(Battery):
     '''
 
     def _get_state(self):
-        CHARGING = 8
-        UNKNOWN_STATUS = -1
+        CHARGING = BYTE(8).value
+        UNKNOWN_STATUS = BYTE(255).value
         status = {"isCharging": None, "percentage": None}
 
         query = battery_status()
