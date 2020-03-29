@@ -2,8 +2,8 @@
 Module of iOS API for plyer.uniqueid.
 '''
 
-from pyobjus import autoclass  # pylint: disable=import-error
-from pyobjus.dylib_manager import load_framework  # pylint:disable=import-error
+from pyobjus import autoclass
+from pyobjus.dylib_manager import load_framework
 from plyer.facades import UniqueID
 
 load_framework('/System/Library/Frameworks/UIKit.framework')
