@@ -14,7 +14,6 @@ from plyer.utils import whereis_exe
 
 
 class MacOSXEmail(Email):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of MacOS email API.
     '''
