@@ -3,10 +3,10 @@ Module of Windows API for plyer.uniqueid.
 '''
 
 try:
-    import _winreg as regedit  # pylint: disable=import-error
+    import _winreg as regedit
 except ImportError:
     try:
-        import winreg as regedit  # pylint: disable=import-error
+        import winreg as regedit
     except ImportError:
         raise NotImplementedError()
 
