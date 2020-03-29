@@ -88,7 +88,7 @@ class AndroidFileChooser(FileChooser):
         activity.bind(on_activity_result=self._on_activity_result)
 
     @staticmethod
-    def _handle_selection(selection):  # pylint: disable=method-hidden
+    def _handle_selection(selection):
         '''
         Dummy placeholder for returning selection from
         ``android.app.Activity.onActivityResult()``.
@@ -338,7 +338,7 @@ class AndroidFileChooser(FileChooser):
         return path
 
     @staticmethod
-    def _parse_content(  # pylint: disable=too-many-arguments
+    def _parse_content(
             uri, projection, selection, selection_args, sort_order,
             index_all=False
     ):
