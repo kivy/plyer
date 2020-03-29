@@ -5,8 +5,24 @@ https://msdn.microsoft.com/en-us/library/windows/desktop \
 /ms705945%28v=vs.85%29.aspx
 '''
 
-from ctypes import *
-from ctypes.wintypes import *
+from ctypes import (
+    POINTER,
+    FormatError,
+    Structure,
+    addressof,
+    byref,
+    c_bool,
+    c_char,
+    c_ubyte,
+    c_uint,
+    c_ulong,
+    c_ushort,
+    c_void_p,
+    c_wchar,
+    pointer,
+    windll,
+)
+from ctypes.wintypes import DWORD, HANDLE, LPCWSTR, ULONG
 from sys import exit as sys_exit
 from plyer.compat import PY2, xrange
 
@@ -283,9 +299,9 @@ def _connect(network, parameters):
     wcp.wlanConnectionMode = WLAN_CONNECTION_MODE(connection_mode)
 
     if connection_mode == 0 or connection_mode == 1:
-        wcp.strProfile = LPCWSTR(connection_params["profile"])
+        wcp.strProfile = LPCWSTR(parameters["profile"])
     else:
-        cnxp.strProfile = None
+        wcp.strProfile = None
 
     dot11Ssid = DOT11_SSID()
     try:
@@ -303,7 +319,7 @@ def _connect(network, parameters):
     dot11bssid.uTotalNumOfEntries = bssid['uTotalNumOfEntries']
     dot11bssid.BSSIDs = bssid['BSSIDs']
 
-    wcp.pDesiredBssidList = pointer(bssidList)
+    wcp.pDesiredBssidList = pointer(dot11bssid)
 
     bssType = parameters["bssType"]
     wcp.dot11BssType = DOT11_BSS_TYPE(bssType)

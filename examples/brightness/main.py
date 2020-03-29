@@ -1,10 +1,7 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.slider import Slider
 from kivy.lang import Builder
 from plyer import brightness
-from kivy.uix.button import Button
-from kivy.properties import NumericProperty
 
 Builder.load_string('''
 <BrightnessInterface>:

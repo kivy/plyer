@@ -95,7 +95,7 @@ class Proxy(object):
                 platform, name)
             mod = __import__(module, fromlist='.')
             obj = mod.instance()
-        except:  # pylint: disable=bare-except
+        except Exception:
             import traceback
             traceback.print_exc()
             facade = object.__getattribute__(self, '_facade')

@@ -9,6 +9,13 @@ from subprocess import Popen, PIPE, call
 from plyer.facades import Wifi
 from plyer.utils import whereis_exe, deprecated
 
+try:
+    import wifi
+except ModuleNotFoundError as err:
+    raise ModuleNotFoundError(
+            "python-wifi not installed. try: `pip install --user wifi`."
+            ) from err
+
 
 class NMCLIWifi(Wifi):
     '''
@@ -364,7 +371,6 @@ class LinuxWifi(Wifi):
         if not interface:
             interface = self.interfaces[0]
 
-        import wifi
         if self._is_enabled():
             list_ = list(wifi.Cell.all(interface))
             for i in range(len(list_)):
@@ -417,7 +423,6 @@ class LinuxWifi(Wifi):
         if not interface:
             interface = self.interfaces[0]
 
-        import wifi
         result = None
         try:
             self._enable()
@@ -471,15 +476,7 @@ class LinuxWifi(Wifi):
 
 
 def instance():
-    import sys
-
     if whereis_exe('nmcli'):
         return NMCLIWifi()
 
-    try:
-        import wifi  # pylint: disable=unused-variable,unused-import
-    except ImportError:
-        sys.stderr.write("python-wifi not installed. try:"
-                         "`pip install --user wifi`.")
-        return Wifi()
     return LinuxWifi()

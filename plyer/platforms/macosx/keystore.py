@@ -1,7 +1,8 @@
 try:
     import keyring
 except ImportError:
-    raise NotImplemented()
+    raise NotImplementedError()
+
 from plyer.facades import Keystore
 
 

@@ -5,7 +5,6 @@ Storage Path Example.
 from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from plyer import storagepath
 
 Builder.load_string('''
 #: import storagepath plyer.storagepath

@@ -1,23 +1,20 @@
-'''
+"""
 Basic camera example
 Default picture is saved as
 /sdcard/org.test.cameraexample/enter_file_name_here.jpg
-'''
+"""
 
 from os import getcwd
 from os.path import exists
-from os.path import splitext
-
-import kivy
-kivy.require('1.8.0')
 
 from kivy.app import App
-from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
-from kivy.logger import Logger
+import kivy
 
 from plyer import camera
+
+kivy.require('1.8.0')
 
 
 class CameraDemo(FloatLayout):
@@ -28,7 +25,6 @@ class CameraDemo(FloatLayout):
 
     def do_capture(self):
         filepath = self.cwd + self.ids.filename_text.text
-        ext = splitext(filepath)[-1].lower()
 
         if(exists(filepath)):
             popup = MsgPopup("Picture with this name already exists!")
