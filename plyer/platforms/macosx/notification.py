@@ -4,19 +4,7 @@ Module of MacOS API for plyer.notification.
 
 from plyer.facades import Notification
 
-from pyobjus import (
-    autoclass, protocol, objc_str, ObjcBOOL
-)
-from pyobjus.dylib_manager import (  # pylint: disable=import-error
-    load_framework, INCLUDE
-)
-
-load_framework(INCLUDE.AppKit)
-load_framework(INCLUDE.Foundation)
-
-NSUserNotification = autoclass('NSUserNotification')
-NSUserNotificationCenter = autoclass('NSUserNotificationCenter')
-
+import os
 
 class OSXNotification(Notification):
     '''
@@ -27,24 +15,15 @@ class OSXNotification(Notification):
         title = kwargs.get('title', '')
         message = kwargs.get('message', '')
         app_name = kwargs.get('app_name', '')
+        sound_name = 'default'
         # app_icon, timeout, ticker are not supported (yet)
 
-        notification = NSUserNotification.alloc().init()
-        notification.setTitle_(objc_str(title))
-        notification.setSubtitle_(objc_str(app_name))
-        notification.setInformativeText_(objc_str(message))
+        title_text = f'with title "{title}"' if title != '' else ''
+        subtitle_text = f'subtitle "{app_name}"' if app_name != '' else ''
+        soundname_text = f'sound name "{sound_name}"'
 
-        usrnotifctr = NSUserNotificationCenter.defaultUserNotificationCenter()
-        usrnotifctr.setDelegate_(self)
-        usrnotifctr.deliverNotification_(notification)
-
-    @protocol('NSUserNotificationCenterDelegate')
-    def userNotificationCenter_shouldPresentNotification_(
-            self, center, notification):
-        # pylint: disable=invalid-name,missing-docstring
-        # pylint: disable=unused-argument,no-self-use
-        return ObjcBOOL(True)
-
+        notification_text = f'display notification "{message}" {title_text} {subtitle_text} {soundname_text}'
+        os.system(f"osascript -e '{notification_text}'")
 
 def instance():
     '''
