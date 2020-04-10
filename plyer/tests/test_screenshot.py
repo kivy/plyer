@@ -14,7 +14,6 @@ from os import mkdir, remove
 from os.path import join, expanduser, exists
 
 from mock import patch
-from plyer.compat import PY2
 from plyer.tests.common import PlatformTest, platform_import
 
 
@@ -88,10 +87,6 @@ class TestScreenshot(unittest.TestCase):
         '''
         Test mocked MacOS screencapture for plyer.screenshot.
         '''
-        if not PY2:
-            print('Can not run until PyOBJus works on Py3.')
-            return
-
         scr = platform_import(
             platform='macosx',
             module_name='screenshot',

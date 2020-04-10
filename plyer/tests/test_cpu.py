@@ -8,7 +8,6 @@ Tested platforms:
 * Linux - nproc
 '''
 
-import sys
 import unittest
 from os import environ
 from os.path import join
@@ -196,9 +195,7 @@ class TestCPU(unittest.TestCase):
         ).instance()
 
         stub = MockedProcinfo
-        py2_target = '__builtin__.open'
-        py3_target = 'builtins.open'
-        target = py3_target if sys.version_info.major == 3 else py2_target
+        target = 'builtins.open'
 
         with patch(target=target, new=stub):
             sb = stub()
@@ -231,9 +228,7 @@ class TestCPU(unittest.TestCase):
         ).instance()
 
         stub = MockedKernelCPU
-        py2_target = '__builtin__.open'
-        py3_target = 'builtins.open'
-        target = py3_target if sys.version_info.major == 3 else py2_target
+        target = 'builtins.open'
         sub_target = 'plyer.platforms.linux.cpu.listdir'
 
         with patch(target=target, new=stub):

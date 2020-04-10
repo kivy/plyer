@@ -1,7 +1,7 @@
 @echo off
 if "%STYLE%"=="1" (
     %PYTHON% -m pycodestyle "%cd%" ^
-        --exclude=pep8.py,compat.py,utils.py ^
+        --exclude=pep8.py,utils.py ^
         --ignore=E402,W503 ^
     && echo off > "%cd%\__init__.py" && echo on ^
     && %PYTHON% -m pylint ^

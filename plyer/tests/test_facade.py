@@ -103,9 +103,8 @@ class TestFacade(unittest.TestCase):
             )
 
             proxy_cls = plyer.utils.Proxy
-            py2_target = '__builtin__.__import__'
-            py3_target = 'builtins.__import__'
-            target = py3_target if sys.version_info.major == 3 else py2_target
+            target = 'builtins.__import__'
+
             with patch(target=target, return_value=stub_mod):
                 dummy = proxy_cls('dummy', stub_mod)
 
@@ -167,8 +166,7 @@ class TestFacade(unittest.TestCase):
                 # (has to be checked on the go!)
                 expected_bool = MockedProxy.expected_asserts.pop(0)
                 call_count = sys.stderr.write.call_count
-                # 4 calls for py2, 6 calls for py3 with traceback.print_exc
-                assert (call_count in (4, 6)) == expected_bool, call_count
+                assert (call_count == 6) == expected_bool, call_count
 
                 # return stderr to the original state
                 sys.stderr = sys.__stderr__
