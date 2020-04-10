@@ -1,7 +1,7 @@
 # coding=utf-8
 
 
-class SpatialOrientation(object):
+class SpatialOrientation:
     '''Spatial Orientation facade.
 
     Computes the device's orientation based on the rotation matrix.

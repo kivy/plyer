@@ -5,7 +5,6 @@ http://docs.microsoft.com/en-us/windows/desktop/Multimedia
 .. versionadded:: 1.4.0
 '''
 
-from __future__ import unicode_literals
 from os.path import join
 
 from ctypes import windll
@@ -152,7 +151,7 @@ def send_command(device, msg, flags, params):
     return params
 
 
-class WinRecorder(object):
+class WinRecorder:
     '''
     Generic wrapper for MCI_RECORD handling the filenames and device closing
     in the same approach like it is used for other platforms.
@@ -234,7 +233,7 @@ class WinRecorder(object):
         )
 
 
-class WinPlayer(object):
+class WinPlayer:
     '''
     Generic wrapper for MCI_PLAY handling the device closing.
 
@@ -304,7 +303,7 @@ class WinAudio(Audio):
             WinStoragePath().get_music_dir(),
             'audio.wav'
         )
-        super(WinAudio, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
         self._recorder = None
         self._player = None

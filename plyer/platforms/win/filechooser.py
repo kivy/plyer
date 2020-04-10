@@ -15,7 +15,7 @@ import pywintypes
 from os.path import dirname, splitext, join, isdir
 
 
-class Win32FileChooser(object):
+class Win32FileChooser:
     '''A native implementation of NativeFileChooser using the
     Win32 API on Windows.
 

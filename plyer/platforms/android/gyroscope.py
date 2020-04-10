@@ -16,7 +16,7 @@ class GyroscopeSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(GyroscopeSensorListener, self).__init__()
+        super().__init__()
         self.SensorManager = cast(
             'android.hardware.SensorManager',
             activity.getSystemService(Context.SENSOR_SERVICE)
@@ -50,7 +50,7 @@ class GyroUncalibratedSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(GyroUncalibratedSensorListener, self).__init__()
+        super().__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
@@ -78,7 +78,7 @@ class GyroUncalibratedSensorListener(PythonJavaClass):
 
 class AndroidGyroscope(Gyroscope):
     def __init__(self):
-        super(AndroidGyroscope, self).__init__()
+        super().__init__()
         self.bState = False
 
     def _enable(self):
@@ -112,7 +112,7 @@ class AndroidGyroscope(Gyroscope):
     def __del__(self):
         if(self.bState):
             self._disable()
-        super(self.__class__, self).__del__()
+        super().__del__()
 
 
 def instance():

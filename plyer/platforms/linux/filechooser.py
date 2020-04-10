@@ -10,7 +10,7 @@ import subprocess as sp
 import time
 
 
-class SubprocessFileChooser(object):
+class SubprocessFileChooser:
     '''A file chooser implementation that allows using
     subprocess back-ends.
     Normally you only need to override _gen_cmdline, executable,

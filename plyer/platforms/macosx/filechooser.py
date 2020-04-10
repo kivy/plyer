@@ -14,7 +14,7 @@ NSSavePanel = autoclass('NSSavePanel')
 NSOKButton = 1
 
 
-class MacFileChooser(object):
+class MacFileChooser:
     '''A native implementation of file chooser dialogs using Apple's API
     through pyobjus.
 

@@ -73,7 +73,7 @@ To retrieve results after the listening stopped::
 '''
 
 
-class STT(object):
+class STT:
     '''
     Speech to text facade.
     '''

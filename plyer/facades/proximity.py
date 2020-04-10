@@ -1,4 +1,4 @@
-class Proximity(object):
+class Proximity:
     '''Proximity facade.
 
     The proximity sensor is commonly used to determine distance whether

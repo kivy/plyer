@@ -33,7 +33,7 @@ Android, iOS, OS X, Linux
 '''
 
 
-class Accelerometer(object):
+class Accelerometer:
     '''
     Accelerometer facade.
     '''

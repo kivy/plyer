@@ -16,7 +16,7 @@ class MFUSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(MFUSensorListener, self).__init__()
+        super().__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
@@ -46,7 +46,7 @@ class MagneticFieldSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(MagneticFieldSensorListener, self).__init__()
+        super().__init__()
         self.SensorManager = cast(
             'android.hardware.SensorManager',
             activity.getSystemService(Context.SENSOR_SERVICE)
@@ -78,7 +78,7 @@ class MagneticFieldSensorListener(PythonJavaClass):
 
 class AndroidCompass(Compass):
     def __init__(self):
-        super(AndroidCompass, self).__init__()
+        super().__init__()
         self.bState = False
 
     def _enable(self):
@@ -112,7 +112,7 @@ class AndroidCompass(Compass):
     def __del__(self):
         if(self.bState):
             self._disable()
-        super(self.__class__, self).__del__()
+        super().__del__()
 
 
 def instance():

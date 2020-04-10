@@ -111,7 +111,7 @@ class Graph(Widget):
     _ticks_minory = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(Graph, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self._mesh = Mesh(mode='lines')
         self._mesh_rect = Mesh(mode='line_strip')
@@ -768,7 +768,7 @@ class MeshLinePlot(Plot):
     def __init__(self, **kwargs):
         self._color = Color(1, 1, 1, group='LinePlot%d' % id(self))
         self._mesh = Mesh(mode='line_strip', group='LinePlot%d' % id(self))
-        super(MeshLinePlot, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self._trigger = Clock.create_trigger(self._redraw)
         self.bind(_params=self._trigger, points=self._trigger)

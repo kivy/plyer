@@ -24,7 +24,7 @@ class IOSFileChooser(FileChooser):
     '''
 
     def __init__(self, *args, **kwargs):
-        super(IOSFileChooser, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._on_selection = None
 
     def _file_selection_dialog(self, *args, **kwargs):

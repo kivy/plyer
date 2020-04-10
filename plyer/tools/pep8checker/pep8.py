@@ -214,7 +214,7 @@ def trailing_whitespace(physical_line):
 
     Okay: spam(1)
     W291: spam(1)\s
-    W293: class Foo(object):\n    \n    bang = 12
+    W293: class Foo:\n    \n    bang = 12
     """
     physical_line = physical_line.rstrip('\n')    # chr(10), newline
     physical_line = physical_line.rstrip('\r')    # chr(13), carriage return
@@ -1155,7 +1155,7 @@ def find_checks(argument_name):
             yield name, codes, function, args
 
 
-class Checker(object):
+class Checker:
     """
     Load a Python source file, tokenize it, check coding style.
     """
@@ -1377,7 +1377,7 @@ class Checker(object):
         return self.report.get_file_results()
 
 
-class BaseReport(object):
+class BaseReport:
     """Collect the results of the checks."""
     print_filename = False
 
@@ -1475,7 +1475,7 @@ class StandardReport(BaseReport):
     """Collect and print the results of the checks."""
 
     def __init__(self, options):
-        super(StandardReport, self).__init__(options)
+        super().__init__(options)
         self._fmt = REPORT_FORMAT.get(options.format.lower(),
                                       options.format)
         self._repeat = options.repeat
@@ -1486,7 +1486,7 @@ class StandardReport(BaseReport):
         """
         Report an error, according to options.
         """
-        code = super(StandardReport, self).error(line_number, offset,
+        code = super().error(line_number, offset,
                                                  text, check)
         if code and (self.counters[code] == 1 or self._repeat):
             print((self._fmt % {
@@ -1510,13 +1510,13 @@ class DiffReport(StandardReport):
     """Collect and print the results for the changed lines only."""
 
     def __init__(self, options):
-        super(DiffReport, self).__init__(options)
+        super().__init__(options)
         self._selected = options.selected_lines
 
     def error(self, line_number, offset, text, check):
         if line_number not in self._selected[self.filename]:
             return
-        return super(DiffReport, self).error(line_number, offset, text, check)
+        return super().error(line_number, offset, text, check)
 
 
 class TestReport(StandardReport):
@@ -1524,7 +1524,7 @@ class TestReport(StandardReport):
 
     def __init__(self, options):
         options.benchmark_keys += ['test cases', 'failed tests']
-        super(TestReport, self).__init__(options)
+        super().__init__(options)
         self._verbose = options.verbose
 
     def get_file_results(self):
@@ -1558,7 +1558,7 @@ class TestReport(StandardReport):
         print(("Test failed." if self.total_errors else "Test passed."))
 
 
-class StyleGuide(object):
+class StyleGuide:
     """Initialize a PEP-8 instance with few options."""
 
     def __init__(self, *args, **kwargs):

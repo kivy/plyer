@@ -26,7 +26,7 @@ To take screenshot::
 '''
 
 
-class Screenshot(object):
+class Screenshot:
     '''
     Screenshot facade.
     '''

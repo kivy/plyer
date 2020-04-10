@@ -29,7 +29,7 @@ Android, iOS, Windows, OS X, Linux
 '''
 
 
-class UniqueID(object):
+class UniqueID:
     '''
     UniqueID facade.
     '''

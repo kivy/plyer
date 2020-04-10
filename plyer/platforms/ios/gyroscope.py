@@ -17,7 +17,7 @@ device = UIDevice.currentDevice()
 class IosGyroscope(Gyroscope):
 
     def __init__(self):
-        super(IosGyroscope, self).__init__()
+        super().__init__()
         self.bridge = autoclass('bridge').alloc().init()
 
         if int(device.systemVersion.UTF8String().split('.')[0]) <= 4:

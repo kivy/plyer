@@ -14,7 +14,7 @@ class AccelerometerSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(AccelerometerSensorListener, self).__init__()
+        super().__init__()
         self.SensorManager = cast(
             'android.hardware.SensorManager',
             activity.getSystemService(Context.SENSOR_SERVICE)
@@ -46,7 +46,7 @@ class MagnetometerSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(MagnetometerSensorListener, self).__init__()
+        super().__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 

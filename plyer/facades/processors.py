@@ -14,7 +14,7 @@ Linux
 '''
 
 
-class Processors(object):
+class Processors:
     '''
     Number of Processors info facade.
     '''

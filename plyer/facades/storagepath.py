@@ -30,7 +30,7 @@ To get the path of directory holding application files::
 '''
 
 
-class StoragePath(object):
+class StoragePath:
     '''
     StoragePath facade.
     '''

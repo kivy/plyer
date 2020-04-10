@@ -10,7 +10,7 @@ from os import path
 from sys import platform as _sys_platform
 
 
-class Platform(object):
+class Platform:
     '''
     Refactored to class to allow module function to be replaced
     with module variable.
@@ -32,7 +32,7 @@ class Platform(object):
     def __repr__(self):
         return 'platform name: \'{platform}\' from: \n{instance}'.format(
             platform=self._get_platform(),
-            instance=super(Platform, self).__repr__()
+            instance=super().__repr__()
         )
 
     def __hash__(self):
@@ -67,7 +67,7 @@ class Platform(object):
 platform = Platform()
 
 
-class Proxy(object):
+class Proxy:
     '''
     Based on http://code.activestate.com/recipes/496741-object-proxying
     version by Tomer Filiba, PSF license.
@@ -148,7 +148,7 @@ def whereis_exe(program):
     return None
 
 
-class reify(object):
+class reify:
     '''
     Put the result of a method which uses this (non-data) descriptor decorator
     in the instance dict after the first call, effectively replacing the

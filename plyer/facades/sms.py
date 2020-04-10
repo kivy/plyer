@@ -28,7 +28,7 @@ Android, iOS
 '''
 
 
-class Sms(object):
+class Sms:
     '''
     Sms facade.
     '''

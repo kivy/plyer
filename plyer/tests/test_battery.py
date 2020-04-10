@@ -9,7 +9,6 @@ Tested platforms:
 * macOS - ioreg
 '''
 
-from __future__ import unicode_literals
 import unittest
 from io import BytesIO
 from os.path import join
@@ -19,7 +18,7 @@ from mock import patch, Mock
 from plyer.tests.common import PlatformTest, platform_import
 
 
-class MockedKernelSysclass(object):
+class MockedKernelSysclass:
     '''
     Mocked object used instead of Linux's sysclass for power_supply
     battery uevent.
@@ -88,7 +87,7 @@ class MockedKernelSysclass(object):
         )).encode('utf-8'))
 
 
-class MockedUPower(object):
+class MockedUPower:
     '''
     Mocked object used instead of 'upower' binary in the Linux specific API
     plyer.platforms.linux.battery. The same output structure is tested for
@@ -196,7 +195,7 @@ class MockedUPower(object):
         return float(percentage.replace(',', '.'))
 
 
-class MockedIOReg(object):
+class MockedIOReg:
     '''
     Mocked object used instead of Apple's ioreg.
     '''

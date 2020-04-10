@@ -27,7 +27,7 @@ class NMCLIWifi(Wifi):
         .. versionadded:: 1.4.0
         '''
 
-        super(NMCLIWifi, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.names = {}
 
     @property
@@ -292,7 +292,7 @@ class LinuxWifi(Wifi):
         .. versionadded:: 1.4.0
         '''
 
-        super(LinuxWifi, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.names = {}
 
     @property

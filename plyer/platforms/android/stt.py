@@ -29,7 +29,7 @@ class SpeechListener(PythonJavaClass):
     _volume_callback = None
 
     def __init__(self):
-        super(SpeechListener, self).__init__()
+        super().__init__()
 
         # overwrite class variables in the object
         self._error_callback = None

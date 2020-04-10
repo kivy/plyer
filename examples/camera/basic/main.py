@@ -19,7 +19,7 @@ kivy.require('1.8.0')
 
 class CameraDemo(FloatLayout):
     def __init__(self):
-        super(CameraDemo, self).__init__()
+        super().__init__()
         self.cwd = getcwd() + "/"
         self.ids.path_label.text = self.cwd
 
@@ -50,7 +50,7 @@ class CameraDemo(FloatLayout):
 
 class CameraDemoApp(App):
     def __init__(self):
-        super(CameraDemoApp, self).__init__()
+        super().__init__()
         self.demo = None
 
     def build(self):
@@ -66,7 +66,7 @@ class CameraDemoApp(App):
 
 class MsgPopup(Popup):
     def __init__(self, msg):
-        super(MsgPopup, self).__init__()
+        super().__init__()
         self.ids.message_label.text = msg
 
 

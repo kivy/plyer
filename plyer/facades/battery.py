@@ -23,7 +23,7 @@ Android, iOS, Windows, OS X, Linux
 '''
 
 
-class Battery(object):
+class Battery:
     '''
     Battery info facade.
     '''

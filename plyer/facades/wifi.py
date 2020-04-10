@@ -82,7 +82,7 @@ This disable wifi device
 '''
 
 
-class Wifi(object):
+class Wifi:
     '''
     Wifi Facade.
     '''

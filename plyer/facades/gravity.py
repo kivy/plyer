@@ -1,4 +1,4 @@
-class Gravity(object):
+class Gravity:
     '''Gravity facade.
 
     .. versionadded:: 1.2.5

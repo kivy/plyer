@@ -16,7 +16,7 @@ class IOSBattery(Battery):
     '''
 
     def __init__(self):
-        super(IOSBattery, self).__init__()
+        super().__init__()
         self.device = UIDevice.currentDevice()
 
     def _get_state(self):

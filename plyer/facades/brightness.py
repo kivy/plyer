@@ -27,7 +27,7 @@ Android, iOS, Linux
 '''
 
 
-class Brightness(object):
+class Brightness:
     '''
     Brightness facade.
     '''

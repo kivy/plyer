@@ -2,7 +2,6 @@
 Example of an Android filechooser.
 '''
 
-from __future__ import unicode_literals
 from textwrap import dedent
 
 from plyer import filechooser

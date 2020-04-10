@@ -40,7 +40,7 @@ Notification with custom icon::
 '''
 
 
-class Notification(object):
+class Notification:
     '''
     Notification facade.
     '''

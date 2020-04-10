@@ -1,4 +1,4 @@
-class Humidity(object):
+class Humidity:
     '''Humidity facade.
        Humidity sensor returns value of humidity.
        With method `enable` you can turn on Humidity sensor and

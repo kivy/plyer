@@ -7,14 +7,13 @@ Tested platforms:
 * macOS - system_profiler
 '''
 
-from __future__ import unicode_literals
 import unittest
 
 from plyer.tests.common import platform_import
 from textwrap import dedent
 
 
-class MockedSystemProfiler(object):
+class MockedSystemProfiler:
     '''
     Mocked object used instead of Apple's system_profiler
     '''

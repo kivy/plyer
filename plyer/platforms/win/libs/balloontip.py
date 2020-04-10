@@ -37,7 +37,7 @@ NIIF_USER = 4
 NIIF_LARGE_ICON = 0x20
 
 
-class WindowsBalloonTip(object):
+class WindowsBalloonTip:
     '''
     Implementation of balloon tip notifications through Windows API.
 

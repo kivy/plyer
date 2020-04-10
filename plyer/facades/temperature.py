@@ -1,7 +1,7 @@
 # coding=utf-8
 
 
-class Temperature(object):
+class Temperature:
     '''Temperature facade.
 
     Temperature sensor is used to measure the ambient room temperature in

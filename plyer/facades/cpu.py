@@ -24,7 +24,7 @@ Windows
 '''
 
 
-class CPU(object):
+class CPU:
     '''
     Facade providing info about sockets, physical and logical
     number of processors.

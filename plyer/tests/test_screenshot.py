@@ -17,7 +17,7 @@ from mock import patch
 from plyer.tests.common import PlatformTest, platform_import
 
 
-class MockedScreenCapture(object):
+class MockedScreenCapture:
     '''
     Mocked object used instead of the console-like calling
     of screencapture binary with parameters.
@@ -44,7 +44,7 @@ class MockedScreenCapture(object):
             scr.write('')
 
 
-class MockedXWD(object):
+class MockedXWD:
     '''
     Mocked object used instead of the console-like calling
     of X11 xwd binary with parameters.

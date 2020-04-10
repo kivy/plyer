@@ -22,7 +22,7 @@ Android, OS X
 '''
 
 
-class Bluetooth(object):
+class Bluetooth:
     '''
     Bluetooth facade.
     '''

@@ -20,7 +20,7 @@ Android, iOS, Windows, OS X, Linux
 '''
 
 
-class TTS(object):
+class TTS:
     '''
     TextToSpeech facade.
     '''

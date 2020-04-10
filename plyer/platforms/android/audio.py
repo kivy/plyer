@@ -21,7 +21,7 @@ class AndroidAudio(Audio):
 
     def __init__(self, file_path=None):
         default_path = '/sdcard/testrecorder.3gp'
-        super(AndroidAudio, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
         self._recorder = None
         self._player = None

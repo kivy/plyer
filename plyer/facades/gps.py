@@ -45,7 +45,7 @@ Android, iOS
 '''
 
 
-class GPS(object):
+class GPS:
     '''
     GPS facade.
     '''

@@ -42,7 +42,7 @@ Android, iOS
 '''
 
 
-class Camera(object):
+class Camera:
     '''
     Camera facade.
     '''

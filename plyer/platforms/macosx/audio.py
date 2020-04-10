@@ -23,7 +23,7 @@ class OSXAudio(Audio):
             OSXStoragePath().get_music_dir(),
             'audio.wav'
         )
-        super(OSXAudio, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
         self._recorder = None
         self._player = None

@@ -38,7 +38,7 @@ Use threads or you will stop the mainloop if your app has one.
 '''
 
 
-class FileChooser(object):
+class FileChooser:
     '''
     File Chooser facade.
     '''

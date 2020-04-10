@@ -38,7 +38,7 @@ Android, iOS
 '''
 
 
-class Flash(object):
+class Flash:
     """
     Flash facade.
     """

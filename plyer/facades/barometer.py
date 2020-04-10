@@ -1,4 +1,4 @@
-class Barometer(object):
+class Barometer:
     '''Barometer facade.
 
     Barometer sensor is used to measure the ambient air pressure in hPa.

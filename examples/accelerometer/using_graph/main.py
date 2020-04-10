@@ -20,7 +20,7 @@ kivy.require('1.8.0')
 
 class AccelerometerDemo(BoxLayout):
     def __init__(self):
-        super(AccelerometerDemo, self).__init__()
+        super().__init__()
 
         self.sensorEnabled = False
         self.graph = self.ids.graph_plot

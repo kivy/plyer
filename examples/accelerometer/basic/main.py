@@ -11,7 +11,7 @@ from plyer import accelerometer
 
 class AccelerometerTest(BoxLayout):
     def __init__(self):
-        super(AccelerometerTest, self).__init__()
+        super().__init__()
         self.sensorEnabled = False
 
     def do_toggle(self):

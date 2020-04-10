@@ -30,7 +30,7 @@ Android, iOS, Windows, OS X, Linux
 '''
 
 
-class Email(object):
+class Email:
     '''
     Email facade.
     '''
