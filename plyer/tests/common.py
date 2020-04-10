@@ -14,7 +14,7 @@ from os.path import normpath, splitdrive
 from plyer.utils import platform as plyer_platform
 
 
-class PlatformTest(object):
+class PlatformTest:
     '''
     Class for the @PlatformTest decorator to prevent running tests
     calling platform dependent API on different platforms.

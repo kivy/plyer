@@ -138,7 +138,7 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):
+        class Class:
             '''
             Dummy class with deprecated method method.
             '''
@@ -184,7 +184,7 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):
+        class Class:
             '''
             Dummy class with deprecated static method.
             '''
@@ -232,7 +232,7 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):
+        class Class:
             '''
             Dummy class with deprecated static method.
             '''
@@ -284,7 +284,7 @@ class TestUtils(unittest.TestCase):
 
         from plyer.utils import deprecated
 
-        class Class(object):
+        class Class:
             '''
             Dummy class with deprecated class method.
             '''
@@ -326,7 +326,7 @@ class TestUtils(unittest.TestCase):
         from plyer.utils import deprecated
 
         @deprecated
-        class Class(object):
+        class Class:
             '''
             Dummy deprecated class.
             '''
@@ -369,7 +369,7 @@ class TestUtils(unittest.TestCase):
         from plyer.utils import deprecated
 
         @deprecated
-        class Class(object):
+        class Class:
             '''
             Dummy deprecated class.
             '''
@@ -382,7 +382,7 @@ class TestUtils(unittest.TestCase):
             Dummy class inheriting from a dummy deprecated class.
             '''
             def __init__(self, *args, **kwargs):
-                super(Inherited, self).__init__(*args, **kwargs)
+                super().__init__(*args, **kwargs)
                 self.args = args
                 self.kwargs = kwargs
 

@@ -17,7 +17,7 @@ class _LocationListener(PythonJavaClass):
 
     def __init__(self, root):
         self.root = root
-        super(_LocationListener, self).__init__()
+        super().__init__()
 
     @java_method('(Landroid/location/Location;)V')
     def onLocationChanged(self, location):

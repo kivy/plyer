@@ -106,7 +106,7 @@ class WifiInterface(BoxLayout):
         for name in wifi_scans:
             content = ""
             items = wifi._get_network_info(name)
-            for key, value in items.iteritems():
+            for key, value in items.items():
                 content += "{}:    {} \n".format(key, value)
 
             popup = self._create_popup(name, content)

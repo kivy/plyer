@@ -11,7 +11,7 @@ class OSXScreenshot(Screenshot):
             OSXStoragePath().get_pictures_dir().replace('file://', ''),
             'screenshot.png'
         )
-        super(OSXScreenshot, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
     def _capture(self):
         subprocess.call([

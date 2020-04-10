@@ -10,7 +10,7 @@ from pyobjus import autoclass
 class IosCompass(Compass):
 
     def __init__(self):
-        super(IosCompass, self).__init__()
+        super().__init__()
         self.bridge = autoclass('bridge').alloc().init()
         self.bridge.motionManager.setMagnetometerUpdateInterval_(0.1)
         self.bridge.motionManager.setDeviceMotionUpdateInterval_(0.1)

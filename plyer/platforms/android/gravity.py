@@ -20,7 +20,7 @@ class GravitySensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(GravitySensorListener, self).__init__()
+        super().__init__()
 
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
@@ -53,7 +53,7 @@ class GravitySensorListener(PythonJavaClass):
 class AndroidGravity(Gravity):
 
     def __init__(self):
-        super(AndroidGravity, self).__init__()
+        super().__init__()
         self.state = False
 
     def _enable(self):
@@ -77,7 +77,7 @@ class AndroidGravity(Gravity):
     def __del__(self):
         if self.state:
             self._disable()
-        super(self.__class__, self).__del__()
+        super().__del__()
 
 
 def instance():

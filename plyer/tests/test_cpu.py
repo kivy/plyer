@@ -17,7 +17,7 @@ from textwrap import dedent
 from plyer.tests.common import PlatformTest, platform_import, splitpath
 
 
-class MockedKernelCPU(object):
+class MockedKernelCPU:
     def __init__(self, *args, **kwargs):
         self.fname = args[0] if args else ''
         self.cpu_path = join('/sys', 'devices', 'system', 'cpu')
@@ -74,7 +74,7 @@ class MockedKernelCPU(object):
         }
 
 
-class MockedNProc(object):
+class MockedNProc:
     '''
     Mocked object used instead of 'nproc' binary in the Linux specific API
     plyer.platforms.linux.cpu. The same output structure is tested for
@@ -114,7 +114,7 @@ class MockedNProc(object):
         return int(MockedNProc.logical_cores)
 
 
-class MockedProcinfo(object):
+class MockedProcinfo:
     # docs:
     # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
     # /tree/arch/x86/kernel/cpu/proc.c

@@ -11,7 +11,7 @@ AVSpeechSynthesisVoice = autoclass('AVSpeechSynthesisVoice')
 
 class iOSTextToSpeech(TTS):
     def __init__(self):
-        super(iOSTextToSpeech, self).__init__()
+        super().__init__()
         self.synth = AVSpeechSynthesizer.alloc().init()
         self.voice = None
 

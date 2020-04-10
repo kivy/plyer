@@ -46,7 +46,7 @@ Android
 '''
 
 
-class Audio(object):
+class Audio:
     '''
     Audio facade.
     '''
@@ -55,7 +55,7 @@ class Audio(object):
     _file_path = ''
 
     def __init__(self, file_path=None):
-        super(Audio, self).__init__()
+        super().__init__()
         self._file_path = file_path or self._file_path
 
     def start(self):

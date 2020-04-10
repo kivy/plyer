@@ -57,7 +57,7 @@ def mock_platform_module(mod, platform, cls):
 
 
 # dummy pyjnius class to silence the import + config
-class DummyJnius(object):
+class DummyJnius:
     '''
     Mocked PyJNIus module.
     '''

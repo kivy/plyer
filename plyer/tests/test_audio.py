@@ -10,7 +10,6 @@ Tested platforms:
 .. versionadded:: 1.4.0
 '''
 
-from __future__ import unicode_literals
 import unittest
 import time
 

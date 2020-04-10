@@ -18,7 +18,7 @@ from mock import Mock, patch
 from plyer.tests.common import PlatformTest, platform_import
 
 
-class MockedNotifySend(object):
+class MockedNotifySend:
     '''
     Mocked object used instead of the console-like calling
     of notify-send binary with parameters.

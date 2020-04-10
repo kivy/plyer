@@ -41,7 +41,7 @@ Android, iOS
 '''
 
 
-class Gyroscope(object):
+class Gyroscope:
     '''
     Gyroscope facade.
 

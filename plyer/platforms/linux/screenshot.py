@@ -11,7 +11,7 @@ class LinuxScreenshot(Screenshot):
             LinuxStoragePath().get_pictures_dir(),
             'screenshot.xwd'
         )
-        super(LinuxScreenshot, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
     def _capture(self):
         # call xwd and redirect bytes from stdout to file

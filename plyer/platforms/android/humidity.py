@@ -16,7 +16,7 @@ class RelativeHumiditySensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(RelativeHumiditySensorListener, self).__init__()
+        super().__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 
@@ -44,7 +44,7 @@ class AmbientTemperatureSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(AmbientTemperatureSensorListener, self).__init__()
+        super().__init__()
         service = activity.getSystemService(Context.SENSOR_SERVICE)
         self.SensorManager = cast('android.hardware.SensorManager', service)
 

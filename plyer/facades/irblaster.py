@@ -34,7 +34,7 @@ Android
 '''
 
 
-class IrBlaster(object):
+class IrBlaster:
     '''
     Infrared blaster facade.
     '''

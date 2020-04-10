@@ -27,7 +27,7 @@ class WinScreenshot(Screenshot):
         default_path = join(
             WinStoragePath().get_pictures_dir(), 'screenshot.bmp'
         )
-        super(WinScreenshot, self).__init__(file_path or default_path)
+        super().__init__(file_path or default_path)
 
     def _set_dpi_aware(self, value):
         try:

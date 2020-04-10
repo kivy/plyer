@@ -10,7 +10,7 @@ from pyobjus import autoclass
 class iOSBarometer(Barometer):
 
     def __init__(self):
-        super(iOSBarometer, self).__init__()
+        super().__init__()
         self.bridge = autoclass('bridge').alloc().init()
 
     def _enable(self):

@@ -43,7 +43,6 @@ using that result will use an incorrect one i.e. the default value of
 .. versionadded:: 1.4.0
 '''
 
-from __future__ import unicode_literals
 from os.path import join, basename
 from random import randint
 
@@ -80,7 +79,7 @@ class AndroidFileChooser(FileChooser):
     selection = None
 
     def __init__(self, *args, **kwargs):
-        super(AndroidFileChooser, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.select_code = randint(123456, 654321)
         self.selection = None
 

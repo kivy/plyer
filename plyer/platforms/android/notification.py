@@ -15,7 +15,6 @@ Module of Android API for plyer.notification.
     Added option for custom big icon via `icon`.
 '''
 
-from __future__ import unicode_literals
 from android import python_act
 from android.runnable import run_on_ui_thread
 from jnius import autoclass, cast

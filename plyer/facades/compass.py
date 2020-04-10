@@ -37,7 +37,7 @@ Android, iOS
 '''
 
 
-class Compass(object):
+class Compass:
     '''Compass facade.
 
     .. versionadded:: 1.2.0

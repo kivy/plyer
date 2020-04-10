@@ -30,7 +30,7 @@ Android, iOS
 '''
 
 
-class Call(object):
+class Call:
     '''
     Call facade.
     '''

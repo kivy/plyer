@@ -35,7 +35,7 @@ Android
 '''
 
 
-class Orientation(object):
+class Orientation:
     '''
     Orientation facade.
     '''

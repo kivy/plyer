@@ -1,4 +1,4 @@
-class Keystore(object):
+class Keystore:
     '''
     Keyring facade
 

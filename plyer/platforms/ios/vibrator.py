@@ -15,7 +15,7 @@ class IosVibrator(Vibrator):
     '''
 
     def __init__(self):
-        super(IosVibrator, self).__init__()
+        super().__init__()
         try:
             self._func = ctypes.CDLL(None).AudioServicesPlaySystemSound
         except AttributeError:

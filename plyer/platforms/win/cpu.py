@@ -18,7 +18,7 @@ KERNEL = windll.kernel32
 ERROR_INSUFFICIENT_BUFFER = 0x0000007A
 
 
-class CacheType(object):
+class CacheType:
     '''
     Win API PROCESSOR_CACHE_TYPE enum.
     '''
@@ -29,7 +29,7 @@ class CacheType(object):
     trace = 3
 
 
-class RelationshipType(object):
+class RelationshipType:
     '''
     Win API LOGICAL_PROCESSOR_RELATIONSHIP enum.
     '''

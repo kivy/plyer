@@ -1,4 +1,4 @@
-class Light(object):
+class Light:
     '''Light facade.
 
     Light sensor measures the ambient light level(illumination) in lx.

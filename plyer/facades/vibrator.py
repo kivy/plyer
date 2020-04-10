@@ -38,7 +38,7 @@ Android, iOS
 '''
 
 
-class Vibrator(object):
+class Vibrator:
     '''
     Vibration facade.
     '''

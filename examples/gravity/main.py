@@ -41,7 +41,7 @@ Builder.load_string('''
 
 class GravityInterface(BoxLayout):
     def __init__(self):
-        super(GravityInterface, self).__init__()
+        super().__init__()
         self.sensorEnabled = False
 
     def do_toggle(self):
