@@ -15,7 +15,6 @@ from plyer.utils import platform as plyer_platform
 
 
 class PlatformTest(object):
-    # pylint: disable=too-few-public-methods
     '''
     Class for the @PlatformTest decorator to prevent running tests
     calling platform dependent API on different platforms.
@@ -36,7 +35,6 @@ class PlatformTest(object):
 
     @staticmethod
     def eat(*args, **kwargs):
-        # pylint: disable=unused-argument
         '''
         Simply eat all positional and keyword arguments
         and return None as an empty function.

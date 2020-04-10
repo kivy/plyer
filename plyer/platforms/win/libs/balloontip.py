@@ -81,7 +81,6 @@ class WindowsBalloonTip(object):
 
     def __init__(self, title, message, app_name, app_icon='',
                  timeout=10, **kwargs):
-        # pylint: disable=unused-argument,too-many-arguments
         '''
         The app_icon parameter, if given, is an .ICO file.
         '''

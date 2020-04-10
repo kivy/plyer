@@ -2,7 +2,7 @@
 Module of Android API for plyer.email.
 '''
 
-from jnius import autoclass, cast  # pylint: disable=no-name-in-module
+from jnius import autoclass, cast
 from plyer.facades import Email
 from plyer.platforms.android import activity
 
@@ -11,7 +11,6 @@ AndroidString = autoclass('java.lang.String')
 
 
 class AndroidEmail(Email):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Android email API.
     '''

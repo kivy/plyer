@@ -7,7 +7,7 @@ from plyer.facades import Notification
 from pyobjus import (
     autoclass, protocol, objc_str, ObjcBOOL
 )
-from pyobjus.dylib_manager import (  # pylint: disable=import-error
+from pyobjus.dylib_manager import (
     load_framework, INCLUDE
 )
 
@@ -41,8 +41,6 @@ class OSXNotification(Notification):
     @protocol('NSUserNotificationCenterDelegate')
     def userNotificationCenter_shouldPresentNotification_(
             self, center, notification):
-        # pylint: disable=invalid-name,missing-docstring
-        # pylint: disable=unused-argument,no-self-use
         return ObjcBOOL(True)
 
 

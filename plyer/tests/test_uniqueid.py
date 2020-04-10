@@ -30,12 +30,12 @@ class TestUniqueID(unittest.TestCase):
         Test Windows API for plyer.uniqueid.
         '''
         try:
-            from winreg import (  # pylint: disable=import-error
+            from winreg import (
                 HKEY_LOCAL_MACHINE as HKLM,
                 KEY_READ as READ, KEY_WOW64_64KEY as VIEW
             )
         except ImportError:
-            from _winreg import (  # pylint: disable=import-error
+            from _winreg import (
                 HKEY_LOCAL_MACHINE as HKLM,
                 KEY_READ as READ, KEY_WOW64_64KEY as VIEW
             )

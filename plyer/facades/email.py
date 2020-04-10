@@ -31,7 +31,6 @@ Android, iOS, Windows, OS X, Linux
 
 
 class Email(object):
-    # pylint: disable=too-few-public-methods
     '''
     Email facade.
     '''

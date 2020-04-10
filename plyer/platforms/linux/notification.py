@@ -9,7 +9,6 @@ from plyer.utils import whereis_exe
 
 
 class NotifySendNotification(Notification):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Linux notification API
     using notify-send binary.
@@ -21,14 +20,12 @@ class NotifySendNotification(Notification):
 
 
 class NotifyDbus(Notification):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Linux notification API
     using dbus library and dbus-python wrapper.
     '''
 
     def _notify(self, **kwargs):
-        # pylint: disable=too-many-locals
         summary = kwargs.get('title', "title")
         body = kwargs.get('message', "body")
         app_name = kwargs.get('app_name', '')
@@ -42,7 +39,7 @@ class NotifyDbus(Notification):
         _object_path = '/org/freedesktop/Notifications'
         _interface_name = _bus_name
 
-        import dbus  # pylint: disable=import-error
+        import dbus
         session_bus = dbus.SessionBus()
         obj = session_bus.get_object(_bus_name, _object_path)
         interface = dbus.Interface(obj, _interface_name)

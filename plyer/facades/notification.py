@@ -41,14 +41,12 @@ Notification with custom icon::
 
 
 class Notification(object):
-    # pylint: disable=too-few-public-methods
     '''
     Notification facade.
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
                timeout=10, ticker='', toast=False):
-        # pylint: disable=too-many-arguments
         '''
         Send a notification.
 

@@ -9,7 +9,6 @@ from plyer.platforms.win.libs.balloontip import balloon_tip
 
 
 class WindowsNotification(Notification):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Windows notification/balloon API.
     '''

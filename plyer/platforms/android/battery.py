@@ -2,7 +2,7 @@
 Module of Android API for plyer.battery.
 '''
 
-from jnius import autoclass, cast  # pylint: disable=no-name-in-module
+from jnius import autoclass, cast
 from plyer.platforms.android import activity
 from plyer.facades import Battery
 

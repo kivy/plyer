@@ -291,7 +291,7 @@ def _connect(network, parameters):
     '''
     Attempts to connect to a specific network.
     '''
-    global _dict  # pylint: disable=global-statement
+    global _dict
     wireless_interface = _dict[network]
 
     wcp = WLAN_CONNECTION_PARAMETERS()
@@ -403,8 +403,8 @@ def _start_scanning():
     '''
     Private method for scanning and returns the available devices.
     '''
-    global available  # pylint: disable=global-statement
-    global wireless_interfaces  # pylint: disable=global-statement
+    global available
+    global wireless_interfaces
     NegotiatedVersion = DWORD()
     ClientHandle = HANDLE()
 
@@ -481,8 +481,8 @@ def _get_network_info(name):
     '''
     returns the list of the network selected in a dict.
     '''
-    global available  # pylint: disable=global-statement
-    global _dict  # pylint: disable=global-statement
+    global available
+    global _dict
 
     net = _dict[name]
     dot11BssType = net.dot11BssType
@@ -506,8 +506,8 @@ def _make_dict():
     '''
     Prepares a dict so it could store network information.
     '''
-    global available  # pylint: disable=global-statement
-    global _dict  # pylint: disable=global-statement
+    global available
+    global _dict
     _dict = {}
     for network in available:
         # if bytes, dict['name'] throws an error on py3 if not b'name'
@@ -521,7 +521,7 @@ def _get_available_wifi():
     '''
     returns the available wifi networks.
     '''
-    global _dict  # pylint: disable=global-statement
+    global _dict
     return _dict
 
 

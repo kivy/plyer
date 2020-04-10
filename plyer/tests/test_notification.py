@@ -93,7 +93,6 @@ class TestNotification(unittest.TestCase):
         clsnames = []
 
         def fetch_class(hwnd, *args):
-            # pylint: disable=unused-argument
             '''
             EnumWindowsProc callback for EnumWindows.
             '''

@@ -35,7 +35,6 @@ BitmapFactory = autoclass('android.graphics.BitmapFactory')
 
 
 class AndroidNotification(Notification):
-    # pylint: disable=too-few-public-methods
     '''
     Implementation of Android notification API.
 

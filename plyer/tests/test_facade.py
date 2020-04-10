@@ -62,16 +62,13 @@ class DummyJnius(object):
     Mocked PyJNIus module.
     '''
 
-    # pylint: disable=too-few-public-methods
     def __init__(self, *args, **kwargs):
-        # pylint: disable=unused-argument
         class JavaClass:
             '''
             Mocked PyJNIus JavaClass object.
             '''
 
             def __init__(self):
-                # pylint: disable=invalid-name
                 self.ANDROID_VERSION = None
                 self.SDK_INT = 1
                 self.mActivity = None
@@ -138,7 +135,6 @@ class TestFacade(unittest.TestCase):
 
         # no 'unknown' platform (folder), fallback to facade
         class MockedProxy(plyer.utils.Proxy):
-            # pylint: disable=too-few-public-methods
             '''
             Partially mocked Proxy class, so that we pull the error
             from traceback.print_exc to the test and check the calls.
@@ -151,7 +147,6 @@ class TestFacade(unittest.TestCase):
             expected_asserts = [True, False, False]
 
             def _ensure_obj(inst):
-                # pylint: disable=no-self-argument
                 # called once, prints to stderr
 
                 # mock stderr because traceback.print_exc uses it
@@ -182,7 +177,6 @@ class TestFacade(unittest.TestCase):
         facade = Mock()
         dummy = proxy_cls('dummy', facade)
 
-        # pylint: disable=protected-access
         self.assertEqual(dummy._mock_new_parent, facade)
         plyer.utils.platform = _original
 

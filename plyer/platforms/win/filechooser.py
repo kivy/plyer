@@ -52,7 +52,7 @@ class Win32FileChooser(object):
             setattr(self, i, kwargs[i])
 
     @staticmethod
-    def _handle_selection(selection):  # pylint: disable=method-hidden
+    def _handle_selection(selection):
         '''
         Dummy placeholder for returning selection from chooser.
         '''
@@ -126,7 +126,7 @@ class Win32FileChooser(object):
                 BIF_EDITBOX = shellcon.BIF_EDITBOX
                 BIF_NEWDIALOGSTYLE = 0x00000040
                 # From http://goo.gl/UDqCqo
-                pidl, name, images = browse(  # pylint: disable=unused-variable
+                pidl, name, images = browse(
                     win32gui.GetDesktopWindow(),
                     None,
                     self.title if self.title else "Pick a folder...",
