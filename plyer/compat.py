@@ -5,7 +5,7 @@ Compatibility module for Python 2.7 and > 3.3
 # pylint: disable=invalid-name
 
 __all__ = ('PY2', 'string_types', 'queue', 'iterkeys',
-           'itervalues', 'iteritems', 'xrange')
+           'itervalues', 'iteritems')
 
 import sys
 try:
@@ -22,23 +22,16 @@ text_type = None
 if PY2:
     # pylint: disable=undefined-variable
     # built-in actually, so it is defined in globals() for py2
-    string_types = basestring
-    text_type = unicode
+    string_types = basestring  # noqa F821 undefined name 'basestring'
+    text_type = unicode  # noqa F821 undefined name 'unicode'
 else:
     string_types = text_type = str
 
 if PY2:
-    iterkeys = lambda d: d.iterkeys()
-    itervalues = lambda d: d.itervalues()
-    iteritems = lambda d: d.iteritems()
+    def iterkeys(d): return d.iterkeys()
+    def itervalues(d): return d.itervalues()
+    def iteritems(d): return d.iteritems()
 else:
-    iterkeys = lambda d: iter(d.keys())
-    itervalues = lambda d: iter(d.values())
-    iteritems = lambda d: iter(d.items())
-
-if PY2:
-    # pylint: disable=undefined-variable
-    # built-in actually, so it is defined in globals() for py2
-    xrange = xrange
-else:
-    xrange = range
+    def iterkeys(d): return iter(d.keys())
+    def itervalues(d): return iter(d.values())
+    def iteritems(d): return iter(d.items())

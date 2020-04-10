@@ -512,7 +512,7 @@ def _make_dict():
     for network in available:
         # if bytes, dict['name'] throws an error on py3 if not b'name'
         if PY2:
-            _dict[unicode(network.dot11Ssid.SSID)] = network
+            _dict[unicode(network.dot11Ssid.SSID)] = network  # noqa F821 undefined name 'unicode'
         else:
             _dict[network.dot11Ssid.SSID.decode('utf-8')] = network
 
