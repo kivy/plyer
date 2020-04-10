@@ -11,7 +11,6 @@ import time
 import ctypes
 from threading import RLock
 
-from plyer.compat import PY2
 from plyer.platforms.win.libs import win_api_defs
 
 
@@ -88,8 +87,6 @@ class WindowsBalloonTip(object):
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
         class_name = 'PlyerTaskbar' + str(WindowsBalloonTip._get_unique_id())
 
-        if PY2:
-            class_name = class_name.decode('utf8')
         wnd_class_ex.lpszClassName = class_name
 
         # keep ref to it as long as window is alive

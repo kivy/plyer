@@ -10,14 +10,12 @@ Tested platforms:
 '''
 
 from __future__ import unicode_literals
-import sys
 import unittest
 from io import BytesIO
 from os.path import join
 from textwrap import dedent
 from mock import patch, Mock
 
-from plyer.compat import text_type
 from plyer.tests.common import PlatformTest, platform_import
 
 
@@ -132,7 +130,7 @@ class MockedUPower(object):
         u'History (rate)': u'1530958556  7,474   discharging'
     }
 
-    data = text_type(
+    data = str(
         '  native-path:          {native-path}\n'
         '  vendor:               {vendor}\n'
         '  model:                {model}\n'
@@ -348,9 +346,7 @@ class TestBattery(unittest.TestCase):
             ).instance()
 
         stub = Mock(return_value=sysclass.uevent)
-        py2_target = '__builtin__.open'
-        py3_target = 'builtins.open'
-        target = py3_target if sys.version_info.major == 3 else py2_target
+        target = 'builtins.open'
 
         with patch(target=target, new=stub):
             self.assertEqual(

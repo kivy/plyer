@@ -24,7 +24,6 @@ from ctypes import (
 )
 from ctypes.wintypes import DWORD, HANDLE, LPCWSTR, ULONG
 from sys import exit as sys_exit
-from plyer.compat import PY2, xrange
 
 
 def customresize(array, new_size):
@@ -57,7 +56,7 @@ WLAN_INTERFACE_STATE = c_uint
  wlan_interface_state_associating,
  wlan_interface_state_discovering,
  wlan_interface_state_authenticating) = map(WLAN_INTERFACE_STATE,
-                                            xrange(0, 8))
+                                            range(0, 8))
 
 
 class WLAN_INTERFACE_INFO(Structure):
@@ -92,7 +91,7 @@ WLAN_REASON_CODE = DWORD
 DOT11_BSS_TYPE = c_uint
 (dot11_BSS_type_infrastructure,
  dot11_BSS_type_independent,
- dot11_BSS_type_any) = map(DOT11_BSS_TYPE, xrange(1, 4))
+ dot11_BSS_type_any) = map(DOT11_BSS_TYPE, range(1, 4))
 
 # The DOT11_PHY_TYPE enumeration defines an 802.11 PHY and media type.
 DOT11_PHY_TYPE = c_uint
@@ -153,7 +152,7 @@ WLAN_CONNECTION_MODE = c_uint
  wlan_connection_mode_discovery_secure,
  wlan_connection_mode_discovery_unsecure,
  wlan_connection_mode_auto,
- wlan_connection_mode_invalid) = map(WLAN_CONNECTION_MODE, xrange(0, 6))
+ wlan_connection_mode_invalid) = map(WLAN_CONNECTION_MODE, range(0, 6))
 
 
 class NDIS_OBJECT_HEADER(Structure):
@@ -510,11 +509,7 @@ def _make_dict():
     global _dict
     _dict = {}
     for network in available:
-        # if bytes, dict['name'] throws an error on py3 if not b'name'
-        if PY2:
-            _dict[unicode(network.dot11Ssid.SSID)] = network  # noqa F821 undefined name 'unicode'
-        else:
-            _dict[network.dot11Ssid.SSID.decode('utf-8')] = network
+        _dict[network.dot11Ssid.SSID.decode('utf-8')] = network
 
 
 def _get_available_wifi():

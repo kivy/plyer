@@ -6,7 +6,6 @@ from kivy.uix.boxlayout import BoxLayout
 
 from plyer import notification
 from plyer.utils import platform
-from plyer.compat import PY2
 
 kivy.require('1.8.0')
 
@@ -17,9 +16,6 @@ class NotificationDemo(BoxLayout):
         title = self.ids.notification_title.text
         message = self.ids.notification_text.text
         ticker = self.ids.ticker_text.text
-        if PY2:
-            title = title.decode('utf8')
-            message = message.decode('utf8')
         kwargs = {'title': title, 'message': message, 'ticker': ticker}
 
         if mode == 'fancy':

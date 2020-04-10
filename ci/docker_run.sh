@@ -3,16 +3,7 @@
 if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$DOCK" = "1" ]
 then
 
-    # run tests for Plyer in Python 2
-    if [ "$PY" = "2" ] && [ "$RUN" = "unit" ]
-    then
-        docker run \
-            --interactive \
-            --tty \
-            plyer:py2
-
-    # run tests for Plyer in Python 3
-    elif [ "$PY" = "3" ] && [ "$RUN" = "unit" ]
+    if [ "$RUN" = "unit" ]
     then
 
         # running coverage report (COVERALLS=1)
@@ -41,7 +32,7 @@ then
                 plyer:py3
         fi
 
-    elif [ "$PY" = "3" ] && [ "$RUN" = "style" ]
+    elif [ "$RUN" = "style" ]
     then
         docker run \
             --interactive \
