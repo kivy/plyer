@@ -56,8 +56,6 @@ class _LocationListener(PythonJavaClass):
 
 
 class AndroidGPS(GPS):
-
-    excluded_providers = []
     
     def _configure(self):
         if not hasattr(self, '_location_manager'):
