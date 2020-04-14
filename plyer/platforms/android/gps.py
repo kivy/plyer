@@ -27,7 +27,9 @@ class _LocationListener(PythonJavaClass):
             speed=location.getSpeed(),
             bearing=location.getBearing(),
             altitude=location.getAltitude(),
-            accuracy=location.getAccuracy())
+            accuracy=location.getAccuracy(),
+            provider=location.getProvider()
+            mock=location.isFromMockProvider())
 
     @java_method('(Ljava/lang/String;)V')
     def onProviderEnabled(self, status):
@@ -55,6 +57,8 @@ class _LocationListener(PythonJavaClass):
 
 class AndroidGPS(GPS):
 
+    excluded_providers = []
+    
     def _configure(self):
         if not hasattr(self, '_location_manager'):
             self._location_manager = activity.getSystemService(
@@ -66,9 +70,11 @@ class AndroidGPS(GPS):
         min_time = kwargs.get('minTime')
         min_distance = kwargs.get('minDistance')
         providers = self._location_manager.getProviders(False).toArray()
-        print('PROVIDERS -> ', providers, [type(provider) for provider in providers])
-        if 'gps' in providers and 'passive' in providers:
-            providers.remove('passive')
+        print('EXCLUDED PROVIDERS -> ', self.excluded_providers)
+#         if 'gps' in providers and 'passive' in providers:
+#             providers.remove('passive')
+        providers = [provider for provider in providers if provider not in self.excluded_providers)
+
         for provider in providers:
             self._location_manager.requestLocationUpdates(
                 provider,
