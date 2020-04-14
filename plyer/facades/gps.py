@@ -69,14 +69,14 @@ class GPS:
         self.on_status = on_status
         self._configure()
 
-    def start(self, minTime=1000, minDistance=1):
+    def start(self, minTime=1000, minDistance=1, excluded_providers=[]):
         '''
         Start the GPS location updates.
         Expects 2 parameters:
             minTime: milliseconds.  (float)
             minDistance: meters. (float)
         '''
-        self._start(minTime=minTime, minDistance=minDistance)
+        self._start(minTime=minTime, minDistance=minDistance, excluded_providers=excluded_providers)
 
     def stop(self):
         '''
