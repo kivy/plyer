@@ -1,89 +1,103 @@
 '''
-Android GPS
------------
+GPS
+====
+
+.. versionadded:: 1.1
+
+.. note::
+    On Android `INTERNET`, `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`
+    permissions are needed.
+
+
+.. note::
+    On iOS `NSLocationWhenInUseUsageDescription` key is required for app to
+    display geolocation usage permission prompt. Key can be added in Xcode
+    target `info` section or in ``Resources/<YourApp>-info.plist``.
+    App background mode (`on_pause`) also must be supported.
+
+You need to set a `on_location` callback with the :meth:`configure` method.
+This callback will receive a couple of keywords / values, that might be
+different depending of their availability on the targeted platform.
+Lat and lon are always available.
+
+- lat: latitude of the last location, in degrees
+- lon: longitude of the last location, in degrees
+- speed: speed of the user, in meters/second over ground
+- bearing: bearing in degrees
+- altitude: altitude in meters above the sea level
+
+Here is an example of the usage of gps::
+
+    from plyer import gps
+
+    def print_locations(**kwargs):
+        print 'lat: {lat}, lon: {lon}'.format(**kwargs)
+
+    gps.configure(on_location=print_locations)
+    gps.start()
+    # later
+    gps.stop()
+
+Supported Platforms
+-------------------
+Android, iOS
+
 '''
 
-from plyer.facades import GPS
-from plyer.platforms.android import activity
-from jnius import autoclass, java_method, PythonJavaClass
 
-Looper = autoclass('android.os.Looper')
-LocationManager = autoclass('android.location.LocationManager')
-Context = autoclass('android.content.Context')
+class GPS:
+    '''
+    GPS facade.
+    '''
 
+    def configure(self, on_location, on_status=None):
+        '''
+        Configure the GPS object. This method should be called before
+        :meth:`start`.
 
-class _LocationListener(PythonJavaClass):
-    __javainterfaces__ = ['android/location/LocationListener']
+        :param on_location: Function to call when receiving a new location
+        :param on_status: Function to call when a status message is received
+        :type on_location: callable, multiples keys/value will be passed.
+        :type on_status: callable, args are "message-type", "status"
 
-    def __init__(self, root):
-        self.root = root
-        super().__init__()
+        .. warning::
 
-    @java_method('(Landroid/location/Location;)V')
-    def onLocationChanged(self, location):
-        self.root.on_location(
-            lat=location.getLatitude(),
-            lon=location.getLongitude(),
-            speed=location.getSpeed(),
-            bearing=location.getBearing(),
-            altitude=location.getAltitude(),
-            accuracy=location.getAccuracy())
+            The `on_location` and `on_status` callables might be called from
+            another thread than the thread used for creating the GPS object.
+        '''
+        self.on_location = on_location
+        self.on_status = on_status
+        self._configure()
 
-    @java_method('(Ljava/lang/String;)V')
-    def onProviderEnabled(self, status):
-        if self.root.on_status:
-            self.root.on_status('provider-enabled', status)
+    def start(self, minTime=1000, minDistance=1, excluded_providers=None):
+        '''
+        Start the GPS location updates.
+        Expects 2 parameters:
+            minTime: milliseconds.  (float)
+            minDistance: meters. (float)
+        '''
+        self._start(minTime=minTime, minDistance=minDistance, excluded_providers=excluded_providers)
 
-    @java_method('(Ljava/lang/String;)V')
-    def onProviderDisabled(self, status):
-        if self.root.on_status:
-            self.root.on_status('provider-disabled', status)
+    def stop(self):
+        '''
+        Stop the GPS location updates.
+        '''
+        self._stop()
 
-    @java_method('(Ljava/lang/String;ILandroid/os/Bundle;)V')
-    def onStatusChanged(self, provider, status, extras):
-        if self.root.on_status:
-            s_status = 'unknown'
-            if status == 0x00:
-                s_status = 'out-of-service'
-            elif status == 0x01:
-                s_status = 'temporarily-unavailable'
-            elif status == 0x02:
-                s_status = 'available'
-            self.root.on_status('provider-status', '{}: {}'.format(
-                provider, s_status))
+    def get_available_providers(self):
+        return self._get_available_providers()
 
-
-class AndroidGPS(GPS):
+    # private
 
     def _configure(self):
-        if not hasattr(self, '_location_manager'):
-            self._location_manager = activity.getSystemService(
-                Context.LOCATION_SERVICE
-            )
-            self._location_listener = _LocationListener(self)
+        raise NotImplementedError()
 
     def _start(self, **kwargs):
-        min_time = kwargs.get('minTime')
-        min_distance = kwargs.get('minDistance')
-        providers = self._location_manager.getProviders(False).toArray()
-        excluded_providers = kwargs.get('excluded_providers')
-        print('EXCLUDED PROVIDERS -> ', excluded_providers)
-        #         if 'gps' in providers and 'passive' in providers:
-        #             providers.remove('passive')
-        if excluded_providers:
-            providers = [provider for provider in providers if provider not in excluded_providers]
-
-        for provider in providers:
-            self._location_manager.requestLocationUpdates(
-                provider,
-                min_time,  # minTime, in milliseconds
-                min_distance,  # minDistance, in meters
-                self._location_listener,
-                Looper.getMainLooper())
+        raise NotImplementedError()
 
     def _stop(self):
-        self._location_manager.removeUpdates(self._location_listener)
+        raise NotImplementedError()
 
+    def _get_available_providers(self):
+        raise NotImplementedError()
 
-def instance():
-    return AndroidGPS()
