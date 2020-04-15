@@ -30,7 +30,7 @@ class _LocationListener(PythonJavaClass):
             accuracy=location.getAccuracy(),
             provider=location.getProvider(),
             mock=location.isFromMockProvider(),
-            time=location.getElapsedRealtimeNanos()/1000000)
+            time=location.getElapsedRealtimeNanos()/1000000000)
 
     @java_method('(Ljava/lang/String;)V')
     def onProviderEnabled(self, status):
