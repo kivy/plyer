@@ -68,7 +68,7 @@ class AndroidGPS(GPS):
         min_time = kwargs.get('minTime')
         min_distance = kwargs.get('minDistance')
         available_providers = self._location_manager.getProviders(False).toArray()
-        excluded_providers = kwargs.get('excluded_providers')
+        excluded_providers = kwargs.get('excluded_providers', [])
         print('EXCLUDED PROVIDERS -> ', excluded_providers)
 #         if 'gps' in providers and 'passive' in providers:
 #             providers.remove('passive')
