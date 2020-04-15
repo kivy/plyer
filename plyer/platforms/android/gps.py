@@ -29,7 +29,8 @@ class _LocationListener(PythonJavaClass):
             altitude=location.getAltitude(),
             accuracy=location.getAccuracy(),
             provider=location.getProvider(),
-            mock=location.isFromMockProvider())
+            mock=location.isFromMockProvider(),
+            time=location.getElapsedRealtimeNanos()/1000000)
 
     @java_method('(Ljava/lang/String;)V')
     def onProviderEnabled(self, status):
@@ -69,9 +70,8 @@ class AndroidGPS(GPS):
         min_distance = kwargs.get('minDistance')
         providers = self.get_available_providers()
         excluded_providers = kwargs.get('excluded_providers')
-        print('EXCLUDED PROVIDERS -> ', excluded_providers)
-        #         if 'gps' in providers and 'passive' in providers:
-        #             providers.remove('passive')
+        #  if 'gps' in providers and 'passive' in providers:
+        #  providers.remove('passive')
         if excluded_providers:
             providers = [provider for provider in providers if provider not in excluded_providers]
 
