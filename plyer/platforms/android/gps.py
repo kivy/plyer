@@ -88,7 +88,7 @@ class AndroidGPS(GPS):
         if self._location_manager:
             return self._location_manager.getProviders(False).toArray()
         else:
-            return None
+            return []
 
 
 def instance():
