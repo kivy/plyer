@@ -31,7 +31,7 @@ class UniqueIDInterface(BoxLayout):
     '''Root Widget.'''
 
     uniqueid = ObjectProperty()
-    uid = StringProperty()
+    uid = ObjectProperty()
     text = StringProperty()
 
     if platform == "android":
