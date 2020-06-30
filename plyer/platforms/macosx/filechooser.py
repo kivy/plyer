@@ -85,14 +85,14 @@ class MacFileChooser:
                         pystr = f.strip().split("*")[-1].split(".")[-1]
                     filthies.append(objc_str(pystr))
                 else:
-                    for _ in f[1:]:
+                    for s in f[1:]:
                         if not self.use_extensions:
-                            if f.strip().endswith("*"):
+                            if s.strip().endswith("*"):
                                 continue
-                            pystr = f.strip().split("*")[-1].split(".")[-1]
+                            pystr = s.strip().split("*")[-1].split(".")[-1]
                         filthies.append(objc_str(pystr))
 
-            ftypes_arr = objc_arr(filthies)
+            ftypes_arr = objc_arr(*filthies)
             panel.setAllowedFileTypes_(ftypes_arr)
             panel.setAllowsOtherFileTypes_(not self.use_extensions)
 
