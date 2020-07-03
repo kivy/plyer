@@ -82,19 +82,10 @@ class AndroidFileChooser(FileChooser):
         super().__init__(*args, **kwargs)
         self.select_code = randint(123456, 654321)
         self.selection = None
+        self._handle_selection = None
 
         # bind a function for a response from filechooser activity
         activity.bind(on_activity_result=self._on_activity_result)
-
-    @staticmethod
-    def _handle_selection(selection):
-        '''
-        Dummy placeholder for returning selection from
-        ``android.app.Activity.onActivityResult()``.
-
-        .. versionadded:: 1.4.0
-        '''
-        return selection
 
     def _open_file(self, **kwargs):
         '''
@@ -103,13 +94,7 @@ class AndroidFileChooser(FileChooser):
 
         .. versionadded:: 1.4.0
         '''
-
-        # set up selection handler
-        # startActivityForResult is async
-        # onActivityResult is sync
-        self._handle_selection = kwargs.pop(
-            'on_selection', self._handle_selection
-        )
+        self._handle_selection = kwargs.pop("on_selection")
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)

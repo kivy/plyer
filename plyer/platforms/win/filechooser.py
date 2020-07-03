@@ -43,20 +43,11 @@ class Win32FileChooser:
     show_hidden = False
 
     def __init__(self, *args, **kwargs):
-        self._handle_selection = kwargs.pop(
-            'on_selection', self._handle_selection
-        )
+        self._handle_selection = kwargs.pop("on_selection")
 
         # Simulate Kivy's behavior
         for i in kwargs:
             setattr(self, i, kwargs[i])
-
-    @staticmethod
-    def _handle_selection(selection):
-        '''
-        Dummy placeholder for returning selection from chooser.
-        '''
-        return selection
 
     def run(self):
         self.selection = []
