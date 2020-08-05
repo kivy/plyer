@@ -75,22 +75,17 @@ class MacFileChooser:
         # Mac OS X does not support wildcards unlike the other platforms.
         # This tries to convert wildcards to "extensions" when possible,
         # ans sets the panel to also allow other file types, just to be safe.
-        if len(self.filters) > 0:
+        if self.filters:
             filthies = []
             for f in self.filters:
                 if type(f) == str:
+                    f = (None, f)
+                for s in f[1:]:
                     if not self.use_extensions:
-                        if f.strip().endswith("*"):
+                        if s.strip().endswith("*"):
                             continue
-                        pystr = f.strip().split("*")[-1].split(".")[-1]
+                    pystr = s.strip().split("*")[-1].split(".")[-1]
                     filthies.append(objc_str(pystr))
-                else:
-                    for s in f[1:]:
-                        if not self.use_extensions:
-                            if s.strip().endswith("*"):
-                                continue
-                            pystr = s.strip().split("*")[-1].split(".")[-1]
-                        filthies.append(objc_str(pystr))
 
             ftypes_arr = objc_arr(*filthies)
             panel.setAllowedFileTypes_(ftypes_arr)
