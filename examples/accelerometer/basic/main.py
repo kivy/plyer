@@ -2,9 +2,7 @@
 Basic accelerometer example.
 '''
 
-from kivy.lang import Builder
 from kivy.app import App
-from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 
@@ -13,7 +11,7 @@ from plyer import accelerometer
 
 class AccelerometerTest(BoxLayout):
     def __init__(self):
-        super(AccelerometerTest, self).__init__()
+        super().__init__()
         self.sensorEnabled = False
 
     def do_toggle(self):
@@ -48,6 +46,10 @@ class AccelerometerTest(BoxLayout):
 class AccelerometerTestApp(App):
     def build(self):
         return AccelerometerTest()
+
+    def on_pause(self):
+        return True
+
 
 if __name__ == '__main__':
     AccelerometerTestApp().run()

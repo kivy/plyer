@@ -1,6 +1,4 @@
-from pyobjus import autoclass
-from pyobjus import protocol
-from os import unlink
+from os import remove
 from plyer.facades import Camera
 
 from plyer.utils import reify
@@ -10,8 +8,8 @@ class iOSCamera(Camera):
 
     @reify
     def photos(self):
-        # pyPhotoLibrary is a ios recipe/module that interacts with the gallery
-        # and the  camera on ios.
+        # pyPhotoLibrary is a ios recipe/module that
+        # interacts with the gallery and the camera on ios.
         from photolibrary import PhotosLibrary
         return PhotosLibrary()
 
@@ -37,17 +35,17 @@ class iOSCamera(Camera):
         self.photos.unbind(on_image_captured=self.capture_callback)
 
         if self.on_complete(self.filename):
-            self._unlink(self.filename)
+            self._remove(self.filename)
 
     def _take_video(self, on_complete, filename=None):
         assert(on_complete is not None)
         raise NotImplementedError
 
-    def _unlink(self, fn):
+    def _remove(self, fn):
         try:
-            unlink(fn)
-        except:
-            pass
+            remove(fn)
+        except OSError:
+            print('Could not remove photo!')
 
 
 def instance():

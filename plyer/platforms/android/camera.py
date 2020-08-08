@@ -1,6 +1,6 @@
 import android
 import android.activity
-from os import unlink
+from os import remove
 from jnius import autoclass, cast
 from plyer.facades import Camera
 from plyer.platforms.android import activity
@@ -46,12 +46,12 @@ class AndroidCamera(Camera):
             return
         android.activity.unbind(on_activity_result=self._on_activity_result)
         if self.on_complete(self.filename):
-            self._unlink(self.filename)
+            self._remove(self.filename)
 
-    def _unlink(self, fn):
+    def _remove(self, fn):
         try:
-            unlink(fn)
-        except:
+            remove(fn)
+        except OSError:
             pass
 
 

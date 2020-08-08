@@ -16,17 +16,22 @@ class AccelerometerSensorListener(PythonJavaClass):
     __javainterfaces__ = ['android/hardware/SensorEventListener']
 
     def __init__(self):
-        super(AccelerometerSensorListener, self).__init__()
-        self.SensorManager = cast('android.hardware.SensorManager',
-                    activity.getSystemService(Context.SENSOR_SERVICE))
+        super().__init__()
+        self.SensorManager = cast(
+            'android.hardware.SensorManager',
+            activity.getSystemService(Context.SENSOR_SERVICE)
+        )
         self.sensor = self.SensorManager.getDefaultSensor(
-                Sensor.TYPE_ACCELEROMETER)
+            Sensor.TYPE_ACCELEROMETER
+        )
 
         self.values = [None, None, None]
 
     def enable(self):
-        self.SensorManager.registerListener(self, self.sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL)
+        self.SensorManager.registerListener(
+            self, self.sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
     def disable(self):
         self.SensorManager.unregisterListener(self, self.sensor)
@@ -43,7 +48,7 @@ class AccelerometerSensorListener(PythonJavaClass):
 
 class AndroidAccelerometer(Accelerometer):
     def __init__(self):
-        super(AndroidAccelerometer, self).__init__()
+        super().__init__()
         self.bState = False
 
     def _enable(self):
@@ -67,7 +72,7 @@ class AndroidAccelerometer(Accelerometer):
     def __del__(self):
         if(self.bState):
             self._disable()
-        super(self.__class__, self).__del__()
+        super().__del__()
 
 
 def instance():

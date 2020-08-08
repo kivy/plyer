@@ -1,4 +1,4 @@
-from jnius import autoclass, cast
+from jnius import autoclass
 from plyer.platforms.android import activity
 from plyer.facades import Orientation
 

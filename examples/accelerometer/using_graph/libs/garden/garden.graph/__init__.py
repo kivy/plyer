@@ -22,7 +22,7 @@ a red line plot containing a sin wave on this range::
                   y_grid_label=True, x_grid_label=True, padding=5,
                   x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
     plot = MeshLinePlot(color=[1, 0, 0, 1])
-    plot.points = [(x, sin(x / 10.)) for x in xrange(0, 101)]
+    plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
     graph.add_plot(plot)
 
 The MeshLinePlot plot is a particular plot which draws a set of points using
@@ -111,7 +111,7 @@ class Graph(Widget):
     _ticks_minory = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(Graph, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self._mesh = Mesh(mode='lines')
         self._mesh_rect = Mesh(mode='line_strip')
@@ -122,7 +122,7 @@ class Graph(Widget):
         self.canvas.add(self._mesh_rect)
         mesh = self._mesh_rect
         mesh.vertices = [0] * (5 * 4)
-        mesh.indices = [k for k in xrange(5)]
+        mesh.indices = [k for k in range(5)]
 
         self._plot_area = StencilView()
         self.add_widget(self._plot_area)
@@ -157,16 +157,16 @@ class Graph(Widget):
                 # differently if the last incomplete decade has a decade
                 # boundary in it
                 if floor(s_min + n_decades) != floor(s_max):
-                    n_decades += 1 - (10 ** (s_min + n_decades + 1) - 10 **
-                                      s_max) / 10 ** floor(s_max + 1)
+                    n_decades += 1 - (10 ** (s_min + n_decades + 1) - 10
+                                      ** s_max) / 10 ** floor(s_max + 1)
                 else:
-                    n_decades += ((10 ** s_max - 10 ** (s_min + n_decades)) /
-                                  10 ** floor(s_max + 1))
+                    n_decades += ((10 ** s_max - 10 ** (s_min + n_decades))
+                                  / 10 ** floor(s_max + 1))
                 # this might be larger than what is needed, but we delete
                 # excess later
                 n_ticks_major = n_decades / float(major)
-                n_ticks = int(floor(n_ticks_major * (minor if minor >=
-                                                     1. else 1.0))) + 2
+                n_ticks = int(floor(n_ticks_major * (minor if minor
+                                                     >= 1. else 1.0))) + 2
                 # in decade multiples, e.g. 0.1 of the decade, the distance
                 # between ticks
                 decade_dist = major / float(minor if minor else 1.0)
@@ -182,8 +182,8 @@ class Graph(Widget):
                 # first real tick location. value is in fractions of decades
                 # from the start we have to use decimals here, otherwise
                 # floating point inaccuracies results in bad values
-                start_dec = ceil((10 ** Decimal(s_min - s_min_low - 1)) /
-                                 Decimal(decade_dist)) * decade_dist
+                start_dec = ceil((10 ** Decimal(s_min - s_min_low - 1))
+                                 / Decimal(decade_dist)) * decade_dist
                 count_min = (0 if not minor else
                              floor(start_dec / decade_dist) % minor)
                 start_dec += s_min_low
@@ -213,17 +213,18 @@ class Graph(Widget):
                             points_minor[k2] = pos_log
                             k2 += 1
                     count_min += 1
-                #n_ticks = len(points)
+                # n_ticks = len(points)
             else:
                 # distance between each tick
                 tick_dist = major / float(minor if minor else 1.0)
                 n_ticks = int(floor((s_max - s_min) / tick_dist) + 1)
-                points_major = [0] * int(floor((s_max - s_min) / float(major))
-                                         + 1)
+                points_major = [0] * int(
+                    floor((s_max - s_min) / float(major)) + 1
+                )
                 points_minor = [0] * (n_ticks - len(points_major) + 1)
                 k = 0  # position in points major
                 k2 = 0  # position in points minor
-                for m in xrange(0, n_ticks):
+                for m in range(0, n_ticks):
                     if minor and m % minor:
                         points_minor[k2] = m * tick_dist + s_min
                         k2 += 1
@@ -280,9 +281,10 @@ class Graph(Widget):
             ylabels[0].text = precision % ypoints[0]
             ylabels[0].texture_update()
             y1 = ylabels[0].texture_size
-            y_start = y_next + (padding + y1[1] if len(xlabels) and xlabel_grid
-                                else 0) +\
-                                (padding + y1[1] if not y_next else 0)
+            y_start = y_next + (
+                padding + y1[1]
+                if len(xlabels) and xlabel_grid else 0
+            ) + (padding + y1[1] if not y_next else 0)
             yextent = y + height - padding - y1[1] / 2.
             if self.ylog:
                 ymax = log10(ymax)
@@ -291,13 +293,13 @@ class Graph(Widget):
             y_start -= y1[1] / 2.
             func = (lambda x: 10 ** x) if self.ylog else lambda x: x
             y1 = y1[0]
-            for k in xrange(len(ylabels)):
+            for k in range(len(ylabels)):
                 ylabels[k].text = precision % func(ypoints[k])
                 ylabels[k].texture_update()
                 ylabels[k].size = ylabels[k].texture_size
                 y1 = max(y1, ylabels[k].texture_size[0])
-                ylabels[k].pos = (x_next, y_start + (ypoints[k] - ymin) *
-                                  ratio)
+                ylabels[k].pos = (x_next, y_start + (ypoints[k] - ymin)
+                                  * ratio)
             if len(ylabels) > 1 and ylabels[0].top > ylabels[1].y:
                 y_overlap = True
             else:
@@ -317,13 +319,13 @@ class Graph(Widget):
             ratio = (xextent - x_next) / float(func(self.xmax) - xmin)
             func = (lambda x: 10 ** x) if self.xlog else lambda x: x
             right = -1
-            for k in xrange(len(xlabels)):
+            for k in range(len(xlabels)):
                 xlabels[k].text = precision % func(xpoints[k])
                 # update the size so we can center the labels on ticks
                 xlabels[k].texture_update()
                 xlabels[k].size = xlabels[k].texture_size
-                xlabels[k].pos = (x_next + (xpoints[k] - xmin) * ratio -
-                                  xlabels[k].texture_size[0] / 2., y_next)
+                xlabels[k].pos = (x_next + (xpoints[k] - xmin) * ratio
+                                  - xlabels[k].texture_size[0] / 2., y_next)
                 if xlabels[k].x < right:
                     x_overlap = True
                     break
@@ -341,10 +343,10 @@ class Graph(Widget):
                                                              -ylabel.center[1],
                                                              0))
         if x_overlap:
-            for k in xrange(len(xlabels)):
+            for k in range(len(xlabels)):
                 xlabels[k].text = ''
         if y_overlap:
-            for k in xrange(len(ylabels)):
+            for k in range(len(ylabels)):
                 ylabels[k].text = ''
         return x_next, y_next, xextent, yextent
 
@@ -364,7 +366,7 @@ class Graph(Widget):
             vert[16] = size[0]
             vert[17] = size[1]
         else:
-            vert[0:18] = [0 for k in xrange(18)]
+            vert[0:18] = [0 for k in range(18)]
         mesh.vertices = vert
         # re-compute the positions of the x/y axis ticks
         mesh = self._mesh
@@ -387,7 +389,7 @@ class Graph(Widget):
         if len(xpoints):
             top = size[3] if self.x_grid else metrics.dp(12) + size[1]
             ratio = (size[2] - size[0]) / float(xmax - xmin)
-            for k in xrange(start, len(xpoints) + start):
+            for k in range(start, len(xpoints) + start):
                 vert[k * 8] = size[0] + (xpoints[k - start] - xmin) * ratio
                 vert[k * 8 + 1] = size[1]
                 vert[k * 8 + 4] = vert[k * 8]
@@ -396,7 +398,7 @@ class Graph(Widget):
         if len(ypoints):
             top = size[2] if self.y_grid else metrics.dp(12) + size[0]
             ratio = (size[3] - size[1]) / float(ymax - ymin)
-            for k in xrange(start, len(ypoints) + start):
+            for k in range(start, len(ypoints) + start):
                 vert[k * 8 + 1] = size[1] + (ypoints[k - start] - ymin) * ratio
                 vert[k * 8 + 5] = vert[k * 8 + 1]
                 vert[k * 8] = size[0]
@@ -437,12 +439,12 @@ class Graph(Widget):
             n_labels = 0
         else:
             n_labels = len(xpoints_major)
-        for k in xrange(n_labels, len(grids)):
+        for k in range(n_labels, len(grids)):
             self.remove_widget(grids[k])
         del grids[n_labels:]
         grid_len = len(grids)
         grids.extend([None] * (n_labels - len(grids)))
-        for k in xrange(grid_len, n_labels):
+        for k in range(grid_len, n_labels):
             grids[k] = Label(font_size=font_size)
             self.add_widget(grids[k])
 
@@ -467,20 +469,20 @@ class Graph(Widget):
             n_labels = 0
         else:
             n_labels = len(ypoints_major)
-        for k in xrange(n_labels, len(grids)):
+        for k in range(n_labels, len(grids)):
             self.remove_widget(grids[k])
         del grids[n_labels:]
         grid_len = len(grids)
         grids.extend([None] * (n_labels - len(grids)))
-        for k in xrange(grid_len, n_labels):
+        for k in range(grid_len, n_labels):
             grids[k] = Label(font_size=font_size)
             self.add_widget(grids[k])
 
         mesh = self._mesh
-        n_points = (len(xpoints_major) + len(xpoints_minor) +
-                    len(ypoints_major) + len(ypoints_minor))
+        n_points = (len(xpoints_major) + len(xpoints_minor)
+                    + len(ypoints_major) + len(ypoints_minor))
         mesh.vertices = [0] * (n_points * 8)
-        mesh.indices = [k for k in xrange(n_points * 2)]
+        mesh.indices = [k for k in range(n_points * 2)]
         self._redraw_size()
 
     def _redraw_size(self, *args):
@@ -502,7 +504,7 @@ class Graph(Widget):
 
         >>> graph = Graph()
         >>> plot = MeshLinePlot(mode='line_strip', color=[1, 0, 0, 1])
-        >>> plot.points = [(x / 10., sin(x / 50.)) for x in xrange(-0, 101)]
+        >>> plot.points = [(x / 10., sin(x / 50.)) for x in range(-0, 101)]
         >>> graph.add_plot(plot)
         '''
         area = self._plot_area
@@ -519,7 +521,7 @@ class Graph(Widget):
 
         >>> graph = Graph()
         >>> plot = MeshLinePlot(mode='line_strip', color=[1, 0, 0, 1])
-        >>> plot.points = [(x / 10., sin(x / 50.)) for x in xrange(-0, 101)]
+        >>> plot.points = [(x / 10., sin(x / 50.)) for x in range(-0, 101)]
         >>> graph.add_plot(plot)
         >>> graph.remove_plot(plot)
         '''
@@ -766,7 +768,7 @@ class MeshLinePlot(Plot):
     def __init__(self, **kwargs):
         self._color = Color(1, 1, 1, group='LinePlot%d' % id(self))
         self._mesh = Mesh(mode='line_strip', group='LinePlot%d' % id(self))
-        super(MeshLinePlot, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self._trigger = Clock.create_trigger(self._redraw)
         self.bind(_params=self._trigger, points=self._trigger)
@@ -793,9 +795,9 @@ class MeshLinePlot(Plot):
             del vert[4 * len(points):]
             del ind[len(points):]
         elif diff > 0:
-            ind.extend(xrange(len(ind), len(ind) + diff))
+            ind.extend(range(len(ind), len(ind) + diff))
             vert.extend([0] * (diff * 4))
-        for k in xrange(len(points)):
+        for k in range(len(points)):
             vert[k * 4] = (funcx(points[k][0]) - xmin) * ratiox + size[0]
             vert[k * 4 + 1] = (funcy(points[k][1]) - ymin) * ratioy + size[1]
         mesh.vertices = vert
@@ -834,11 +836,12 @@ class MeshLinePlot(Plot):
     [].
     '''
 
+
 class MeshStemPlot(MeshLinePlot):
     '''MeshStemPlot uses the MeshLinePlot class to draw a stem plot. The data
     provided is graphed from origin to the data point.
     '''
-    
+
     def _redraw(self, *args):
         points = self.points
         mesh = self._mesh
@@ -858,9 +861,9 @@ class MeshStemPlot(MeshLinePlot):
             del vert[4 * len(points):]
             del ind[len(points):]
         elif diff > 0:
-            ind.extend(xrange(len(ind), len(ind) + diff))
+            ind.extend(range(len(ind), len(ind) + diff))
             vert.extend([0] * (diff * 4))
-        for k in xrange(len(points)):
+        for k in range(len(points)):
             vert[k * 8] = (funcx(points[k][0]) - xmin) * ratiox + size[0]
             vert[k * 8 + 1] = (0 - ymin) * ratioy + size[1]
             vert[k * 8 + 4] = (funcx(points[k][0]) - xmin) * ratiox + size[0]
@@ -882,14 +885,14 @@ if __name__ == '__main__':
                           xlog=False, ylog=False, x_grid=True, y_grid=True,
                           xmin=-50, xmax=50, ymin=-1, ymax=1)
             plot = MeshLinePlot(color=[1, 0, 0, 1])
-            plot.points = [(x / 10., sin(x / 50.)) for x in xrange(-500, 501)]
+            plot.points = [(x / 10., sin(x / 50.)) for x in range(-500, 501)]
             graph.add_plot(plot)
             plot = MeshLinePlot(color=[0, 1, 0, 1])
-            plot.points = [(x / 10., cos(x / 50.)) for x in xrange(-600, 501)]
+            plot.points = [(x / 10., cos(x / 50.)) for x in range(-600, 501)]
             graph.add_plot(plot)
             plot = MeshLinePlot(color=[0, 0, 1, 1])
             graph.add_plot(plot)
-            plot.points = [(x, x / 50.) for x in xrange(-50, 51)]
+            plot.points = [(x, x / 50.) for x in range(-50, 51)]
             return graph
 
     TestApp().run()

@@ -17,7 +17,7 @@ class _LocationListener(PythonJavaClass):
 
     def __init__(self, root):
         self.root = root
-        super(_LocationListener, self).__init__()
+        super().__init__()
 
     @java_method('(Landroid/location/Location;)V')
     def onLocationChanged(self, location):
@@ -58,17 +58,19 @@ class AndroidGPS(GPS):
     def _configure(self):
         if not hasattr(self, '_location_manager'):
             self._location_manager = activity.getSystemService(
-                    Context.LOCATION_SERVICE)
+                Context.LOCATION_SERVICE
+            )
             self._location_listener = _LocationListener(self)
 
-    def _start(self):
-        # XXX defaults should be configurable by the user, later
+    def _start(self, **kwargs):
+        min_time = kwargs.get('minTime')
+        min_distance = kwargs.get('minDistance')
         providers = self._location_manager.getProviders(False).toArray()
         for provider in providers:
             self._location_manager.requestLocationUpdates(
                 provider,
-                1000,  # minTime, in milliseconds
-                1,  # minDistance, in meters
+                min_time,  # minTime, in milliseconds
+                min_distance,  # minDistance, in meters
                 self._location_listener,
                 Looper.getMainLooper())
 

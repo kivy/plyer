@@ -1,16 +1,13 @@
-from os.path import dirname
-from os.path import join
-from os.path import realpath
+from os.path import join, dirname, realpath
 
 import kivy
-kivy.require('1.8.0')
-
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
 from plyer import notification
 from plyer.utils import platform
-from plyer.compat import PY2
+
+kivy.require('1.8.0')
 
 
 class NotificationDemo(BoxLayout):
@@ -19,9 +16,6 @@ class NotificationDemo(BoxLayout):
         title = self.ids.notification_title.text
         message = self.ids.notification_text.text
         ticker = self.ids.ticker_text.text
-        if PY2:
-            title = title.decode('utf8')
-            message = message.decode('utf8')
         kwargs = {'title': title, 'message': message, 'ticker': ticker}
 
         if mode == 'fancy':
@@ -33,12 +27,17 @@ class NotificationDemo(BoxLayout):
             else:
                 kwargs['app_icon'] = join(dirname(realpath(__file__)),
                                           'plyer-icon.png')
+        elif mode == 'toast':
+            kwargs['toast'] = True
         notification.notify(**kwargs)
 
 
 class NotificationDemoApp(App):
     def build(self):
         return NotificationDemo()
+
+    def on_pause(self):
+        return True
 
 
 if __name__ == '__main__':

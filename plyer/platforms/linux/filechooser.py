@@ -10,7 +10,7 @@ import subprocess as sp
 import time
 
 
-class SubprocessFileChooser(object):
+class SubprocessFileChooser:
     '''A file chooser implementation that allows using
     subprocess back-ends.
     Normally you only need to override _gen_cmdline, executable,
@@ -39,10 +39,21 @@ class SubprocessFileChooser(object):
     icon = None
     show_hidden = False
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
+        self._handle_selection = kwargs.pop(
+            'on_selection', self._handle_selection
+        )
+
         # Simulate Kivy's behavior
         for i in kwargs:
             setattr(self, i, kwargs[i])
+
+    @staticmethod
+    def _handle_selection(selection):
+        '''
+        Dummy placeholder for returning selection from chooser.
+        '''
+        return selection
 
     _process = None
 
@@ -52,8 +63,9 @@ class SubprocessFileChooser(object):
             ret = self._process.poll()
             if ret is not None:
                 if ret == self.successretcode:
-                    out = self._process.communicate()[0].strip()
+                    out = self._process.communicate()[0].strip().decode('utf8')
                     self.selection = self._split_output(out)
+                    self._handle_selection(self.selection)
                     return self.selection
                 else:
                     return None
@@ -208,6 +220,7 @@ class YADFileChooser(SubprocessFileChooser):
                 ]
         return cmdline
 
+
 CHOOSERS = {
     "gnome": ZenityFileChooser,
     "kde": KDialogFileChooser,
@@ -225,8 +238,8 @@ class LinuxFileChooser(FileChooser):
     '''
 
     desktop = None
-    if str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde" \
-        and which("kdialog"):
+    if (str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde"
+            and which("kdialog")):
         desktop = "kde"
     elif which("yad"):
         desktop = "yad"
@@ -235,7 +248,7 @@ class LinuxFileChooser(FileChooser):
 
     def _file_selection_dialog(self, desktop_override=desktop, **kwargs):
         if not desktop_override:
-            desktop_override = desktop
+            desktop_override = self.desktop
         # This means we couldn't find any back-end
         if not desktop_override:
             raise OSError("No back-end available. Please install one.")

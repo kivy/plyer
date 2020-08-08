@@ -1,3 +1,7 @@
+'''
+Module of iOS API for plyer.email.
+'''
+
 try:
     from urllib.parse import quote
 except ImportError:
@@ -14,7 +18,11 @@ NSString = autoclass('NSString')
 UIApplication = autoclass('UIApplication')
 
 
-class iOSXEmail(Email):
+class IOSEmail(Email):
+    '''
+    Implementation of iOS battery API.
+    '''
+
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
@@ -24,11 +32,11 @@ class iOSXEmail(Email):
         if recipient:
             uri += str(recipient)
         if subject:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "subject="
             uri += quote(str(subject))
         if text:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "body="
             uri += quote(str(text))
 
@@ -38,4 +46,7 @@ class iOSXEmail(Email):
 
 
 def instance():
-    return iOSXEmail()
+    '''
+    Instance for facade proxy.
+    '''
+    return IOSEmail()

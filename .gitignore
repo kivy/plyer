@@ -15,3 +15,16 @@ venv
 .project
 .pydevproject
 .settings/
+
+bin
+.buildozer
+.idea
+
+# VS Code
+.vscode
+
+# Mac
+*.DS_Store
+
+# Coverage
+.coverage

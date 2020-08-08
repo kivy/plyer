@@ -1,6 +1,8 @@
 import ctypes
-from ctypes import (Structure, cdll, sizeof,
-                    c_int, c_int8, c_int16, c_size_t)
+from ctypes import (
+    Structure, cdll, sizeof,
+    c_int8, c_int16, c_size_t
+)
 from ctypes.util import find_library
 import platform
 
@@ -57,8 +59,10 @@ def read_sms():
     matchingDictionary = IOKit.IOServiceMatching("SMCMotionSensor")
 
     iterator = io_iterator_t()
-    result = IOKit.IOServiceGetMatchingServices(masterPort, matchingDictionary,
-                                            ctypes.byref(iterator))
+    result = IOKit.IOServiceGetMatchingServices(
+        masterPort, matchingDictionary,
+        ctypes.byref(iterator)
+    )
 
     if (result != KERN_SUCCESS):
         raise ("No coordinates received!")
@@ -71,8 +75,10 @@ def read_sms():
         return -2, None
 
     dataPort = io_connect_t()
-    result = IOKit.IOServiceOpen(smsDevice, IOKit.mach_task_self(), 0,
-                            ctypes.byref(dataPort))
+    result = IOKit.IOServiceOpen(
+        smsDevice, IOKit.mach_task_self(),
+        0, ctypes.byref(dataPort)
+    )
 
     if (result != KERN_SUCCESS):
         return -3, None
@@ -84,16 +90,20 @@ def read_sms():
         structureInSize = IOItemCount(sizeof(data_structure))
         structureOutSize = c_size_t(sizeof(data_structure))
 
-        result = IOKit.IOConnectCallStructMethod(dataPort, KERN_FUNC,
-                    ctypes.byref(inStructure), structureInSize,
-                    ctypes.byref(outStructure), ctypes.byref(structureOutSize))
+        result = IOKit.IOConnectCallStructMethod(
+            dataPort, KERN_FUNC,
+            ctypes.byref(inStructure), structureInSize,
+            ctypes.byref(outStructure), ctypes.byref(structureOutSize)
+        )
     else:
         structureInSize = IOItemCount(sizeof(data_structure))
         structureOutSize = IOItemCount(sizeof(data_structure))
 
-        result = IOConnectMethodStructureIStructureO(dataPort, KERN_FUNC,
-                    structureInSize, ctypes.byref(structureOutSize),
-                    ctypes.byref(inStructure), ctypes.byref(outStructure))
+        result = IOKit.IOConnectMethodStructureIStructureO(
+            dataPort, KERN_FUNC,
+            structureInSize, ctypes.byref(structureOutSize),
+            ctypes.byref(inStructure), ctypes.byref(outStructure)
+        )
 
     IOKit.IOServiceClose(dataPort)
 

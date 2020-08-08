@@ -1,3 +1,7 @@
+'''
+Module of Android API for plyer.email.
+'''
+
 from jnius import autoclass, cast
 from plyer.facades import Email
 from plyer.platforms.android import activity
@@ -11,6 +15,10 @@ Environment = autoclass('android.os.Environment')
 
 
 class AndroidEmail(Email):
+    '''
+    Implementation of Android email API.
+    '''
+
     def _send(self, **kwargs):
         intent = Intent(Intent.ACTION_SEND)
         intent.setType('text/plain')
@@ -24,12 +32,16 @@ class AndroidEmail(Email):
         if recipient:
             intent.putExtra(Intent.EXTRA_EMAIL, [recipient])
         if subject:
-            android_subject = cast('java.lang.CharSequence',
-                                   AndroidString(subject))
+            android_subject = cast(
+                'java.lang.CharSequence',
+                AndroidString(subject)
+            )
             intent.putExtra(Intent.EXTRA_SUBJECT, android_subject)
         if text:
-            android_text = cast('java.lang.CharSequence',
-                                   AndroidString(text))
+            android_text = cast(
+                'java.lang.CharSequence',
+                AndroidString(text)
+            )
             intent.putExtra(Intent.EXTRA_TEXT, android_text)
         if attachment:
             """
@@ -43,13 +55,19 @@ class AndroidEmail(Email):
                                    Uri.fromFile(attachment))
             intent.putExtra(Intent.EXTRA_STREAM, android_attach)
         if create_chooser:
-            chooser_title = cast('java.lang.CharSequence',
-                                   AndroidString('Send message with:'))
-            activity.startActivity(Intent.createChooser(intent,
-                                                        chooser_title))
+            chooser_title = cast(
+                'java.lang.CharSequence',
+                AndroidString('Send message with:')
+            )
+            activity.startActivity(
+                Intent.createChooser(intent, chooser_title)
+            )
         else:
             activity.startActivity(intent)
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     return AndroidEmail()

@@ -1,26 +1,26 @@
-import kivy
-kivy.require('1.8.0')
-
-from kivy.app import App
-from kivy.properties import ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.popup import Popup
-from kivy.clock import Clock
-
-from plyer import accelerometer
-
 '''
 This example uses Kivy Garden Graph addon to draw graphs plotting the
 accelerometer values in X,Y and Z axes.
 The package is installed in the directory: ./libs/garden/garden.graph
 To read more about kivy garden, visit: http://kivy-garden.github.io/.
 '''
-from kivy.garden.graph import Graph, MeshLinePlot
+
+import kivy
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.clock import Clock
+
+from plyer import accelerometer
+
+from kivy.garden.graph import MeshLinePlot
+
+kivy.require('1.8.0')
 
 
 class AccelerometerDemo(BoxLayout):
     def __init__(self):
-        super(AccelerometerDemo, self).__init__()
+        super().__init__()
 
         self.sensorEnabled = False
         self.graph = self.ids.graph_plot
@@ -58,8 +58,8 @@ class AccelerometerDemo(BoxLayout):
                 self.sensorEnabled = False
                 self.ids.toggle_button.text = "Start Accelerometer"
         except NotImplementedError:
-                popup = ErrorPopup()
-                popup.open()
+            popup = ErrorPopup()
+            popup.open()
 
     def get_acceleration(self, dt):
         if (self.counter == 100):
@@ -84,6 +84,9 @@ class AccelerometerDemo(BoxLayout):
 class AccelerometerDemoApp(App):
     def build(self):
         return AccelerometerDemo()
+
+    def on_pause(self):
+        return True
 
 
 class ErrorPopup(Popup):

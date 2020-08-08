@@ -1,5 +1,8 @@
+'''
+Module of Linux API for plyer.email.
+'''
+
 import subprocess
-from urllib import quote
 try:
     from urllib.parse import quote
 except ImportError:
@@ -9,6 +12,10 @@ from plyer.utils import whereis_exe
 
 
 class LinuxEmail(Email):
+    '''
+    Implementation of Linux email API.
+    '''
+
     def _send(self, **kwargs):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
@@ -18,11 +25,11 @@ class LinuxEmail(Email):
         if recipient:
             uri += str(recipient)
         if subject:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "subject="
             uri += quote(str(subject))
         if text:
-            uri += "?" if not "?" in uri else "&"
+            uri += "?" if "?" not in uri else "&"
             uri += "body="
             uri += quote(str(text))
 
@@ -30,6 +37,9 @@ class LinuxEmail(Email):
 
 
 def instance():
+    '''
+    Instance for facade proxy.
+    '''
     import sys
     if whereis_exe('xdg-open'):
         return LinuxEmail()

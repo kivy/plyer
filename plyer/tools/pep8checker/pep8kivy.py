@@ -7,21 +7,23 @@ import time
 htmlmode = False
 
 pep8_ignores = (
-    'E125',  # continuation line does not
-             # distinguish itself from next logical line
+    # continuation line does not distinguish itself from next logical line
+    'E125',
     'E126',  # continuation line over-indented for hanging indent
     'E127',  # continuation line over-indented for visual indent
     'E128')  # continuation line under-indented for visual indent
 
-class KivyStyleChecker(pep8.Checker):
 
+class KivyStyleChecker(pep8.Checker):
     def __init__(self, filename):
         pep8.Checker.__init__(self, filename, ignore=pep8_ignores)
 
     def report_error(self, line_number, offset, text, check):
         if htmlmode is False:
-            return pep8.Checker.report_error(self,
-                line_number, offset, text, check)
+            return pep8.Checker.report_error(
+                self, line_number,
+                offset, text, check
+            )
 
         # html generation
         print('<tr><td>{0}</td><td>{1}</td></tr>'.format(line_number, text))
@@ -67,8 +69,10 @@ if __name__ == '__main__':
             if htmlmode:
                 path = join(dirname(abspath(__file__)), 'pep8base.html')
                 print(open(path, 'r').read())
-                print('''<p>Generated: %s</p><table>''' % \
-                     (time.strftime('%c')))
+                print(
+                    '''<p>Generated: %s</p><table>'''
+                    '' % (time.strftime('%c'))
+                )
 
             for dirpath, dirnames, filenames in walk(target):
                 cont = False
@@ -90,8 +94,10 @@ if __name__ == '__main__':
                         continue
 
                     if htmlmode:
-                        print('<tr><th colspan="2">%s</td></tr>' \
-                             % complete_filename)
+                        print(
+                            '<tr><th colspan="2">%s</td></tr>'
+                            '' % complete_filename
+                        )
                     errors += check(complete_filename)
 
             if htmlmode:
