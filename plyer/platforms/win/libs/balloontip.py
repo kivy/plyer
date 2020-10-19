@@ -9,6 +9,7 @@ __all__ = ('WindowsBalloonTip', 'balloon_tip')
 
 import time
 import ctypes
+import atexit
 from threading import RLock
 
 from plyer.platforms.win.libs import win_api_defs
@@ -83,6 +84,7 @@ class WindowsBalloonTip:
         '''
         The app_icon parameter, if given, is an .ICO file.
         '''
+        atexit.register(self.__del__)
 
         wnd_class_ex = win_api_defs.get_WNDCLASSEXW()
         class_name = 'PlyerTaskbar' + str(WindowsBalloonTip._get_unique_id())
