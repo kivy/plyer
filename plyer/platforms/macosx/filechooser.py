@@ -55,22 +55,24 @@ class MacFileChooser:
 
     def run(self):
         panel = None
-        if self.mode in ("open", "dir"):
+        if self.mode in ("open", "dir", "dir_and_files"):
             panel = NSOpenPanel.openPanel()
-        else:
+
+            panel.setCanChooseDirectories_(self.mode != "open")
+            panel.setCanChooseFiles_(self.mode != "dir")
+
+            if self.multiple:
+                panel.setAllowsMultipleSelection_(True)
+        elif self.mode == "save":
             panel = NSSavePanel.savePanel()
+        else:
+            assert False, self.mode
 
         panel.setCanCreateDirectories_(True)
-
-        panel.setCanChooseDirectories_(self.mode == "dir")
-        panel.setCanChooseFiles_(self.mode != "dir")
         panel.setShowsHiddenFiles_(self.show_hidden)
 
         if self.title:
             panel.setTitle_(objc_str(self.title))
-
-        if self.mode != "save" and self.multiple:
-            panel.setAllowsMultipleSelection_(True)
 
         # Mac OS X does not support wildcards unlike the other platforms.
         # This tries to convert wildcards to "extensions" when possible,
@@ -88,6 +90,7 @@ class MacFileChooser:
                     filthies.append(objc_str(pystr))
 
             ftypes_arr = objc_arr(*filthies)
+            # todo: switch to allowedContentTypes
             panel.setAllowedFileTypes_(ftypes_arr)
             panel.setAllowsOtherFileTypes_(not self.use_extensions)
 
