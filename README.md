@@ -59,6 +59,10 @@ implement the api in the easiest way, depending on the current platform.
 | Vibrator                       | ✔       | ✔   |         |      |       |
 | Wifi                           |         |     | ✔       | ✔    | ✔     |
 
+## Installation
+
+To use on desktop: `pip install plyer`
+To use in python-for-android/kivy-ios: add `plyer` to your requirements if needed.
 
 ## Support
 
