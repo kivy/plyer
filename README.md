@@ -30,7 +30,7 @@ implement the api in the easiest way, depending on the current platform.
 | Audio recording                | ✔       |     | ✔       | ✔    |       |
 | Barometer                      | ✔       | ✔   |         |      |       |
 | Battery                        | ✔       | ✔   | ✔       | ✔    | ✔     |
-| Bluetooth                      | ✔       |     |         | ✔    |       |
+| Bluetooth                      |         |     |         |      |       |
 | Brightness                     | ✔       | ✔   |         |      | ✔     |
 | Call                           | ✔       | ✔   |         |      |       |
 | Camera (taking picture)        | ✔       | ✔   |         |      |       |
