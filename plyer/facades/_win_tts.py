@@ -1,7 +1,6 @@
 import sys
 import traceback
 import weakref
-import importlib
 
 
 class DriverProxy(object):
@@ -411,8 +410,6 @@ class DriverProxy(object):
         except StopIteration:
             pass
 
-#import traceback
-#import weakref
 
 
 class Engine(object):
@@ -628,7 +625,7 @@ class Engine(object):
             raise RuntimeError('iterate not valid in driver run loop')
         self.proxy.iterate()
 
-#import weakref
+
 
 _activeEngines = weakref.WeakValueDictionary()
 
