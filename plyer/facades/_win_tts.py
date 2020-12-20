@@ -3,6 +3,7 @@ import traceback
 import weakref
 import six
 
+
 class DriverProxy(object):
     '''
     Proxy to a driver implementation.
@@ -403,6 +404,7 @@ class DriverProxy(object):
         except StopIteration:
             pass
 
+
 class Engine(object):
     """
     @ivar proxy: Proxy to a driver implementation
@@ -416,6 +418,7 @@ class Engine(object):
     @ivar _debug: Print exceptions or not
     @type _debug: bool
     """
+
 
     def __init__(self, driverName=None, debug=False):
         """
@@ -616,7 +619,9 @@ class Engine(object):
             raise RuntimeError('iterate not valid in driver run loop')
         self.proxy.iterate()
 
+
 _activeEngines = weakref.WeakValueDictionary()
+
 
 def init(driverName=None, debug=False):
     '''
@@ -638,9 +643,11 @@ def init(driverName=None, debug=False):
         _activeEngines[driverName] = eng
     return eng
 
+
 '''
 Utility functions to help with Python 2/3 compatibility
 '''
+
 
 def toUtf8(value):
     '''
@@ -652,6 +659,7 @@ def toUtf8(value):
     '''
     return six.text_type(value).encode('utf-8')
 
+
 def fromUtf8(value):
     '''
     Takes in a byte array encoded as utf-8 and returns a text (unicode) type.  In
@@ -660,9 +668,10 @@ def fromUtf8(value):
     '''
     return value.decode('utf-8')
 
+
 def speak(text):
     engine = init()
     engine.say(text)
     engine.runAndWait()
 
-speak('hello') # to speak out loud
+# speak('hello') # to speak out loud
