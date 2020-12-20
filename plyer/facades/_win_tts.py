@@ -1,7 +1,7 @@
 import sys
 import traceback
 import weakref
-
+import six
 
 class DriverProxy(object):
     '''
@@ -37,7 +37,6 @@ class DriverProxy(object):
         @type debug: bool
         '''
 
-
         class Voice(object):
             def __init__(self, id, name=None, languages=[], gender=None, age=None):
                 self.id = id
@@ -55,21 +54,20 @@ class DriverProxy(object):
         if driverName is None:
             # pick default driver for common platforms
             if sys.platform == 'win32':
-                import comtypes.client  # Importing comtypes.client will make the gen subpackage
+                import comtypes.client
+                # Importing comtypes.client will make the gen subpackage
                 try:
                     from comtypes.gen import SpeechLib  # comtypes
                 except ImportError:
                     # Generate the SpeechLib lib and any associated files
                     engine = comtypes.client.CreateObject("SAPI.SpVoice")
-                    stream = comtypes.client.CreateObject("SAPI.SpFileStream")
                     from comtypes.gen import SpeechLib
 
                 import pythoncom
                 import time
                 import math
                 import os
-                #import weakref
-                
+
                 '''
                 Utility functions to help with Python 2/3 compatibility
                 '''
@@ -93,7 +91,6 @@ class DriverProxy(object):
                     '''
                     return value.decode('utf-8')
 
-
                 # common voices
                 MSSAM = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSSam'
                 MSMARY = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSMary'
@@ -104,10 +101,8 @@ class DriverProxy(object):
                         MSMARY: (156.63, 1.11),
                         MSMIKE: (154.37, 1.11)}
 
-
                 def buildDriver(proxy):
                     return SAPI5Driver(proxy)
-
 
                 class SAPI5Driver(object):
                     def __init__(self, proxy):
@@ -215,7 +210,6 @@ class DriverProxy(object):
                             pythoncom.PumpWaitingMessages()
                             yield
 
-
                 class SAPI5DriverEventSink(object):
                     def __init__(self):
                         self._driver = None
@@ -234,7 +228,6 @@ class DriverProxy(object):
                         d._speaking = False
                         d._stopping = False
                         d._proxy.setBusy(False)
-
 
         # build driver instance
         self._driver = buildDriver(weakref.proxy(self))
@@ -409,8 +402,6 @@ class DriverProxy(object):
             next(self._iterator)
         except StopIteration:
             pass
-
-
 
 class Engine(object):
     """
@@ -625,8 +616,6 @@ class Engine(object):
             raise RuntimeError('iterate not valid in driver run loop')
         self.proxy.iterate()
 
-
-
 _activeEngines = weakref.WeakValueDictionary()
 
 def init(driverName=None, debug=False):
@@ -649,11 +638,9 @@ def init(driverName=None, debug=False):
         _activeEngines[driverName] = eng
     return eng
 
-
 '''
 Utility functions to help with Python 2/3 compatibility
 '''
-import six
 
 def toUtf8(value):
     '''
@@ -673,12 +660,9 @@ def fromUtf8(value):
     '''
     return value.decode('utf-8')
 
-
 def speak(text):
     engine = init()
     engine.say(text)
     engine.runAndWait()
 
-
-# speak('hello') to speak out loud
-
+speak('hello') # to speak out loud
