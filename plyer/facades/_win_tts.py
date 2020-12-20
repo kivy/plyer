@@ -683,5 +683,5 @@ def speak(text):
     engine.runAndWait()
 
 
-#speak('hello')
+# speak('hello') to speak out loud
 
