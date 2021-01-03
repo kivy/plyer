@@ -30,7 +30,7 @@ class AndroidOrientation(Orientation):
 
         if mode == 'any':
             activity.setRequestedOrientation(
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+                ActivityInfo.SCREEN_ORIENTATION_USER)
         elif mode == 'landscape':
             activity.setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
