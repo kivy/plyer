@@ -2,7 +2,10 @@ import sys
 import traceback
 import weakref
 import six
-
+import pythoncom
+import time
+import math
+import os
 
 class DriverProxy(object):
     '''
@@ -63,11 +66,6 @@ class DriverProxy(object):
                     # Generate the SpeechLib lib and any associated files
                     engine = comtypes.client.CreateObject("SAPI.SpVoice")
                     from comtypes.gen import SpeechLib
-
-                import pythoncom
-                import time
-                import math
-                import os
 
                 '''
                 Utility functions to help with Python 2/3 compatibility
@@ -668,10 +666,10 @@ def fromUtf8(value):
     '''
     return value.decode('utf-8')
 
-
-def speak(text):
-    engine = init()
-    engine.say(text)
-    engine.runAndWait()
+if sys.platform == 'win32':
+    def speak(text):
+        engine = init()
+        engine.say(text)
+        engine.runAndWait()
 
 # speak('hello') # to speak out loud
