@@ -7,6 +7,31 @@ import time
 import math
 import os
 
+
+'''
+Utility functions to help with Python 2/3 compatibility
+'''
+import six
+
+def toUtf8(value):
+    '''
+    Takes in a value and converts it to a text (unicode) type.  Then
+    decodes that type to a byte array encoded in utf-8.  In 2.X the
+    resulting object will be a str and in 3.X the resulting object
+    will be bytes.  In both 2.X and 3.X any object can be passed in
+    and the object's __str__ will be used (or __repr__ if __str__ is
+    not defined) if the object is not already a text type.
+    '''
+    return six.text_type(value).encode('utf-8')
+
+def fromUtf8(value):
+    '''
+    Takes in a byte array encoded as utf-8 and returns a text (unicode)
+    type.  In 2.X we expect a str type and return a unicde type. 
+    In 3.X we expect a bytes type and return a str type.
+    '''
+    return value.decode('utf-8')
+
 class DriverProxy(object):
     '''
     Proxy to a driver implementation.
@@ -42,7 +67,7 @@ class DriverProxy(object):
         '''
 
         class Voice(object):
-            def __init__(self, id, name=None, languages=[], gender=None, age=None):
+            def __init__(self,id,name=None,languages=[],gender=None,age=None):
                 self.id = id
                 self.name = name
                 self.languages = languages
@@ -67,33 +92,12 @@ class DriverProxy(object):
                     engine = comtypes.client.CreateObject("SAPI.SpVoice")
                     from comtypes.gen import SpeechLib
 
-                '''
-                Utility functions to help with Python 2/3 compatibility
-                '''
-                import six
-
-                def toUtf8(value):
-                    '''
-                    Takes in a value and converts it to a text (unicode) type.  Then decodes that
-                    type to a byte array encoded in utf-8.  In 2.X the resulting object will be a
-                    str and in 3.X the resulting object will be bytes.  In both 2.X and 3.X any
-                    object can be passed in and the object's __str__ will be used (or __repr__ if
-                    __str__ is not defined) if the object is not already a text type.
-                    '''
-                    return six.text_type(value).encode('utf-8')
-
-                def fromUtf8(value):
-                    '''
-                    Takes in a byte array encoded as utf-8 and returns a text (unicode) type.  In
-                    2.X we expect a str type and return a unicde type.  In 3.X we expect a bytes
-                    type and return a str type.
-                    '''
-                    return value.decode('utf-8')
 
                 # common voices
-                MSSAM = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSSam'
-                MSMARY = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSMary'
-                MSMIKE = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSMike'
+                _Hkey_= "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft"
+                MSSAM='%s\\Speech\\Voices\\Tokens\\MSSam'%_Hkey_
+                MSMARY='%s\\Speech\\Voices\\Tokens\\MSMary'%_Hkey_
+                MSMIKE='%s\\Speech\\Voices\\Tokens\\MSMike'%_Hkey_
 
                 # coeffs for wpm conversion
                 E_REG = {MSSAM: (137.89, 1.11),
@@ -110,7 +114,8 @@ class DriverProxy(object):
                         self._tts.EventInterests = 33790
                         self._event_sink = SAPI5DriverEventSink()
                         self._event_sink.setDriver(weakref.proxy(self))
-                        self._advise = comtypes.client.GetEvents(self._tts, self._event_sink)
+                        self._advise = comtypes.client.GetEvents(self._tts, 
+                                                                 self._event_sink)
                         self._proxy = proxy
                         self._looping = False
                         self._speaking = False
@@ -223,7 +228,8 @@ class DriverProxy(object):
                     def _ISpeechVoiceEvents_EndStream(self, stream, pos):
                         d = self._driver
                         if d._speaking:
-                            d._proxy.notify('finished-utterance', completed=not d._stopping)
+                            d._proxy.notify('finished-utterance', 
+                                            completed=not d._stopping)
                         d._speaking = False
                         d._stopping = False
                         d._proxy.setBusy(False)
@@ -647,24 +653,7 @@ Utility functions to help with Python 2/3 compatibility
 '''
 
 
-def toUtf8(value):
-    '''
-    Takes in a value and converts it to a text (unicode) type.  Then decodes that
-    type to a byte array encoded in utf-8.  In 2.X the resulting object will be a
-    str and in 3.X the resulting object will be bytes.  In both 2.X and 3.X any
-    object can be passed in and the object's __str__ will be used (or __repr__ if
-    __str__ is not defined) if the object is not already a text type.
-    '''
-    return six.text_type(value).encode('utf-8')
 
-
-def fromUtf8(value):
-    '''
-    Takes in a byte array encoded as utf-8 and returns a text (unicode) type.  In
-    2.X we expect a str type and return a unicde type.  In 3.X we expect a bytes
-    type and return a str type.
-    '''
-    return value.decode('utf-8')
 
 if sys.platform == 'win32':
     def speak(text):
