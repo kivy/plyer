@@ -77,7 +77,7 @@ class AndroidFileChooser(FileChooser):
 
     # default selection value
     selection = None
-    
+
     # select multiple files
     multiple = False
 
@@ -120,7 +120,7 @@ class AndroidFileChooser(FileChooser):
         file_intent.addCategory(
             Intent.CATEGORY_OPENABLE
         )
-        
+
         # use putExtra to allow multiple file selection
         if self.multiple:
             file_intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, True)
