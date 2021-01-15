@@ -76,6 +76,9 @@ class AndroidFileChooser(FileChooser):
 
     # default selection value
     selection = None
+    
+    # select multiple files
+    multiple = False
 
     # mime types
     mime_type = {
@@ -140,6 +143,10 @@ class AndroidFileChooser(FileChooser):
         file_intent.addCategory(
             Intent.CATEGORY_OPENABLE
         )
+        
+        # use putExtra to allow multiple file selection
+        if self.multiple:
+            file_intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, True)
 
         # start a new activity from PythonActivity
         # which creates a filechooser via intent
