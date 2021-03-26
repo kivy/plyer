@@ -51,7 +51,6 @@ from jnius import autoclass, cast, JavaException
 from plyer.facades import FileChooser
 from plyer import storagepath
 
-
 String = autoclass('java.lang.String')
 Intent = autoclass('android.content.Intent')
 Activity = autoclass('android.app.Activity')
@@ -77,6 +76,22 @@ class AndroidFileChooser(FileChooser):
 
     # default selection value
     selection = None
+
+    # mime types
+    mime_type = {
+                    "doc": "application/msword",
+                    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "ppt": "application/vnd.ms-powerpoint",
+                    "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "xls": "application/vnd.ms-excel",
+                    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "text": "text/plain",
+                    "pdf": "application/pdf",
+                    "zip": "application/zip",
+                    "image": "image/*"
+    }
+
+    selected_mime_type = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -110,10 +125,15 @@ class AndroidFileChooser(FileChooser):
         self._handle_selection = kwargs.pop(
             'on_selection', self._handle_selection
         )
+        self.selected_mime_type = kwargs.pop("filters")[0]
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        file_intent.setType('*/*')
+        if not self.selected_mime_type or type(self.selected_mime_type) != str or\
+                self.selected_mime_type not in self.mime_type:
+            file_intent.setType("*/*")
+        else:
+            file_intent.setType(self.mime_type[self.selected_mime_type])
         file_intent.addCategory(
             Intent.CATEGORY_OPENABLE
         )
@@ -168,7 +188,10 @@ class AndroidFileChooser(FileChooser):
 
         # external (removable) SD card i.e. microSD
         external = storagepath.get_sdcard_dir()
-        external_base = basename(external)
+        try:
+            external_base = basename(external)
+        except TypeError:
+            external_base = basename(internal)
 
         # resolve sdcard path
         sdcard = internal
@@ -178,8 +201,7 @@ class AndroidFileChooser(FileChooser):
         if file_type in external_base or external_base in file_type:
             sdcard = external
 
-        path = join(sdcard, file_name)
-        return path
+        return join(sdcard, file_name)
 
     @staticmethod
     def _handle_media_documents(uri):
@@ -307,9 +329,11 @@ class AndroidFileChooser(FileChooser):
         selection = None
         downloads = None
 
+        # This does not allow file selected from google photos or gallery
+        # or even any other file explorer to work
         # not a document URI, nothing to convert from
-        if not DocumentsContract.isDocumentUri(mActivity, uri):
-            return path
+        # if not DocumentsContract.isDocumentUri(mActivity, uri):
+        #     return path
 
         if uri_authority == 'com.android.externalstorage.documents':
             return self._handle_external_documents(uri)
@@ -325,10 +349,16 @@ class AndroidFileChooser(FileChooser):
 
         # parse content:// scheme to path
         if uri_scheme == 'content' and not downloads:
-            path = self._parse_content(
-                uri=uri, projection=['_data'], selection=selection,
-                selection_args=[file_name], sort_order=None
-            )
+            try:
+                path = self._parse_content(
+                    uri=uri, projection=['_data'], selection=selection,
+                    selection_args=file_name, sort_order=None
+                )
+            except JavaException:  # handles array error for selection_args
+                path = self._parse_content(
+                    uri=uri, projection=['_data'], selection=selection,
+                    selection_args=[file_name], sort_order=None
+                )
 
         # nothing to parse, file:// will return a proper path
         elif uri_scheme == 'file':
