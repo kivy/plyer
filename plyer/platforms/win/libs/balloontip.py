@@ -6,14 +6,12 @@ notification in the taskbar's tray notification area.
 
 __all__ = ('WindowsBalloonTip', 'balloon_tip')
 
-
 import time
 import ctypes
 import atexit
 from threading import RLock
 
 from plyer.platforms.win.libs import win_api_defs
-
 
 WS_OVERLAPPED = 0x00000000
 WS_SYSMENU = 0x00080000
@@ -148,13 +146,13 @@ class WindowsBalloonTip:
         self.remove_notify()
         if self._hicon is not None:
             win_api_defs.DestroyIcon(self._hicon)
+        if self._hwnd is not None:
+            win_api_defs.DestroyWindow(self._hwnd)
         if self._wnd_class_ex is not None:
             win_api_defs.UnregisterClassW(
                 self._class_atom,
                 self._wnd_class_ex.hInstance
             )
-        if self._hwnd is not None:
-            win_api_defs.DestroyWindow(self._hwnd)
 
     def notify(self, title, message, app_name):
         '''
