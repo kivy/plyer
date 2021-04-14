@@ -174,12 +174,21 @@ class AndroidFileChooser(FileChooser):
             # The action had been cancelled.
             return
 
-        selection = self._resolve_uri(data.getData()) or []
+        selection = []
+        #Process multiple URI if multiple files selected
+        try:
+            for count in range(data.getClipData().getItemCount()):
+                ele = self._resolve_uri(data.getClipData().getItemAt(count).getUri()) or []
+                selection.append(ele)
+        except:
+            selection = [self._resolve_uri(data.getData()),]
+        
+        
 
         # return value to object
-        self.selection = [selection]
+        self.selection = selection
         # return value via callback
-        self._handle_selection([selection])
+        self._handle_selection(selection)
 
     @staticmethod
     def _handle_external_documents(uri):
