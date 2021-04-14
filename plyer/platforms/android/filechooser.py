@@ -159,8 +159,6 @@ class AndroidFileChooser(FileChooser):
                 selection.append(ele)
         except:
             selection = [self._resolve_uri(data.getData()),]
-        
-        
 
         # return value to object
         self.selection = selection
