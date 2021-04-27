@@ -136,7 +136,7 @@ class Win32FileChooser:
                 # pidl is None when nothing is selected
                 # and e.g. the dialog is closed afterwards with Cancel
                 if pidl:
-                    self.selection = [str(get_path(pidl).decode('utf-8'))]
+                    self.selection = [str(get_path(pidl).decode('Windows-1251', errors='ignore'))]
 
         except (RuntimeError, pywintypes.error, Exception):
             # ALWAYS! let user know what happened
