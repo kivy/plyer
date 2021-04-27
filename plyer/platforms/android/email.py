@@ -48,6 +48,7 @@ class AndroidEmail(Email):
                 Intent.createChooser(intent, chooser_title)
             )
         else:
+            intent.setClassName('com.google.android.gm', 'com.google.android.gm.ComposeActivityGmailExternal')
             activity.startActivity(intent)
 
 
