@@ -241,6 +241,9 @@ class LinuxFileChooser(FileChooser):
     if (str(os.environ.get("XDG_CURRENT_DESKTOP")).lower() == "kde"
             and which("kdialog")):
         desktop = "kde"
+    elif str(os.environ.get('DESKTOP_SESSION').lower() == 'trinity'
+             and which("kdialog"):
+        desktop = "kde"
     elif which("yad"):
         desktop = "yad"
     elif which("zenity"):
