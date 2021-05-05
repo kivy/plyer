@@ -105,7 +105,7 @@ class MacFileChooser:
             else:
                 filename = panel.filenames()
                 selection = [
-                    filename.objectAtIndex_(x).UTF8String() 
+                    filename.objectAtIndex_(x).UTF8String()
                     for x in range(filename.count())]
             self._handle_selection(selection)
             return selection
