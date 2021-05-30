@@ -103,7 +103,10 @@ class MacFileChooser:
             if self.mode == "save" or not self.multiple:
                 selection = [panel.filename().UTF8String()]
             else:
-                selection = [i.UTF8String() for i in panel.filenames()]
+                filename = panel.filenames()
+                selection = [
+                    filename.objectAtIndex_(x).UTF8String()
+                    for x in range(filename.count())]
             self._handle_selection(selection)
             return selection
         return None
