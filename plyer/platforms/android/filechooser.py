@@ -128,7 +128,7 @@ class AndroidFileChooser(FileChooser):
         self._handle_selection = kwargs.pop(
             'on_selection', self._handle_selection
         )
-        self.selected_mime_type = kwargs.pop("filters")[0]
+        self.selected_mime_type = kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
