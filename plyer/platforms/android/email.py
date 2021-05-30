@@ -49,7 +49,7 @@ class AndroidEmail(Email):
             )
         else:
             intent.setClassName('com.google.android.gm', 'com.google.android.gm.ComposeActivityGmailExternal')
-
+            activity.startActivity(intent)
 
 
 def instance():

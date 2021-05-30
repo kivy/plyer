@@ -85,13 +85,10 @@ class AndroidFileChooser(FileChooser):
                     "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
                     "xls": "application/vnd.ms-excel",
                     "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "text": "text/*",
+                    "text": "text/plain",
                     "pdf": "application/pdf",
                     "zip": "application/zip",
-                    "image": "image/*",
-                    "video": "video/*",
-                    "audio": "audio/*",
-                    "application": "application/*"
+                    "image": "image/*"
     }
 
     selected_mime_type = None
