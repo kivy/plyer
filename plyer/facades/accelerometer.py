@@ -17,7 +17,7 @@ To enable accelerometer::
     >>> from plyer import accelerometer
     >>> accelerometer.enable()
 
-To disable acceletometer::
+To disable accelerometer::
 
     >>> accelerometer.disable()
 

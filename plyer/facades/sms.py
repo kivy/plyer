@@ -37,7 +37,7 @@ class Sms:
         '''
         Send SMS or open SMS interface.
 
-        :param recipient: The reveiver
+        :param recipient: The receiver
         :param message: the message
 
         :type recipient: number

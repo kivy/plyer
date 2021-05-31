@@ -119,7 +119,7 @@ class Wifi:
 
     def get_network_info(self, name):
         '''
-        Return a dictionary of secified network.
+        Return a dictionary of specified network.
         '''
         return self._get_network_info(name=name)
 

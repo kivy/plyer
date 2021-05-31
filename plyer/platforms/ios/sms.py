@@ -23,7 +23,7 @@ class IOSSms(Sms):
             - recipient: String type
             - message: String type
 
-        Opens a mesage interface with recipient and message information.
+        Opens a message interface with recipient and message information.
         '''
         recipient = kwargs.get('recipient')
         message = kwargs.get('message')
