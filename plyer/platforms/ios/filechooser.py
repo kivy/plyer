@@ -63,7 +63,7 @@ class IOSFileChooser(FileChooser):
     def imagePickerController_didFinishPickingMediaWithInfo_(
             self, image_picker, frozen_dict):
         """
-        Delegate which handles the result of the image seletion process.
+        Delegate which handles the result of the image selection process.
         """
         image_picker.dismissViewControllerAnimated_completion_(True, None)
 

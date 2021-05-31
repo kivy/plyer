@@ -29,7 +29,7 @@ class iOSCamera(Camera):
         return True
 
     def capture_callback(self, photolibrary):
-        # Image was choosen
+        # Image was chosen
 
         # unbind
         self.photos.unbind(on_image_captured=self.capture_callback)

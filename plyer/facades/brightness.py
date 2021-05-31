@@ -41,7 +41,7 @@ class Brightness:
     def set_level(self, level):
         '''
         Adjust the brightness of the screen.
-        Minimum brightnesss level:: 1
+        Minimum brightness level:: 1
         Maximum brightness level:: 100
 
         :param level: New level of brightness between 1 and 100

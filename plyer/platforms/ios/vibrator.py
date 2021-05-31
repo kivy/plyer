@@ -11,7 +11,7 @@ class IosVibrator(Vibrator):
     '''iOS Vibrator class.
 
     iOS doesn't support any feature.
-    All time, pattern, repeatition are ignored.
+    All time, pattern, repetition are ignored.
     '''
 
     def __init__(self):
