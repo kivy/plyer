@@ -145,7 +145,7 @@ class AndroidFileChooser(FileChooser):
         )
 
         # use putExtra to allow multiple file selection
-        if self.multiple:
+        if kwargs.get('multiple', self.multiple):
             file_intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, True)
 
         # start a new activity from PythonActivity
