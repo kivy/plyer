@@ -2,8 +2,7 @@
 
 from jnius import autoclass, cast
 from plyer.facades import Vibrator
-from plyer.platforms.android import activity
-from plyer.platforms.android import SDK_INT
+from plyer.platforms.android import activity, SDK_INT, require_permission
 
 Context = autoclass("android.content.Context")
 vibrator_service = activity.getSystemService(Context.VIBRATOR_SERVICE)
@@ -22,6 +21,7 @@ class AndroidVibrator(Vibrator):
         * check whether Vibrator exists.
     """
 
+    @require_permissions("VIBRATE")
     def _vibrate(self, time=None, **kwargs):
         if vibrator:
             if SDK_INT >= 26:
@@ -33,6 +33,7 @@ class AndroidVibrator(Vibrator):
             else:
                 vibrator.vibrate(int(1000 * time))
 
+    @require_permissions("VIBRATE")
     def _pattern(self, pattern=None, repeat=None, **kwargs):
         pattern = [int(1000 * time) for time in pattern]
 

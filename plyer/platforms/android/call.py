@@ -5,7 +5,7 @@ Android Call
 
 from jnius import autoclass
 from plyer.facades import Call
-from plyer.platforms.android import activity
+from plyer.platforms.android import activity, require_permissions
 
 Intent = autoclass('android.content.Intent')
 uri = autoclass('android.net.Uri')
@@ -13,6 +13,7 @@ uri = autoclass('android.net.Uri')
 
 class AndroidCall(Call):
 
+    @require_permissions("CALL_PHONE")
     def _makecall(self, **kwargs):
 
         intent = Intent(Intent.ACTION_CALL)
@@ -20,6 +21,7 @@ class AndroidCall(Call):
         intent.setData(uri.parse("tel:{}".format(tel)))
         activity.startActivity(intent)
 
+    @require_permissions("CALL_PHONE")
     def _dialcall(self, **kwargs):
         intent_ = Intent(Intent.ACTION_DIAL)
         activity.startActivity(intent_)

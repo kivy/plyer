@@ -3,7 +3,7 @@ Module of Android API for plyer.battery.
 '''
 
 from jnius import autoclass, cast
-from plyer.platforms.android import activity
+from plyer.platforms.android import activity, require_permissions
 from plyer.facades import Battery
 
 Intent = autoclass('android.content.Intent')
@@ -16,6 +16,7 @@ class AndroidBattery(Battery):
     Implementation of Android battery API.
     '''
 
+    @require_permissions('BATTERY_STATS')
     def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
