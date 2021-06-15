@@ -5,7 +5,7 @@ from jnius import java_method
 from jnius import PythonJavaClass
 
 from plyer.facades import STT
-from plyer.platforms.android import activity, require_permission
+from plyer.platforms.android import activity, require_permissions
 
 ArrayList = autoclass('java.util.ArrayList')
 Bundle = autoclass('android.os.Bundle')
@@ -197,7 +197,7 @@ class AndroidSpeech(STT):
         self.partial_results.extend(messages)
 
     @run_on_ui_thread
-    @require_permission("RECORD_AUDIO")
+    @require_permissions("RECORD_AUDIO")
     def _start(self):
         intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(
