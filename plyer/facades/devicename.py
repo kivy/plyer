@@ -1,0 +1,50 @@
+'''DeviceName facade.
+
+Returns the following depending on the platform:
+
+* **Android**: Android Device name
+* **Linux**: Hostname of the machine
+* **Windows**: Hostname of the machine
+
+Simple Example
+--------------
+
+To get the unique ID::
+
+    >>> from plyer import devicename
+    >>> devicename.device_name
+    'Oneplus 3'
+
+.. versionadded:: 2.0.0
+    - first release
+
+
+Supported Platforms
+-------------------
+Android, Windows, Linux
+
+'''
+
+
+class DeviceName:
+    '''
+    DeviceName facade.
+    '''
+
+    @property
+    def device_name(self):
+        '''
+        Property that returns the device name of the platform.
+        '''
+        return self.get_device_name()
+
+    def get_device_name(self):
+        '''
+        Public method for getting device name via platform-specific
+        API in plyer.platforms.
+        '''
+        return self._get_device_name()
+
+    # private
+    def _get_device_name(self):
+        raise NotImplementedError()
