@@ -4,12 +4,12 @@ Module of Android API for plyer.devicename.
 
 from jnius import autoclass
 from plyer.platforms.android import activity
-from plyer.facades import UniqueID
+from plyer.facades import DeviceName
 
 Secure = autoclass('android.provider.Global$Secure')
 
 
-class AndroidDeviceName(UniqueID):
+class AndroidDeviceName(DeviceName):
     '''
     Implementation of Android devicename API.
     '''
