@@ -14,7 +14,7 @@ class AndroidDeviceName(UniqueID):
     Implementation of Android devicename API.
     '''
 
-    def _get_uid(self):
+    def _get_device_name(self):
         return Secure.getString(
             activity.getContentResolver(),
             Secure.DEVICE_NAME
