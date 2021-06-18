@@ -5,6 +5,7 @@ Module of Linux API for plyer.devicename.
 import socket
 from plyer.facades import DeviceName
 
+
 class LinuxDeviceName(DeviceName):
     '''
     Implementation of Linux DeviceName API.
@@ -12,11 +13,10 @@ class LinuxDeviceName(DeviceName):
 
     def _get_device_name(self):
         hostname = None
-        
         if not socket.gethostname():
             hostname = socket.gethostname()
-            
         return hostname
+
 
 def instance():
     '''

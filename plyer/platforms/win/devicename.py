@@ -5,6 +5,7 @@ Module of Win API for plyer.devicename.
 import socket
 from plyer.facades import DeviceName
 
+
 class WinDeviceName(DeviceName):
     '''
     Implementation of Linux DeviceName API.
@@ -12,11 +13,10 @@ class WinDeviceName(DeviceName):
 
     def _get_device_name(self):
         hostname = None
-        
         if not socket.gethostname():
             hostname = socket.gethostname()
-            
         return hostname
+
 
 def instance():
     '''
