@@ -54,6 +54,24 @@ class TestDeviceName(unittest.TestCase):
             evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_linux_hostname')
 
+    @PlatformTest('macosx')
+    def test_devicename_macosx(self):
+        '''
+        Test MacOSX API for plyer.devicename.
+        '''
+        devicename = platform_import(platform='macosx',
+                                     module_name='devicename'
+                                     )
+        devicename_instance = devicename.instance()
+
+        with patch.object(socket,
+                          'gethostname',
+                          return_value='mocked_macosx_hostname'
+                          ) as mock_method:
+
+            evaluated_device_name = devicename_instance.device_name
+            self.assertEqual(evaluated_device_name, 'mocked_macosx_hostname')
+
 
 if __name__ == '__main__':
     unittest.main()

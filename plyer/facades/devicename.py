@@ -4,6 +4,7 @@ Returns the following depending on the platform:
 
 * **Android**: Android Device name
 * **Linux**: Hostname of the machine
+* **OS X**: Hostname of the machine
 * **Windows**: Hostname of the machine
 
 Simple Example
@@ -21,7 +22,7 @@ To get the unique ID::
 
 Supported Platforms
 -------------------
-Android, Windows, Linux
+Android, Windows, OS X, Linux
 
 '''
 

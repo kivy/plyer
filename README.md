@@ -36,7 +36,7 @@ implement the api in the easiest way, depending on the current platform.
 | Camera (taking picture)        | ✔       | ✔   |         |      |       |
 | Compass                        | ✔       | ✔   |         |      |       |
 | CPU count                      |         |     | ✔       | ✔    | ✔     |
-| Devicename                     | ✔       |     | ✔       |      | ✔     |
+| Devicename                     | ✔       |     | ✔       | ✔    | ✔     |
 | Email (open mail client)       | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Flash                          | ✔       | ✔   |         |      |       |
 | GPS                            | ✔       | ✔   |         |      |       |
