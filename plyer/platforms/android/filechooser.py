@@ -185,7 +185,7 @@ class AndroidFileChooser(FileChooser):
                 ele = self._resolve_uri(
                     data.getClipData().getItemAt(count).getUri()) or []
                 selection.append(ele)
-        except:
+        except Exception:
             selection = [self._resolve_uri(data.getData()), ]
 
         # return value to object
