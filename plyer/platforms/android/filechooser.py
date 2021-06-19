@@ -83,14 +83,14 @@ class AndroidFileChooser(FileChooser):
     # mime types
     mime_type = {
         "doc": "application/msword",
-        "docx": "application/vnd.openxmlformats-officedocument" +
-            "wordprocessingml.document",
+        "docx": "application/vnd.openxmlformats-officedocument." +
+                "wordprocessingml.document",
         "ppt": "application/vnd.ms-powerpoint",
-        "pptx": "application/vnd.openxmlformats-officedocument.presentationml" +
-            "presentation",
+        "pptx": "application/vnd.openxmlformats-officedocument." +
+                "presentationml.presentation",
         "xls": "application/vnd.ms-excel",
-        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml" +
-            "sheet",
+        "xlsx": "application/vnd.openxmlformats-officedocument." +
+                "spreadsheetml.sheet",
         "text": "text/*",
         "pdf": "application/pdf",
         "zip": "application/zip",
@@ -179,7 +179,7 @@ class AndroidFileChooser(FileChooser):
             return
 
         selection = []
-        #Process multiple URI if multiple files selected
+        # Process multiple URI if multiple files selected
         try:
             for count in range(data.getClipData().getItemCount()):
                 ele = self._resolve_uri(
