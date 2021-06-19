@@ -12,9 +12,7 @@ class LinuxDeviceName(DeviceName):
     '''
 
     def _get_device_name(self):
-        hostname = None
-        if not socket.gethostname():
-            hostname = socket.gethostname()
+        hostname = socket.gethostname()
         return hostname
 
 
