@@ -31,7 +31,7 @@ class TestDeviceName(unittest.TestCase):
         with patch.object(socket,
                           'gethostname',
                           return_value='mocked_windows_hostname'
-                          ) as mock_method:
+                          ) as _:
 
             evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_windows_hostname')
@@ -49,7 +49,7 @@ class TestDeviceName(unittest.TestCase):
         with patch.object(socket,
                           'gethostname',
                           return_value='mocked_linux_hostname'
-                          ) as mock_method:
+                          ) as _:
 
             evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_linux_hostname')
@@ -67,7 +67,7 @@ class TestDeviceName(unittest.TestCase):
         with patch.object(socket,
                           'gethostname',
                           return_value='mocked_macosx_hostname'
-                          ) as mock_method:
+                          ) as _:
 
             evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_macosx_hostname')
