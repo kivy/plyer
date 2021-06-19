@@ -10,7 +10,7 @@ __all__ = (
     'flash', 'gps', 'gravity', 'gyroscope', 'humidity', 'irblaster',
     'keystore', 'light', 'notification', 'orientation', 'processors',
     'proximity', 'screenshot', 'sms', 'spatialorientation', 'storagepath',
-    'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi'
+    'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi', 'devicename'
 )
 
 __version__ = '2.0.1.dev0'
@@ -119,3 +119,6 @@ cpu = Proxy('cpu', facades.CPU)
 
 #: Screenshot proxy to :class:`plyer.facades.Screenshot`
 screenshot = Proxy('screenshot', facades.Screenshot)
+
+#: devicename proxy to :class:`plyer.facades.DeviceName`
+devicename = Proxy('devicename', facades.DeviceName)
