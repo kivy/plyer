@@ -33,7 +33,7 @@ class TestDeviceName(unittest.TestCase):
                           return_value='mocked_windows_hostname'
                           ) as mock_method:
 
-            evaluated_device_name = devicename_instance._get_device_name()
+            evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_windows_hostname')
 
     @PlatformTest('linux')
@@ -51,7 +51,7 @@ class TestDeviceName(unittest.TestCase):
                           return_value='mocked_linux_hostname'
                           ) as mock_method:
 
-            evaluated_device_name = devicename_instance._get_device_name()
+            evaluated_device_name = devicename_instance.device_name
             self.assertEqual(evaluated_device_name, 'mocked_linux_hostname')
 
 

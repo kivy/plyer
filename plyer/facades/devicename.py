@@ -15,7 +15,7 @@ To get the unique ID::
     >>> devicename.device_name
     'Oneplus 3'
 
-.. versionadded:: 2.0.0
+.. versionadded:: 2.1.0
     - first release
 
 
@@ -35,13 +35,6 @@ class DeviceName:
     def device_name(self):
         '''
         Property that returns the device name of the platform.
-        '''
-        return self.get_device_name()
-
-    def get_device_name(self):
-        '''
-        Public method for getting device name via platform-specific
-        API in plyer.platforms.
         '''
         return self._get_device_name()
 
