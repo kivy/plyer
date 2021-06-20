@@ -13,8 +13,8 @@ try:
     import wifi
 except ModuleNotFoundError as err:
     raise ModuleNotFoundError(
-            "python-wifi not installed. try: `pip install --user wifi`."
-            ) from err
+            "python-wifi not installed. try:" +
+            "`pip install --user wifi`.") from err
 
 
 class NMCLIWifi(Wifi):

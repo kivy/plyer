@@ -88,7 +88,8 @@ class WinScreenshot(Screenshot):
         dest_ctx.BitBlt(
             (0, 0),           # start point (x, y)
             (width, height),  # size of rectangle
-            dev_ctx, (        # source device
+            dev_ctx,          # source device
+            (
                 GetSystemMetrics(SM_XVIRTUALSCREEN),
                 GetSystemMetrics(SM_YVIRTUALSCREEN)
             ),                # source rectangle, can be different monitor

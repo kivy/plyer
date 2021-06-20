@@ -82,20 +82,22 @@ class AndroidFileChooser(FileChooser):
 
     # mime types
     mime_type = {
-                    "doc": "application/msword",
-                    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "ppt": "application/vnd.ms-powerpoint",
-                    "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "xls": "application/vnd.ms-excel",
-                    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "text": "text/*",
-                    "pdf": "application/pdf",
-                    "zip": "application/zip",
-                    "image": "image/*",
-                    "video": "video/*",
-                    "audio": "audio/*",
-                    "application": "application/*"
-    }
+        "doc": "application/msword",
+        "docx": "application/vnd.openxmlformats-officedocument." +
+                "wordprocessingml.document",
+        "ppt": "application/vnd.ms-powerpoint",
+        "pptx": "application/vnd.openxmlformats-officedocument." +
+                "presentationml.presentation",
+        "xls": "application/vnd.ms-excel",
+        "xlsx": "application/vnd.openxmlformats-officedocument." +
+                "spreadsheetml.sheet",
+        "text": "text/*",
+        "pdf": "application/pdf",
+        "zip": "application/zip",
+        "image": "image/*",
+        "video": "video/*",
+        "audio": "audio/*",
+        "application": "application/*"}
 
     selected_mime_type = None
 
@@ -131,11 +133,13 @@ class AndroidFileChooser(FileChooser):
         self._handle_selection = kwargs.pop(
             'on_selection', self._handle_selection
         )
-        self.selected_mime_type = kwargs.pop("filters")[0] if "filters" in kwargs else ""
+        self.selected_mime_type = \
+            kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        if not self.selected_mime_type or type(self.selected_mime_type) != str or\
+        if not self.selected_mime_type or \
+            type(self.selected_mime_type) != str or \
                 self.selected_mime_type not in self.mime_type:
             file_intent.setType("*/*")
         else:
@@ -175,13 +179,14 @@ class AndroidFileChooser(FileChooser):
             return
 
         selection = []
-        #Process multiple URI if multiple files selected
+        # Process multiple URI if multiple files selected
         try:
             for count in range(data.getClipData().getItemCount()):
-                ele = self._resolve_uri(data.getClipData().getItemAt(count).getUri()) or []
+                ele = self._resolve_uri(
+                    data.getClipData().getItemAt(count).getUri()) or []
                 selection.append(ele)
-        except:
-            selection = [self._resolve_uri(data.getData()),]
+        except Exception:
+            selection = [self._resolve_uri(data.getData()), ]
 
         # return value to object
         self.selection = selection
