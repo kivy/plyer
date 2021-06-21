@@ -18,7 +18,7 @@ class AndroidDeviceName(DeviceName):
         Method to get the device name aka model in an android environment.
 
         Changed the implementation from 'android.provider.Settings.Global' to
-        'android.os.Build' becuase 'android.provider.Settings.Global' was
+        'android.os.Build' because 'android.provider.Settings.Global' was
         introduced in API 17 whereas 'android.os.Build' is present since API 1
 
         Thereby making this method more backward compatible.
