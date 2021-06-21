@@ -3,10 +3,9 @@ Module of Android API for plyer.devicename.
 '''
 
 from jnius import autoclass
-from plyer.platforms.android import activity
 from plyer.facades import DeviceName
 
-Secure = autoclass('android.provider.Global$Secure')
+Build = autoclass('android.os.Build')
 
 
 class AndroidDeviceName(DeviceName):
@@ -15,10 +14,16 @@ class AndroidDeviceName(DeviceName):
     '''
 
     def _get_device_name(self):
-        return Secure.getString(
-            activity.getContentResolver(),
-            Secure.DEVICE_NAME
-        )
+        """
+        Method to get the device name in an android environment.
+
+        Changed the implementation from 'android.provider.Settings.Global' to
+        'android.os.Build' becuase 'android.provider.Settings.Global' was
+        introduced in API 17 whereas 'android.os.Build' is present since API 1
+
+        Thereby making this method more backward compatible.
+        """
+        return Build.DEVICE
 
 
 def instance():
