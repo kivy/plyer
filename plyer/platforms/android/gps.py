@@ -4,7 +4,9 @@ Android GPS
 '''
 
 from plyer.facades import GPS
-from plyer.platforms.android import activity
+from plyer.platforms.android import activity, require_permissions
+from android.permissions import Permission
+
 from jnius import autoclass, java_method, PythonJavaClass
 
 Looper = autoclass('android.os.Looper')
@@ -62,6 +64,7 @@ class AndroidGPS(GPS):
             )
             self._location_listener = _LocationListener(self)
 
+    @require_permissions("ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION")
     def _start(self, **kwargs):
         min_time = kwargs.get('minTime')
         min_distance = kwargs.get('minDistance')

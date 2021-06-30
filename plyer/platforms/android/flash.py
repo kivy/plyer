@@ -6,7 +6,7 @@ Flash
 
 from plyer.facades import Flash
 from jnius import autoclass
-from plyer.platforms.android import activity
+from plyer.platforms.android import activity, require_permissions
 
 Camera = autoclass("android.hardware.Camera")
 CameraParameters = autoclass("android.hardware.Camera$Parameters")
@@ -38,6 +38,7 @@ class AndroidFlash(Flash):
         self._camera.release()
         self._camera = None
 
+    @require_permissions("CAMERA", "FLASHLIGHT")
     def _camera_open(self):
         if not flash_available:
             return

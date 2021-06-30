@@ -1,6 +1,7 @@
 from jnius import autoclass
 
 from plyer.facades.audio import Audio
+from plyer.platforms.android import require_permissions
 
 # Recorder Classes
 MediaRecorder = autoclass('android.media.MediaRecorder')
@@ -26,6 +27,7 @@ class AndroidAudio(Audio):
         self._recorder = None
         self._player = None
 
+    @require_permissions("RECORD_AUDIO")
     def _start(self):
         self._recorder = MediaRecorder()
         self._recorder.setAudioSource(AudioSource.DEFAULT)
