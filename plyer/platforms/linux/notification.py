@@ -14,9 +14,25 @@ class NotifySendNotification(Notification):
     using notify-send binary.
     '''
     def _notify(self, **kwargs):
-        subprocess.call([
-            "notify-send", kwargs.get('title'), kwargs.get('message')
-        ])
+        icon = kwargs.get('icon', '')
+        title = kwargs.get('title', 'title')
+        hint = kwargs.get('hint', 'string::')
+        message = kwargs.get('message', 'body')
+        category = kwargs.get('category', '')
+        app_name = kwargs.get('app_name', '')
+        urgency = kwargs.get('urgency', 'normal')
+        expire_time = kwargs.get('expire_time', '0')
+
+        notify_send_args = (title, 
+                            message, 
+                            "-i", icon, 
+                            "-h", hint,
+                            "-u", urgency, 
+                            "-c", category, 
+                            "-a", app_name,
+                            "-t", expire_time)
+
+        subprocess.call(["notify-send", *notify_send_args])
 
 
 class NotifyDbus(Notification):
