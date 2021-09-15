@@ -48,7 +48,7 @@ class NotifyDbus(Notification):
         app_icon = kwargs.get('app_icon', '')
         timeout = kwargs.get('timeout', 10)
         actions = kwargs.get('actions', [])
-        hints = kwargs.get('hints', [])
+        hints = kwargs.get('hints', {})
         replaces_id = kwargs.get('replaces_id', 0)
 
         _bus_name = 'org.freedesktop.Notifications'
