@@ -44,7 +44,7 @@ class LinuxStoragePath(StoragePath):
         return "/"
 
     def _get_documents_dir(self):
-        directory = self._get_from_user_dirs("DOCUMENT")
+        directory = self._get_from_user_dirs("DOCUMENTS")
         return directory.replace("$HOME", self._get_home_dir())
 
     def _get_downloads_dir(self):
