@@ -97,7 +97,7 @@ class AndroidNotification(Notification):
 
         .. versionadded:: 1.4.0
         '''
-        app_icon = Drawable.icon
+        app_icon = Drawable.presplash
         notification.setSmallIcon(app_icon)
 
         bitmap_icon = app_icon
