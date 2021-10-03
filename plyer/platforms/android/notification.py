@@ -26,7 +26,7 @@ AndroidString = autoclass('java.lang.String')
 Context = autoclass('android.content.Context')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
 NotificationManager = autoclass('android.app.NotificationManager')
-Drawable = autoclass("{}.R$drawable".format(activity.getPackageName()))
+Drawable = autoclass("{}.R$mipmap".format(activity.getPackageName()))
 PendingIntent = autoclass('android.app.PendingIntent')
 Intent = autoclass('android.content.Intent')
 Toast = autoclass('android.widget.Toast')
@@ -97,7 +97,7 @@ class AndroidNotification(Notification):
 
         .. versionadded:: 1.4.0
         '''
-        app_icon = Drawable.presplash
+        app_icon = Drawable.icon
         notification.setSmallIcon(app_icon)
 
         bitmap_icon = app_icon
