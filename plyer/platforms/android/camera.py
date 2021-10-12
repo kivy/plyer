@@ -64,21 +64,21 @@ class AndroidCamera(Camera):
             return Uri.parse('file://' + filename)
         #
         # For Android >= 10, we need to declare a FileProvider in
-        # AndroidManifest and set plyer.camera.FILEPROVIDER_AUTHORITY accordingly
-        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
-        ctx = currentActivity.getApplicationContext()
+        # AndroidManifest and set plyer.camera.FILEPROVIDER_AUTHORITY
+        # accordingly
+        curActivity = cast('android.app.Activity', PythonActivity.mActivity)
+        ctx = curActivity.getApplicationContext()
         try:
             return FileProvider.getUriForFile(ctx, self.FILEPROVIDER_AUTHORITY,
                                               File(filename))
-        except JavaException as exc:
+        except JavaException:
             raise Exception(
-                f'Cannot get a uri for filename {filename} for the Fileprovider '
-                f'authority {self.FILEPROVIDER_AUTHORITY}.  This probably means that '
-                f'FILE_PROVIDER_PATHS is not configured correctly in '
-                f'AndroidManifest.xml and/or you need to change the value of '
-                f'plyer.camera.FILEPROVIDER_AUTHORITY'
+                f'Cannot get a uri for filename {filename} for the '
+                f'Fileprovider authority {self.FILEPROVIDER_AUTHORITY}.  This '
+                f'probably means that FILE_PROVIDER_PATHS is not configured '
+                f'correctly in AndroidManifest.xml and/or you need to change '
+                f'the value of plyer.camera.FILEPROVIDER_AUTHORITY'
             )
-        return uri
 
 
 def instance():
