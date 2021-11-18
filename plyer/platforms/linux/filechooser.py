@@ -158,7 +158,7 @@ class KDialogFileChooser(SubprocessFileChooser):
             ]
         elif self.mode == "save":
             cmdline += [
-                "--getopenfilename",
+                "--getsavefilename",
                 (self.path if self.path else os.path.expanduser("~")),
                 " ".join(filt)
             ]
