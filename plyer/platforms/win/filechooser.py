@@ -76,6 +76,10 @@ class Win32FileChooser:
                 args["Title"] = self.title if self.title else "Pick a file..."
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
                 args["FilterIndex"] = 1
+                file = ""
+                if "File" in args:
+                    file = args["File"]
+                args["File"] = file + ("\x00"*4096)
 
                 # e.g. open_file(filters=['*.txt', '*.py'])
                 filters = ""
