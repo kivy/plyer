@@ -29,6 +29,17 @@ class _LocationListener(PythonJavaClass):
             altitude=location.getAltitude(),
             accuracy=location.getAccuracy())
 
+    @java_method('(Ljava/util/List;)V', name='onLocationChanged')
+    def onLocationChangedList(self, location_list):
+        location = location_list[-1]
+        self.root.on_location(
+            lat=location.getLatitude(),
+            lon=location.getLongitude(),
+            speed=location.getSpeed(),
+            bearing=location.getBearing(),
+            altitude=location.getAltitude(),
+            accuracy=location.getAccuracy())
+
     @java_method('(Ljava/lang/String;)V')
     def onProviderEnabled(self, status):
         if self.root.on_status:
