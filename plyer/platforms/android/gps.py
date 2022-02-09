@@ -31,7 +31,7 @@ class _LocationListener(PythonJavaClass):
 
     @java_method('(Ljava/util/List;)V', name='onLocationChanged')
     def onLocationChangedList(self, location_list):
-        location = location_list[-1]
+        location = location_list.get(location_list.size() - 1)
         self.root.on_location(
             lat=location.getLatitude(),
             lon=location.getLongitude(),
