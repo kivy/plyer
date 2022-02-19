@@ -98,17 +98,14 @@ class MacFileChooser:
             url = NSURL.fileURLWithPath_(self.path)
             panel.setDirectoryURL_(url)
 
-        selection = ['']
+        selection = None
 
         if panel.runModal():
             if self.mode == "save" or not self.multiple:
                 selection = [panel.filename().UTF8String()]
             else:
                 filename = panel.filenames()
-                selection = [
-                    filename.objectAtIndex_(x).UTF8String()
-                    for x in range(filename.count())
-                ]
+                selection = [filename.objectAtIndex_(x).UTF8String() for x in range(filename.count())]
 
         self._handle_selection(selection)
 
