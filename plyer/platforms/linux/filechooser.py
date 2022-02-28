@@ -71,7 +71,6 @@ class SubprocessFileChooser:
                     self.selection = None
                     self._handle_selection(self.selection)
                     return self.selection
-                
             time.sleep(0.1)
 
     def _split_output(self, out):
