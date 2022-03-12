@@ -26,7 +26,6 @@ AndroidString = autoclass('java.lang.String')
 Context = autoclass('android.content.Context')
 NotificationBuilder = autoclass('android.app.Notification$Builder')
 NotificationManager = autoclass('android.app.NotificationManager')
-Drawable = autoclass("{}.R$mipmap".format(activity.getPackageName()))
 PendingIntent = autoclass('android.app.PendingIntent')
 Intent = autoclass('android.content.Intent')
 Toast = autoclass('android.widget.Toast')
@@ -41,8 +40,17 @@ class AndroidNotification(Notification):
     '''
 
     def __init__(self):
+        package_name = activity.getPackageName()
         self._ns = None
-        self._channel_id = activity.getPackageName()
+        self._channel_id = package_name
+
+        pm = activity.getPackageManager()
+        info = pm.getActivityInfo(activity.getComponentName(), 0)
+        if info.icon == 0:
+            # Take the application icon instead.
+            info = pm.getApplicationInfo(package_name, 0)
+
+        self._app_icon = info.icon
 
     def _get_notification_service(self):
         if not self._ns:
@@ -87,8 +95,7 @@ class AndroidNotification(Notification):
             Toast.LENGTH_LONG
         ).show()
 
-    @staticmethod
-    def _set_icons(notification, icon=None):
+    def _set_icons(self, notification, icon=None):
         '''
         Set the small application icon displayed at the top panel together with
         WiFi, battery percentage and time and the big optional icon (preferably
@@ -97,7 +104,7 @@ class AndroidNotification(Notification):
 
         .. versionadded:: 1.4.0
         '''
-        app_icon = Drawable.icon
+        app_icon = self._app_icon
         notification.setSmallIcon(app_icon)
 
         bitmap_icon = app_icon
