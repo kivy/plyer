@@ -51,6 +51,7 @@ from jnius import autoclass, cast, JavaException
 from plyer.facades import FileChooser
 from plyer import storagepath
 
+Environment = autoclass("android.os.Environment")
 String = autoclass('java.lang.String')
 Intent = autoclass('android.content.Intent')
 Activity = autoclass('android.app.Activity')
@@ -222,6 +223,8 @@ class AndroidFileChooser(FileChooser):
         # and file_type might be only a part of the real folder in /storage
         if file_type in external_base or external_base in file_type:
             sdcard = external
+        elif file_type == "home":
+            sdcard = join(Environment.getExternalStorageDirectory().getAbsolutePath(), Environment.DIRECTORY_DOCUMENTS)
 
         return join(sdcard, file_name)
 
