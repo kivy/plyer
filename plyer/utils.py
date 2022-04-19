@@ -8,6 +8,7 @@ __all__ = ('platform', 'reify', 'deprecated')
 from os import environ
 from os import path
 from sys import platform as _sys_platform
+import sys
 
 
 class Platform:
@@ -41,9 +42,11 @@ class Platform:
     def _get_platform(self):
 
         if self._platform_android is None:
+            # sys.getandroidapilevel is defined as of Python 3.7
             # ANDROID_ARGUMENT and ANDROID_PRIVATE are 2 environment variables
             # from python-for-android project
-            self._platform_android = 'ANDROID_ARGUMENT' in environ
+            self._platform_android = hasattr(sys, 'getandroidapilevel') or \
+                'ANDROID_ARGUMENT' in environ
 
         if self._platform_ios is None:
             self._platform_ios = (environ.get('KIVY_BUILD', '') == 'ios')
