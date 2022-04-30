@@ -217,16 +217,17 @@ class AndroidFileChooser(FileChooser):
             external_base = basename(internal)
 
         # resolve sdcard path
-        sdcard = internal
+        sd_card = internal
 
         # because external might have /storage/.../1 or other suffix
         # and file_type might be only a part of the real folder in /storage
         if file_type in external_base or external_base in file_type:
-            sdcard = external
+            sd_card = external
         elif file_type == "home":
-            sdcard = join(Environment.getExternalStorageDirectory().getAbsolutePath(), Environment.DIRECTORY_DOCUMENTS)
+            sd_card = join(Environment.getExternalStorageDirectory(
+            ).getAbsolutePath(), Environment.DIRECTORY_DOCUMENTS)
 
-        return join(sdcard, file_name)
+        return join(sd_card, file_name)
 
     @staticmethod
     def _handle_media_documents(uri):
