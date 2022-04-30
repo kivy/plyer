@@ -64,7 +64,8 @@ class SubprocessFileChooser:
             if ret is not None:
                 if ret == self.successretcode:
                     out = self._process.communicate()[0].strip().decode('utf8')
-                    return self._set_and_return_selection(self._split_output(out))
+                    return self._set_and_return_selection(
+                        self._split_output(out))
                 else:
                     return self._set_and_return_selection(None)
             time.sleep(0.1)
