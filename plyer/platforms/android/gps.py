@@ -31,14 +31,9 @@ class _LocationListener(PythonJavaClass):
 
     @java_method('(Ljava/util/List;)V', name='onLocationChanged')
     def onLocationChangedList(self, location_list):
+        ''' Called when location data is sent in a batch (API31) '''
         location = location_list.get(location_list.size() - 1)
-        self.root.on_location(
-            lat=location.getLatitude(),
-            lon=location.getLongitude(),
-            speed=location.getSpeed(),
-            bearing=location.getBearing(),
-            altitude=location.getAltitude(),
-            accuracy=location.getAccuracy())
+        self.onLocationChanged(location)
 
     @java_method('(Ljava/lang/String;)V')
     def onProviderEnabled(self, status):
