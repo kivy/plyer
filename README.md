@@ -45,7 +45,7 @@ implement the api in the easiest way, depending on the current platform.
 | Humidity                       | ✔       |     |         |      |       |
 | IR Blaster                     | ✔       |     |         |      |       |
 | Light                          | ✔       |     |         |      |       |
-| Native file chooser            | ✔       |     | ✔       | ✔    | ✔     |
+| Native file chooser            | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Notifications                  | ✔       |     | ✔       | ✔    | ✔     |
 | Orientation                    | ✔       |     |         |      |       |
 | Proximity                      | ✔       |     |         |      |       |
