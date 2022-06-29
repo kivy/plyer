@@ -44,6 +44,7 @@ implement the api in the easiest way, depending on the current platform.
 | Gyroscope                      | ✔       | ✔   |         |      |       |
 | Humidity                       | ✔       |     |         |      |       |
 | IR Blaster                     | ✔       |     |         |      |       |
+| Keystore                       | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Light                          | ✔       |     |         |      |       |
 | Native file chooser            | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Notifications                  | ✔       |     | ✔       | ✔    | ✔     |
