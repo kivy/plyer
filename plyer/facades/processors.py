@@ -1,10 +1,11 @@
 '''
 Number of Processors
 =======
+The :class:`Processors` provides a information on the number of processors in a system
 
 Simple Example
 ---------------
-To get battery status::
+To get processors status::
     >>> from plyer import processors
     >>> processors.status
     {'Number_of_Processors': '4'}
@@ -34,7 +35,6 @@ class Processors:
     def get_state(self):
         return self._get_state()
 
-    # private
 
     def _get_state(self):
         raise NotImplementedError()
