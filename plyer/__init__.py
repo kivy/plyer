@@ -9,7 +9,7 @@ __all__ = (
     'brightness', 'call', 'camera', 'compass', 'cpu', 'email', 'filechooser',
     'flash', 'gps', 'gravity', 'gyroscope', 'humidity', 'irblaster',
     'keystore', 'light', 'notification', 'orientation', 'processors',
-    'proximity', 'screenshot', 'sms', 'spatialorientation', 'storagepath',
+    'proximity', 'screenshot', 'sms', 'share', 'spatialorientation', 'storagepath',
     'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi', 'devicename'
 )
 
@@ -75,6 +75,9 @@ proximity = Proxy('proximity', facades.Proximity)
 
 #: Sms proxy to :class:`plyer.facades.Sms`
 sms = Proxy('sms', facades.Sms)
+
+#: Share proxy to :class:`plyer.facades.Share`
+sms = Proxy('share', facades.Share)
 
 #: Speech proxy to :class:`plyer.facades.STT`
 stt = Proxy('stt', facades.STT)
