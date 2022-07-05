@@ -6,6 +6,25 @@ import warnings
 import subprocess
 from plyer.facades import Notification
 from plyer.utils import whereis_exe
+import os
+
+
+class NotifyDesktopPortals(Notification):
+    '''
+    Implementation of xdg-desktop-portals API.
+    '''
+
+    def _notify(self, **kwargs):
+        title = kwargs.get("title", "title")
+        body = kwargs.get("message", "body")
+
+        subprocess.run([
+            "gdbus", "call", "--session", "--dest",
+            "org.freedesktop.portal.Desktop",
+            "--object-path", "/org/freedesktop/portal/desktop", "--method",
+            "org.freedesktop.portal.Notification.AddNotification", "",
+            "{'title': <'" + title + "'>, 'body': <'"+ body + "'>}"
+        ], stdout=subprocess.DEVNULL)
 
 
 class NotifySendNotification(Notification):
@@ -54,6 +73,9 @@ def instance():
     '''
     Instance for facade proxy.
     '''
+    if os.path.isdir("/app"):
+        # Flatpak
+        return NotifyDesktopPortals()
     try:
         import dbus  # noqa: F401
         return NotifyDbus()
