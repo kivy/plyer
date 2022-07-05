@@ -77,7 +77,7 @@ proximity = Proxy('proximity', facades.Proximity)
 sms = Proxy('sms', facades.Sms)
 
 #: Share proxy to :class:`plyer.facades.Share`
-sms = Proxy('share', facades.Share)
+share = Proxy('share', facades.Share)
 
 #: Speech proxy to :class:`plyer.facades.STT`
 stt = Proxy('stt', facades.STT)
