@@ -10,7 +10,7 @@ Returns the following depending on the platform:
 Simple Example
 --------------
 
-To get the unique ID::
+To get the Device Name::
 
     >>> from plyer import devicename
     >>> devicename.device_name
