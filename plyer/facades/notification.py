@@ -46,7 +46,7 @@ class Notification:
     '''
 
     def notify(self, title='', message='', app_name='', app_icon='',
-               timeout=10, ticker='', toast=False):
+               timeout=10, ticker='', toast=False, hints={}):
         '''
         Send a notification.
 
@@ -58,6 +58,8 @@ class Notification:
         :param ticker: text to display on status bar as the notification
                        arrives
         :param toast: simple Android message instead of full notification
+        :param hints: Optional hints that can be used to pass along extra instructions on Linux. (See https://specifications.freedesktop.org/notification-spec/latest/ar01s08.html) 
+        
         :type title: str
         :type message: str
         :type app_name: str
@@ -65,6 +67,7 @@ class Notification:
         :type timeout: int
         :type ticker: str
         :type toast: bool
+        :type hints: dict
 
         .. note::
            When called on Windows, ``app_icon`` has to be a path to
@@ -79,7 +82,7 @@ class Notification:
         self._notify(
             title=title, message=message,
             app_icon=app_icon, app_name=app_name,
-            timeout=timeout, ticker=ticker, toast=toast
+            timeout=timeout, ticker=ticker, toast=toast, hints=hints
         )
 
     # private
