@@ -58,8 +58,10 @@ class Notification:
         :param ticker: text to display on status bar as the notification
                        arrives
         :param toast: simple Android message instead of full notification
-        :param hints: Optional hints that can be used to pass along extra instructions on Linux. (See https://specifications.freedesktop.org/notification-spec/latest/ar01s08.html) 
-        
+        :param hints: Optional hints that can be used to pass along extra
+                      instructions on Linux.
+                      (See https://specifications.freedesktop.org/notification-spec/latest/ar01s08.html)  # noqa: E501
+
         :type title: str
         :type message: str
         :type app_name: str
