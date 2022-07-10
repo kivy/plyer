@@ -179,7 +179,7 @@ class TestNotification(unittest.TestCase):
                 TestNotification.data['app_icon'],
                 TestNotification.data['title'],
                 TestNotification.data['message'],
-                [], [],
+                [], {},
                 TestNotification.data['timeout'] * 1000
             )
         finally:
