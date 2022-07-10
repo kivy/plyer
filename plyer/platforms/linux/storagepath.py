@@ -29,9 +29,9 @@ class LinuxStoragePath(StoragePath):
             return default
 
         with open(user_dirs, "r") as f:
-            for l in f.readlines():
-                if l.startswith("XDG_" + name):
-                    return l.split('"')[1]
+            for line in f.readlines():
+                if line.startswith("XDG_" + name):
+                    return line.split('"')[1]
 
         return default
 

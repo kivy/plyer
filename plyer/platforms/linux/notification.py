@@ -23,7 +23,7 @@ class NotifyDesktopPortals(Notification):
             "org.freedesktop.portal.Desktop",
             "--object-path", "/org/freedesktop/portal/desktop", "--method",
             "org.freedesktop.portal.Notification.AddNotification", "",
-            "{'title': <'" + title + "'>, 'body': <'"+ body + "'>}"
+            "{'title': <'" + title + "'>, 'body': <'" + body + "'>}"
         ], stdout=subprocess.DEVNULL)
 
 
@@ -42,12 +42,12 @@ class NotifySendNotification(Notification):
         urgency = kwargs.get('urgency', 'normal')
         expire_time = kwargs.get('expire_time', '0')
 
-        notify_send_args = (title, 
-                            message, 
-                            "-i", icon, 
+        notify_send_args = (title,
+                            message,
+                            "-i", icon,
                             "-h", hint,
-                            "-u", urgency, 
-                            "-c", category, 
+                            "-u", urgency,
+                            "-c", category,
                             "-a", app_name,
                             "-t", expire_time)
 
