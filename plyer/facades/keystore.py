@@ -1,15 +1,17 @@
 '''
 Keystore
 =======
-The :class:`Keystore` provides a mechanism for securing/storing cryptographic keys (such as user credentials) in a container. typically needed to support authentication APIs such as OAuth2
+The :class:`Keystore` provides a mechanism for securing/storing
+cryptographic keys (such as user credentials) in a container.
 .. note::
         Typically needed to support authentication APIs such as OAuth2
-         
+
 Supported Platforms
 -------------------
 Android, iOS, Windows, OS X, Linux
 ---------------
 '''
+
 
 class Keystore:
     '''
