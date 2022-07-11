@@ -1,8 +1,7 @@
 '''
 Number of Processors
 =======
-The :class:`Processors` provides a information on the number of
-processors in a system
+The :class:`Processors` provides a information on the number of processors in a system
 
 Simple Example
 ---------------
@@ -35,6 +34,7 @@ class Processors:
 
     def get_state(self):
         return self._get_state()
+
 
     def _get_state(self):
         raise NotImplementedError()
