@@ -49,7 +49,6 @@ implement the api in the easiest way, depending on the current platform.
 | Native file chooser            | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Notifications                  | ✔       |     | ✔       | ✔    | ✔     |
 | Orientation                    | ✔       |     |         |      |       |
-| Processors                     |         |     |         |      | ✔     |
 | Proximity                      | ✔       |     |         |      |       |
 | Screenshot                     |         |     | ✔       | ✔    | ✔     |
 | SMS (send messages)            | ✔       | ✔   |         |      |       |
