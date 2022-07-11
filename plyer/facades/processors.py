@@ -3,6 +3,8 @@ Number of Processors
 =======
 The :class:`Processors` provides a information on the number of
 processors in a system
+.. note::
+    Deprecated in favor of `cpu`
 
 Simple Example
 ---------------
