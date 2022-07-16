@@ -41,7 +41,7 @@ To play recording::
 
 Supported Platforms
 -------------------
-Android
+Android, Windows, OS X
 
 '''
 
