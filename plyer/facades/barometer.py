@@ -10,7 +10,7 @@ class Barometer:
 
     .. versionadded:: 1.2.5
 
-    Supported Platforms:: Android
+    Supported Platforms:: Android, iOS
     '''
 
     @property
