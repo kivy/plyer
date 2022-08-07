@@ -35,6 +35,10 @@ Use threads or you will stop the mainloop if your app has one.
 .. versionchanged:: 1.4.0
     Added Android implementation for open_file()
     Added ``on_selection`` kwarg for callback function
+
+Supported Plaforms
+------------------
+Android, iOS, OS X, Linux, Windows
 '''
 
 
