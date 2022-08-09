@@ -66,7 +66,7 @@ setup(
     package_data={'': ['LICENSE', 'README.md']},
     package_dir={'plyer': 'plyer'},
     include_package_data=True,
-    license=open(join(CURDIR, 'LICENSE')).read(),
+    license='LICENSE',
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
