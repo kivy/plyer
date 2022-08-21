@@ -38,7 +38,7 @@ Use threads or you will stop the mainloop if your app has one.
 
 Supported Plaforms
 ------------------
-Android, iOS, OS X, Linux, Windows
+Android, iOS, macOS, Linux, Windows
 '''
 
 
