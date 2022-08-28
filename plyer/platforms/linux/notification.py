@@ -6,6 +6,25 @@ import warnings
 import subprocess
 from plyer.facades import Notification
 from plyer.utils import whereis_exe
+import os
+
+
+class NotifyDesktopPortals(Notification):
+    '''
+    Implementation of xdg-desktop-portals API.
+    '''
+
+    def _notify(self, **kwargs):
+        title = kwargs.get("title", "title")
+        body = kwargs.get("message", "body")
+
+        subprocess.run([
+            "gdbus", "call", "--session", "--dest",
+            "org.freedesktop.portal.Desktop",
+            "--object-path", "/org/freedesktop/portal/desktop", "--method",
+            "org.freedesktop.portal.Notification.AddNotification", "",
+            "{'title': <'" + title + "'>, 'body': <'" + body + "'>}"
+        ], stdout=subprocess.DEVNULL)
 
 
 class NotifySendNotification(Notification):
@@ -14,9 +33,25 @@ class NotifySendNotification(Notification):
     using notify-send binary.
     '''
     def _notify(self, **kwargs):
-        subprocess.call([
-            "notify-send", kwargs.get('title'), kwargs.get('message')
-        ])
+        icon = kwargs.get('icon', '')
+        title = kwargs.get('title', 'title')
+        hint = kwargs.get('hint', 'string::')
+        message = kwargs.get('message', 'body')
+        category = kwargs.get('category', '')
+        app_name = kwargs.get('app_name', '')
+        urgency = kwargs.get('urgency', 'normal')
+        expire_time = kwargs.get('expire_time', '0')
+
+        notify_send_args = (title,
+                            message,
+                            "-i", icon,
+                            "-h", hint,
+                            "-u", urgency,
+                            "-c", category,
+                            "-a", app_name,
+                            "-t", expire_time)
+
+        subprocess.call(["notify-send", *notify_send_args])
 
 
 class NotifyDbus(Notification):
@@ -32,7 +67,7 @@ class NotifyDbus(Notification):
         app_icon = kwargs.get('app_icon', '')
         timeout = kwargs.get('timeout', 10)
         actions = kwargs.get('actions', [])
-        hints = kwargs.get('hints', [])
+        hints = kwargs.get('hints', {})
         replaces_id = kwargs.get('replaces_id', 0)
 
         _bus_name = 'org.freedesktop.Notifications'
@@ -54,6 +89,9 @@ def instance():
     '''
     Instance for facade proxy.
     '''
+    if os.path.isdir("/app"):
+        # Flatpak
+        return NotifyDesktopPortals()
     try:
         import dbus  # noqa: F401
         return NotifyDbus()

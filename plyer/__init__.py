@@ -22,7 +22,7 @@ from plyer.utils import Proxy
 #: Accelerometer proxy to :class:`plyer.facades.Accelerometer`
 accelerometer = Proxy('accelerometer', facades.Accelerometer)
 
-#: Keyring proxy to :class::`plyer.facades.Keyring`
+#: Keyring proxy to :class::`plyer.facades.Keystore`
 keystore = Proxy('keystore', facades.Keystore)
 
 #: Audio proxy to :class:`plyer.facades.Audio`

@@ -79,7 +79,7 @@ class Win32FileChooser:
                 file = ""
                 if "File" in args:
                     file = args["File"]
-                args["File"] = file + ("\x00"*4096)
+                args["File"] = file + ("\x00" * 4096)
 
                 # e.g. open_file(filters=['*.txt', '*.py'])
                 filters = ""
