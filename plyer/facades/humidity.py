@@ -7,7 +7,7 @@ class Humidity:
        
        Supported Platforms
        -------------------
-       Android, Windows, macOS
+       Linux
     '''
 
     @property
