@@ -21,7 +21,7 @@ class OSXSMS(SMS):
 
         recipient = kwargs.get('recipient')
         message = kwargs.get('message')
-        mode = kwargs.get('mode', 'iMessage') # can be SMS
+        mode = kwargs.get('mode', 'iMessage')  # can be SMS
 
         APPLESCRIPT = f"""tell application "Messages"
     set targetService to 1st account whose service type = {mode}
@@ -30,7 +30,7 @@ class OSXSMS(SMS):
 end tell"""
 
         osascript_process = Popen(['osascript', '-e', APPLESCRIPT],
-                                    stdout=PIPE, stderr=PIPE)
+                                stdout=PIPE, stderr=PIPE)
         stdout, stderr = osascript_process.communicate()
 
 
