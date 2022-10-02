@@ -48,7 +48,7 @@ implement the api in the easiest way, depending on the current platform.
 | Light                          | ✔       |     |         |      |       |
 | Native file chooser            | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Notifications                  | ✔       |     | ✔       | ✔    | ✔     |
-| Orientation                    | ✔       |     |         |      |       |
+| Orientation                    | ✔       |     |         |      | ✔     |
 | Proximity                      | ✔       |     |         |      |       |
 | Screenshot                     |         |     | ✔       | ✔    | ✔     |
 | SMS (send messages)            | ✔       | ✔   |         |      |       |
