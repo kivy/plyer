@@ -23,7 +23,7 @@ class iOSTextToSpeech(TTS):
     def _speak(self, **kwargs):
         message = kwargs.get('message')
 
-        if(not self.voice):
+        if not self.voice:
             self._set_locale()
 
         utterance = \
