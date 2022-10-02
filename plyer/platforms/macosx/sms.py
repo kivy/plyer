@@ -39,16 +39,3 @@ def instance():
         return OSXSMS()
     sys.stderr.write('osascript not found.')
     return SMS()
-
-        
-
-        
-
-        
-
-        
-        
-
-
-
-
