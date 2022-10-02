@@ -26,7 +26,7 @@ class CameraDemo(FloatLayout):
     def do_capture(self):
         filepath = self.cwd + self.ids.filename_text.text
 
-        if(exists(filepath)):
+        if exists(filepath):
             popup = MsgPopup("Picture with this name already exists!")
             popup.open()
             return False
@@ -40,7 +40,7 @@ class CameraDemo(FloatLayout):
             popup.open()
 
     def camera_callback(self, filepath):
-        if(exists(filepath)):
+        if exists(filepath):
             popup = MsgPopup("Picture saved!")
             popup.open()
         else:

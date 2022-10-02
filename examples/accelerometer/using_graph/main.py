@@ -66,14 +66,14 @@ class AccelerometerDemo(BoxLayout):
             # We re-write our points list if number of values exceed 100.
             # ie. Move each timestamp to the left.
             for plot in self.plot:
-                del(plot.points[0])
+                del plot.points[0]
                 plot.points[:] = [(i[0] - 1, i[1]) for i in plot.points[:]]
 
             self.counter = 99
 
         val = accelerometer.acceleration[:3]
 
-        if(not val == (None, None, None)):
+        if not val == (None, None, None):
             self.plot[0].points.append((self.counter, val[0]))
             self.plot[1].points.append((self.counter, val[1]))
             self.plot[2].points.append((self.counter, val[2]))
