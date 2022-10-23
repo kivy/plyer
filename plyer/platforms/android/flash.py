@@ -42,8 +42,8 @@ class AndroidFlash(Flash):
         if not flash_available:
             return
         self._camera = Camera.open()
-        self._f_on = Camera.getParameters()
-        self._f_off = Camera.getParameters()
+        self._f_on = self._camera.getParameters()
+        self._f_off = self._camera.getParameters()
         self._f_on.setFlashMode(CameraParameters.FLASH_MODE_TORCH)
         self._f_off.setFlashMode(CameraParameters.FLASH_MODE_OFF)
         self._camera.startPreview()
