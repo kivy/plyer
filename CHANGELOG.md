@@ -38,6 +38,7 @@
 
 **Merged pull requests:**
 
+- action-gh-release now uses `github.token` [\#724](https://github.com/kivy/plyer/pull/724) ([misl6](https://github.com/misl6))
 - Bump version to 2.1.0 for release [\#723](https://github.com/kivy/plyer/pull/723) ([misl6](https://github.com/misl6))
 - Bump action-gh-release to a newer version [\#721](https://github.com/kivy/plyer/pull/721) ([misl6](https://github.com/misl6))
 - Update supported Python versions [\#720](https://github.com/kivy/plyer/pull/720) ([misl6](https://github.com/misl6))
