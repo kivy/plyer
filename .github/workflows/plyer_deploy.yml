@@ -32,11 +32,7 @@ jobs:
         path: dist
 
     - name: Upload to GitHub Releases
-      uses: softprops/action-gh-release@v0.1.5
-
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_RELEASE }}
-
+      uses: softprops/action-gh-release@v0.1.14
       with:
         files: dist/*
         draft: true
