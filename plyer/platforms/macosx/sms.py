@@ -29,8 +29,8 @@ class MacOSSMS(SMS):
     send "{message}" to targetBuddy
 end tell"""
 
-        osascript_process = Popen(['osascript', '-e', APPLESCRIPT],
-                                stdout=PIPE, stderr=PIPE)
+        osascript_process = Popen(
+            ['osascript', '-e', APPLESCRIPT], stdout=PIPE, stderr=PIPE)
         stdout, stderr = osascript_process.communicate()
 
 
