@@ -33,7 +33,7 @@ class Sms:
     Sms facade.
     '''
 
-    def send(self, recipient, message, mode='iMessage', **kwargs):
+    def send(self, recipient, message, **kwargs):
         '''
         Send SMS or open SMS interface.
 
@@ -43,7 +43,7 @@ class Sms:
         :type recipient: number
         :type message: str
         '''
-        self._send(recipient=recipient, message=message, mode=mode)
+        self._send(recipient=recipient, message=message, **kwargs)
 
     # private
 
