@@ -3,7 +3,7 @@ from plyer.facades import Sms as SMS
 from plyer.utils import whereis_exe
 
 
-class OSXSMS(SMS):
+class MacOSSMS(SMS):
     '''
     Implementation of macOS' Messages API
     '''
@@ -37,6 +37,6 @@ end tell"""
 def instance():
     import sys
     if whereis_exe('osascript'):
-        return OSXSMS()
+        return MacOSSMS()
     sys.stderr.write('osascript not found.')
     return SMS()
