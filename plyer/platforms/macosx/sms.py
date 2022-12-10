@@ -21,7 +21,9 @@ class MacOSSMS(SMS):
 
         recipient = kwargs.get('recipient')
         message = kwargs.get('message')
-        mode = kwargs.get('mode', 'iMessage')  # can be SMS
+        mode = kwargs.get('mode')  # can be SMS
+        if not mode:
+            mode = 'iMessage'
 
         APPLESCRIPT = f"""tell application "Messages"
     set targetService to 1st account whose service type = {mode}
