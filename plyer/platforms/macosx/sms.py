@@ -12,16 +12,14 @@ class MacOSSMS(SMS):
         '''
         Will send `message` to `recipient` via Messages app
 
-        Currently only supports iMessage as macOS can send that standalone
-        In order to support SMS, a valid carrier-activated device must be
-        connected & configured to macOS
-            - activate this by passing in mode='SMS'
-
+        By default, if `mode` is not explicitly set, `iMessage` is used.
+        In order to use `SMS` mode, a valid carrier-activated device must
+        be connected and configured.
         '''
 
         recipient = kwargs.get('recipient')
         message = kwargs.get('message')
-        mode = kwargs.get('mode')  # can be SMS
+        mode = kwargs.get('mode')  # Supported modes: iMessage (default), SMS
         if not mode:
             mode = 'iMessage'
 
