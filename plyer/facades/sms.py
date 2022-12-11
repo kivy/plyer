@@ -42,7 +42,8 @@ class Sms:
 
         :param recipient: The receiver
         :param message: the message
-        :param mode: (optional) macOS only, can be set to 'SMS'
+        :param mode: (optional, macOS only), can be set to 'iMessage'
+        (default) or 'SMS'
 
         :type recipient: number
         :type message: str
