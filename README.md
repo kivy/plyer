@@ -51,7 +51,7 @@ implement the api in the easiest way, depending on the current platform.
 | Orientation                    | ✔       |     |         |      | ✔     |
 | Proximity                      | ✔       |     |         |      |       |
 | Screenshot                     |         |     | ✔       | ✔    | ✔     |
-| SMS (send messages)            | ✔       | ✔   |         |      |       |
+| SMS (send messages)            | ✔       | ✔   |         |      | ✔     |
 | Spatial Orientation            | ✔       | ✔   |         |      |       |
 | Speech to text                 | ✔       |     |         |      |       |
 | Storage Path                   | ✔       | ✔   | ✔       | ✔    | ✔     |
