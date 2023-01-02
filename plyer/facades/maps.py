@@ -32,11 +32,11 @@ class Maps:
         '''
         The query. This parameter is treated as if its value had been typed
         into the Maps search field by the user.
-        
+
         Note that query=* is not supported
         '''
         self._search(query, **kwargs)
-  
+
     def _open_by_address(self, address, **kwargs):
         raise NotImplementedError()
 
