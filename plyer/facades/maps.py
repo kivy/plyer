@@ -37,6 +37,18 @@ class Maps:
         '''
         self._search(query, **kwargs)
 
+    def route(self, saddr, daddr, **kwargs):
+        '''
+        To provide navigation directions from one location to another.
+
+        :param saddr: The source address to be used as the starting
+        point for directions.
+
+        :param daddr: The destination address to be used as the
+        destination point for directions.
+        '''
+        self._route(saddr, daddr, **kwargs)
+
     def _open_by_address(self, address, **kwargs):
         raise NotImplementedError()
 
@@ -44,4 +56,7 @@ class Maps:
         raise NotImplementedError()
 
     def _search(self, query, **kwargs):
+        raise NotImplementedError()
+
+    def _route(self, saddr, daddr, **kwargs):
         raise NotImplementedError()
