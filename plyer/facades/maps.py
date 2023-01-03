@@ -3,10 +3,31 @@ Maps
 =======
 The :class:`Maps` creates a client for accessing the default Maps API.
 
-Depending on the platform, holds features such as opening a location by
+Holds features such as opening a location by
 address & latitude/longitude, create queries, or find directions between
 two points
 
+Simple Examples
+---------------
+
+Perform a search::
+
+    >>> from plyer import maps
+    >>> maps.search('Mexican Restaurant')
+    >>> maps.search('Taco Bell', latitude=38.5810606, longitude=-121.493895)
+
+Get directions to a location::
+
+    >>> from plyer import maps
+    >>> maps.route('Cupertino', 'San Francisco')
+    >>> maps.route('41.9156316,-72.6130726', '42.65228271484,-73.7577362060')
+
+View a specific location::
+
+    >>> from plyer import maps
+    >>> maps.open_by_address('25 Leshin Lane, Hightstown, NJ')
+    >>> maps.open_by_lat_long(30.451468, -91.187149)
+    >>> maps.open_by_lat_long(30.451468, -91.187149, name='Home')
 '''
 
 
