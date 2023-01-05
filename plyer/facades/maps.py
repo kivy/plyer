@@ -7,6 +7,10 @@ Holds features such as opening a location by
 address & latitude/longitude, create queries, or find directions between
 two points
 
+.. note::
+    No results are returned by any methods but rather result in opening
+    the desired outcome in the default Maps API. 
+
 Simple Examples
 ---------------
 
@@ -14,7 +18,7 @@ Perform a search::
 
     >>> from plyer import maps
     >>> maps.search('Mexican Restaurant')
-    >>> maps.search('Taco Bell', latitude=38.5810606, longitude=-121.493895)
+    >>> maps.search('Pizza', latitude=38.5810606, longitude=-121.493895)
 
 Get directions to a location::
 
