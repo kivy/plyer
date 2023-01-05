@@ -9,7 +9,7 @@ two points
 
 .. note::
     No results are returned by any methods but rather result in opening
-    the desired outcome in the default Maps API. 
+    the desired outcome in the default Maps API.
 
 Simple Examples
 ---------------
