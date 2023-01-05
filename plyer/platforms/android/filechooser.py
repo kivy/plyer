@@ -231,8 +231,12 @@ class AndroidFileChooser(FileChooser):
         elif request_code == self.save_code:
             uri = data.getData()
 
-            with mActivity.getContentResolver().openFileDescriptor(uri, "w") as pfd:
-                with FileOutputStream(pfd.getFileDescriptor()) as fileOutputStream:
+            with mActivity.getContentResolver().openFileDescriptor(
+                uri, "w"
+            ) as pfd:
+                with FileOutputStream(
+                    pfd.getFileDescriptor()
+                ) as fileOutputStream:
                     # return value via callback
                     self._save_callback(fileOutputStream)
 
