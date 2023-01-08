@@ -1,5 +1,5 @@
 '''
-Module of MacOSX API for plyer.devicename.
+Module of MacOSX API for plyer.maps.
 '''
 
 from subprocess import Popen, PIPE
