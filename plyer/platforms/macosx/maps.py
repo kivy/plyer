@@ -59,7 +59,7 @@ class MacOSMaps(Maps):
         query = quote_plus(query, safe=',')
         maps_address = 'http://maps.apple.com/?q=' + query
 
-        if latitude != None and longitude != None:
+        if latitude is not None and longitude is not None:
             maps_address += '&sll={},{}'.format(latitude, longitude)
 
         process = Popen(
@@ -81,6 +81,7 @@ class MacOSMaps(Maps):
             ['open', '-a', 'Maps', maps_address],
             stdout=PIPE, stderr=PIPE)
         stdout, stderr = process.communicate()
+
 
 def instance():
     '''
