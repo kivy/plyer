@@ -46,6 +46,7 @@ implement the api in the easiest way, depending on the current platform.
 | IR Blaster                     | ✔       |     |         |      |       |
 | Keystore                       | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Light                          | ✔       |     |         |      |       |
+| Maps                           |         |     |         | ✔    |       |
 | Native file chooser            | ✔       | ✔   | ✔       | ✔    | ✔     |
 | Notifications                  | ✔       |     | ✔       | ✔    | ✔     |
 | Orientation                    | ✔       |     |         |      | ✔     |
