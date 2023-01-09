@@ -1,5 +1,5 @@
 '''
-Module of MacOSX API for plyer.maps.
+Module of macOS API for plyer.maps.
 '''
 
 from subprocess import Popen, PIPE
