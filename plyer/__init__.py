@@ -8,7 +8,7 @@ __all__ = (
     'accelerometer', 'audio', 'barometer', 'battery', 'bluetooth',
     'brightness', 'call', 'camera', 'compass', 'cpu', 'email', 'filechooser',
     'flash', 'gps', 'gravity', 'gyroscope', 'humidity', 'irblaster',
-    'keystore', 'light', 'notification', 'orientation', 'processors',
+    'keystore', 'light', 'maps', 'notification', 'orientation', 'processors',
     'proximity', 'screenshot', 'sms', 'spatialorientation', 'storagepath',
     'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi', 'devicename'
 )
@@ -122,3 +122,6 @@ screenshot = Proxy('screenshot', facades.Screenshot)
 
 #: devicename proxy to :class:`plyer.facades.DeviceName`
 devicename = Proxy('devicename', facades.DeviceName)
+
+#: Maps proxy to :class: `plyer.facades.Maps`
+maps = Proxy('maps', facades.Maps)
