@@ -82,9 +82,5 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
     ],
-    # Alternativly, add pywin32 as a Platform dependancy
-    # install_requires=[ 
-    #     "pywin32;platform_system=='Windows'",
-    # ],
     **EXTRA_OPTIONS
 )
