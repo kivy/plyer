@@ -17,7 +17,7 @@ Builder.load_string('''
 
         TextInput:
             id: daddr
-            hint_text: "Enter destination address (or leave blank for sliders)"
+            hint_text: "Destination address (or leave blank for sliders)"
             background_color: 1,1,1,1
 
         Label:
@@ -68,7 +68,8 @@ Builder.load_string('''
                 pos_hint: {'center_x': 0.5, "top": .6}
                 size_hint: (.6, .4)
                 on_press:
-                    end = daddr.text if daddr.text != '' else f"{lat_slider.value},{long_slider.value}"
+                    end = daddr.text if daddr.text != '' \
+                        else f"{lat_slider.value},{long_slider.value}"
                     start = saddr.text if saddr.text != '' else 'Here'
                     maps.route(start, end)
 
@@ -97,8 +98,10 @@ Builder.load_string('''
 class MainScreen(Widget):
     pass
 
+
 class MapsApp(App):
     def build(self):
         return MainScreen()
+
 
 MapsApp().run()
