@@ -95,6 +95,7 @@ Builder.load_string('''
                         maps.search(query.text)
 ''')
 
+
 class MainScreen(Widget):
     pass
 
