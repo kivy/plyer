@@ -195,7 +195,7 @@ class YADFileChooser(SubprocessFileChooser):
     def _gen_cmdline(self):
         cmdline = [
             which(self.executable),
-            "--file-selection",
+            "--file",
             "--confirm-overwrite",
             "--geometry",
             "800x600+150+150"
