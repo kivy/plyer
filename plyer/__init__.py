@@ -123,5 +123,5 @@ screenshot = Proxy('screenshot', facades.Screenshot)
 #: devicename proxy to :class:`plyer.facades.DeviceName`
 devicename = Proxy('devicename', facades.DeviceName)
 
-#: Maps proxy to :class: `plyer.facades.Maps`
+#: Maps proxy to :class:`plyer.facades.Maps`
 maps = Proxy('maps', facades.Maps)
