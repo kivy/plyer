@@ -43,7 +43,7 @@ using that result will use an incorrect one i.e. the default value of
 .. versionadded:: 1.4.0
 '''
 
-from os.path import join, basename
+from os.path import join
 from random import randint
 
 from android import activity, mActivity
@@ -252,28 +252,19 @@ class AndroidFileChooser(FileChooser):
         file_id = DocumentsContract.getDocumentId(uri)
         file_type, file_name = file_id.split(':')
 
-        # internal SD card mostly mounted as a files storage in phone
-        internal = storagepath.get_external_storage_dir()
+        primary_storage = storagepath.get_external_storage_dir()
+        sdcard_storage = storagepath.get_sdcard_dir()
 
-        # external (removable) SD card i.e. microSD
-        external = storagepath.get_sdcard_dir()
-        try:
-            external_base = basename(external)
-        except TypeError:
-            external_base = basename(internal)
+        directory = primary_storage
 
-        # resolve sdcard path
-        sd_card = internal
-
-        # because external might have /storage/.../1 or other suffix
-        # and file_type might be only a part of the real folder in /storage
-        if file_type in external_base or external_base in file_type:
-            sd_card = external
+        if file_type == "primary":
+            directory = primary_storage
         elif file_type == "home":
-            sd_card = join(Environment.getExternalStorageDirectory(
-            ).getAbsolutePath(), Environment.DIRECTORY_DOCUMENTS)
+            directory = join(primary_storage, Environment.DIRECTORY_DOCUMENTS)
+        elif sdcard_storage and file_type in sdcard_storage:
+            directory = sdcard_storage
 
-        return join(sd_card, file_name)
+        return join(directory, file_name)
 
     @staticmethod
     def _handle_media_documents(uri):
