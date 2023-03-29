@@ -62,6 +62,7 @@ Long = autoclass('java.lang.Long')
 IMedia = autoclass('android.provider.MediaStore$Images$Media')
 VMedia = autoclass('android.provider.MediaStore$Video$Media')
 AMedia = autoclass('android.provider.MediaStore$Audio$Media')
+Files = autoclass('android.provider.MediaStore$Files')
 FileOutputStream = autoclass('java.io.FileOutputStream')
 
 
@@ -294,6 +295,11 @@ class AndroidFileChooser(FileChooser):
             uri = VMedia.EXTERNAL_CONTENT_URI
         elif file_type == 'audio':
             uri = AMedia.EXTERNAL_CONTENT_URI
+
+        # Other file type was selected (probably in the Documents folder)
+        else:
+            uri = Files.getContentUri("external")
+
         return file_name, selection, uri
 
     @staticmethod
