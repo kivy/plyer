@@ -1,5 +1,5 @@
 '''
-Example of an Android filechooser.
+Example of an !! Android specific !! filechooser.
 '''
 
 from textwrap import dedent
@@ -40,6 +40,31 @@ class FileChoose(Button):
         App.get_running_app().root.ids.result.text = str(self.selection)
 
 
+class FileSave(Button):
+    '''
+    Button that triggers 'filechooser.save_file()' and processes
+    the data response from filechooser Activity.
+    '''
+
+    def save(self):
+        '''
+        Call plyer filechooser API to run a filechooser Activity.
+        '''
+        filechooser.save_file(
+            callback=self.handle_save,
+            title=str(App.get_running_app().root.ids.savefilename.text)
+        )
+
+    def handle_save(self, fileOutputStream):
+        '''
+        Callback function for handling the selection response from Activity.
+        No need to close the stream here, it will be closed internally.
+        '''
+        fileOutputStream.write(str(
+            App.get_running_app().root.ids.savefilecontent.text
+        ).encode('utf-8'))
+
+
 class ChooserApp(App):
     '''
     Application class with root built in KV.
@@ -63,6 +88,21 @@ class ChooserApp(App):
                         size_hint_y: 0.1
                         on_release: self.choose()
                         text: 'Select a file'
+
+                    TextInput:
+                        id: savefilename
+                        text: 'filechooser-example.txt'
+                        hint_text: 'default name of the file to write (optional)'
+
+                    TextInput:
+                        id: savefilecontent
+                        text: 'Hello, Android!'
+                        hint_text: 'content (text only here) to write'
+
+                    FileSave:
+                        size_hint_y: 0.1
+                        on_release: self.save()
+                        text: 'Save text as'
         '''))
 
 
