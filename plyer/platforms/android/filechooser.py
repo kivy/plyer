@@ -103,8 +103,6 @@ class AndroidFileChooser(FileChooser):
         "audio": "audio/*",
         "application": "application/*"}
 
-    selected_mime_type = None
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.select_code = randint(123456, 654321)
@@ -138,20 +136,13 @@ class AndroidFileChooser(FileChooser):
         self._handle_selection = kwargs.pop(
             'on_selection', self._handle_selection
         )
-        self.selected_mime_type = \
-            kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
-            file_intent.setType("*/*")
-        else:
-            file_intent.setType(self.mime_type[self.selected_mime_type])
-        file_intent.addCategory(
-            Intent.CATEGORY_OPENABLE
+        file_intent.setType(
+            self.mime_type.get(kwargs.pop("filters", [""])[0], "*/*")
         )
+        file_intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         # use putExtra to allow multiple file selection
         if kwargs.get('multiple', self.multiple):
@@ -170,22 +161,13 @@ class AndroidFileChooser(FileChooser):
     def _save_file(self, **kwargs):
         self._save_callback = kwargs.pop("callback")
 
-        title = kwargs.pop("title", None)
-
-        self.selected_mime_type = \
-            kwargs.pop("filters")[0] if "filters" in kwargs else ""
-
         file_intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
-            file_intent.setType("*/*")
-        else:
-            file_intent.setType(self.mime_type[self.selected_mime_type])
-        file_intent.addCategory(
-            Intent.CATEGORY_OPENABLE
+        file_intent.setType(
+            self.mime_type.get(kwargs.pop("filters", [""])[0], "*/*")
         )
+        file_intent.addCategory(Intent.CATEGORY_OPENABLE)
 
+        title = kwargs.pop("title", None)
         if title:
             file_intent.putExtra(Intent.EXTRA_TITLE, title)
 
