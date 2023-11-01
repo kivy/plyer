@@ -4,6 +4,7 @@ Android Storage Path
 '''
 
 from plyer.facades import StoragePath
+from plyer.platforms.android import SDK_INT
 from jnius import autoclass, cast
 from android import mActivity
 
@@ -31,14 +32,20 @@ class AndroidStoragePath(StoragePath):
         )
 
         if storage_manager is not None:
-            storage_volumes = storage_manager.getStorageVolumes()
-            for storage_volume in storage_volumes:
-                if storage_volume.isRemovable():
-                    try:
-                        directory = storage_volume.getDirectory()
-                    except AttributeError:
-                        directory = storage_volume.getPathFile()
-                    path = directory.getAbsolutePath()
+            if SDK_INT >= 24:
+                storage_volumes = storage_manager.getStorageVolumes()
+                for storage_volume in storage_volumes:
+                    if storage_volume.isRemovable():
+                        try:
+                            directory = storage_volume.getDirectory()
+                        except AttributeError:
+                            directory = storage_volume.getPathFile()
+                        path = directory.getAbsolutePath()
+            else:
+                storage_volumes = storage_manager.getVolumeList()
+                for storage_volume in storage_volumes:
+                    if storage_volume.isRemovable():
+                        path = storage_volume.getPath()
 
         return path
 
