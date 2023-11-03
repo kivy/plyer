@@ -322,6 +322,23 @@ class AndroidFileChooser(FileChooser):
         .. versionadded:: 1.4.0
         '''
 
+        try:
+            download_dir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ).getPath()
+            path = AndroidFileChooser._parse_content(
+                uri=uri,
+                projection=["_display_name"],
+                selection=None,
+                selection_args=None,
+                sort_order=None,
+            )
+            return join(download_dir, path)
+
+        except Exception:
+            import traceback
+            traceback.print_exc()
+
         # known locations, differ between machines
         downloads = [
             'content://downloads/public_downloads',
