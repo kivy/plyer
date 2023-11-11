@@ -70,16 +70,10 @@ To use in python-for-android/kivy-ios: add `plyer` to your requirements if neede
 
 ## Support
 
-If you need assistance, you can ask for help on our mailing list:
+If you need help, please feel free to seek assistance through our support channels:
 
-* User Group : https://groups.google.com/group/kivy-users
-* Email      : kivy-users@googlegroups.com
-
-Discord channel:
-
-* Server     : https://chat.kivy.org
-* Channel    : #dev
-
+Join the  [Kivy Users Google Group](https://groups.google.com/group/kivy-users).
+Participate in discussions on [Discord](https://chat.kivy.org).
 
 ## Contributing
 
