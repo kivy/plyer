@@ -14,25 +14,21 @@ For Android install additional dependency PyJNIus::
 
 from os.path import dirname, join
 import plyer
+from setuptools import setup
 import io
 
 EXTRA_OPTIONS = {}
 
-try:
-    from setuptools import setup
-    EXTRA_OPTIONS = dict(
-        EXTRA_OPTIONS, **{
-            'extras_require': {
-                'ios': ['pyobjus'],
-                'macosx': ['pyobjus'],
-                'android': ['pyjnius'],
-                'dev': ['mock', 'flake8']
-            }
+EXTRA_OPTIONS = dict(
+    EXTRA_OPTIONS, **{
+        'extras_require': {
+            'ios': ['pyobjus'],
+            'macosx': ['pyobjus'],
+            'android': ['pyjnius'],
+            'dev': ['mock', 'flake8']
         }
-    )
-
-except ImportError:
-    from distutils.core import setup
+    }
+)
 
 CURDIR = dirname(__file__)
 PACKAGES = [
