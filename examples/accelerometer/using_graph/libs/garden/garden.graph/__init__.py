@@ -50,9 +50,9 @@ from math import radians
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.uix.stencilview import StencilView
-from kivy.properties import NumericProperty, BooleanProperty,\
-    BoundedNumericProperty, StringProperty, ListProperty, ObjectProperty,\
-    DictProperty, AliasProperty
+from kivy.properties import (NumericProperty, BooleanProperty,
+    BoundedNumericProperty, StringProperty, ListProperty, ObjectProperty,
+    DictProperty, AliasProperty)
 from kivy.clock import Clock
 from kivy.graphics import Mesh, Color
 from kivy.graphics.transformation import Matrix

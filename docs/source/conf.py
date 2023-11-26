@@ -234,7 +234,10 @@ man_pages = [
 texinfo_documents = [(
     'index', 'Plyer', u'Plyer Documentation',
     u'Kivy Team and other contributors',
-    'Plyer', 'Plyer is a platform-independent Python API for accessing features of various hardware platforms, especially Android and iOS devices.', 'Miscellaneous'
+    'Plyer',
+    'Plyer is a platform-independent Python API for accessing features of '
+    'various hardware platforms, especially Android and iOS devices.',
+    'Miscellaneous'
 ), ]
 
 # Documents to append as an appendix to all manuals.

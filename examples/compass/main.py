@@ -101,7 +101,7 @@ class CompassInterface(BoxLayout):
 
     def get_field_uncalib(self, dt):
         if self.facade.field_uncalib != (None, None, None, None, None, None):
-            self.x_field, self.y_field, self.z_field, self.x_iron,\
+            self.x_field, self.y_field, self.z_field, self.x_iron, \
                 self.y_iron, self.z_iron = self.facade.field_uncalib
 
 
