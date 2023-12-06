@@ -43,7 +43,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Plyer'
-copyright = u'2013-2023, Kivy Team and other contributors'
+copyright = u'2013-2024, Kivy Team and other contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

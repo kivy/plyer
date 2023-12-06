@@ -18,7 +18,7 @@ jobs:
           issue-comment: >
             👋 We use the issue tracker exclusively for bug reports and feature requests.
             However, this issue appears to be a support request. Please use our
-            [support channels](https://github.com/kivy/kivy/blob/master/CONTACT.md)
+            [support channels](https://github.com/kivy/plyer/blob/master/CONTACT.md)
             to get help with the project.
             
             Let us know if this comment was made in error, and we'll be happy

@@ -3,9 +3,12 @@
 Contribution Guidelines
 =======================
 
-Kivy is a large product used by many thousands of developers for free, but it
+
+Plyer is part of the `Kivy <https://kivy.org>`_ ecosystem - a large group of
+products used by many thousands of developers for free, but it
 is built entirely by the contributions of volunteers. We welcome (and rely on)
 users who want to give back to the community by contributing to the project.
 
-Contributions can come in many forms. To learn more, see our
-`latest Contribution Guidelines <https://github.com/kivy/kivy/blob/master/CONTRIBUTING.md>`_.
+Contributions can come in many forms. See the latest
+[Contribution Guidelines](https://github.com/kivy/plyer/blob/master/CONTRIBUTING.md)
+for general guidelines of how you can help us.
