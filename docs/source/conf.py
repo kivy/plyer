@@ -43,7 +43,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Plyer'
-copyright = u'2013, Mathieu Virbel, Akshay Aurora, Gabriel Petier, Ben Rousch'
+copyright = u'2013-2023, Kivy Team and other contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -189,7 +189,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual])
 latex_documents = [(
     'index', 'Plyer.tex', u'Plyer Documentation',
-    u'Mathieu Virbel, Akshay Aurora, Gabriel Petier, Ben Rousch', 'manual'
+    u'Kivy Team and other contributors', 'manual'
 ), ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -219,7 +219,7 @@ latex_documents = [(
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'plyer', u'Plyer Documentation',
-     [u'Mathieu Virbel, Akshay Aurora, Gabriel Petier, Ben Rousch'], 1)
+     [u'Kivy Team and other contributors'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -233,8 +233,11 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [(
     'index', 'Plyer', u'Plyer Documentation',
-    u'Mathieu Virbel, Akshay Aurora, Gabriel Petier, Ben Rousch',
-    'Plyer', 'One line description of project.', 'Miscellaneous'
+    u'Kivy Team and other contributors',
+    'Plyer',
+    'Plyer is a platform-independent Python API for accessing hardware '
+    'features of various platforms (Android, iOS, macOS, Linux and Windows).',
+    'Miscellaneous'
 ), ]
 
 # Documents to append as an appendix to all manuals.

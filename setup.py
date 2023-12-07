@@ -56,7 +56,8 @@ with io.open(join(CURDIR, "CHANGELOG.md"), encoding="utf8") as fd:
 setup(
     name='plyer',
     version=plyer.__version__,
-    description='Platform-independent wrapper for platform-dependent APIs',
+    description='A platform-independent Python API for accessing hardware'
+    'features of various platforms (Android, iOS, macOS, Linux and Windows).',
     long_description=README + u"\n\n" + CHANGELOG + u"\n\n",
     long_description_content_type='text/markdown',
     author='Kivy team',
@@ -69,7 +70,7 @@ setup(
     license='MIT',
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
@@ -81,5 +82,10 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
     ],
+    project_urls={
+        'Documentation': "https://plyer.readthedocs.io",
+        'Source': "https://github.com/kivy/plyer",
+        'Bug Reports': "https://github.com/kivy/plyer/issues",
+    },
     **EXTRA_OPTIONS
 )
