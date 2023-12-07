@@ -1,7 +1,7 @@
 # Plyer
 
-Plyer is a platform-independent Python API for accessing features
-of various hardware platforms, especially Android and iOS devices.
+Plyer is a platform-independent Python API for accessing hardware features
+of various platforms (Android, iOS, macOS, Linux and Windows).
 
 Plyer is managed by the [Kivy Team](https://kivy.org/about.html). It is suitable for
 use with Kivy apps, but can be used independently.
@@ -28,9 +28,10 @@ Plyer tries not to reinvent the wheel, and will call external libraries to
 implement the API in the easiest way, depending on the current platform.
 
 - On Android ([python-for-android](https://python-for-android.readthedocs.io/)), [PyJNIus](https://pypi.org/project/pyjnius/) is used.
-- On iOS ([kivy-ios](https://pypi.org/project/kivy-ios/)), [pyobjus](https://pypi.org/project/pyobjus/) is used.
-- On Windows, macOS and Linux, commonly found libraries and programs will be
-used.
+- On iOS ([kivy-ios](https://pypi.org/project/kivy-ios/)) and macOS,
+  [pyobjus](https://pypi.org/project/pyobjus/) is used. 
+- On Windows, macOS and Linux, other commonly found libraries and programs 
+  are used.
 
 
 ## Supported APIs

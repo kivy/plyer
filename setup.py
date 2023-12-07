@@ -56,9 +56,8 @@ with io.open(join(CURDIR, "CHANGELOG.md"), encoding="utf8") as fd:
 setup(
     name='plyer',
     version=plyer.__version__,
-    description='A platform-independent Python API for accessing features of '
-                'various hardware platforms, especially Android and iOS '
-                'devices.',
+    description='A platform-independent Python API for accessing hardware'
+    'features of various platforms (Android, iOS, macOS, Linux and Windows).',
     long_description=README + u"\n\n" + CHANGELOG + u"\n\n",
     long_description_content_type='text/markdown',
     author='Kivy team',
