@@ -47,20 +47,28 @@ to be redrawn due to changes. See the MeshLinePlot class for how it is done.
 __all__ = ('Graph', 'Plot', 'MeshLinePlot', 'MeshStemPlot')
 
 from math import radians
-from kivy.uix.widget import Widget
-from kivy.uix.label import Label
-from kivy.uix.stencilview import StencilView
-from kivy.properties import (NumericProperty, BooleanProperty,
-    BoundedNumericProperty, StringProperty, ListProperty, ObjectProperty,
-    DictProperty, AliasProperty)
-from kivy.clock import Clock
-from kivy.graphics import Mesh, Color
-from kivy.graphics.transformation import Matrix
-from kivy.event import EventDispatcher
-from kivy.lang import Builder
-from kivy import metrics
 from math import log10, floor, ceil
 from decimal import Decimal
+
+from kivy import metrics
+from kivy.clock import Clock
+from kivy.event import EventDispatcher
+from kivy.graphics import Mesh, Color
+from kivy.graphics.transformation import Matrix
+from kivy.lang import Builder
+from kivy.properties import (
+    NumericProperty,
+    BooleanProperty,
+    BoundedNumericProperty,
+    StringProperty,
+    ListProperty,
+    ObjectProperty,
+    DictProperty,
+    AliasProperty,
+)
+from kivy.uix.label import Label
+from kivy.uix.stencilview import StencilView
+from kivy.uix.widget import Widget
 
 Builder.load_string('''
 #:kivy 1.1.0

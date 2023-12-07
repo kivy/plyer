@@ -235,8 +235,8 @@ texinfo_documents = [(
     'index', 'Plyer', u'Plyer Documentation',
     u'Kivy Team and other contributors',
     'Plyer',
-    'Plyer is a platform-independent Python API for accessing hardware features'
-    'of various platforms (Android, iOS, macOS, Linux and Windows).',
+    'Plyer is a platform-independent Python API for accessing hardware '
+    'features of various platforms (Android, iOS, macOS, Linux and Windows).',
     'Miscellaneous'
 ), ]
 
