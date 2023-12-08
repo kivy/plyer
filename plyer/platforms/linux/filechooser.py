@@ -122,7 +122,7 @@ class ZenityFileChooser(SubprocessFileChooser):
         if self.icon:
             cmdline += ["--window-icon", self.icon]
         for f in self.filters:
-            if type(f) == str:
+            if isinstance(f, str):
                 cmdline += ["--file-filter", f]
             else:
                 cmdline += [
@@ -150,7 +150,7 @@ class KDialogFileChooser(SubprocessFileChooser):
         filt = []
 
         for f in self.filters:
-            if type(f) == str:
+            if isinstance(f, str):
                 filt += [f]
             else:
                 filt += list(f[1:])
@@ -215,7 +215,7 @@ class YADFileChooser(SubprocessFileChooser):
         if self.icon:
             cmdline += ["--window-icon", self.icon]
         for f in self.filters:
-            if type(f) == str:
+            if isinstance(f, str):
                 cmdline += ["--file-filter", f]
             else:
                 cmdline += [

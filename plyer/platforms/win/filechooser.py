@@ -84,7 +84,7 @@ class Win32FileChooser:
                 # e.g. open_file(filters=['*.txt', '*.py'])
                 filters = ""
                 for f in self.filters:
-                    if type(f) == str:
+                    if isinstance(f, str):
                         filters += (f + "\x00") * 2
                     else:
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"

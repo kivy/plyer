@@ -56,6 +56,7 @@ copyright = f'{_today.year}, {author}'
 # built documents.
 #
 
+
 # Lookup the version from the pyjnius module, without installing it
 # since readthedocs.org may have issue to install it.
 # Read the version from the __init__.py file, without importing it.
@@ -64,9 +65,13 @@ def get_version():
         os.path.join(os.path.abspath("../.."), "plyer", "__init__.py")
     ) as fp:
         for line in fp:
-            m = re.search(r'^\s*__version__\s*=\s*([\'"])([^\'"]+)\1\s*$', line)
+            m = re.search(
+                r'^\s*__version__\s*=\s*([\'"])([^\'"]+)\1\s*$',
+                line,
+            )
             if m:
                 return m.group(2)
+
 
 # The short X.Y version.
 version = get_version()

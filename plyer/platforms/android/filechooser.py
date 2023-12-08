@@ -143,9 +143,11 @@ class AndroidFileChooser(FileChooser):
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
@@ -176,9 +178,11 @@ class AndroidFileChooser(FileChooser):
             kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         file_intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
