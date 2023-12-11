@@ -107,8 +107,8 @@ class AndroidFileChooser(FileChooser):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.select_code = randint(123456, 654321)
-        self.save_code = randint(123456, 654321)
+        self.select_code = randint(100, 65536) # 65536 is the maximum. 100 to avoid conflicts.
+        self.save_code = randint(100, 65536)
         self.selection = None
 
         # bind a function for a response from filechooser activity
@@ -454,7 +454,7 @@ class AndroidFileChooser(FileChooser):
         elif uri_scheme == 'file':
             path = uri.getPath()
 
-        return path
+        return path or uri
 
     @staticmethod
     def _parse_content(
