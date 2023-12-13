@@ -90,8 +90,8 @@ class AndroidSpOrientation(SpatialOrientation):
                     rotation, inclination,
                     gravity, geomagnetic
                 )
+                values = [0, 0, 0]
                 if ff_state:
-                    values = [0, 0, 0]
                     values = SensorManager.getOrientation(
                         rotation, values
                     )
