@@ -98,7 +98,7 @@ class GyroscopeInterface(BoxLayout):
         empty = tuple([None for i in range(6)])
 
         if self.facade.rotation_uncalib != empty:
-            self.x_speed, self.y_speed, self.z_speed, self.x_drift,\
+            self.x_speed, self.y_speed, self.z_speed, self.x_drift, \
                 self.y_drift, self.z_drift = self.facade.rotation_uncalib
 
 

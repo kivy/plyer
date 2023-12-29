@@ -80,7 +80,7 @@ class MacFileChooser:
         if self.filters:
             filthies = []
             for f in self.filters:
-                if type(f) == str:
+                if isinstance(f, str):
                     f = (None, f)
                 for s in f[1:]:
                     if not self.use_extensions:

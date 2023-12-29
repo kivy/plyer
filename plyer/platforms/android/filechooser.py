@@ -143,9 +143,11 @@ class AndroidFileChooser(FileChooser):
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
@@ -176,9 +178,11 @@ class AndroidFileChooser(FileChooser):
             kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         file_intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
@@ -321,6 +325,23 @@ class AndroidFileChooser(FileChooser):
 
         .. versionadded:: 1.4.0
         '''
+
+        try:
+            download_dir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ).getPath()
+            path = AndroidFileChooser._parse_content(
+                uri=uri,
+                projection=["_display_name"],
+                selection=None,
+                selection_args=None,
+                sort_order=None,
+            )
+            return join(download_dir, path)
+
+        except Exception:
+            import traceback
+            traceback.print_exc()
 
         # known locations, differ between machines
         downloads = [
