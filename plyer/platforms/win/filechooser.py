@@ -12,7 +12,7 @@ from win32com.shell import shellcon
 import win32gui
 import win32con
 import pywintypes
-from os.path import dirname, splitext, join, isdir
+from os.path import dirname, splitext, join, isdir, normpath
 
 
 class Win32FileChooser:
@@ -65,6 +65,7 @@ class Win32FileChooser:
                 args = {}
 
                 if self.path:
+                    self.path = normpath(self.path)
                     if isdir(self.path):
                         args["InitialDir"] = self.path
                     else:
