@@ -37,7 +37,7 @@ requirements = kivy,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
-# requirements.source.kivy = ../../kivy
+
 
 # (list) Garden requirements
 #garden_requirements =
@@ -69,7 +69,7 @@ android.permissions = RECORD_AUDIO,WAKE_LOCK
 #android.minapi = 8
 
 # (int) Android SDK version to use
-#android.sdk = 21
+android.sdk = 24
 
 # (str) Android NDK version to use
 #android.ndk = 9c
@@ -148,7 +148,7 @@ android.permissions = RECORD_AUDIO,WAKE_LOCK
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 1
+log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1

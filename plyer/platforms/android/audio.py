@@ -53,6 +53,20 @@ class AndroidAudio(Audio):
         self._player.prepare()
         self._player.start()
 
+    def _pause(self):
+        if self._recorder:
+            self._recorder.pause()
+
+        if self._player:
+            self._player.pause()
+
+    def _resume(self):
+        if self._recorder:
+            self._recorder.resume()
+
+        if self._player:
+            self._player.start()
+
 
 def instance():
     return AndroidAudio()
