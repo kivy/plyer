@@ -1,0 +1,6 @@
+framework module KeychainBridge {
+  umbrella header "KeychainBridge.h"
+  export *
+
+  module * { export * }
+}
