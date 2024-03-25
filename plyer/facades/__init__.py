@@ -6,13 +6,13 @@ Interface of all the features available.
 
 '''
 
-__all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
-           'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
-           'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
-           'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Wifi', 'Flash', 'CPU',
-           'Temperature', 'Humidity', 'SpatialOrientation', 'Brightness',
-           'Processors', 'StoragePath', 'Keystore', 'Bluetooth', 'Screenshot',
-           'STT', 'DeviceName', 'Maps')
+__all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Bluetooth',
+           'Brightness', 'Call', 'Camera','CPU', 'Compass', 'DeviceName',
+           'Email', 'FileChooser', 'Flash', 'GPS','Gravity', 'Gyroscope',
+           'IrBlaster', 'Keystore', 'Light', 'Maps', 'Notification',
+           'Orientation', 'Proximity', 'Sms', 'Sysinfo', 'SpatialOrientation',
+           'Screenshot', 'StoragePath','STT', 'TTS', 'UniqueID', 'Vibrator',
+           'Wifi', 'Temperature', 'Humidity', 'Processors', )
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.audio import Audio
@@ -34,6 +34,7 @@ from plyer.facades.orientation import Orientation
 from plyer.facades.notification import Notification
 from plyer.facades.sms import Sms
 from plyer.facades.stt import STT
+from plyer.facades.sysinfo import Sysinfo
 from plyer.facades.tts import TTS
 from plyer.facades.uniqueid import UniqueID
 from plyer.facades.vibrator import Vibrator

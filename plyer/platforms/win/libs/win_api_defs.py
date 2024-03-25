@@ -6,7 +6,7 @@ __all__ = ('GUID', 'get_DLLVERSIONINFO', 'MAKEDLLVERULL',
            'DefWindowProcW', 'get_WNDCLASSEXW', 'GetModuleHandleW',
            'RegisterClassExW', 'UpdateWindow', 'LoadImageW',
            'Shell_NotifyIconW', 'DestroyIcon', 'UnregisterClassW',
-           'DestroyWindow', 'LoadIconW', 'get_PATH')
+           'DestroyWindow', 'LoadIconW', 'get_PATH', 'GetSystemMetrics')
 
 import ctypes
 from ctypes import Structure, windll, sizeof, POINTER, WINFUNCTYPE
@@ -43,6 +43,10 @@ def get_DLLVERSIONINFO(*largs):
     version_info = DLLVERSIONINFO(*largs)
     version_info.cbSize = sizeof(DLLVERSIONINFO)
     return version_info
+
+
+def GetSystemMetrics(*largs):
+    return windll.User32.GetSystemMetrics(largs[0])
 
 
 def MAKEDLLVERULL(major, minor, build, sp):
