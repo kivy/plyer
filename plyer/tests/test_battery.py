@@ -13,7 +13,7 @@ import unittest
 from io import BytesIO
 from os.path import join
 from textwrap import dedent
-from mock import patch, Mock
+from unittest.mock import patch, Mock
 
 from plyer.tests.common import PlatformTest, platform_import
 

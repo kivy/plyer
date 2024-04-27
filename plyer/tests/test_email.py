@@ -8,8 +8,8 @@ Tested platforms:
 '''
 
 import unittest
+from unittest.mock import Mock, patch
 
-from mock import Mock, patch
 from plyer.tests.common import PlatformTest, platform_import
 
 
