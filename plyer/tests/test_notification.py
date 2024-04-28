@@ -13,8 +13,8 @@ import sys
 
 from time import sleep
 from os.path import dirname, abspath, join
+from unittest.mock import Mock, patch
 
-from mock import Mock, patch
 from plyer.tests.common import PlatformTest, platform_import
 
 

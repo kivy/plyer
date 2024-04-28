@@ -11,8 +11,8 @@ Tested platforms:
 import unittest
 from os import environ
 from os.path import join
-from mock import patch, Mock
 from textwrap import dedent
+from unittest.mock import patch, Mock
 
 from plyer.tests.common import PlatformTest, platform_import, splitpath
 

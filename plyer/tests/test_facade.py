@@ -16,7 +16,7 @@ import unittest
 import sys
 from types import MethodType
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 import plyer
 

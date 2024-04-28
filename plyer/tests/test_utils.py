@@ -12,7 +12,7 @@ Tested platforms:
 '''
 
 import unittest
-from mock import patch
+from unittest.mock import patch
 
 
 class TestUtils(unittest.TestCase):
