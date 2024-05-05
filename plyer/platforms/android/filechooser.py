@@ -451,7 +451,8 @@ class AndroidFileChooser(FileChooser):
                     selection_args=[file_name], sort_order=None
                 )
             finally:
-                # if path is still None, a new attempt will be made using the original uri
+                # if path is still None, a new attempt will be made
+                # using the original uri
                 if not path:
                     path = self._parse_content(
                         uri=_uri,
