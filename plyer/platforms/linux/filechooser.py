@@ -118,7 +118,7 @@ class ZenityFileChooser(SubprocessFileChooser):
         if self.path:
             cmdline += ["--filename", self.path]
         if self.title:
-            cmdline += ["--name", self.title]
+            cmdline += ["--title", self.title]
         if self.icon:
             cmdline += ["--window-icon", self.icon]
         for f in self.filters:
