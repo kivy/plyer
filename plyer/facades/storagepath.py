@@ -103,13 +103,6 @@ class StoragePath:
         Get the path of the directory holding application files.
         '''
         return self._get_application_dir()
-    
-    def get_desktop_dir(self):
-        '''
-        Get the path of the directory holding application files.
-        '''
-        return self._get_desktop_dir()
-    # private
 
     def _get_home_dir(self):
         raise NotImplementedError()
@@ -140,6 +133,4 @@ class StoragePath:
 
     def _get_application_dir(self):
         raise NotImplementedError()
-    
-    def _get_desktop_dir(self):
-        raise NotImplementedError()
+   
