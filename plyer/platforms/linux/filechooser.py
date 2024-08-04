@@ -4,7 +4,7 @@ Linux file chooser
 '''
 
 from plyer.facades import FileChooser
-from distutils.spawn import find_executable as which
+from shutil import which
 import os
 import subprocess as sp
 import time
