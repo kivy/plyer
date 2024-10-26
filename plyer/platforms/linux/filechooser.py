@@ -106,8 +106,7 @@ class ZenityFileChooser(SubprocessFileChooser):
     def _gen_cmdline(self):
         cmdline = [
             which(self.executable),
-            "--file-selection",
-            "--confirm-overwrite"
+            "--file-selection"
         ]
         if self.multiple:
             cmdline += ["--multiple"]
@@ -117,10 +116,6 @@ class ZenityFileChooser(SubprocessFileChooser):
             cmdline += ["--directory"]
         if self.path:
             cmdline += ["--filename", self.path]
-        if self.title:
-            cmdline += ["--name", self.title]
-        if self.icon:
-            cmdline += ["--window-icon", self.icon]
         for f in self.filters:
             if isinstance(f, str):
                 cmdline += ["--file-filter", f]
