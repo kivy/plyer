@@ -19,14 +19,14 @@ class Keystore:
     Keystore facade
     '''
 
-    def set_key(self, servicename, key, value, **kwargs):
-        self._set_key(servicename, key, value, **kwargs)
+    def set_key(self, servicename, key, value, encrypt, **kwargs):
+        self._set_key(servicename, key, value, encrypt, **kwargs)
 
-    def _set_key(self, servicename, key, value, **kwargs):
+    def _set_key(self, servicename, key, value, encrypt, **kwargs):
         raise NotImplementedError()
 
-    def get_key(self, servicename, key, **kwargs):
-        return self._get_key(servicename, key)
+    def get_key(self, servicename, key, decrypt, **kwargs):
+        return self._get_key(servicename, key, decrypt, **kwargs)
 
-    def _get_key(self, servicename, key, **kwargs):
+    def _get_key(self, servicename, key, decrypt, **kwargs):
         raise NotImplementedError()
