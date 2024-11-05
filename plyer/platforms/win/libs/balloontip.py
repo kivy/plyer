@@ -139,6 +139,7 @@ class WindowsBalloonTip:
         self.notify(title, message, app_name)
         if timeout:
             time.sleep(timeout)
+            self.__del__() # maybe self.remove_notify() ???
 
     def __del__(self):
         '''
