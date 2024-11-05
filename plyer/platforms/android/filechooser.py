@@ -414,6 +414,7 @@ class AndroidFileChooser(FileChooser):
         uri_authority = uri.getAuthority()
         uri_scheme = uri.getScheme().lower()
 
+        _uri = uri
         path = None
         file_name = None
         selection = None
@@ -449,6 +450,17 @@ class AndroidFileChooser(FileChooser):
                     uri=uri, projection=['_data'], selection=selection,
                     selection_args=[file_name], sort_order=None
                 )
+            finally:
+                # if path is still None, a new attempt will be made
+                # using the original uri
+                if not path:
+                    path = self._parse_content(
+                        uri=_uri,
+                        projection=["_display_name"],
+                        selection=None,
+                        selection_args=None,
+                        sort_order=None,
+                    )
 
         # nothing to parse, file:// will return a proper path
         elif uri_scheme == 'file':
