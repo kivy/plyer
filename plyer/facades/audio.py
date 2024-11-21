@@ -79,6 +79,20 @@ class Audio:
         self._play()
         self.state = 'playing'
 
+    def pause(self):
+        '''
+        Pause current activity
+        '''
+        self._pause()
+        self.state = 'paused'
+
+    def resume(self):
+        '''
+        Resume current activity
+        '''
+        self._resume()
+        self.state = 'resumed'
+
     @property
     def file_path(self):
         return self._file_path
@@ -100,4 +114,10 @@ class Audio:
         raise NotImplementedError()
 
     def _play(self):
+        raise NotImplementedError()
+
+    def _pause(self):
+        raise NotImplementedError()
+
+    def _resume(self):
         raise NotImplementedError()
