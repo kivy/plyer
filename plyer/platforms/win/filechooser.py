@@ -90,6 +90,15 @@ class Win32FileChooser:
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
                 args["Filter"] = filters
 
+                # === PATCH ===
+                # Set the default extension using the value from the first filter.
+                # A side-effect of this is the dialog will append the currently 
+                # selected filter extension to the filename if the user does not provide one.
+                if self.filters:
+                    # get the characters of the first filter (after the .)
+                    args["DefExt"] = self.filters[0][1].partition(".")
+                # === END PATCH ===
+
                 flags = win32con.OFN_OVERWRITEPROMPT
                 flags |= win32con.OFN_HIDEREADONLY
 
