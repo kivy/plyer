@@ -1,4 +1,6 @@
 from kivy.utils import platform
+from kivy.config import Config
+from kivy.logger import Logger
 import threading
 
 """
@@ -47,12 +49,12 @@ if platform == 'android':
         timeout = 5  # Sets WAN timeout. LAN connection max is 2 secs.
         ssl = False
         tls_version = ""  # Defaults to auto selection. TLSv1.3 and TLSv1.2 are options
-        debug = False
         # Variables to adjust sound quality. Default settings recommended
         SAMPLE_RATE = 16000
         CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
         # Variables to be assigned dynamic values for VOIP services
+        debug = False
         socket = None
         data_output_stream = None
         data_input_stream = None
@@ -69,25 +71,29 @@ if platform == 'android':
             if min_buffer_size > self.buffer_size:
                 self.buffer_size = min_buffer_size
         
+        def enable_debug(self):
+            Config.set('kivy', 'log_level', 'debug')
+            self.debug == True
+
         def send_client_id(self):
             try:
                 self.data_output_stream.write(self.client_id.encode())
                 self.data_output_stream.flush()
                 if self.debug:
-                    print("Client ID sent")
+                    Logger.debug("VOIP: Client ID sent")
             except JavaException as e:
                 if self.debug:
-                    print("Client ID delivery failed")
-                    print(e)
+                    Logger.debug("VOIP: Client ID delivery failed")
+                    Logger.debug(f"VOIP: {e}")
 
         def start_call(self):
             if self.debug:
-                print("Starting call")
-            self.verifyPermission()  # Includes debug statements
-            if self.hasPermission:  # If permission is granted, attempt server connection
+                Logger.debug("VOIP: Starting call")
+            self.verifyPermission()
+            if self.hasPermission:
                 self.connected = False
                 if self.debug:
-                    print(f"{self.timeout} sec(s) wait for connection")
+                    Logger.debug(f"VOIP: {self.timeout} sec(s) wait for connection")
                 try:
                     if self.ssl:
                         if self.tls_version == "":  # Auto select protocol
@@ -107,10 +113,15 @@ if platform == 'android':
                     self.data_output_stream = self.socket.getOutputStream()
                     self.connected = True
                     if self.debug:
-                        print(f"Connected to {self.dst_address}:{self.dst_port}")
+                        Logger.debug(f"VOIP: Connected to {self.dst_address}:{self.dst_port}")
                 except JavaException as e:
                     if self.debug:
-                        print(e)
+                        Logger.debug(
+                            "VOIP: "
+                            "Ensure INTERNET and ACCESS_NETWORK_STATE permissions are in buildozer.spec "
+                            "and server is available."
+                        )
+                        Logger.debug(f"VOIP: {e}")
                 if self.connected:
                     # Establish VOIP session
                     self.active_call = True
@@ -120,16 +131,10 @@ if platform == 'android':
                     self.record_thread.start()
                     self.listening_thread = threading.Thread(target=self.receive_audio, daemon=True)
                     self.listening_thread.start()
-                else:
-                    if self.debug:
-                        print(
-                            "Ensure INTERNET and ACCESS_NETWORK_STATE permissions are in buildozer.spec "
-                            "and server is available."
-                        )
 
         def end_call(self):
             if self.debug:
-                print("Ending call")
+                Logger.debug("VOIP: Ending call")
             # Ensure threads are closed before closing socket
             self.active_call = False
             if hasattr(self, "record_thread") and self.record_thread.is_alive():
@@ -140,7 +145,7 @@ if platform == 'android':
                 self.socket.close()
                 self.socket = None
             if self.debug:
-                print("Call ended")
+                Logger.debug("VOIP: Call ended")
 
         def verifyPermission(self):
             self.hasPermission = False
@@ -155,10 +160,11 @@ if platform == 'android':
             if self.audio_record.getState() != AudioRecord.STATE_UNINITIALIZED:
                 self.hasPermission = True
                 if self.debug:
-                    print("Microphone permission granted")
+                    Logger.debug("VOIP: Microphone permission granted")
             else:
                 if self.debug:
-                    print(
+                    Logger.debug(
+                        "VOIP: "
                         "Permission Error: "
                         "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
                     )
@@ -168,7 +174,7 @@ if platform == 'android':
             audio_data = bytearray(self.buffer_size)
             self.audio_record.startRecording()
             if self.debug:
-                print("Microphone live stream started")
+                Logger.debug("VOIP: Microphone live stream started")
             while self.active_call == True:
                 try:
                     bytes_read = self.audio_record.read(
@@ -181,19 +187,19 @@ if platform == 'android':
                         self.data_output_stream.write(audio_data, 0, bytes_read)
                     elif bytes_read == AudioRecord.ERROR_INVALID_OPERATION:
                         if self.debug:
-                            print("ERROR_INVALID_OPERATION on microphone")
+                            Logger.debug("VOIP: ERROR_INVALID_OPERATION on microphone")
                     else:
                         if self.debug:
-                            print("ERROR_BAD_VALUE on microphone")
+                            Logger.debug("VOIP: ERROR_BAD_VALUE on microphone")
                 except JavaException as e:
                     self.active_call = False
                     if self.debug:
-                        print(f"Microphone Stream Error")
-                        print(e)
+                        Logger.debug("VOIP: Microphone Stream Error")
+                        Logger.debug(f"VOIP: {e}")
 
             self.audio_record.stop()
             if self.debug:
-                print("Microphone live stream ended")
+                Logger.debug("VOIP: Microphone live stream ended")
         
         # Establish speaker stream
         def receive_audio(self):
@@ -208,7 +214,7 @@ if platform == 'android':
             buffer = bytearray(self.buffer_size)
             audio_track.play()
             if self.debug:
-                print("Speaker live stream started")
+                Logger.debug("VOIP: Speaker live stream started")
             try:
                 while self.active_call == True:
                     bytes_received = self.data_input_stream.read(buffer)
@@ -217,11 +223,9 @@ if platform == 'android':
             except JavaException as e:
                 self.active_call = False
                 if self.debug:
-                    print("Speaker Stream Error")
-                    print(e)
+                    Logger.debug("VOIP: Speaker Stream Error")
+                    Logger.debug(f"VOIP: {e}")
 
             audio_track.stop()
             if self.debug:
-                print("Speaker live stream ended")
-else:
-    print("VOIP features are currently exclusive to Android devices")
+                Logger.debug("VOIP: Speaker live stream ended")
