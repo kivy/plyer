@@ -12,7 +12,7 @@ class VOIPClientApp(App):
     client.dst_address = "192.168.1.12"  # Set to your server's IP address. Use root domain if using SSL (loopback by default)
     client.dst_port = 8080  # Set to your server's assigned port (port 8080 by default)
     client.timeout = 3  # Sets wait time to connect to server (5 seconds is default) [optional]
-    client.ssl = False  # Determines if SSL/TLS will be used (False by default) [Optional]
+    client.ssl = False  # Determines if SSL/TLS will be used (False by default) [optional]
     client.tls_version = ""  # Defaults to auto selection if empty. TLSv1.3 and TLSv1.2 are options. [optional]
     client.client_id = "user@kivy.org"  # Supports identifying/authorizing connection [optional]
     client.enable_debug()  # Enables debug logs [optional]
@@ -38,7 +38,7 @@ class VOIPClientApp(App):
             self.end_call(instance)
 
     def start_call(self, instance):
-	    # Disable call button after call button is pressed
+	# Disable call button after call button is pressed
         self.call_button.disabled = True
         self.end_call_button.disabled = False
         self.client.start_call()  # Initiate the VOIP call
