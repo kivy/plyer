@@ -74,4 +74,3 @@ class VOIP:
         """
         End the VOIP call, stopping all streams and closing connections.
         """
-        self._end_call()
