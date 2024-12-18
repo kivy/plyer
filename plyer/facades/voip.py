@@ -60,15 +60,12 @@ class VOIP:
         """
         Verify if the application has the required microphone permissions.
         """
-        return self.has_permission
 
     def start_call(self):
         """
         Start a VOIP call. This establishes the connection, microphone
         stream, and speaker stream.
         """
-        if self.has_permission:
-            self._start_call()
 
     def end_call(self):
         """
