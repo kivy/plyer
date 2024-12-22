@@ -17,7 +17,7 @@ Example Usage
 To start a VOIP call:
 
     >>> from plyer import Voip
-    Client = Voip()
+    >>> Client = Voip()
     >>> Client.dst_address = "192.168.1.2"
     >>> Client.dst_port = 8080
     >>> Client.start_call()
