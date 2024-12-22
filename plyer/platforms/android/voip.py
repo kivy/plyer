@@ -1,6 +1,6 @@
-from kivy.config import Config
-from kivy.logger import Logger
-import threading
+'''
+Android Voip
+'''
 
 """
 MIT License
@@ -27,6 +27,11 @@ SOFTWARE.
 """
 
 from jnius import autoclass, JavaException
+from plyer.facades import Voip
+from kivy.config import Config
+from kivy.logger import Logger
+import threading
+
 AudioRecord = autoclass("android.media.AudioRecord")
 AudioSource = autoclass("android.media.MediaRecorder$AudioSource")
 AudioFormat = autoclass("android.media.AudioFormat")
@@ -38,43 +43,31 @@ SocketTimer = autoclass("java.net.InetSocketAddress")
 SSLContext = autoclass("javax.net.ssl.SSLContext")
 SecureRandom = autoclass("java.security.SecureRandom")
 
-class Client:
-    # Variables to be configured per client
-    client_id = ""  # Used to identify/auth client's connection
-    dst_address = "127.0.0.1"  # Use root domain for ssl connection
-    dst_port = 8080
-    timeout = 5  # Sets WAN timeout. LAN connection max is 2 secs.
-    ssl = False
-    tls_version = ""  # Defaults to auto selection. TLSv1.3 and TLSv1.2 are options
-    # Variables to adjust sound quality. Default settings recommended
+class AndroidVoip(Voip):
     SAMPLE_RATE = 16000
     CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
     AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
-    # Variables to be assigned dynamic values for VOIP services
-    debug = False
     socket = None
     data_output_stream = None
     data_input_stream = None
     audio_record = None
-    hasPermission = False
-    connected = False
     active_call = False
     buffer_size = 640
 
-    def __init__(self):
+    def __init__(self, debug=False):
+        self.debug = debug
+        if self.debug:
+            Config.set('kivy', 'log_level', 'debug')
+
         min_buffer_size = AudioRecord.getMinBufferSize(
             self.SAMPLE_RATE, self.CHANNEL_CONFIG, self.AUDIO_FORMAT
         )
         if min_buffer_size > self.buffer_size:
             self.buffer_size = min_buffer_size
-    
-    def enable_debug(self):
-        Config.set('kivy', 'log_level', 'debug')
-        self.debug == True
 
-    def send_client_id(self):
+    def send_client_id(self, client_id):
         try:
-            self.data_output_stream.write(self.client_id.encode())
+            self.data_output_stream.write(client_id.encode())
             self.data_output_stream.flush()
             if self.debug:
                 Logger.debug("VOIP: Client ID sent")
@@ -83,34 +76,40 @@ class Client:
                 Logger.debug("VOIP: Client ID delivery failed")
                 Logger.debug(f"VOIP: {e}")
 
-    def start_call(self):
+    def _start_call(self, **kwargs):
+        dst_address = kwargs.get('dst_address', self.dst_address)
+        dst_port = kwargs.get('dst_port', self.dst_port)
+        client_id = kwargs.get('client_id', getattr(self, 'client_id', ''))
+        timeout = kwargs.get('timeout', getattr(self, 'timeout', 5))
+        ssl = kwargs.get('ssl', getattr(self, 'ssl', False))
+        tls_version = kwargs.get('tls_version', getattr(self, 'tls_version', ''))
+        
         if self.debug:
             Logger.debug("VOIP: Starting call")
-        self.verifyPermission()
-        if self.hasPermission:
-            self.connected = False
+        if self.hasPermission():
+            connected = False
             if self.debug:
-                Logger.debug(f"VOIP: {self.timeout} sec(s) wait for connection")
+                Logger.debug(f"VOIP: {timeout} sec(s) wait for connection")
             try:
-                if self.ssl:
-                    if self.tls_version == "":  # Auto select protocol
+                if ssl:
+                    if tls_version == "":
                         ssl_socket_factory = SSLSocket.getDefault()
-                    else:  # Otherwise, manually select protocol
-                        ssl_context = SSLContext.getInstance(self.tls_version)
+                    else:
+                        ssl_context = SSLContext.getInstance(tls_version)
                         ssl_context.init(None, None, SecureRandom())
                         ssl_socket_factory = ssl_context.getSocketFactory()
                     self.socket = ssl_socket_factory.createSocket()
                 else:
                     self.socket = Socket()
                 self.socket.connect(
-                    SocketTimer(self.dst_address, self.dst_port),
-                    self.timeout * 1000
+                    SocketTimer(dst_address, dst_port),
+                    timeout * 1000
                 )
                 self.data_input_stream = self.socket.getInputStream()
                 self.data_output_stream = self.socket.getOutputStream()
-                self.connected = True
+                connected = True
                 if self.debug:
-                    Logger.debug(f"VOIP: Connected to {self.dst_address}:{self.dst_port}")
+                    Logger.debug(f"VOIP: Connected to {dst_address}:{dst_port}")
             except JavaException as e:
                 if self.debug:
                     Logger.debug(
@@ -119,20 +118,18 @@ class Client:
                         "and server is available."
                     )
                     Logger.debug(f"VOIP: {e}")
-            if self.connected:
-                # Establish VOIP session
+            if connected:
                 self.active_call = True
-                if self.client_id != "":
-                    self.send_client_id() 
+                if client_id != "":
+                    self.send_client_id(client_id) 
                 self.record_thread = threading.Thread(target=self.send_audio, daemon=True)
                 self.record_thread.start()
                 self.listening_thread = threading.Thread(target=self.receive_audio, daemon=True)
                 self.listening_thread.start()
 
-    def end_call(self):
+    def _end_call(self):
         if self.debug:
             Logger.debug("VOIP: Ending call")
-        # Ensure threads are closed before closing socket
         self.active_call = False
         if hasattr(self, "record_thread") and self.record_thread.is_alive():
             self.record_thread.join()
@@ -144,8 +141,8 @@ class Client:
         if self.debug:
             Logger.debug("VOIP: Call ended")
 
-    def verifyPermission(self):
-        self.hasPermission = False
+    def hasPermission(self):
+        micPermission = False
         self.audio_record = AudioRecord(
             AudioSource.VOICE_COMMUNICATION,
             self.SAMPLE_RATE,
@@ -153,9 +150,8 @@ class Client:
             self.AUDIO_FORMAT,
             self.buffer_size,
         )
-        # If the microphone state is initiatialized, allow VOIP call
         if self.audio_record.getState() != AudioRecord.STATE_UNINITIALIZED:
-            self.hasPermission = True
+            micPermission = True
             if self.debug:
                 Logger.debug("VOIP: Microphone permission granted")
         else:
@@ -165,8 +161,8 @@ class Client:
                     "Permission Error: "
                     "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
                 )
+        return micPermission
 
-    # Establish microphone stream
     def send_audio(self):
         audio_data = bytearray(self.buffer_size)
         self.audio_record.startRecording()
@@ -198,7 +194,6 @@ class Client:
         if self.debug:
             Logger.debug("VOIP: Microphone live stream ended")
     
-    # Establish speaker stream
     def receive_audio(self):
         audio_track = AudioTrack(
             AudioManager.STREAM_VOICE_CALL,
@@ -226,3 +221,6 @@ class Client:
         audio_track.stop()
         if self.debug:
             Logger.debug("VOIP: Speaker live stream ended")
+
+def instance():
+    return AndroidVoip()
