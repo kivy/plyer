@@ -1,21 +1,21 @@
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from plyer import Voip
 import threading
-from plyer.voip import Client
 
 class VOIPClientApp(App):
     # Initialize a client
-    client = Client()
+    client = Voip(debug=True)  # Debug arguement is not required, but defaults to false.
 
-    # Configure connection from client to VOIP server
-    client.dst_address = "192.168.1.12"  # Set to your server's IP address. Use root domain if using SSL (loopback by default)
-    client.dst_port = 8080  # Set to your server's assigned port (port 8080 by default)
-    client.timeout = 3  # Sets wait time to connect to server (5 seconds is default) [optional]
-    client.ssl = False  # Determines if SSL/TLS will be used (False by default) [optional]
-    client.tls_version = ""  # Defaults to auto selection if empty. TLSv1.3 and TLSv1.2 are options. [optional]
-    client.client_id = "user@kivy.org"  # Supports identifying/authorizing connection [optional]
-    client.enable_debug()  # Enables debug logs [optional]
+    # Configure connection from client to VOIP server.
+    # Alternatively, you can pass these as **kwargs to the client.start_call() method.
+    client.dst_address = "192.168.1.12"  # Set to your server's IP address. Use root domain if using SSL [Required]
+    client.dst_port = 8080  # Set to your server's assigned port [Required]
+    client.timeout = 3  # Sets wait time to connect to server (5 seconds is default) [Optional]
+    client.ssl = False  # Determines if SSL/TLS will be used (False by default) [Optional]
+    client.tls_version = "TLSv1.3"  # Defaults to auto selection if empty. TLSv1.3 and TLSv1.2 are preferred options. [Optional]
+    client.client_id = "user@kivy.org"  # Supports identifying/authorizing connection [Optional]
     
     def build(self):
         # Create a call and end call button to alternate between to allow client control over VOIP call
@@ -38,7 +38,7 @@ class VOIPClientApp(App):
             self.end_call(instance)
 
     def start_call(self, instance):
-	# Disable call button after call button is pressed
+	    # Disable call button after call button is pressed
         self.call_button.disabled = True
         self.end_call_button.disabled = False
         self.client.start_call()  # Initiate the VOIP call
