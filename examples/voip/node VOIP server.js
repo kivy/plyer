@@ -8,10 +8,14 @@ const VOIPserver = net.createServer((socket) => {
     socket.on("data", (data) => {
         socket.write(data);
     });
-    socket.on("end", () => {
-        console.log('Client disconnected');
+    /*
+    Socket.on(end) will not catch socket closure
+    due to javascript and java handling sockets differrently,
+    causing an error.
+    */
+    socket.on("error", (err) => {
+        console.log(`Client disconnected: ${clientAddress}`);
     });
-    socket.on("error", (err) => {});
 });
 
 const PORT = 8080;
