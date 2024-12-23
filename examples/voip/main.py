@@ -5,7 +5,6 @@ from plyer import voip
 import threading
 
 class VOIPClientApp(App):
-    # Initialize a client
     def build(self):
         # Create a call and end call button to alternate between to allow client control over VOIP call
         self.layout = BoxLayout(orientation='vertical')
@@ -18,9 +17,11 @@ class VOIPClientApp(App):
         return self.layout
     
     def auto_end_call(self):  # Automate ending call, including if connection closes externally
-        # If client has mic permission and is connected to server, the call is active
-        while voip.active_call:  # Loop that runs until call ends
-            pass
+        # If client has microphone permissions and is connected to the server, the call is active
+        # Else, display an error dialog or message indicating which condition is not met
+        if voip.hasPermission and voip.connected:
+            while voip.active_call:  # Loop that runs until call ends
+                pass
         if not self.end_call_button.disabled:
             instance = VOIPClientApp()
             self.end_call(instance)
