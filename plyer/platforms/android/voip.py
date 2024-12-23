@@ -48,6 +48,8 @@ class AndroidVoip(Voip):
     CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
     AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
     socket = None
+    connected = False
+    hasPermission = False
     data_output_stream = None
     data_input_stream = None
     audio_record = None
@@ -84,8 +86,9 @@ class AndroidVoip(Voip):
         
         if self.debug:
             Logger.info("VOIP: Starting call")
-        if self.hasPermission():
-            connected = False
+        self.verifyPermission()
+        if self.hasPermission:
+            self.connected = False
             if self.debug:
                 Logger.info(f"VOIP: {timeout} sec(s) wait for connection")
             try:
@@ -105,7 +108,7 @@ class AndroidVoip(Voip):
                 )
                 self.data_input_stream = self.socket.getInputStream()
                 self.data_output_stream = self.socket.getOutputStream()
-                connected = True
+                self.connected = True
                 if self.debug:
                     Logger.info(f"VOIP: Connected to {dst_address}:{dst_port}")
             except JavaException as e:
@@ -116,7 +119,7 @@ class AndroidVoip(Voip):
                         "and server is available."
                     )
                     Logger.error(f"VOIP: {e}")
-            if connected:
+            if self.connected:
                 self.active_call = True
                 if client_id != "":
                     self.send_client_id(client_id) 
@@ -139,8 +142,8 @@ class AndroidVoip(Voip):
         if self.debug:
             Logger.info("VOIP: Call ended")
 
-    def hasPermission(self):
-        micPermission = False
+    def verifyPermission(self):
+        self.hasPermission = False
         self.audio_record = AudioRecord(
             AudioSource.VOICE_COMMUNICATION,
             self.SAMPLE_RATE,
@@ -149,7 +152,7 @@ class AndroidVoip(Voip):
             self.buffer_size,
         )
         if self.audio_record.getState() != AudioRecord.STATE_UNINITIALIZED:
-            micPermission = True
+            self.hasPermission = True
             if self.debug:
                 Logger.info("VOIP: Microphone permission granted")
         else:
@@ -158,7 +161,6 @@ class AndroidVoip(Voip):
                     "VOIP: Permission Error: "
                     "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
                 )
-        return micPermission
 
     def send_audio(self):
         audio_data = bytearray(self.buffer_size)
