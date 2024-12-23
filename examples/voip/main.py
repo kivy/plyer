@@ -1,11 +1,8 @@
 from kivy.app import App
-from kivy.config import Config
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from plyer import voip
 import threading
-
-Config.set('kivy', 'log_level', 'debug')  # Enables debug logs for troubleshooting
 
 class VOIPClientApp(App):
     # Initialize a client
