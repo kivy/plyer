@@ -32,12 +32,27 @@ class Voip:
     Voip facade.
     '''
 
-    def start_call(self):
+    def start_call(self, **kwargs):
         '''
         Start a VOIP call. This establishes the connection, microphone
         stream, and speaker stream.
+
+        :param dst_address = Sets server IP address or root domain
+        :type dst_address: string
+        :param dst_port = Sets server destination port
+        :type dst_port: integer
+        :param client_id = Identifies caller
+        :type client_id: string
+        :param timeout: = Limits time for connection
+        :type timeout: integer
+        :param ssl: Enables SSL/TLS
+        :type ssl: boolean
+        :param tls_version = Allows TLS version selection
+        :type tls_version: string
+        :param debug: Displays debug logs
+        :type debug: boolean
         '''
-        self._start_call()
+        self._start_call(**kwargs)
 
     def end_call(self):
         '''
