@@ -28,7 +28,6 @@ SOFTWARE.
 
 from jnius import autoclass, JavaException
 from plyer.facades import Voip
-from kivy.config import Config
 from kivy.logger import Logger
 import threading
 
