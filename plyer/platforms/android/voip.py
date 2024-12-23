@@ -53,12 +53,9 @@ class AndroidVoip(Voip):
     audio_record = None
     active_call = False
     buffer_size = 640
+    debug = False
 
-    def __init__(self, debug=False):
-        self.debug = debug
-        if self.debug:
-            Config.set('kivy', 'log_level', 'debug')
-
+    def __init__(self):
         min_buffer_size = AudioRecord.getMinBufferSize(
             self.SAMPLE_RATE, self.CHANNEL_CONFIG, self.AUDIO_FORMAT
         )
@@ -77,12 +74,13 @@ class AndroidVoip(Voip):
                 Logger.debug(f"VOIP: {e}")
 
     def _start_call(self, **kwargs):
-        dst_address = kwargs.get('dst_address', self.dst_address)
-        dst_port = kwargs.get('dst_port', self.dst_port)
-        client_id = kwargs.get('client_id', getattr(self, 'client_id', ''))
-        timeout = kwargs.get('timeout', getattr(self, 'timeout', 5))
-        ssl = kwargs.get('ssl', getattr(self, 'ssl', False))
-        tls_version = kwargs.get('tls_version', getattr(self, 'tls_version', ''))
+        dst_address = kwargs.get('dst_address')
+        dst_port = kwargs.get('dst_port')
+        client_id = kwargs.get('client_id', '')
+        timeout = kwargs.get('timeout', 5)
+        ssl = kwargs.get('ssl', False)
+        tls_version = kwargs.get('tls_version', '')
+        self.debug = kwargs.get('debug', False)
         
         if self.debug:
             Logger.debug("VOIP: Starting call")
@@ -157,8 +155,7 @@ class AndroidVoip(Voip):
         else:
             if self.debug:
                 Logger.debug(
-                    "VOIP: "
-                    "Permission Error: "
+                    "VOIP: Permission Error: "
                     "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
                 )
         return micPermission
