@@ -16,15 +16,15 @@ Example Usage
 
 To start a VOIP call:
 
-    >>> from plyer import Voip
-    >>> Client = Voip()
-    >>> Client.dst_address = "192.168.1.2"
-    >>> Client.dst_port = 8080
-    >>> Client.start_call()
+    >>> from plyer import voip
+    >>> voip.start_call(
+            dst_address = "192.168.1.67"
+            dst_port = 8080
+        )
 
 To end a VOIP call:
 
-    >>> Client.end_call()
+    >>> voip.end_call()
 """
 
 class Voip:
