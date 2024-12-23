@@ -26,13 +26,14 @@ Here is an outline of steps to run the node VOIP server from this repository:
 1. Download "node VOIP server.js".
 2. If not already installed, install node.js on your operating system.
 3. If not already known, discover your server's local IP address by running "ipconfig" (Windows) or "ifconfig" (Linux) in your Command Line Interface (CLI).
+   While the local port number is set to 8080 in the "node voip server.js" file, you can change it to any available port as desired.
 4. Run the following command in your CLI to run the VOIP server when desired: node "node VOIP server.js". It is also possible to run the "node VOIP server.js"
    through VS Code.
 
 • You will also need to create a client using the voip module. The main.py file in the main repository provides an example of how to utilize the voip.py module.
 1. Download main.py and buildozer.spec.
-2. Change "client.dst_address" variable value in main.py to your server's local IP address.
-   The "client.dst_port" variable is set to match the server's listening port. All other variables within the Client object are not required, but may be desired.
+2. In the start_call() function, update the dst_address and dst_port arguments in main.py to match your server's local IP address and port.
+   All other arguements within the function are not required, but may be assigned values as desired.
 3. Within your buildozer.spec file, ensure you have the following permissions before compiling with Buildozer:
    INTERNET, RECORD_AUDIO, ACCESS_NETWORK_STATE, and WAKE_LOCK.
 4. Compile main.py with Buildozer to incorporate pyjnius into the mobile application by default.
