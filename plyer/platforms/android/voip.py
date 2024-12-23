@@ -67,11 +67,11 @@ class AndroidVoip(Voip):
             self.data_output_stream.write(client_id.encode())
             self.data_output_stream.flush()
             if self.debug:
-                Logger.debug("VOIP: Client ID sent")
+                Logger.info("VOIP: Client ID sent")
         except JavaException as e:
             if self.debug:
-                Logger.debug("VOIP: Client ID delivery failed")
-                Logger.debug(f"VOIP: {e}")
+                Logger.info("VOIP: Client ID delivery failed")
+                Logger.error(f"VOIP: {e}")
 
     def _start_call(self, **kwargs):
         dst_address = kwargs.get('dst_address')
@@ -83,11 +83,11 @@ class AndroidVoip(Voip):
         self.debug = kwargs.get('debug', False)
         
         if self.debug:
-            Logger.debug("VOIP: Starting call")
+            Logger.info("VOIP: Starting call")
         if self.hasPermission():
             connected = False
             if self.debug:
-                Logger.debug(f"VOIP: {timeout} sec(s) wait for connection")
+                Logger.info(f"VOIP: {timeout} sec(s) wait for connection")
             try:
                 if ssl:
                     if tls_version == "":
@@ -107,15 +107,15 @@ class AndroidVoip(Voip):
                 self.data_output_stream = self.socket.getOutputStream()
                 connected = True
                 if self.debug:
-                    Logger.debug(f"VOIP: Connected to {dst_address}:{dst_port}")
+                    Logger.info(f"VOIP: Connected to {dst_address}:{dst_port}")
             except JavaException as e:
                 if self.debug:
-                    Logger.debug(
+                    Logger.error(
                         "VOIP: "
                         "Ensure INTERNET and ACCESS_NETWORK_STATE permissions are in buildozer.spec "
                         "and server is available."
                     )
-                    Logger.debug(f"VOIP: {e}")
+                    Logger.error(f"VOIP: {e}")
             if connected:
                 self.active_call = True
                 if client_id != "":
@@ -127,7 +127,7 @@ class AndroidVoip(Voip):
 
     def _end_call(self):
         if self.debug:
-            Logger.debug("VOIP: Ending call")
+            Logger.info("VOIP: Ending call")
         self.active_call = False
         if hasattr(self, "record_thread") and self.record_thread.is_alive():
             self.record_thread.join()
@@ -137,7 +137,7 @@ class AndroidVoip(Voip):
             self.socket.close()
             self.socket = None
         if self.debug:
-            Logger.debug("VOIP: Call ended")
+            Logger.info("VOIP: Call ended")
 
     def hasPermission(self):
         micPermission = False
@@ -151,10 +151,10 @@ class AndroidVoip(Voip):
         if self.audio_record.getState() != AudioRecord.STATE_UNINITIALIZED:
             micPermission = True
             if self.debug:
-                Logger.debug("VOIP: Microphone permission granted")
+                Logger.info("VOIP: Microphone permission granted")
         else:
             if self.debug:
-                Logger.debug(
+                Logger.error(
                     "VOIP: Permission Error: "
                     "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
                 )
@@ -164,7 +164,7 @@ class AndroidVoip(Voip):
         audio_data = bytearray(self.buffer_size)
         self.audio_record.startRecording()
         if self.debug:
-            Logger.debug("VOIP: Microphone live stream started")
+            Logger.info("VOIP: Microphone live stream started")
         while self.active_call == True:
             try:
                 bytes_read = self.audio_record.read(
@@ -177,19 +177,19 @@ class AndroidVoip(Voip):
                     self.data_output_stream.write(audio_data, 0, bytes_read)
                 elif bytes_read == AudioRecord.ERROR_INVALID_OPERATION:
                     if self.debug:
-                        Logger.debug("VOIP: ERROR_INVALID_OPERATION on microphone")
+                        Logger.warning("VOIP: ERROR_INVALID_OPERATION on microphone")
                 else:
                     if self.debug:
-                        Logger.debug("VOIP: ERROR_BAD_VALUE on microphone")
+                        Logger.warning("VOIP: ERROR_BAD_VALUE on microphone")
             except JavaException as e:
                 self.active_call = False
                 if self.debug:
-                    Logger.debug("VOIP: Microphone Stream Error")
-                    Logger.debug(f"VOIP: {e}")
+                    Logger.error("VOIP: Microphone Stream Error")
+                    Logger.error(f"VOIP: {e}")
 
         self.audio_record.stop()
         if self.debug:
-            Logger.debug("VOIP: Microphone live stream ended")
+            Logger.info("VOIP: Microphone live stream ended")
     
     def receive_audio(self):
         audio_track = AudioTrack(
@@ -203,7 +203,7 @@ class AndroidVoip(Voip):
         buffer = bytearray(self.buffer_size)
         audio_track.play()
         if self.debug:
-            Logger.debug("VOIP: Speaker live stream started")
+            Logger.info("VOIP: Speaker live stream started")
         try:
             while self.active_call == True:
                 bytes_received = self.data_input_stream.read(buffer)
@@ -212,12 +212,12 @@ class AndroidVoip(Voip):
         except JavaException as e:
             self.active_call = False
             if self.debug:
-                Logger.debug("VOIP: Speaker Stream Error")
-                Logger.debug(f"VOIP: {e}")
+                Logger.error("VOIP: Speaker Stream Error")
+                Logger.error(f"VOIP: {e}")
 
         audio_track.stop()
         if self.debug:
-            Logger.debug("VOIP: Speaker live stream ended")
+            Logger.info("VOIP: Speaker live stream ended")
 
 def instance():
     return AndroidVoip()
