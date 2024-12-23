@@ -37,17 +37,17 @@ class Voip:
         Start a VOIP call. This establishes the connection, microphone
         stream, and speaker stream.
 
-        :param dst_address = Sets server IP address or root domain
+        :param dst_address: Sets server IP address or root domain
         :type dst_address: string
-        :param dst_port = Sets server destination port
+        :param dst_port: Sets server destination port
         :type dst_port: integer
-        :param client_id = Identifies caller
+        :param client_id: Allows authentication of caller
         :type client_id: string
-        :param timeout: = Limits time for connection
+        :param timeout: Limits time for connection
         :type timeout: integer
         :param ssl: Enables SSL/TLS
         :type ssl: boolean
-        :param tls_version = Allows TLS version selection
+        :param tls_version: Allows TLS version selection
         :type tls_version: string
         :param debug: Displays debug logs
         :type debug: boolean
