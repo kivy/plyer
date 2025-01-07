@@ -4,7 +4,7 @@ Linux file chooser
 '''
 
 from plyer.facades import FileChooser
-from distutils.spawn import find_executable as which
+from shutil import which
 import os
 import subprocess as sp
 import time
@@ -106,16 +106,20 @@ class ZenityFileChooser(SubprocessFileChooser):
     def _gen_cmdline(self):
         cmdline = [
             which(self.executable),
-            "--file-selection"
-        ]
+            "--file-selection"]
+        if self.title:
+            cmdline += ["--title", self.title]
         if self.multiple:
             cmdline += ["--multiple"]
+
         if self.mode == "save":
             cmdline += ["--save"]
         elif self.mode == "dir":
             cmdline += ["--directory"]
         if self.path:
             cmdline += ["--filename", self.path]
+        if self.icon:
+            cmdline += ["--icon", self.icon]
         for f in self.filters:
             if isinstance(f, str):
                 cmdline += ["--file-filter", f]
