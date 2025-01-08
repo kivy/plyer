@@ -41,6 +41,7 @@ class TestStoragePath(unittest.TestCase):
         self.assertIn(path_format, storagepath.get_music_dir())
         self.assertIn(path_format, storagepath.get_pictures_dir())
         self.assertIn(path_format, storagepath.get_application_dir())
+        self.assertIn(path_format, storagepath.get_desktop_dir())
 
     @PlatformTest('win')
     def test_storagepath_windows(self):
