@@ -172,7 +172,7 @@ class AndroidVoip(Voip):
         audio_track = AudioTrack(
             AudioManager.STREAM_VOICE_CALL,
             self.SAMPLE_RATE,
-            AudioFormat.CHANNEL_OUT_MONO,
+            self.CHANNEL_CONFIG,
             self.AUDIO_FORMAT,
             self.buffer_size,
             AudioTrack.MODE_STREAM,
