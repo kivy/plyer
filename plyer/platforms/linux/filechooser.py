@@ -147,12 +147,18 @@ class KDialogFileChooser(SubprocessFileChooser):
         cmdline = [which(self.executable)]
 
         filt = []
-
         for f in self.filters:
             if isinstance(f, str):
                 filt += [f]
             else:
-                filt += list(f[1:])
+                filters = ''
+                for ext in self.filters:
+                    exts = ''
+                    for y in ext[1:]:
+                        exts += f' {y};'
+                    x = f'{ext[0]} ({exts})|'
+                    filters += x
+                filt = [filters[:-1]]
 
         if self.mode == "dir":
             cmdline += [
