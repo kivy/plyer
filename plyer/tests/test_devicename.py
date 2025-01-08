@@ -7,10 +7,11 @@ Tested platforms:
 * Windows
 '''
 
-import unittest
-from mock import patch
-from plyer.tests.common import PlatformTest, platform_import
 import socket
+import unittest
+from unittest.mock import patch
+
+from plyer.tests.common import PlatformTest, platform_import
 
 
 class TestDeviceName(unittest.TestCase):

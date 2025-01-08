@@ -31,7 +31,7 @@ View a specific location::
 
 Supported Platforms
 -------------------
-macOS
+macOS, iOS
 ---------------
 '''
 

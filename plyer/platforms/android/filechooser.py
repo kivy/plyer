@@ -43,7 +43,7 @@ using that result will use an incorrect one i.e. the default value of
 .. versionadded:: 1.4.0
 '''
 
-from os.path import join, basename
+from os.path import join
 from random import randint
 
 from android import activity, mActivity
@@ -62,6 +62,7 @@ Long = autoclass('java.lang.Long')
 IMedia = autoclass('android.provider.MediaStore$Images$Media')
 VMedia = autoclass('android.provider.MediaStore$Video$Media')
 AMedia = autoclass('android.provider.MediaStore$Audio$Media')
+Files = autoclass('android.provider.MediaStore$Files')
 FileOutputStream = autoclass('java.io.FileOutputStream')
 
 
@@ -142,9 +143,11 @@ class AndroidFileChooser(FileChooser):
 
         # create Intent for opening
         file_intent = Intent(Intent.ACTION_GET_CONTENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
@@ -175,9 +178,11 @@ class AndroidFileChooser(FileChooser):
             kwargs.pop("filters")[0] if "filters" in kwargs else ""
 
         file_intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        if not self.selected_mime_type or \
-            type(self.selected_mime_type) != str or \
-                self.selected_mime_type not in self.mime_type:
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
             file_intent.setType("*/*")
         else:
             file_intent.setType(self.mime_type[self.selected_mime_type])
@@ -252,28 +257,19 @@ class AndroidFileChooser(FileChooser):
         file_id = DocumentsContract.getDocumentId(uri)
         file_type, file_name = file_id.split(':')
 
-        # internal SD card mostly mounted as a files storage in phone
-        internal = storagepath.get_external_storage_dir()
+        primary_storage = storagepath.get_external_storage_dir()
+        sdcard_storage = storagepath.get_sdcard_dir()
 
-        # external (removable) SD card i.e. microSD
-        external = storagepath.get_sdcard_dir()
-        try:
-            external_base = basename(external)
-        except TypeError:
-            external_base = basename(internal)
+        directory = primary_storage
 
-        # resolve sdcard path
-        sd_card = internal
-
-        # because external might have /storage/.../1 or other suffix
-        # and file_type might be only a part of the real folder in /storage
-        if file_type in external_base or external_base in file_type:
-            sd_card = external
+        if file_type == "primary":
+            directory = primary_storage
         elif file_type == "home":
-            sd_card = join(Environment.getExternalStorageDirectory(
-            ).getAbsolutePath(), Environment.DIRECTORY_DOCUMENTS)
+            directory = join(primary_storage, Environment.DIRECTORY_DOCUMENTS)
+        elif sdcard_storage and file_type in sdcard_storage:
+            directory = sdcard_storage
 
-        return join(sd_card, file_name)
+        return join(directory, file_name)
 
     @staticmethod
     def _handle_media_documents(uri):
@@ -294,6 +290,11 @@ class AndroidFileChooser(FileChooser):
             uri = VMedia.EXTERNAL_CONTENT_URI
         elif file_type == 'audio':
             uri = AMedia.EXTERNAL_CONTENT_URI
+
+        # Other file type was selected (probably in the Documents folder)
+        else:
+            uri = Files.getContentUri("external")
+
         return file_name, selection, uri
 
     @staticmethod
@@ -324,6 +325,23 @@ class AndroidFileChooser(FileChooser):
 
         .. versionadded:: 1.4.0
         '''
+
+        try:
+            download_dir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ).getPath()
+            path = AndroidFileChooser._parse_content(
+                uri=uri,
+                projection=["_display_name"],
+                selection=None,
+                selection_args=None,
+                sort_order=None,
+            )
+            return join(download_dir, path)
+
+        except Exception:
+            import traceback
+            traceback.print_exc()
 
         # known locations, differ between machines
         downloads = [

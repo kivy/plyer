@@ -12,8 +12,8 @@ import unittest
 
 from os import mkdir, remove
 from os.path import join, expanduser, exists
+from unittest.mock import patch
 
-from mock import patch
 from plyer.tests.common import PlatformTest, platform_import
 
 

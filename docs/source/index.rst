@@ -1,18 +1,23 @@
-.. Plyer documentation master file, created by
-   sphinx-quickstart on Wed Jul  3 15:18:02 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to Plyer
 ================
 
-Plyer is a Python library for accessing features of your hardware / platforms.
+Plyer is a platform-independent Python API for accessing hardware features
+of various platforms (Android, iOS, macOS, Linux and Windows).
 
-.. automodule:: plyer
-    :members:
+Plyer is managed by the `Kivy Team <https://kivy.org/about.html>`
+and is suitable for use with Kivy apps.
 
-.. automodule:: plyer.facades
-    :members:
+Plyer is released and distributed under the terms of the MIT license. Our
+`latest license <https://github.com/kivy/plyer/blob/master/LICENSE>`_
+is available.
+
+.. toctree::
+   :maxdepth: 2
+
+   api
+   contact
+   contribute
+   faq
 
 Indices and tables
 ==================
