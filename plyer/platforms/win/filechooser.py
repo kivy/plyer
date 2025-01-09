@@ -12,7 +12,7 @@ from win32com.shell import shellcon
 import win32gui
 import win32con
 import pywintypes
-from os.path import dirname, splitext, join, isdir
+from os.path import dirname, splitext, join, isdir, normpath
 
 
 class Win32FileChooser:
@@ -41,6 +41,7 @@ class Win32FileChooser:
     title = None
     icon = None
     show_hidden = False
+    buffer_size = 4096
 
     def __init__(self, *args, **kwargs):
         self._handle_selection = kwargs.pop(
@@ -65,6 +66,7 @@ class Win32FileChooser:
                 args = {}
 
                 if self.path:
+                    self.path = normpath(self.path)
                     if isdir(self.path):
                         args["InitialDir"] = self.path
                     else:
@@ -76,10 +78,7 @@ class Win32FileChooser:
                 args["Title"] = self.title if self.title else "Pick a file..."
                 args["CustomFilter"] = 'Other file types\x00*.*\x00'
                 args["FilterIndex"] = 1
-                file = ""
-                if "File" in args:
-                    file = args["File"]
-                args["File"] = file + ("\x00" * 4096)
+                args["MaxFile"] = self.buffer_size
 
                 # e.g. open_file(filters=['*.txt', '*.py'])
                 filters = ""
@@ -89,6 +88,14 @@ class Win32FileChooser:
                     else:
                         filters += f[0] + "\x00" + ";".join(f[1:]) + "\x00"
                 args["Filter"] = filters
+
+                # Set default extension using value from the first filter.
+                # Side-effect: Currently selected filter extension will be
+                # appended to the filename; if the user does not provide one.
+                if self.filters:
+                    # get the characters of the first filter (after the .)
+                    args["DefExt"] = self.filters[0][1].partition(".")
+                # === END PATCH ===
 
                 flags = win32con.OFN_OVERWRITEPROMPT
                 flags |= win32con.OFN_HIDEREADONLY
