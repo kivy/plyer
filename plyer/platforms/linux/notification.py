@@ -33,14 +33,14 @@ class NotifySendNotification(Notification):
     using notify-send binary.
     '''
     def _notify(self, **kwargs):
-        icon = kwargs.get('icon', '')
+        icon = kwargs.get('app_icon', '')
         title = kwargs.get('title', 'title')
         hint = kwargs.get('hint', 'string::')
         message = kwargs.get('message', 'body')
         category = kwargs.get('category', '')
         app_name = kwargs.get('app_name', '')
         urgency = kwargs.get('urgency', 'normal')
-        expire_time = kwargs.get('expire_time', '0')
+        expire_time = str(int(kwargs.get('timeout', 0)) * 1000)
 
         notify_send_args = (title,
                             message,
