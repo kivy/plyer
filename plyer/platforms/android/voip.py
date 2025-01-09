@@ -54,7 +54,7 @@ class AndroidVoip(Voip):
         dst_address = kwargs.get('dst_address')
         dst_port = kwargs.get('dst_port')
         client_id = kwargs.get('client_id', '')
-        timeout = kwargs.get('timeout', 5)
+        timeout = kwargs.get('timeout', 5) * 1000
         ssl = kwargs.get('ssl', False)
         tls_version = kwargs.get('tls_version', '')
         self.debug = kwargs.get('debug', False)
@@ -79,8 +79,9 @@ class AndroidVoip(Voip):
                     self.socket = Socket()
                 self.socket.connect(
                     SocketTimer(dst_address, dst_port),
-                    timeout * 1000
+                    timeout
                 )
+                self.socket.setSoTimeout(timeout)
                 self.data_input_stream = self.socket.getInputStream()
                 self.data_output_stream = self.socket.getOutputStream()
                 self.connected = True
