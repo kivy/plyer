@@ -32,11 +32,11 @@ class OSXBattery(Battery):
 
         is_charging = max_capacity = current_capacity = None
         for line in output.decode('utf-8').splitlines():
-            if 'IsCharging' in line:
+            if 'IsCharging' == line.rpartition('=')[0].strip()[1:-1]:
                 is_charging = line.rpartition('=')[-1].strip()
-            if 'MaxCapacity' in line:
+            if 'MaxCapacity' == line.rpartition('=')[0].strip()[1:-1]:
                 max_capacity = float(line.rpartition('=')[-1].strip())
-            if 'CurrentCapacity' in line:
+            if 'CurrentCapacity' == line.rpartition('=')[0].strip()[1:-1]:
                 current_capacity = float(line.rpartition('=')[-1].strip())
 
         if is_charging:
