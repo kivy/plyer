@@ -35,9 +35,9 @@ class VOIPClientApp(App):
             dst_port = 8080,  # Set to your server's assigned port [Required]
             timeout = 3,  # Sets wait time to connect to server (5 seconds is default) [Optional]
             ssl = False,  # Determines if SSL/TLS will be used (False by default) [Optional]
-            tls_version = "" , # Defaults to auto selection if empty. TLSv1.3 and TLSv1.2 are preferred options. [Optional]
+            tls_version = "" , # Defaults to auto selection if empty. "TLSv1.3" and "TLSv1.2" are available options. [Optional]
             client_id = "user@kivy.org",  # Supports identifying/authorizing connection [Optional]
-            debug = True  # Displays debug statements if log level is set to debug (False by default) [Optional]
+            debug = True  # Displays kivy log statements to assist in troubleshooting (False by default) [Optional]
         )
         self.track_call_thread = threading.Thread(target=self.auto_end_call, daemon=True)
         self.track_call_thread.start()
