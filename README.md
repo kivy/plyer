@@ -72,7 +72,7 @@ implement the API in the easiest way, depending on the current platform.
 | Text to speech                 | ✔       |  ✔  |    ✔    | ✔     |   ✔   |
 | Unique ID                      | ✔       |  ✔  |    ✔    | ✔     |   ✔   |
 | Vibrator                       | ✔       |  ✔  |         |       |       |
-| Voip                       | ✔       |     |         |       |       |
+| Voip                           | ✔       |  ✔  |         |       |       |
 | Wifi                           |         |     |    ✔    | ✔     |   ✔   |
 
 ## Documentation
