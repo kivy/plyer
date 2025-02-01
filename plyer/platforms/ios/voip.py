@@ -22,7 +22,6 @@ AVAudioPlayerNode = autoclass("AVAudioPlayerNode")
 AVAudioFormat = autoclass("AVAudioFormat")
 VoipMachine = autoclass('Voip')
 AVAudioSession = autoclass("AVAudioSession")
-NSData = autoclass('NSData')
 NSError = autoclass("NSError")
 
 class iOSVoip(Voip):
