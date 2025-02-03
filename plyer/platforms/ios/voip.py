@@ -1,6 +1,6 @@
-'''
+"""
 iOS Voip
-'''
+"""
 
 from pyobjus import autoclass
 from pyobjus.dylib_manager import load_framework
@@ -20,9 +20,10 @@ load_framework(voip_framework_directory)
 AVAudioEngine = autoclass("AVAudioEngine")
 AVAudioPlayerNode = autoclass("AVAudioPlayerNode")
 AVAudioFormat = autoclass("AVAudioFormat")
-VoipMachine = autoclass('Voip')
+VoipMachine = autoclass("Voip")
 AVAudioSession = autoclass("AVAudioSession")
 NSError = autoclass("NSError")
+
 
 class iOSVoip(Voip):
     input_node = None
@@ -36,30 +37,26 @@ class iOSVoip(Voip):
     buffersize = 640
     error = None
     debug = False
-    
+
     def __init__(self):
         self.input_node = None
         self.audio_engine = AVAudioEngine.alloc().init()
         self.player_node = AVAudioPlayerNode.alloc().init()
         self.processor = VoipMachine.alloc().init()
         self.processor.audioPlayerNode = self.player_node
-        self.processor.inputAudioFormat = AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
-            1,
-            48000.0,
-            1,
-            False
+        self.processor.inputAudioFormat = (
+            AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
+                1, 48000.0, 1, False
+            )
         )
-        self.processor.outputAudioFormat = AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
-            self.format,
-            self.sample_rate,
-            self.channels,
-            self.interleaved
+        self.processor.outputAudioFormat = (
+            AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
+                self.format, self.sample_rate, self.channels, self.interleaved
+            )
         )
         self.error = NSError.alloc().initWithDomain_code_userInfo_(
             "org.kivy.voip", -1, None
         )
-        self.audio_engine.stop()
-        self.audio_engine.reset()
 
     def verify_permission(self):
         self.hasPermission = False
@@ -100,26 +97,24 @@ class iOSVoip(Voip):
             session.setCategory_mode_options_error_(
                 "AVAudioSessionCategoryPlayAndRecord",
                 "AVAudioSessionModeVoiceChat",
-                0, 
-                self.error
+                0,
+                self.error,
             )
             session.setActive_error_(True, self.error)
             if self.debug:
                 Logger.info("VOIP: Audio session configured successfully.")
         except Exception as e:
             if self.debug:
-                Logger.error(
-                    f"VOIP: Failed to configure audio session: {e}"
-                )
+                Logger.error(f"VOIP: Failed to configure audio session: {e}")
 
     def _start_call(self, **kwargs):
-        dst_address = kwargs.get('dst_address')
-        dst_port = kwargs.get('dst_port')
-        client_id = kwargs.get('client_id', '')
-        timeout = kwargs.get('timeout', 5)
-        ssl = kwargs.get('ssl', False)
-        tls_version = kwargs.get('tls_version', '')
-        self.debug = kwargs.get('debug', False)
+        dst_address = kwargs.get("dst_address")
+        dst_port = kwargs.get("dst_port")
+        client_id = kwargs.get("client_id", "")
+        timeout = kwargs.get("timeout", 5)
+        ssl = kwargs.get("ssl", False)
+        tls_version = kwargs.get("tls_version", "")
+        self.debug = kwargs.get("debug", False)
 
         if self.debug:
             Logger.info("VOIP: Starting call")
@@ -144,7 +139,7 @@ class iOSVoip(Voip):
             else:
                 if self.debug:
                     Logger.error(
-                        f"VOIP: Could not connect to {dst_address}:{dst_port}. " 
+                        f"VOIP: Could not connect to {dst_address}:{dst_port}. "
                         "Ensure server is reachable."
                     )
 
@@ -159,7 +154,9 @@ class iOSVoip(Voip):
         self.input_node = self.audio_engine.inputNode
         self.audio_engine.attachNode_(self.player_node)
         self.audio_engine.connect_to_format_(
-            self.player_node, self.audio_engine.mainMixerNode, self.processor.inputAudioFormat
+            self.player_node,
+            self.audio_engine.mainMixerNode,
+            self.processor.inputAudioFormat,
         )
         self.audio_engine.prepare()
         try:
