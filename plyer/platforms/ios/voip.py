@@ -24,7 +24,6 @@ VoipMachine = autoclass("Voip")
 AVAudioSession = autoclass("AVAudioSession")
 NSError = autoclass("NSError")
 
-
 class iOSVoip(Voip):
     input_node = None
     hasPermission = False
