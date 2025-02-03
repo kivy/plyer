@@ -38,7 +38,6 @@ class iOSVoip(Voip):
     debug = False
 
     def __init__(self):
-        self.input_node = None
         self.audio_engine = AVAudioEngine.alloc().init()
         self.player_node = AVAudioPlayerNode.alloc().init()
         self.processor = VoipMachine.alloc().init()
