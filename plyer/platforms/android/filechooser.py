@@ -107,8 +107,8 @@ class AndroidFileChooser(FileChooser):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.select_code = randint(123456, 654321)
-        self.save_code = randint(123456, 654321)
+        self.select_code = randint(100, 65536-1) # 65536 is the maximum (16 bits. see https://stackoverflow.com/a/39789838/12269724). 100 to avoid possible conflicts with the system.
+        self.save_code = self.select_code+1 # just to avoid possible conflicts
         self.selection = None
 
         # bind a function for a response from filechooser activity
