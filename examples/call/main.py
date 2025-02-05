@@ -4,6 +4,8 @@ from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 from plyer import call
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 Builder.load_string('''
 #: import Platform kivy.utils.platform
@@ -31,6 +33,12 @@ Builder.load_string('''
         on_release: self.dial()
     Label:
 
+<ErrorPopup>:
+    title: "Error!"
+    size_hint: .5, .5
+    Label:
+        text: "Feature not available for this platform !"
+
 ''')
 
 
@@ -38,17 +46,29 @@ class CallInterface(BoxLayout):
     pass
 
 
+class ErrorPopup(Popup):
+    pass
+
+
 class DialCallButton(Button):
 
     def dial(self, *args):
-        call.dialcall()
+        try:
+            call.dialcall()
+        except NotImplementedError:
+            popup = ErrorPopup()
+            popup.open()
 
 
 class MakeCallButton(Button):
     tel = StringProperty()
 
     def call(self, *args):
-        call.makecall(tel=self.tel)
+        try:
+            call.makecall(tel=self.tel)
+        except NotImplementedError:
+            popup = ErrorPopup()
+            popup.open()
 
 
 class CallApp(App):

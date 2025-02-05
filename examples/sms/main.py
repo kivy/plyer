@@ -3,6 +3,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import StringProperty
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 from plyer import sms
 
@@ -30,10 +32,21 @@ Builder.load_string('''
         size_hint_y: None
         height: sp(40)
         on_release: self.send_sms()
+
+<ErrorPopup>:
+    title: "Error!"
+    size_hint: .5, .5
+    Label:
+        text: "Feature not available for this platform !"
+
 ''')
 
 
 class SmsInterface(BoxLayout):
+    pass
+
+
+class ErrorPopup(Popup):
     pass
 
 
@@ -42,7 +55,12 @@ class IntentButton(Button):
     sms_message = StringProperty()
 
     def send_sms(self, *args):
-        sms.send(recipient=self.sms_recipient, message=self.sms_message)
+        try:
+            sms.send(recipient=self.sms_recipient, message=self.sms_message)
+        except NotImplementedError:
+            self.ErMsg = "Feature under development for this platform!"
+            popup = ErrorPopup()
+            popup.open()
 
 
 class SmsApp(App):
