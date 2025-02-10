@@ -1,0 +1,23 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios18.2 -enable-objc-interop -enable-library-evolution -swift-version 6 -enforce-exclusivity=checked -O -module-name Voip
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+import AVFoundation
+import Foundation
+import Network
+import Swift
+@_exported import Voip
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_inheritsConvenienceInitializers @objc public class NetworkClient : ObjectiveC.NSObject, @unchecked Swift.Sendable {
+  @objc public var connectionHandler: ((Foundation.Data) -> Swift.Void)?
+  @objc public var isConnected: Swift.Bool
+  @objc public func requestMicrophonePermission() -> Swift.Bool
+  @objc public func connectToServer(host: Swift.String, port: Swift.UInt16, ssl: Swift.Bool, tlsVersion: Swift.String, timeout: Swift.Int)
+  @objc public func sendMessage(data: Foundation.Data)
+  @objc public func sendClientID(string: Swift.String)
+  @objc public func disconnect()
+  @objc override dynamic public init()
+  @objc deinit
+}
