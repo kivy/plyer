@@ -3,19 +3,15 @@ iOS Voip
 """
 
 from pyobjus import autoclass
-from pyobjus.dylib_manager import load_framework
-from plyer.platforms import ios
 from plyer.facades import Voip
 from kivy.logger import Logger
-from os.path import join, dirname
+from pyobjus.dylib_manager import load_framework
+from plyer.platforms.ios.frameworks.utils import load_plyer_framework
 import threading
-
-# Simulator Framework Path: join(dirname(ios.__file__), "frameworks", "simulator", "Voip.framework")
-voip_framework_directory = join(dirname(ios.__file__), "frameworks", "Voip.framework")
 
 load_framework("/System/Library/Frameworks/AVFoundation.framework")
 load_framework("/System/Library/Frameworks/Foundation.framework")
-load_framework(voip_framework_directory)
+load_plyer_framework("Voip.framework")
 
 AVAudioEngine = autoclass("AVAudioEngine")
 AVAudioPlayerNode = autoclass("AVAudioPlayerNode")
@@ -38,6 +34,7 @@ class iOSVoip(Voip):
     debug = False
 
     def __init__(self):
+        self.input_node = None
         self.audio_engine = AVAudioEngine.alloc().init()
         self.player_node = AVAudioPlayerNode.alloc().init()
         self.processor = VoipMachine.alloc().init()
