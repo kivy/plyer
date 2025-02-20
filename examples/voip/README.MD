@@ -30,6 +30,7 @@ Here is an outline of steps to run the VoIP server of your choosing from this re
    While the local port number is set to 8080 in the "node voip server.js" and echoServer.py files, you can change it to any available port as desired.
 
 2. Use method A to utilize the python server or method B to utilize the node js server.
+   
    Method A:
       1. Download echoServer.py from this repository.
       2. Run the code anytime prior to attempting a VoIP call.
