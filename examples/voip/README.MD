@@ -23,14 +23,21 @@ Key features:
 ## Server
 
 • To use the Kivy VoIP functionality, you will need to create a server application and configure it to route data sent by clients.
-For testing purposes, the node VoIP server in this repository's example is configured to echo data back to a connected client.
-Here is an outline of steps to run the node VoIP server from this repository:
-1. Download "node VoIP server.js".
-2. If it is not installed already, install node.js on your operating system.
-3. If not already known, discover your server's local IP address by running "ipconfig" (Windows) or "ifconfig" (Linux) in your Command Line Interface (CLI).
-   While the local port number is set to 8080 in the "node voip server.js" file, you can change it to any available port as desired.
-4. Run the following command in your CLI to run the VoIP server when desired: node "node VoIP server.js". It is also possible to run the "node VoIP server.js"
-   through VS Code.
+For testing purposes, the VoIP servers in this repository's example are configured to echo data back to a connected client.
+Here is an outline of steps to run the VoIP server of your choosing from this repository:
+
+1. If not already known, discover your server's local IP address by running "ipconfig" (Windows) or "ifconfig" (Linux) in your Command Line Interface (CLI).
+   While the local port number is set to 8080 in the "node voip server.js" and echoServer.py files, you can change it to any available port as desired.
+
+2. Use method A to utilize the python server or method B to utilize the node js server.
+   Method A:
+      1. Download echoServer.py from this repository.
+      2. Run the code anytime prior to attempting a VoIP call.
+
+   Method B :
+      1. Download "node VoIP server.js" from this repository.
+      2. If it is not installed already, install node.js on your operating system.
+      3. Run the following command in your CLI to run the VoIP server when desired: node "node VoIP server.js".
 
 ## Android
 
@@ -47,8 +54,6 @@ Here is an outline of steps to run the node VoIP server from this repository:
 
 ## iOS
 
-• The VoIP iOS framework only supports arm_64 (actual iPhone) devices by default. To use the simulator, you must load the simulator
-framework instead as commented in the voip.py source code located in the iOS folder of the plyer module.
 1. Download main.py and place it in a folder that is solely used for this project.
 2. Within the start_call() function, update the dst_address and dst_port arguments in main.py to match your server's local IP address and port.
    All other arguments within the function are not required but may be assigned values as desired.
