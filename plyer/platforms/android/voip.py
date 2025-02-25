@@ -18,6 +18,7 @@ SocketTimer = autoclass("java.net.InetSocketAddress")
 SSLContext = autoclass("javax.net.ssl.SSLContext")
 SecureRandom = autoclass("java.security.SecureRandom")
 
+
 class AndroidVoip(Voip):
     SAMPLE_RATE = 16000
     CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
@@ -58,7 +59,7 @@ class AndroidVoip(Voip):
         ssl = kwargs.get('ssl', False)
         tls_version = kwargs.get('tls_version', '')
         self.debug = kwargs.get('debug', False)
-        
+
         if self.debug:
             Logger.info("VOIP: Starting call")
         self.verifyPermission()
@@ -91,17 +92,21 @@ class AndroidVoip(Voip):
                 if self.debug:
                     Logger.error(
                         "VOIP: "
-                        "Ensure INTERNET and ACCESS_NETWORK_STATE permissions are in buildozer.spec "
-                        "and server is available."
+                        "Ensure INTERNET and ACCESS_NETWORK_STATE permissions "
+                        "are in buildozer.spec and server is available."
                     )
                     Logger.error(f"VOIP: {e}")
             if self.connected:
                 self.active_call = True
                 if client_id != "":
-                    self.send_client_id(client_id) 
-                self.record_thread = threading.Thread(target=self.send_audio, daemon=True)
+                    self.send_client_id(client_id)
+                self.record_thread = threading.Thread(
+                    target=self.send_audio, daemon=True
+                )
                 self.record_thread.start()
-                self.listening_thread = threading.Thread(target=self.receive_audio, daemon=True)
+                self.listening_thread = threading.Thread(
+                    target=self.receive_audio, daemon=True
+                )
                 self.listening_thread.start()
 
     def _end_call(self):
@@ -110,9 +115,10 @@ class AndroidVoip(Voip):
         self.active_call = False
         if hasattr(self, "record_thread") and self.record_thread.is_alive():
             self.record_thread.join()
-        if hasattr(self, "listening_thread") and self.listening_thread.is_alive():
+        if (hasattr(self, "listening_thread") and
+                self.listening_thread.is_alive()):
             self.listening_thread.join()
-        if self.socket != None:
+        if self.socket is not None:
             self.socket.close()
             self.socket = None
         if self.debug:
@@ -134,8 +140,8 @@ class AndroidVoip(Voip):
         else:
             if self.debug:
                 Logger.error(
-                    "VOIP: Permission Error: "
-                    "Ensure RECORD_AUDIO (Mic) permission is enabled in app settings"
+                    "VOIP: Permission Error: Ensure RECORD_AUDIO (Mic) "
+                    "permission is enabled in app settings"
                 )
 
     def send_audio(self):
@@ -143,7 +149,7 @@ class AndroidVoip(Voip):
         self.audio_record.startRecording()
         if self.debug:
             Logger.info("VOIP: Microphone live stream started")
-        while self.active_call == True:
+        while self.active_call is True:
             try:
                 bytes_read = self.audio_record.read(
                     audio_data, 0, self.buffer_size
@@ -155,7 +161,9 @@ class AndroidVoip(Voip):
                     self.data_output_stream.write(audio_data, 0, bytes_read)
                 elif bytes_read == AudioRecord.ERROR_INVALID_OPERATION:
                     if self.debug:
-                        Logger.warning("VOIP: ERROR_INVALID_OPERATION on microphone")
+                        Logger.warning(
+                            "VOIP: ERROR_INVALID_OPERATION on microphone"
+                        )
                 else:
                     if self.debug:
                         Logger.warning("VOIP: ERROR_BAD_VALUE on microphone")
@@ -168,7 +176,7 @@ class AndroidVoip(Voip):
         self.audio_record.stop()
         if self.debug:
             Logger.info("VOIP: Microphone live stream ended")
-    
+
     def receive_audio(self):
         audio_track = AudioTrack(
             AudioManager.STREAM_VOICE_CALL,
@@ -183,7 +191,7 @@ class AndroidVoip(Voip):
         if self.debug:
             Logger.info("VOIP: Speaker live stream started")
         try:
-            while self.active_call == True:
+            while self.active_call is True:
                 bytes_received = self.data_input_stream.read(buffer)
                 if bytes_received > 0:
                     audio_track.write(buffer, 0, bytes_received)
@@ -196,6 +204,7 @@ class AndroidVoip(Voip):
         audio_track.stop()
         if self.debug:
             Logger.info("VOIP: Speaker live stream ended")
+
 
 def instance():
     return AndroidVoip()
