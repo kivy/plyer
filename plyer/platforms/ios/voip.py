@@ -178,11 +178,10 @@ class iOSVoip(Voip):
     def _end_call(self):
         if self.debug:
             Logger.info("VOIP: Ending call")
-        if self.active_call:
+        if self.connected:
             self.input_node.removeTapOnBus_(0)
             self.audio_engine.stop()
             self.player_node.stop()
-        if self.processor.connected():
             self.processor.disconnect()
         if self.debug:
             Logger.info("VOIP: Call ended")
