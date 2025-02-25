@@ -9,10 +9,10 @@ Interface of all the features available.
 __all__ = ('Accelerometer', 'Audio', 'Barometer', 'Battery', 'Call', 'Camera',
            'Compass', 'Email', 'FileChooser', 'GPS', 'Gravity', 'Gyroscope',
            'IrBlaster', 'Light', 'Orientation', 'Notification', 'Proximity',
-           'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Voip', 'Wifi', 'Flash', 'CPU',
-           'Temperature', 'Humidity', 'SpatialOrientation', 'Brightness',
-           'Processors', 'StoragePath', 'Keystore', 'Bluetooth', 'Screenshot',
-           'STT', 'DeviceName', 'Maps')
+           'Sms', 'TTS', 'UniqueID', 'Vibrator', 'Voip', 'Wifi', 'Flash',
+           'CPU', 'Temperature', 'Humidity', 'SpatialOrientation',
+           'Brightness', 'Processors', 'StoragePath', 'Keystore', 'Bluetooth',
+           'Screenshot', 'STT', 'DeviceName', 'Maps')
 
 from plyer.facades.accelerometer import Accelerometer
 from plyer.facades.audio import Audio
