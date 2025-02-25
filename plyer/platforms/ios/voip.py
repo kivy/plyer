@@ -20,6 +20,7 @@ VoipMachine = autoclass("Voip")
 AVAudioSession = autoclass("AVAudioSession")
 NSError = autoclass("NSError")
 
+
 class iOSVoip(Voip):
     input_node = None
     hasPermission = False
@@ -40,13 +41,15 @@ class iOSVoip(Voip):
         self.processor = VoipMachine.alloc().init()
         self.processor.audioPlayerNode = self.player_node
         self.processor.inputAudioFormat = (
-            AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
+            AVAudioFormat.alloc()
+            .initWithCommonFormat_sampleRate_channels_interleaved_(
                 1, 48000.0, 1, False
             )
         )
         self.processor.outputAudioFormat = (
-            AVAudioFormat.alloc().initWithCommonFormat_sampleRate_channels_interleaved_(
-                self.format, self.sample_rate, self.channels, self.interleaved
+            AVAudioFormat.alloc()
+            .initWithCommonFormat_sampleRate_channels_interleaved_(
+                self.format, self.sample_rate, self.channels, False
             )
         )
         self.error = NSError.alloc().initWithDomain_code_userInfo_(
@@ -130,11 +133,14 @@ class iOSVoip(Voip):
                     self.processor.sendClientID_(client_id)
                 self.configure_audio_session()
                 self.start_audio_engine()
-                threading.Thread(target=self.track_call_activity, daemon=True).start()
+                threading.Thread(
+                    target=self.track_call_activity, daemon=True
+                ).start()
             else:
                 if self.debug:
                     Logger.error(
-                        f"VOIP: Could not connect to {dst_address}:{dst_port}. "
+                        "VOIP: Could not connect to "
+                        f"{dst_address}:{dst_port}. "
                         "Ensure server is reachable."
                     )
 
@@ -159,7 +165,9 @@ class iOSVoip(Voip):
             self.player_node.play()
             self.processor.receiveAudioData()
             audioFrames = int(self.buffersize / (16 / 8 * self.channels))
-            self.processor.installTapOnBus_bufferSize_(self.input_node, audioFrames)
+            self.processor.installTapOnBus_bufferSize_(
+                self.input_node, audioFrames
+            )
             if self.debug:
                 Logger.info("VOIP: Audio engine started successfully.")
                 Logger.info("VOIP: Streaming audio")
@@ -178,6 +186,7 @@ class iOSVoip(Voip):
             self.processor.disconnect()
         if self.debug:
             Logger.info("VOIP: Call ended")
+
 
 def instance():
     return iOSVoip()
