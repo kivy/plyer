@@ -3,13 +3,14 @@ Voip
 ====
 
 The :class:`VOIP` facade offers a comprehensive suite of methods for
-managing VoIP (Voice over IP) calls, including initiating and ending calls, 
-managing call streams, handling microphone permissions, and overseeing 
+managing VoIP (Voice over IP) calls, including initiating and ending calls,
+managing call streams, handling microphone permissions, and overseeing
 network connections.
 
 Supported Platforms
 -------------------
 Android
+iOS
 
 Example Usage
 -------------
@@ -26,6 +27,7 @@ To end a VOIP call:
 
     >>> voip.end_call()
 """
+
 
 class Voip:
     '''
