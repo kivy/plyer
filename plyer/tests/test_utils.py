@@ -56,7 +56,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_function().\n', args)
 
         args, _ = stderr.call_args_list[1]
-        self.assertEqual(args, ('\nDummy deprecated function.\n',))
+        self.assertEqual(args, ('Dummy deprecated function.',))
 
     def test_deprecated_function_arg(self):
         '''
@@ -86,7 +86,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_function_arg().\n', args)
 
         args, _ = stderr.call_args_list[1]
-        self.assertEqual(args, ('\nDummy deprecated function with arg.\n',))
+        self.assertEqual(args, ('Dummy deprecated function with arg.',))
 
     def test_deprecated_function_kwarg(self):
         '''
@@ -116,7 +116,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_function_kwarg().\n', args)
 
         args, _ = stderr.call_args_list[1]
-        self.assertEqual(args, ('\nDummy deprecated function with kwarg.\n',))
+        self.assertEqual(args, ('Dummy deprecated function with kwarg.',))
 
     def test_deprecated_class_method(self):
         '''
@@ -158,7 +158,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class_method().\n', args)
 
             args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\nDummy deprecated method.\n',))
+            self.assertEqual(args, ('Dummy deprecated method.',))
 
     def test_deprecated_class_static_none(self):
         '''
@@ -202,7 +202,7 @@ class TestUtils(unittest.TestCase):
             )
 
             args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\nDummy deprecated static method.\n',))
+            self.assertEqual(args, ('Dummy deprecated static method.',))
 
     def test_deprecated_class_static_argskwargs(self):
         '''
@@ -250,7 +250,7 @@ class TestUtils(unittest.TestCase):
             )
 
             args, kwargs = stderr.call_args_list[1]
-            self.assertEqual(args, ('\nDummy deprecated static method.\n',))
+            self.assertEqual(args, ('Dummy deprecated static method.',))
 
     def test_deprecated_class_clsmethod(self):
         '''
@@ -288,7 +288,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class_clsmethod().\n', args)
 
             args, _ = stderr.call_args_list[1]
-            self.assertEqual(args, ('\nDummy deprecated class method.\n',))
+            self.assertEqual(args, ('Dummy deprecated class method.',))
 
     def test_deprecated_class(self):
         '''
@@ -326,7 +326,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class().\n', args)
 
         args, kwargs = stderr.call_args_list[1]
-        self.assertEqual(args, ('\nDummy deprecated class.\n',))
+        self.assertEqual(args, ('Dummy deprecated class.',))
 
     def test_deprecated_class_inherited(self):
         '''
@@ -374,7 +374,7 @@ class TestUtils(unittest.TestCase):
             args = self.cutter('by test_deprecated_class_inherited().\n', args)
 
         args, kwargs = stderr.call_args_list[1]
-        self.assertEqual(args, ('\nDummy deprecated class.\n',))
+        self.assertEqual(args, ('Dummy deprecated class.',))
 
 
 if __name__ == '__main__':
