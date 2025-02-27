@@ -18,7 +18,6 @@ NSPicturesDirectory = 19
 NSDesktopDirectory = 12
 
 
-
 class OSXStoragePath(StoragePath):
 
     def __init__(self):
@@ -64,9 +63,6 @@ class OSXStoragePath(StoragePath):
             NSDesktopDirectory, 1).firstObject().absoluteString.\
             UTF8String()
 
-    
-    
-    
 
 def instance():
     return OSXStoragePath()

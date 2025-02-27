@@ -197,7 +197,7 @@ def deprecated(obj):
     '''
 
     import warnings
-    from inspect import stack
+    from inspect import stack, getdoc
     from functools import wraps
     from types import FunctionType, MethodType
 
@@ -228,7 +228,7 @@ def deprecated(obj):
 
             # if there is a docstring present, emit docstring too
             if obj.__doc__:
-                warnings.warn(obj.__doc__)
+                warnings.warn(getdoc(obj))
 
             # return function wrapper
             return obj(*args, **kwargs)
@@ -261,7 +261,7 @@ def deprecated(obj):
 
             # if there is a docstring present, emit docstring too
             if obj.__doc__:
-                warnings.warn(obj.__doc__)
+                warnings.warn(getdoc(obj))
 
             # make sure nothing silly gets into the function
             assert obj is cls

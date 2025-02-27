@@ -1,0 +1,11 @@
+framework module Voip {
+  umbrella header "Voip.h"
+  export *
+
+  module * { export * }
+}
+
+module Voip.Swift {
+  header "Voip-Swift.h"
+  requires objc
+}

@@ -44,6 +44,8 @@ PACKAGES = [
     'plyer.platforms.win',
     'plyer.platforms.win.libs',
     'plyer.platforms.ios',
+    'plyer.platforms.ios.frameworks',
+    'plyer.platforms.ios.frameworks.simulator',
     'plyer.platforms.macosx',
     'plyer.platforms.macosx.libs',
 ]
@@ -64,7 +66,11 @@ setup(
     author_email='mat@kivy.org',
     url='https://plyer.readthedocs.org/en/latest/',
     packages=PACKAGES,
-    package_data={'': ['LICENSE', 'README.md']},
+    package_data={
+        '': ['LICENSE', 'README.md'],
+        'plyer.platforms.ios.frameworks': ['*.framework/*'],
+        'plyer.platforms.ios.frameworks.simulator': ['*.framework/*']
+    },
     package_dir={'plyer': 'plyer'},
     include_package_data=True,
     license='MIT',

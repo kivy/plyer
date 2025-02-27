@@ -58,6 +58,5 @@ class iOSStoragePath(StoragePath):
             UTF8String()
 
 
-
 def instance():
     return iOSStoragePath()

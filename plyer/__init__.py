@@ -10,7 +10,8 @@ __all__ = (
     'flash', 'gps', 'gravity', 'gyroscope', 'humidity', 'irblaster',
     'keystore', 'light', 'maps', 'notification', 'orientation', 'processors',
     'proximity', 'screenshot', 'sms', 'spatialorientation', 'storagepath',
-    'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'wifi', 'devicename'
+    'stt', 'temperature', 'tts', 'uniqueid', 'vibrator', 'voip', 'wifi',
+    'devicename'
 )
 
 __version__ = '2.2.0.dev0'
@@ -87,6 +88,9 @@ uniqueid = Proxy('uniqueid', facades.UniqueID)
 
 #: Vibrator proxy to :class:`plyer.facades.Vibrator`
 vibrator = Proxy('vibrator', facades.Vibrator)
+
+#: VOIP proxy to :class:`plyer.facades.Voip`
+voip = Proxy('voip', facades.Voip)
 
 #: Flash proxy to :class:`plyer.facades.Flash`
 flash = Proxy('flash', facades.Flash)
