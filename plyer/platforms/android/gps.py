@@ -4,12 +4,14 @@ Android GPS
 '''
 
 from plyer.facades import GPS
-from plyer.platforms.android import activity
+from plyer.platforms.android import SDK_INT, activity
 from jnius import autoclass, java_method, PythonJavaClass
 
 Looper = autoclass('android.os.Looper')
 LocationManager = autoclass('android.location.LocationManager')
 Context = autoclass('android.content.Context')
+
+ActivityCompat = autoclass('androidx.core.app.ActivityCompat')
 
 
 class _LocationListener(PythonJavaClass):
@@ -18,6 +20,14 @@ class _LocationListener(PythonJavaClass):
     def __init__(self, root):
         self.root = root
         super().__init__()
+
+        # programmatically request permission for GPS (as required by the API.)
+        if SDK_INT >= 23:
+            Manifest = [
+                'android.permission.ACCESS_FINE_LOCATION',
+                'android.permission.ACCESS_COARSE_LOCATION'
+            ]
+            ActivityCompat.requestPermissions(activity, Manifest, 1000)
 
     @java_method('(Landroid/location/Location;)V')
     def onLocationChanged(self, location):
