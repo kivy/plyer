@@ -26,7 +26,7 @@ try:
                 'ios': ['pyobjus'],
                 'macosx': ['pyobjus'],
                 'android': ['pyjnius'],
-                'dev': ['flake8']
+                'win': ['pywin32'],
             }
         }
     )
