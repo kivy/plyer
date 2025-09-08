@@ -13,7 +13,7 @@ import unittest
 from io import BytesIO
 from os.path import join
 from textwrap import dedent
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from plyer.tests.common import PlatformTest, platform_import
 
@@ -66,6 +66,42 @@ class MockedKernelSysclass:
         '''
         return BytesIO(dedent(b'''\
             POWER_SUPPLY_NAME=BAT0
+            POWER_SUPPLY_STATUS={}
+            POWER_SUPPLY_PRESENT=1
+            POWER_SUPPLY_TECHNOLOGY=Li-ion
+            POWER_SUPPLY_CYCLE_COUNT=0
+            POWER_SUPPLY_VOLTAGE_MIN_DESIGN=10800000
+            POWER_SUPPLY_VOLTAGE_NOW=12074000
+            POWER_SUPPLY_CURRENT_NOW=1584000
+            POWER_SUPPLY_CHARGE_FULL_DESIGN=5800000
+            POWER_SUPPLY_CHARGE_FULL={}
+            POWER_SUPPLY_CHARGE_NOW={}
+            POWER_SUPPLY_CAPACITY={}
+            POWER_SUPPLY_CAPACITY_LEVEL=Normal
+            POWER_SUPPLY_MODEL_NAME=1005HA
+            POWER_SUPPLY_MANUFACTURER=ASUS
+            POWER_SUPPLY_SERIAL_NUMBER=0
+        '''.decode('utf-8').format(
+            self.charging, self.full,
+            self.now, int(self.percentage)
+        )).encode('utf-8'))
+
+
+class MockedKernelSysClassBAT1(MockedKernelSysclass):
+    @property
+    def path(self):
+        '''
+        Mocked path to Linux kernel sysclass.
+        '''
+        return join('/sys', 'class', 'power_supply', 'BAT1')
+
+    @property
+    def uevent(self):
+        '''
+        Mocked /sys/class/power_supply/BAT0 file.
+        '''
+        return BytesIO(dedent(b'''\
+            POWER_SUPPLY_NAME=BAT1
             POWER_SUPPLY_STATUS={}
             POWER_SUPPLY_PRESENT=1
             POWER_SUPPLY_TECHNOLOGY=Li-ion
@@ -317,43 +353,71 @@ class TestBattery(unittest.TestCase):
 
     def test_battery_linux_kernel(self):
         '''
-        Test mocked Linux kernel sysclass for plyer.battery.
+        Test mocked Linux kernel sysclass for plyer.battery for BAT0 and BAT1
         '''
 
         def false(*args, **kwargs):
             return False
 
-        sysclass = MockedKernelSysclass()
+        sysclass_bat1 = MockedKernelSysClassBAT1()
+        sysclass_bat1.values = {
+            u'Device': u'/org/freedesktop/UPower/devices/battery_BAT1',
+            u'native-path': u'BAT1',
+            u'vendor': u'ASUS',
+            u'model': u'1005HA',
+            u'power supply': u'yes',
+            u'updated': u'Thu 05 Jul 2018 23:15:01 PM CEST',
+            u'has history': u'yes',
+            u'has statistics': u'yes',
+            u'battery': {
+                u'present': u'yes',
+                u'rechargeable': u'yes',
+                u'state': u'discharging',
+                u'warning-level': u'none',
+                u'energy': u'48,708 Wh',
+                u'energy-empty': u'0 Wh',
+                u'energy-full': u'54,216 Wh',
+                u'energy-full-design': u'62,64 Wh',
+                u'energy-rate': u'7,722 W',
+                u'voltage': u'11,916 V',
+                u'time to empty': u'6,3 hours',
+                u'percentage': u'89%',
+                u'capacity': u'86,5517%',
+                u'technology': u'lithium-ion',
+                u'icon-name': u"'battery-full-symbolic"
+            },
+            u'History (charge)': u'1530959637  89,000  discharging',
+            u'History (rate)': u'1530958556  7,474   discharging'
+        }
 
-        with patch(target='os.path.exists') as bat_path:
-            # first call to trigger exists() call
-            platform_import(
-                platform='linux',
-                module_name='battery',
-                whereis_exe=false
-            ).instance()
-            bat_path.assert_called_once_with(sysclass.path)
+        for battery_name, sysclass_mock in [
+            ('BAT0', MockedKernelSysclass()),
+            ('BAT1', sysclass_bat1)
+        ]:
+            with self.subTest(battery_name=battery_name):
+                def false(*args, **kwargs):
+                    return False
 
-            # exists() checked with sysclass path
-            # set mock to proceed with this branch
-            bat_path.return_value = True
+                # Decide if path exists based on battery_name
+                def exists(path):
+                    return battery_name in path
 
-            battery = platform_import(
-                platform='linux',
-                module_name='battery',
-                whereis_exe=false
-            ).instance()
+                with patch('os.path.exists', side_effect=exists) as bat_path:
+                    battery = platform_import(
+                        platform='linux',
+                        module_name='battery',
+                        whereis_exe=false
+                    ).instance()
 
-        stub = Mock(return_value=sysclass.uevent)
-        target = 'builtins.open'
-
-        with patch(target=target, new=stub):
-            self.assertEqual(
-                battery.status, {
-                    'isCharging': sysclass.charging == 'Charging',
-                    'percentage': sysclass.percentage
-                }
-            )
+                stub = Mock(return_value=sysclass_mock.uevent)
+                with patch('builtins.open', new=stub):
+                    self.assertEqual(
+                        battery.status,
+                        {
+                            'isCharging': sysclass_mock.charging == 'Charging',
+                            'percentage': sysclass_mock.percentage
+                        }
+                    )
 
     @PlatformTest('win')
     def test_battery_win(self):

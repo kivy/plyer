@@ -19,7 +19,21 @@ class LinuxBattery(Battery):
     def _get_state(self):
         status = {"isCharging": None, "percentage": None}
 
-        kernel_bat_path = join('/sys', 'class', 'power_supply', 'BAT0')
+        # Try BAT0 first, then BAT1
+        bat_names = ['BAT0', 'BAT1']
+        kernel_bat_path = None
+
+        for bat_name in bat_names:
+            path = join('/sys', 'class', 'power_supply', bat_name)
+            if exists(path):
+                kernel_bat_path = path
+                self.battery_name = bat_name
+                break
+        
+        # If no battery found, return empty status, might need to be implemented
+        if not kernel_bat_path:
+            return status
+
         uevent = join(kernel_bat_path, 'uevent')
 
         with open(uevent) as fle:
@@ -54,16 +68,22 @@ class UPowerBattery(Battery):
         environ['LANG'] = 'C'
         status = {"isCharging": None, "percentage": None}
 
-        # We are supporting only one battery now
-        # this will fail if there is no object with such path,
-        # however it's safer than 'upower -d' which provides
-        # multiple unrelated 'state' and 'percentage' keywords
-        dev = "/org/freedesktop/UPower/devices/battery_BAT0"
-        upower_process = Popen(
-            ["upower", "--show-info", dev],
-            stdout=PIPE
-        )
-        output = upower_process.communicate()[0].decode()
+        # Try BAT0 first, then BAT1
+        bat_names = ['BAT0', 'BAT1']
+        output = None
+
+        for bat_name in bat_names:
+            dev = f"/org/freedesktop/UPower/devices/battery_{bat_name}"
+            upower_process = Popen(
+                ["upower", "--show-info", dev],
+                stdout=PIPE
+            )
+            result = upower_process.communicate()[0].decode()
+            if result and "should be ignored" not in result.lower():
+                output = result
+                self.battery_name = bat_name
+                break
+            
         environ['LANG'] = old_lang
         if not output:
             return status
@@ -96,7 +116,9 @@ def instance():
     if whereis_exe('upower'):
         return UPowerBattery()
     sys.stderr.write("upower not found.")
-
-    if exists(join('/sys', 'class', 'power_supply', 'BAT0')):
+    
+    # Check if either BAT0 or BAT1 exists
+    bat_paths = [join('/sys', 'class', 'power_supply', bat) for bat in ['BAT0', 'BAT1']]
+    if any(exists(path) for path in bat_paths):
         return LinuxBattery()
     return Battery()
