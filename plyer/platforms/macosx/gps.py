@@ -45,7 +45,8 @@ class OSXGPS(GPS):
 
     def _start(self, **kwargs):
         if not hasattr(self, '_location_manager'):
-            self._configure()
+            self.on_status('provider-disabled', 'standard-macos-provider: denied')
+            return
 
         min_distance = kwargs.get('minDistance')
         self._location_manager.distanceFilter = min_distance
@@ -58,7 +59,8 @@ class OSXGPS(GPS):
         self._is_running = True
 
     def _stop(self):
-        self._location_manager.stopUpdatingLocation()
+        if hasattr(self, '_location_manager'):
+            self._location_manager.stopUpdatingLocation()
         self._is_running = False
 
     @protocol('CLLocationManagerDelegate')
