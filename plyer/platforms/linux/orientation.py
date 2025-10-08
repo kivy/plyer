@@ -37,17 +37,13 @@ class LinuxOrientation(Orientation):
         except Exception:
             return 'unknown'
 
-        if orientation == 'normal':
-            return 'landscape'
-
-        if orientation == 'inverted':
-            return 'landscape-reversed'
-        
-        if orientation == 'left':
-            return 'portrait'
-        
-        if orientation == 'right':
-            return 'portrait-reversed'
+        orientations = {
+            'normal': 'landscape',
+            'inverted': 'landscape-reversed',
+            'left': 'portrait',
+            'right': 'portrait-reversed'
+        }
+        return orientations.get(orientation, 'unknown')
 
 
 def instance():

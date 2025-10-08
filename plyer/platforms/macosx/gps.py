@@ -44,6 +44,9 @@ class OSXGPS(GPS):
             time.sleep(0.1)
 
     def _start(self, **kwargs):
+        if not hasattr(self, '_location_manager'):
+            self._configure()
+
         min_distance = kwargs.get('minDistance')
         self._location_manager.distanceFilter = min_distance
 

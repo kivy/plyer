@@ -40,19 +40,16 @@ class AndroidOrientation(Orientation):
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
 
     def _get_orientation(self):
+        orientations = {
+            Surface.ROTATION_0: 'portrait',
+            Surface.ROTATION_90: 'landscape',
+            Surface.ROTATION_180: 'portrait-reversed',
+            Surface.ROTATION_270: 'landscape-reversed',
+        }
+
         rotation = activity.getWindowManager().getDefaultDisplay().getRotation()
 
-        if rotation == Surface.ROTATION_0:
-            return 'portrait'
-        if rotation == Surface.ROTATION_90:
-            return 'landscape'
-        if rotation == Surface.ROTATION_180:
-            return 'portrait-reversed'
-        if rotation == Surface.ROTATION_270:
-            return 'landscape-reversed'
-
-        return 'unknown'
-
+        return orientations.get(rotation, 'unknown')
 
 
 def instance():
