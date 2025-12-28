@@ -8,7 +8,7 @@ from shutil import which
 import os
 import subprocess as sp
 import time
-
+import mimetypes
 
 class SubprocessFileChooser:
     '''A file chooser implementation that allows using
@@ -103,6 +103,23 @@ class ZenityFileChooser(SubprocessFileChooser):
     separator = "|"
     successretcode = 0
 
+    mime_type = {
+        "doc": "application/msword",
+        "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "ppt": "application/vnd.ms-powerpoint",
+        "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "xls": "application/vnd.ms-excel",
+        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "pdf": "application/pdf",
+        "zip": "application/zip",
+
+        "text": "text/",
+        "image": "image/",
+        "video": "video/",
+        "audio": "audio/",
+        "application": "application/",
+    }
+
     def _gen_cmdline(self):
         cmdline = [
             which(self.executable),
@@ -120,15 +137,62 @@ class ZenityFileChooser(SubprocessFileChooser):
             cmdline += ["--filename", self.path]
         if self.icon:
             cmdline += ["--icon", self.icon]
-        for f in self.filters:
-            if isinstance(f, str):
-                cmdline += ["--file-filter", f]
-            else:
-                cmdline += [
-                    "--file-filter",
-                    "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))
-                ]
+
+        # Checking if using mime pattern, and exists in dict # ['image','video']
+        self.selected_mime_type = self.filters[0] if isinstance(self.filters, list) and len(self.filters) else ""
+
+        if (
+            not self.selected_mime_type
+            or not isinstance(self.selected_mime_type, str)
+            or self.selected_mime_type not in self.mime_type
+        ):
+            for f in self.filters:
+                if isinstance(f, str):
+                    cmdline += ["--file-filter", f]
+                else:
+                    cmdline += [
+                        "--file-filter",
+                        "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))
+                    ]
+        else:
+            # Get specifc label with types
+            filter_str = self._build_zenity_filter_string(self.filters)
+            if filter_str:
+                cmdline += ["--file-filter", filter_str]
+
         return cmdline
+
+    def _build_zenity_filter_string(self, user_types):
+        """
+        For getting Zenity file filter with Readable Label
+
+        :param user_types: List of logical file types like ["image", "pdf", "docx"]
+        :return: Zenity filter string in the form "Label | *.ext *.ext" or None if no matching extensions
+        """
+        matching_extensions = set()
+        filter_label = "Files"  # Default label if no type matches
+
+        for file_type in user_types:
+            mime_pattern = self.mime_type.get(file_type)
+            if not mime_pattern:
+                continue
+
+            # When category like "image/", "text/", "video/" passed in
+            if mime_pattern.endswith("/"):
+                for ext, mapped_mime in mimetypes.types_map.items():
+                    if mapped_mime.startswith(mime_pattern):
+                        matching_extensions.add(ext)
+                filter_label = file_type.capitalize()
+            else:  # Exact MIME type like "application/pdf"
+                matching_extensions.update(mimetypes.guess_all_extensions(mime_pattern))
+                filter_label = file_type.capitalize()
+
+        if not matching_extensions:
+            return None
+
+        # Zenity expects: "Label | *.ext *.ext ..."
+        patterns = [f"*{ext.lstrip('.')}" for ext in sorted(matching_extensions)]
+        return f"{filter_label} | {' '.join(patterns)}"
 
 
 class KDialogFileChooser(SubprocessFileChooser):
