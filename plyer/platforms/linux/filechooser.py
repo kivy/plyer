@@ -139,13 +139,13 @@ class ZenityFileChooser(SubprocessFileChooser):
             cmdline += ["--icon", self.icon]
 
         # Checking if using mime pattern, and exists in dict # ['image','video']
-        self.selected_mime_type = self.filters[0] if isinstance(self.filters, list) and len(self.filters) else ""
+        filters_exist = isinstance(self.filters, list) and len(self.filters)
+        filter_str = self._build_zenity_filter_string(self.filters) if filters_exist else None
 
-        if (
-            not self.selected_mime_type
-            or not isinstance(self.selected_mime_type, str)
-            or self.selected_mime_type not in self.mime_type
-        ):
+        # Use MIME-based filter if available Or else fallback to original
+        if filter_str:
+            cmdline += ["--file-filter", filter_str]
+        elif filters_exist:
             for f in self.filters:
                 if isinstance(f, str):
                     cmdline += ["--file-filter", f]
@@ -154,12 +154,6 @@ class ZenityFileChooser(SubprocessFileChooser):
                         "--file-filter",
                         "{name} | {flt}".format(name=f[0], flt=" ".join(f[1:]))
                     ]
-        else:
-            # Get specifc label with types
-            filter_str = self._build_zenity_filter_string(self.filters)
-            if filter_str:
-                cmdline += ["--file-filter", filter_str]
-
         return cmdline
 
     def _build_zenity_filter_string(self, user_types):
