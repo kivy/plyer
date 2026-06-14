@@ -3,8 +3,10 @@ Linux Storage Path
 --------------------
 '''
 
+from os.path import expanduser, dirname, abspath, join, exists, isdir
+import os
+
 from plyer.facades import StoragePath
-from os.path import expanduser, dirname, abspath, join, exists
 
 # Default paths for each name
 USER_DIRS = "/.config/user-dirs.dirs"
@@ -39,7 +41,9 @@ class LinuxStoragePath(StoragePath):
         return expanduser('~')
 
     def _get_external_storage_dir(self):
-        return "/media/" + self._get_home_dir().split("/")[-1]
+        for i in ["/media", "/run/media"]:
+            if isdir(i):
+                return join(i, os.getlogin())
 
     def _get_root_dir(self):
         return "/"
