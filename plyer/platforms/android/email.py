@@ -8,6 +8,10 @@ from plyer.platforms.android import activity
 
 Intent = autoclass('android.content.Intent')
 AndroidString = autoclass('java.lang.String')
+Uri = autoclass('android.net.Uri')
+File = autoclass('java.io.File')
+AndroidString = autoclass('java.lang.String')
+Environment = autoclass('android.os.Environment')
 
 
 class AndroidEmail(Email):
@@ -22,6 +26,7 @@ class AndroidEmail(Email):
         recipient = kwargs.get('recipient')
         subject = kwargs.get('subject')
         text = kwargs.get('text')
+        attachment = kwargs.get('attachment')
         create_chooser = kwargs.get('create_chooser')
 
         if recipient:
@@ -38,7 +43,17 @@ class AndroidEmail(Email):
                 AndroidString(text)
             )
             intent.putExtra(Intent.EXTRA_TEXT, android_text)
-
+        if attachment:
+            """
+            Attachment should be a python list containing two python strings:
+                the first one the path, the second one the filename
+            """
+            path = AndroidString(attachment[0])
+            filename = AndroidString(attachment[1])
+            filelocation = File(path, filename)
+            android_attach = cast('java.lang.CharSequence',
+                                   Uri.fromFile(attachment))
+            intent.putExtra(Intent.EXTRA_STREAM, android_attach)
         if create_chooser:
             chooser_title = cast(
                 'java.lang.CharSequence',
