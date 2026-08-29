@@ -18,6 +18,12 @@ NSMusicDirectory = 18
 NSPicturesDirectory = 19
 
 
+def _nsstring_to_str(value):
+    if isinstance(value, bytes):
+        return value.decode('utf-8')
+    return value
+
+
 class iOSStoragePath(StoragePath):
 
     def __init__(self):
@@ -33,29 +39,46 @@ class iOSStoragePath(StoragePath):
         return 'This feature is not implemented for this platform.'
 
     def _get_documents_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSDocumentDirectory, 1).firstObject().absoluteString.UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSDocumentDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
     def _get_downloads_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSDownloadsDirectory, 1).firstObject().absoluteString.UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSDownloadsDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
     def _get_videos_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSMoviesDirectory, 1).firstObject().absoluteString.UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSMoviesDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
     def _get_music_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSMusicDirectory, 1).firstObject().absoluteString.UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSMusicDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
     def _get_pictures_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSPicturesDirectory, 1).firstObject().absoluteString.UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSPicturesDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
     def _get_application_dir(self):
-        return self.defaultManager.URLsForDirectory_inDomains_(
-            NSApplicationDirectory, 1).firstObject().absoluteString.\
-            UTF8String()
+        return _nsstring_to_str(
+            self.defaultManager.URLsForDirectory_inDomains_(
+                NSApplicationDirectory, 1
+            ).firstObject().absoluteString.UTF8String()
+        )
 
 
 def instance():
