@@ -89,15 +89,41 @@ class Proxy:
         if obj:
             return obj
         # do the import
+        name = object.__getattribute__(self, '_name')
         try:
-            name = object.__getattribute__(self, '_name')
             module = 'plyer.platforms.{}.{}'.format(
                 platform, name)
             mod = __import__(module, fromlist='.')
             obj = mod.instance()
-        except Exception:
-            import traceback
-            traceback.print_exc()
+        except Exception as exc:
+            # Loading the platform-specific backend can fail for many
+            # legitimate reasons (an optional native dependency such as
+            # pywin32, PyJNIus or pyobjus is missing, misconfigured, or not
+            # supported on this OS version). Previously this printed a full
+            # raw traceback for *every* such failure, which looked like a
+            # crash even though Plyer was already falling back gracefully -
+            # see e.g. GitHub issues #843, #830 and #826. We now emit one
+            # short, actionable warning instead, and only print the full
+            # traceback when the developer explicitly opts in.
+            warning_message = (
+                "plyer: could not load the '{name}' backend for the "
+                "'{platform}' platform ({exc_type}: {exc}). Falling back "
+                "to the base facade; calls to plyer.{name} will raise "
+                "NotImplementedError. Set the PLYER_DEBUG_TRACEBACK "
+                "environment variable to see the full traceback.".format(
+                    name=name,
+                    platform=platform,
+                    exc_type=type(exc).__name__,
+                    exc=exc,
+                )
+            )
+            import warnings
+            warnings.warn(warning_message, RuntimeWarning, stacklevel=2)
+
+            if environ.get('PLYER_DEBUG_TRACEBACK'):
+                import traceback
+                traceback.print_exc()
+
             facade = object.__getattribute__(self, '_facade')
             obj = facade()
 
