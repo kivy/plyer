@@ -1,6 +1,9 @@
 from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+
+import os.path
+from os.path import dirname
+from kivy.lang import Builder
 from kivy.utils import platform
 
 if 'android' == platform:
@@ -23,38 +26,20 @@ if 'android' == platform:
         request_permissions(perms)
     # ------------------------------------------- #
 
-Builder.load_string('''
-#:import vibrator plyer.vibrator
-<VibrationInterface>:
-    orientation: 'vertical'
-    Label:
-        size_hint_y: None
-        height: sp(40)
-        text: 'vibrator exists: ' + str(vibrator.exists())
-    Button:
-        text: 'vibrate 10s'
-        on_release: vibrator.vibrate(10)
-    Button:
-        text: 'vibrate 1s'
-        on_release: vibrator.vibrate(1)
-    Button:
-        text: 'vibrate 0.1s'
-        on_release: vibrator.vibrate(0.1)
-    Button:
-        text: 'cancel vibration'
-        on_release: vibrator.cancel()
-    TextInput:
-        id: ti
-        text: '0.5,0.5,1,2,0.1,0.1,0.1,0.1,0.1,0.1'
-    Button:
-        text: 'vibrate pattern'
-        on_release:
-            vibrator.pattern([float(n) for n in ti.text.split(',')])
-''')
+# Builder.load_file('vibrator.kv') # not work
+Builder.load_file(os.path.join(dirname(__file__), 'vibrator.kv'))
 
 class VibrationInterface(BoxLayout):
     '''Root Widget.'''
-    pass
+   
+    def is_android(self):
+        if 'android' == platform:
+            return True
+        else:
+            return False
+
+    def do_nothing(self):
+        pass
 
 class VibrationApp(App):
     def build(self):
