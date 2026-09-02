@@ -12,11 +12,13 @@ Builder.load_string('''
     orientation: 'vertical'
     padding: '50dp'
     spacing: '20dp'
+
     Label:
         id: state_label
         size_hint_y: None
         height: sp(40)
         text: 'AudioPlayer State: ' + str(root.audio.state)
+
     Label:
         id: location_label
         size_hint_y: None
@@ -29,10 +31,14 @@ Builder.load_string('''
         on_release: root.start_recording()
 
     Button:
+        id: pause_button
+        text: 'Pause'
+        on_release: root.pause_current()
+
+    Button:
         id: play_button
         text: 'Play'
         on_release: root.play_recording()
-
 ''')
 
 
@@ -49,15 +55,24 @@ class AudioInterface(BoxLayout):
         if state == 'ready':
             self.audio.start()
 
-        if state == 'recording':
+        if state == 'recording' or state == 'resumed' or state == 'paused':
             self.audio.stop()
             self.has_record = True
 
         self.update_labels()
 
+    def pause_current(self):
+        state = self.audio.state
+        if state == 'recording' or state == 'playing' or state == 'resumed':
+            self.audio.pause()
+        if state == 'paused':
+            self.audio.resume()
+
+        self.update_labels()
+
     def play_recording(self):
         state = self.audio.state
-        if state == 'playing':
+        if state == 'playing' or state == 'resumed':
             self.audio.stop()
         else:
             self.audio.play()
