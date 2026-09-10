@@ -7,6 +7,21 @@ The :class:`Camera` is to capture pictures and make videos.
 .. note::
         - On Android the `CAMERA` , `WRITE_EXTERNAL_STORAGE`,
           `READ_EXTERNAL_STORAGE` permissions are needed.
+        - On Android, filename is handed to the camera app via a
+          FileProvider content:// Uri (required since API 24; a raw
+          file:// Uri raises FileUriExposedException). Your app's
+          manifest must declare a matching FileProvider, authority
+          ``<package name>.fileprovider``, exposing the directory
+          filename lives in. With buildozer this means, in
+          buildozer.spec: ``android.gradle_dependencies =
+          androidx.core:core:<version>``, ``android.enable_androidx
+          = True``, a ``res/xml`` paths file added via
+          ``android.res_xml``, and a ``<provider>`` element added to
+          ``AndroidManifest.xml`` (e.g. via a ``p4a.hook`` -- p4a has
+          no built-in way to inject a manifest element inside
+          ``<application>`` at the time of writing). See Android's
+          FileProvider docs for the paths-file format:
+          https://developer.android.com/reference/androidx/core/content/FileProvider
 
 Simple Examples
 ---------------
