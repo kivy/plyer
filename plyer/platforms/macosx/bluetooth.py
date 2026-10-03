@@ -9,6 +9,14 @@ from plyer.utils import whereis_exe
 from os import environ
 
 
+def _is_power_state_line(line):
+    return any(marker in line for marker in (
+        'Bluetooth Power',
+        'State: On',
+        'State: Off',
+    ))
+
+
 class OSXBluetooth(Bluetooth):
     '''
     Implementation of MacOS bluetooth API.
@@ -28,9 +36,8 @@ class OSXBluetooth(Bluetooth):
 
         lines = []
         for line in output:
-            if 'Bluetooth Power' not in line:
-                continue
-            lines.append(line)
+            if _is_power_state_line(line):
+                lines.append(line)
 
         if old_lang is None:
             environ.pop('LANG')
@@ -38,9 +45,8 @@ class OSXBluetooth(Bluetooth):
             environ['LANG'] = old_lang
 
         if output and len(lines) == 1:
-            return lines[0].split()[2]
-        else:
-            return None
+            return lines[0].split()[-1]
+        return None
 
 
 def instance():
