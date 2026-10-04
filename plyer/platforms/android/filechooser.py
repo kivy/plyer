@@ -43,8 +43,10 @@ using that result will use an incorrect one i.e. the default value of
 .. versionadded:: 1.4.0
 '''
 
-from os.path import join
+from os import access, R_OK
+from os.path import exists, join
 from random import randint
+from uuid import uuid4
 
 from android import activity, mActivity
 from jnius import autoclass, cast, JavaException
@@ -427,7 +429,20 @@ class AndroidFileChooser(FileChooser):
         #     return path
 
         if uri_authority == 'com.android.externalstorage.documents':
-            return self._handle_external_documents(uri)
+            resolved_path = self._handle_external_documents(uri)
+            if resolved_path and exists(resolved_path) and access(
+                resolved_path, R_OK
+            ):
+                return resolved_path
+            # _handle_external_documents reconstructs a raw filesystem
+            # path from the SAF document id. Under scoped storage
+            # (Android 10+) that path is frequently owned by a
+            # different uid/group (e.g. group media_rw) even for a
+            # file the picker itself could show us fine, so a plain
+            # open() on it raises PermissionError. Read through the
+            # content:// Uri we actually hold a read grant for
+            # instead, and use that copy.
+            return self._copy_uri_to_app_storage(uri) or resolved_path
 
         # in case a user selects a file from 'Downloads' section
         # note: this won't be triggered if a user selects a path directly
@@ -467,6 +482,50 @@ class AndroidFileChooser(FileChooser):
             path = uri.getPath()
 
         return path
+
+    @staticmethod
+    def _copy_uri_to_app_storage(uri):
+        '''
+        Copies uri's bytes into this app's own cache directory via
+        ContentResolver.openInputStream, returning the new local path
+        (or None on any failure). Used as a fallback for content:// Uris
+        this process holds a read grant for but whose SAF-reconstructed
+        raw filesystem path isn't actually readable by us (see
+        _resolve_uri's externalstorage.documents branch).
+
+        .. versionadded:: <next release>
+        '''
+        try:
+            input_stream = mActivity.getContentResolver().openInputStream(
+                uri
+            )
+        except Exception:
+            return None
+        if input_stream is None:
+            return None
+
+        dest_path = join(
+            mActivity.getCacheDir().getAbsolutePath(),
+            "plyer_picked_{}".format(uuid4().hex),
+        )
+        try:
+            buf_len = 65536
+            buf = bytearray(buf_len)
+            # The 1-arg InputStream.read(byte[]) overload is ambiguous
+            # through pyjnius; the explicit 3-arg read(buf, offset,
+            # length) form is the reliable one.
+            with open(dest_path, "wb") as out:
+                while True:
+                    n = input_stream.read(buf, 0, buf_len)
+                    if n == -1:
+                        break
+                    out.write(bytes(buf[:n]))
+        except Exception:
+            return None
+        finally:
+            input_stream.close()
+
+        return dest_path
 
     @staticmethod
     def _parse_content(
