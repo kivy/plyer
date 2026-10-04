@@ -35,7 +35,10 @@ class OSXBattery(Battery):
             if 'IsCharging' in line:
                 is_charging = line.rpartition('=')[-1].strip()
             if 'MaxCapacity' in line:
-                max_capacity = float(line.rpartition('=')[-1].strip())
+                try:
+                    max_capacity = float(line.rpartition('=')[-1].strip())
+                except ValueError:
+                    pass
             if 'CurrentCapacity' in line:
                 current_capacity = float(line.rpartition('=')[-1].strip())
 
