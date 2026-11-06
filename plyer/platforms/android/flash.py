@@ -12,7 +12,10 @@ if SDK_INT >= 23:
   Context = autoclass('android.content.Context')
   CameraManager = activity.getSystemService(Context.CAMERA_SERVICE)
   CameraCharacteristics = autoclass("android.hardware.camera2.CameraCharacteristics")
-  CamId = CameraManager.getCameraIdList()[0] # First Camera
+  CamId = None
+  camera_id_list = CameraManager.getCameraIdList()
+  if camera_id_list and len(camera_id_list) > 0:
+    CamId = camera_id_list[0] # First Camera
   flash_available = CameraManager.getCameraCharacteristics(CamId).get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
 else :
   Camera = autoclass("android.hardware.Camera")
@@ -55,7 +58,7 @@ class AndroidFlash(Flash):
     def _camera_open(self):
         if not flash_available:
             return
-        if SDK_INT  >= 23 :
+        if SDK_INT  >= 23:
           self._camera = CamId
         else:
           self._camera = Camera.open()
